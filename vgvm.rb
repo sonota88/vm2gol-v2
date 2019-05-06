@@ -13,7 +13,8 @@ class Vm
 
     @mem = [
       "set_reg_a", 1,
-      "set_reg_a", 0
+      "set_reg_a", 0,
+      "exit"
     ]
   end
 
@@ -22,6 +23,9 @@ class Vm
       # operator
       op = @mem[@pc]
       case op
+      when "exit"
+        $stderr.puts "exit"
+        exit
       when "set_reg_a"
         n = @mem[@pc + 1]
         @reg_a = n
