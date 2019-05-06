@@ -3,6 +3,9 @@ require 'pp'
 
 class Vm
   def initialize
+    # program counter
+    @pc = 0
+
     # register
     @reg_a = 0
     @reg_b = 0
@@ -13,6 +16,24 @@ class Vm
       "set_reg_a", 0
     ]
   end
+
+  def start
+    loop do
+      # operator
+      op = @mem[@pc]
+      case op
+      when "set_reg_a"
+        n = @mem[@pc + 1]
+        @reg_a = n
+        @pc += 2
+      else
+        raise "Unknown operator (#{op})"
+      end
+
+      # 1命令実行するごとにダンプしてちょっと待つ
+      pp self
+      sleep 1
+    end
   end
 
   def set_mem(addr, n)
@@ -39,3 +60,4 @@ end
 vm = Vm.new
 pp vm # 初期状態
 
+vm.start
