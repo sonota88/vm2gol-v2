@@ -12,8 +12,10 @@ class Vm
     @reg_c = 0
 
     @mem = [
+      # ★1
       "set_reg_a", 1,
       "set_reg_a", 0,
+      "jump", 0, # ★1 に戻る
       "exit"
     ]
   end
