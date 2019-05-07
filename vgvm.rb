@@ -30,6 +30,9 @@ class Vm
         n = @mem[@pc + 1]
         @reg_a = n
         @pc += 2
+      when "jump"
+        addr = @mem[@pc + 1]
+        @pc = addr
       else
         raise "Unknown operator (#{op})"
       end
