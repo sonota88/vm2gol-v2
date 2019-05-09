@@ -62,7 +62,7 @@ class Vm
   end
 
   def add_ab
-    @reg_c = @reg_a + @reg_b
+    @reg_a = @reg_a + @reg_b
   end
 end
 
