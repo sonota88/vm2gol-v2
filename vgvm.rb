@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'pp'
+require 'yaml'
 
 class Vm
   def initialize
@@ -11,16 +12,11 @@ class Vm
     @reg_b = 0
     @reg_c = 0
 
-    @mem = [
-      # 0
-      "set_reg_a", 1,
-      # 2
-      "set_reg_b", 1,
-      # 4
-      "add_ab",
-      # 5
-      "jump", 4
-    ]
+    @mem = []
+  end
+
+  def load_program(path)
+    @mem = YAML.load_file(path)
   end
 
   def start
@@ -76,7 +72,10 @@ class Vm
   end
 end
 
+exe_file = ARGV[0]
+
 vm = Vm.new
+vm.load_program(exe_file)
 pp vm # 初期状態
 
 vm.start
