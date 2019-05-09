@@ -32,6 +32,9 @@ class Vm
         n = @mem[@pc + 1]
         @reg_a = n
         @pc += 2
+      when "add_ab"
+        add_ab()
+        @pc += 1
       when "jump"
         addr = @mem[@pc + 1]
         @pc = addr
