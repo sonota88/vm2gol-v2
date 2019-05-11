@@ -1,0 +1,20 @@
+[
+  # 0
+  "set_reg_a", 0,
+  # 2
+  "set_reg_b", 0, # ここを書き換えて動作確認する
+  # 4
+  "compare",
+  # 5
+  "jump_eq", 11,
+  # 7
+  "set_reg_c", 3,
+  # 9
+  "jump", 13,
+  # 11
+  "set_reg_c", 2,
+  # 13
+  "set_reg_a", 4,
+  # 15
+  "exit"
+]
