@@ -23,6 +23,8 @@ class Vm
   end
 
   def start
+    dump() # 初期状態
+
     loop do
       # operator
       op = @mem[@pc]
@@ -62,9 +64,17 @@ class Vm
       end
 
       # 1命令実行するごとにダンプしてちょっと待つ
-      pp self
+      dump()
       sleep 1
     end
+  end
+
+  def dump
+    puts "pc(%2d) | reg_a(%d) b(%d) c(%d) | zf(%d)" % [
+      @pc,
+      @reg_a, @reg_b, @reg_c,
+      @zf
+    ]
   end
 
   def set_mem(addr, n)
@@ -108,6 +118,5 @@ exe_file = ARGV[0]
 
 vm = Vm.new
 vm.load_program(exe_file)
-pp vm # 初期状態
 
 vm.start
