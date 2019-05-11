@@ -1,0 +1,13 @@
+  set_reg_a 0
+  set_reg_b 0 # ここを書き換えて動作確認する
+  compare
+  jump_eq then
+  set_reg_c 3
+  jump endif
+
+label then
+  set_reg_c 2
+
+label endif
+  set_reg_a 4
+  exit
