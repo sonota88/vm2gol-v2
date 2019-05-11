@@ -42,6 +42,9 @@ class Vm
       when "add_ab"
         add_ab()
         @pc += 1
+      when "add_ac"
+        add_ac()
+        @pc += 1
       when "jump"
         addr = @mem[@pc + 1]
         @pc = addr
@@ -73,6 +76,10 @@ class Vm
 
   def add_ab
     @reg_a = @reg_a + @reg_b
+  end
+
+  def add_ac
+    @reg_a = @reg_a + @reg_c
   end
 end
 
