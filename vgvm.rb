@@ -53,6 +53,8 @@ class Vm
       when "compare"
         compare()
         @pc += 1
+      when "label"
+        @pc += 2
       when "jump"
         addr = @mem[@pc + 1]
         @pc = addr
