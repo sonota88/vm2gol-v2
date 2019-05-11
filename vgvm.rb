@@ -48,6 +48,9 @@ class Vm
       when "add_ac"
         add_ac()
         @pc += 1
+      when "compare"
+        compare()
+        @pc += 1
       when "jump"
         addr = @mem[@pc + 1]
         @pc = addr
@@ -83,6 +86,10 @@ class Vm
 
   def add_ac
     @reg_a = @reg_a + @reg_c
+  end
+
+  def compare
+    @zf = (@reg_a == @reg_b) ? 1 : 0
   end
 end
 
