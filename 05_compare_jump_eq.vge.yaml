@@ -1,0 +1,13 @@
+[
+  # 0
+  "set_reg_c", 1,
+  # 2
+  "set_reg_b", 3,
+  # 4
+  "set_reg_a", 0,
+  # 6
+  "add_ac",
+  "compare",
+  "jump_eq", 4,
+  "jump", 6
+]
