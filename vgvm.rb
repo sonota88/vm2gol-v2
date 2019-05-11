@@ -35,6 +35,10 @@ class Vm
         n = @mem[@pc + 1]
         @reg_b = n
         @pc += 2
+      when "set_reg_c"
+        n = @mem[@pc + 1]
+        @reg_c = n
+        @pc += 2
       when "add_ab"
         add_ab()
         @pc += 1
