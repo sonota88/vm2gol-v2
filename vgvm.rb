@@ -54,6 +54,9 @@ class Vm
       when "jump"
         addr = @mem[@pc + 1]
         @pc = addr
+      when "jump_eq"
+        addr = @mem[@pc + 1]
+        jump_eq(addr)
       else
         raise "Unknown operator (#{op})"
       end
@@ -90,6 +93,14 @@ class Vm
 
   def compare
     @zf = (@reg_a == @reg_b) ? 1 : 0
+  end
+
+  def jump_eq(addr)
+    if @zf == 1
+      @pc = addr
+    else
+      @pc += 2
+    end
   end
 end
 
