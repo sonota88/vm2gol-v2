@@ -12,6 +12,9 @@ class Vm
     @reg_b = 0
     @reg_c = 0
 
+    # flag
+    @zf = 0
+
     @mem = []
   end
 
