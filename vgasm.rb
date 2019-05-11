@@ -52,7 +52,7 @@ alines.each do |aline|
     words << rest[0]
   when "jump", "jump_eq"
     label_name = rest[0]
-    words << label_addr_map[label_name]
+    words << label_addr_map[label_name] + 2
   else
     words += rest.map{ |arg|
       (/^\-?\d+$/ =~ arg) ? arg.to_i : arg
