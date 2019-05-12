@@ -66,11 +66,14 @@ class Vm
         addr = @mem[@pc + 1]
         jump_eq(addr)
       when "call"
-        @reg_c = @pc + 2 # 戻り先を記憶（call ではなく、その次の命令になるように）
+        @sp -= 1 # スタックポインタを1減らす
+        @stack[@sp] = @pc + 2 # 戻り先を記憶
         next_addr = @mem[@pc + 1] # ジャンプ先
         @pc = next_addr
       when "ret"
-        @pc = @reg_c
+        ret_addr = @stack[@sp] # 戻り先アドレスを取得
+        @pc = ret_addr # 戻る
+        @sp += 1 # スタックポインタを戻す
       else
         raise "Unknown operator (#{op})"
       end
