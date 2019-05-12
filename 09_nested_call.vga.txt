@@ -1,0 +1,14 @@
+  set_reg_a 1
+  call sub1   # sub1 を呼び出し
+  set_reg_a 5 # sub1 からここに戻って来るはず
+  exit
+
+label sub1
+  set_reg_a 2
+  call sub2   # sub2 を呼び出し
+  set_reg_a 4 # sub2 からここに戻って来るはず
+  ret
+
+label sub2
+  set_reg_a 3
+  ret
