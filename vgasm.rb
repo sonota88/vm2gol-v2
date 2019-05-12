@@ -50,7 +50,7 @@ alines.each do |aline|
   case head
   when "label"
     words << rest[0]
-  when "jump", "jump_eq"
+  when "jump", "jump_eq", "call"
     label_name = rest[0]
     words << label_addr_map[label_name] + 2
   else
