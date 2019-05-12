@@ -61,6 +61,10 @@ class Vm
       when "jump_eq"
         addr = @mem[@pc + 1]
         jump_eq(addr)
+      when "call"
+        @reg_c = @pc + 2 # 戻り先を記憶（call ではなく、その次の命令になるように）
+        next_addr = @mem[@pc + 1] # ジャンプ先
+        @pc = next_addr
       else
         raise "Unknown operator (#{op})"
       end
