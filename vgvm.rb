@@ -18,6 +18,8 @@ class Vm
     @mem = []
     # スタック領域
     @stack = Array.new(4, 0)
+    # スタックポインタ
+    @sp = 3
   end
 
   def load_program(path)
