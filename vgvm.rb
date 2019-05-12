@@ -85,10 +85,12 @@ class Vm
   end
 
   def dump
-    puts "pc(%2d) | reg_a(%d) b(%d) c(%d) | zf(%d)" % [
+    puts "%- 10s | pc(%2d) | reg_a(%d) b(%d) c(%d) | zf(%d) | sp(%d,%d)" % [
+      @mem[@pc],
       @pc,
       @reg_a, @reg_b, @reg_c,
-      @zf
+      @zf,
+      @sp, @stack[@sp]
     ]
   end
 
