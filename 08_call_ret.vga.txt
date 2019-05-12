@@ -1,0 +1,8 @@
+  set_reg_b 1
+  call sub
+  set_reg_b 3
+  exit
+
+label sub
+  set_reg_a 2
+  ret
