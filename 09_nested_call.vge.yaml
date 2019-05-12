@@ -1,0 +1,22 @@
+[
+  "set_reg_a", 1,
+  "call", 9, # sub1
+  # 4 sub1 からここに戻って来るはず
+  "set_reg_a", 5,
+  "exit",
+
+  # 7
+  "label", "sub1",
+  # 9
+  "set_reg_a", 2,
+  "call", 18, # sub2
+  # 13 sub2 からここに戻って来るはず
+  "set_reg_a", 4,
+  "ret",
+
+  # 16
+  "label", "sub2",
+  # 18
+  "set_reg_a", 3,
+  "ret"
+]
