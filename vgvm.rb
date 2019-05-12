@@ -65,6 +65,8 @@ class Vm
         @reg_c = @pc + 2 # 戻り先を記憶（call ではなく、その次の命令になるように）
         next_addr = @mem[@pc + 1] # ジャンプ先
         @pc = next_addr
+      when "ret"
+        @pc = @reg_c
       else
         raise "Unknown operator (#{op})"
       end
