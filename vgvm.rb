@@ -162,6 +162,14 @@ class Vm
     ]
   end
 
+  def dump_reg
+    [
+      "reg_a(#{ @reg_a.inspect })",
+      "reg_b(#{ @reg_b.inspect })",
+      "reg_c(#{ @reg_c.inspect })"
+    ].join(" ")
+  end
+
   def set_mem(addr, n)
     @mem.main[addr] = n
   end
