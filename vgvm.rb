@@ -28,6 +28,7 @@ class Vm
 
   def start
     dump() # 初期状態
+    $stdin.gets
 
     loop do
       # operator
@@ -78,14 +79,13 @@ class Vm
         raise "Unknown operator (#{op})"
       end
 
-      # 1命令実行するごとにダンプしてちょっと待つ
       dump()
-      sleep 1
+      $stdin.gets
     end
   end
 
   def dump
-    puts "%- 10s | pc(%2d) | reg_a(%d) b(%d) c(%d) | zf(%d) | sp(%d,%d)" % [
+    print "%- 10s | pc(%2d) | reg_a(%d) b(%d) c(%d) | zf(%d) | sp(%d,%d)" % [
       @mem[@pc],
       @pc,
       @reg_a, @reg_b, @reg_c,
