@@ -3,10 +3,13 @@ require 'pp'
 require 'yaml'
 
 class Memory
-  attr_accessor :main
+  attr_accessor :main, :stack
 
-  def initialize
+  def initialize(stack_size)
     @main = []
+
+    # スタック領域
+    @stack = Array.new(stack_size, 0)
   end
 end
 
@@ -24,8 +27,6 @@ class Vm
     @zf = 0
 
     @mem = mem
-    # スタック領域
-    @stack = Array.new(4, 0)
     # スタックポインタ
     @sp = 3
   end
@@ -76,11 +77,11 @@ class Vm
         jump_eq(addr)
       when "call"
         @sp -= 1 # スタックポインタを1減らす
-        @stack[@sp] = @pc + 2 # 戻り先を記憶
+        @mem.stack[@sp] = @pc + 2 # 戻り先を記憶
         next_addr = @mem.main[@pc + 1] # ジャンプ先
         @pc = next_addr
       when "ret"
-        ret_addr = @stack[@sp] # 戻り先アドレスを取得
+        ret_addr = @mem.stack[@sp] # 戻り先アドレスを取得
         @pc = ret_addr # 戻る
         @sp += 1 # スタックポインタを戻す
       else
@@ -98,7 +99,7 @@ class Vm
       @pc,
       @reg_a, @reg_b, @reg_c,
       @zf,
-      @sp, @stack[@sp]
+      @sp, @mem.stack[@sp]
     ]
   end
 
@@ -141,7 +142,7 @@ end
 
 exe_file = ARGV[0]
 
-mem = Memory.new
+mem = Memory.new(4)
 vm = Vm.new(mem)
 vm.load_program(exe_file)
 
