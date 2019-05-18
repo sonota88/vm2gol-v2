@@ -42,6 +42,23 @@ class Memory
       ]
     }.join("\n")
   end
+
+  def dump_stack(sp)
+    lines = []
+    @stack.each_with_index do |x, i|
+      addr = i
+      next if addr < sp - 8
+      head =
+        case addr
+        when sp
+          "sp    => "
+        else
+          "         "
+        end
+      lines << head + "#{addr} #{x.inspect}"
+    end
+    lines.join("\n")
+  end
 end
 
 class Vm
