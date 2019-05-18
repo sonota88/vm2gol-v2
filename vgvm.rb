@@ -152,16 +152,6 @@ class Vm
     end
   end
 
-  def dump
-    print "%- 10s | pc(%2d) | reg_a(%d) b(%d) c(%d) | zf(%d) | sp(%d,%d)" % [
-      @mem.main[@pc],
-      @pc,
-      @reg_a, @reg_b, @reg_c,
-      @zf,
-      @sp, @mem.stack[@sp]
-    ]
-  end
-
   def dump_reg
     [
       "reg_a(#{ @reg_a.inspect })",
