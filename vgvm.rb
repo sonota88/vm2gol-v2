@@ -3,6 +3,11 @@ require 'pp'
 require 'yaml'
 
 class Memory
+  attr_accessor :main
+
+  def initialize
+    @main = []
+  end
 end
 
 class Vm
@@ -18,7 +23,7 @@ class Vm
     # flag
     @zf = 0
 
-    @mem = []
+    @mem = mem
     # スタック領域
     @stack = Array.new(4, 0)
     # スタックポインタ
@@ -26,7 +31,7 @@ class Vm
   end
 
   def load_program(path)
-    @mem = YAML.load_file(path)
+    @mem.main = YAML.load_file(path)
   end
 
   def start
@@ -35,21 +40,21 @@ class Vm
 
     loop do
       # operator
-      op = @mem[@pc]
+      op = @mem.main[@pc]
       case op
       when "exit"
         $stderr.puts "exit"
         exit
       when "set_reg_a"
-        n = @mem[@pc + 1]
+        n = @mem.main[@pc + 1]
         @reg_a = n
         @pc += 2
       when "set_reg_b"
-        n = @mem[@pc + 1]
+        n = @mem.main[@pc + 1]
         @reg_b = n
         @pc += 2
       when "set_reg_c"
-        n = @mem[@pc + 1]
+        n = @mem.main[@pc + 1]
         @reg_c = n
         @pc += 2
       when "add_ab"
@@ -64,15 +69,15 @@ class Vm
       when "label"
         @pc += 2
       when "jump"
-        addr = @mem[@pc + 1]
+        addr = @mem.main[@pc + 1]
         @pc = addr
       when "jump_eq"
-        addr = @mem[@pc + 1]
+        addr = @mem.main[@pc + 1]
         jump_eq(addr)
       when "call"
         @sp -= 1 # スタックポインタを1減らす
         @stack[@sp] = @pc + 2 # 戻り先を記憶
-        next_addr = @mem[@pc + 1] # ジャンプ先
+        next_addr = @mem.main[@pc + 1] # ジャンプ先
         @pc = next_addr
       when "ret"
         ret_addr = @stack[@sp] # 戻り先アドレスを取得
@@ -89,7 +94,7 @@ class Vm
 
   def dump
     print "%- 10s | pc(%2d) | reg_a(%d) b(%d) c(%d) | zf(%d) | sp(%d,%d)" % [
-      @mem[@pc],
+      @mem.main[@pc],
       @pc,
       @reg_a, @reg_b, @reg_c,
       @zf,
@@ -98,19 +103,19 @@ class Vm
   end
 
   def set_mem(addr, n)
-    @mem[addr] = n
+    @mem.main[addr] = n
   end
 
   def copy_mem_to_reg_a(addr)
-    @reg_a = @mem[addr]
+    @reg_a = @mem.main[addr]
   end
 
   def copy_mem_to_reg_b(addr)
-    @reg_b = @mem[addr]
+    @reg_b = @mem.main[addr]
   end
 
   def copy_reg_c_to_mem(addr)
-    @mem[addr] = @reg_c
+    @mem.main[addr] = @reg_c
   end
 
   def add_ab
