@@ -2,8 +2,11 @@
 require 'pp'
 require 'yaml'
 
+class Memory
+end
+
 class Vm
-  def initialize
+  def initialize(mem)
     # program counter
     @pc = 0
 
@@ -133,7 +136,8 @@ end
 
 exe_file = ARGV[0]
 
-vm = Vm.new
+mem = Memory.new
+vm = Vm.new(mem)
 vm.load_program(exe_file)
 
 vm.start
