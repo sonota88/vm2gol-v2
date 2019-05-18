@@ -2,6 +2,11 @@
 require 'pp'
 require 'yaml'
 
+module TermColor
+  RESET  = "\e[m"
+  RED    = "\e[0;31m"
+end
+
 class Memory
   attr_accessor :main, :stack
 
@@ -35,6 +40,14 @@ class Memory
 
       operator = vmcmd[:xs][0]
 
+      color =
+        case operator
+        when "exit", "call", "ret", "jump", "jump_eq"
+          TermColor::RED
+        else
+          ""
+        end
+
       indent =
         if operator == "label"
           ""
@@ -42,7 +55,7 @@ class Memory
           "  "
         end
 
-      "%s %02d %s%s" % [
+      "%s %02d #{color}%s%s#{TermColor::RESET}" % [
         head,
         vmcmd[:addr],
         indent,
