@@ -93,6 +93,17 @@ class Vm
     end
   end
 
+  def self.num_args_for(operator)
+    case operator
+    when "set_reg_a", "label", "call"
+      1
+    when "ret", "exit"
+      0
+    else
+      raise "Invalid operator (#{operator})"
+    end
+  end
+
   def dump
     print "%- 10s | pc(%2d) | reg_a(%d) b(%d) c(%d) | zf(%d) | sp(%d,%d)" % [
       @mem.main[@pc],
