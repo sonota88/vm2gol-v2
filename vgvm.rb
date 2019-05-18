@@ -35,9 +35,17 @@ class Memory
 
       operator = vmcmd[:xs][0]
 
-      "%s %02d %s" % [
+      indent =
+        if operator == "label"
+          ""
+        else
+          "  "
+        end
+
+      "%s %02d %s%s" % [
         head,
         vmcmd[:addr],
+        indent,
         vmcmd[:xs].inspect
       ]
     }.join("\n")
