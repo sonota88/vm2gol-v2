@@ -11,6 +11,37 @@ class Memory
     # スタック領域
     @stack = Array.new(stack_size, 0)
   end
+
+  def dump_main(pc)
+    vmcmds = []
+    addr = 0
+    while addr < @main.size
+      operator = @main[addr]
+      num_args = Vm.num_args_for(operator)
+      vmcmds << {
+        addr: addr,
+        xs: @main[addr .. addr + num_args]
+      }
+      addr += 1 + num_args
+    end
+
+    vmcmds.map{ |vmcmd|
+      head =
+        if vmcmd[:addr] == pc
+          "pc =>"
+        else
+          "     "
+        end
+
+      operator = vmcmd[:xs][0]
+
+      "%s %02d %s" % [
+        head,
+        vmcmd[:addr],
+        vmcmd[:xs].inspect
+      ]
+    }.join("\n")
+  end
 end
 
 class Vm
