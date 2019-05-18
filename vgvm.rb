@@ -84,7 +84,7 @@ class Vm
   end
 
   def start
-    dump() # 初期状態
+    dump_v2() # 初期状態
     $stdin.gets
 
     loop do
@@ -136,7 +136,7 @@ class Vm
         raise "Unknown operator (#{op})"
       end
 
-      dump()
+      dump_v2()
       $stdin.gets
     end
   end
@@ -168,6 +168,17 @@ class Vm
       "reg_b(#{ @reg_b.inspect })",
       "reg_c(#{ @reg_c.inspect })"
     ].join(" ")
+  end
+
+  def dump_v2
+    puts <<-EOB
+================================
+#{ dump_reg() } zf(#{ @zf })
+---- memory (main) ----
+#{ @mem.dump_main(@pc) }
+---- memory (stack) ----
+#{ @mem.dump_stack(@sp) }
+    EOB
   end
 
   def set_mem(addr, n)
