@@ -98,6 +98,8 @@ class Vm
     @mem = mem
     # スタックポインタ
     @sp = 3
+    # ベースポインタ
+    @bp = 3
   end
 
   def load_program(path)
