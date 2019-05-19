@@ -200,7 +200,7 @@ class Vm
 
   def self.num_args_for(operator)
     case operator
-    when "set_reg_a", "label", "call", "push", "pop"
+    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop"
       1
     when "ret", "exit", "copy_bp_to_sp", "copy_sp_to_bp"
       0
