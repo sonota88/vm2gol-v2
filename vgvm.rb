@@ -167,6 +167,18 @@ class Vm
         ret_addr = @mem.stack[@sp] # 戻り先アドレスを取得
         @pc = ret_addr # 戻る
         @sp += 1 # スタックポインタを戻す
+      when "push"
+        arg = @mem.main[@pc + 1]
+        val_to_push =
+          case arg
+          when "bp"
+            @bp
+          else
+            raise "push: not yet implemented (#{arg})"
+          end
+        @sp -= 1
+        @mem.stack[@sp] = val_to_push
+        @pc += 2
       else
         raise "Unknown operator (#{op})"
       end
@@ -178,7 +190,7 @@ class Vm
 
   def self.num_args_for(operator)
     case operator
-    when "set_reg_a", "label", "call"
+    when "set_reg_a", "label", "call", "push"
       1
     when "ret", "exit", "copy_bp_to_sp", "copy_sp_to_bp"
       0
