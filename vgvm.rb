@@ -64,7 +64,7 @@ class Memory
     }.join("\n")
   end
 
-  def dump_stack(sp)
+  def dump_stack(sp, bp)
     lines = []
     @stack.each_with_index do |x, i|
       addr = i
@@ -72,7 +72,13 @@ class Memory
       head =
         case addr
         when sp
-          "sp    => "
+          if sp == bp
+            "sp bp => "
+          else
+            "sp    => "
+          end
+        when bp
+          "   bp => "
         else
           "         "
         end
@@ -190,7 +196,7 @@ class Vm
 ---- memory (main) ----
 #{ @mem.dump_main(@pc) }
 ---- memory (stack) ----
-#{ @mem.dump_stack(@sp) }
+#{ @mem.dump_stack(@sp, @bp) }
     EOB
   end
 
