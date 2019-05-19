@@ -135,6 +135,9 @@ class Vm
         n = @mem.main[@pc + 1]
         @reg_c = n
         @pc += 2
+      when "copy_bp_to_sp"
+        @sp = @bp
+        @pc += 1
       when "add_ab"
         add_ab()
         @pc += 1
@@ -174,7 +177,7 @@ class Vm
     case operator
     when "set_reg_a", "label", "call"
       1
-    when "ret", "exit"
+    when "ret", "exit", "copy_bp_to_sp"
       0
     else
       raise "Invalid operator (#{operator})"
