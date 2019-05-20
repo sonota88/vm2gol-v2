@@ -2,6 +2,8 @@
 require 'pp'
 require 'yaml'
 
+require './common'
+
 module TermColor
   RESET  = "\e[m"
   RED    = "\e[0;31m"
@@ -174,7 +176,7 @@ class Vm
           when "bp"
             @bp
           else
-            raise "push: not yet implemented (#{arg})"
+            raise not_yet_impl("push", arg)
           end
         @sp -= 1
         @mem.stack[@sp] = val_to_push
@@ -185,7 +187,7 @@ class Vm
         when "bp"
           @bp = @mem.stack[@sp]
         else
-          raise "pop: not yet implemented (#{arg})"
+          raise not_yet_impl("pop", arg)
         end
         @sp += 1
         @pc += 2
