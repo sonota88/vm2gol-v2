@@ -121,6 +121,9 @@ class Vm
     loop do
       # operator
       op = @mem.main[@pc]
+
+      pc_delta = 1 + Vm.num_args_for(op)
+
       case op
       when "exit"
         $stderr.puts "exit"
@@ -128,32 +131,32 @@ class Vm
       when "set_reg_a"
         n = @mem.main[@pc + 1]
         @reg_a = n
-        @pc += 2
+        @pc += pc_delta
       when "set_reg_b"
         n = @mem.main[@pc + 1]
         @reg_b = n
-        @pc += 2
+        @pc += pc_delta
       when "set_reg_c"
         n = @mem.main[@pc + 1]
         @reg_c = n
-        @pc += 2
+        @pc += pc_delta
       when "cp"
         copy(
           @mem.main[@pc + 1],
           @mem.main[@pc + 2]
         )
-        @pc += 3
+        @pc += pc_delta
       when "add_ab"
         add_ab()
-        @pc += 1
+        @pc += pc_delta
       when "add_ac"
         add_ac()
-        @pc += 1
+        @pc += pc_delta
       when "compare"
         compare()
-        @pc += 1
+        @pc += pc_delta
       when "label"
-        @pc += 2
+        @pc += pc_delta
       when "jump"
         addr = @mem.main[@pc + 1]
         @pc = addr
@@ -180,7 +183,7 @@ class Vm
           end
         @sp -= 1
         @mem.stack[@sp] = val_to_push
-        @pc += 2
+        @pc += pc_delta
       when "pop"
         arg = @mem.main[@pc + 1]
         case arg
@@ -190,7 +193,7 @@ class Vm
           raise not_yet_impl("pop", arg)
         end
         @sp += 1
-        @pc += 2
+        @pc += pc_delta
       else
         raise "Unknown operator (#{op})"
       end
