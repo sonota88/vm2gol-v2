@@ -143,6 +143,12 @@ class Vm
       when "copy_sp_to_bp"
         @bp = @sp
         @pc += 1
+      when "cp"
+        copy(
+          @mem.main[@pc + 1],
+          @mem.main[@pc + 2]
+        )
+        @pc += 3
       when "add_ab"
         add_ab()
         @pc += 1
@@ -200,8 +206,31 @@ class Vm
     end
   end
 
+  def copy(arg1, arg2)
+    src_val =
+      case arg1
+      when "sp"
+        @sp
+      when "bp"
+        @bp
+      else
+        raise not_yet_impl("copy src", arg1)
+      end
+
+    case arg2
+    when "bp"
+      @bp = src_val
+    when "sp"
+      @sp = src_val
+    else
+      raise not_yet_impl("copy dest", arg2)
+    end
+  end
+
   def self.num_args_for(operator)
     case operator
+    when "cp"
+      2
     when "set_reg_a", "set_reg_b", "label", "call", "push", "pop"
       1
     when "ret", "exit", "copy_bp_to_sp", "copy_sp_to_bp"
