@@ -137,12 +137,6 @@ class Vm
         n = @mem.main[@pc + 1]
         @reg_c = n
         @pc += 2
-      when "copy_bp_to_sp"
-        @sp = @bp
-        @pc += 1
-      when "copy_sp_to_bp"
-        @bp = @sp
-        @pc += 1
       when "cp"
         copy(
           @mem.main[@pc + 1],
@@ -233,7 +227,7 @@ class Vm
       2
     when "set_reg_a", "set_reg_b", "label", "call", "push", "pop"
       1
-    when "ret", "exit", "copy_bp_to_sp", "copy_sp_to_bp"
+    when "ret", "exit"
       0
     else
       raise "Invalid operator (#{operator})"
