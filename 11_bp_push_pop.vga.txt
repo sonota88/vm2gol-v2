@@ -6,13 +6,13 @@
 label sub
   # 前処理
   push bp
-  copy_sp_to_bp
+  cp sp bp
 
   # サブルーチン本体の処理
   set_reg_a 2
 
   # 後片付け
-  copy_bp_to_sp
+  cp bp sp
   pop bp
 
   ret
