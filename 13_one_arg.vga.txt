@@ -1,0 +1,14 @@
+  push 11 # 引数1
+  call sub
+  exit
+
+label sub
+  push bp
+  cp sp bp
+
+  # サブルーチンの処理本体
+  cp [bp+1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
