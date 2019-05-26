@@ -176,6 +176,8 @@ class Vm
         arg = @mem.main[@pc + 1]
         val_to_push =
           case arg
+          when Integer
+            arg
           when "bp"
             @bp
           else
