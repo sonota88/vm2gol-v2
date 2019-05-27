@@ -7,7 +7,7 @@ label sub
   cp sp bp
 
   # サブルーチンの処理本体
-  cp [bp+1] reg_a
+  cp [bp+2] reg_a
 
   cp bp sp
   pop bp
