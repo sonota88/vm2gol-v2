@@ -1,5 +1,6 @@
   push 11 # 引数1
   call sub
+  add_sp 1
   exit
 
 label sub
