@@ -219,6 +219,8 @@ class Vm
       end
 
     case arg2
+    when "reg_a"
+      @reg_a = src_val
     when "bp"
       @bp = src_val
     when "sp"
