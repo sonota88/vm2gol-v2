@@ -152,6 +152,9 @@ class Vm
       when "add_ac"
         add_ac()
         @pc += pc_delta
+      when "add_sp"
+        @sp += @mem.main[@pc + 1]
+        @pc += pc_delta
       when "compare"
         compare()
         @pc += pc_delta
@@ -234,7 +237,7 @@ class Vm
     case operator
     when "cp"
       2
-    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop"
+    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp"
       1
     when "ret", "exit"
       0
