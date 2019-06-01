@@ -91,7 +91,7 @@ class Memory
 end
 
 class Vm
-  def initialize(mem)
+  def initialize(mem, stack_size)
     # program counter
     @pc = 0
 
@@ -105,9 +105,9 @@ class Vm
 
     @mem = mem
     # スタックポインタ
-    @sp = 3
+    @sp = stack_size - 1
     # ベースポインタ
-    @bp = 3
+    @bp = stack_size - 1
   end
 
   def set_sp(addr)
@@ -309,8 +309,9 @@ end
 
 exe_file = ARGV[0]
 
-mem = Memory.new(4)
-vm = Vm.new(mem)
+stack_size = 50
+mem = Memory.new(stack_size)
+vm = Vm.new(mem, stack_size)
 vm.load_program(exe_file)
 
 vm.start
