@@ -110,6 +110,11 @@ class Vm
     @bp = 3
   end
 
+  def set_sp(addr)
+    raise "Stack overflow" if addr < 0
+    @sp = addr
+  end
+
   def load_program(path)
     @mem.main = YAML.load_file(path)
   end
