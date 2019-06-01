@@ -158,7 +158,7 @@ class Vm
         add_ac()
         @pc += pc_delta
       when "add_sp"
-        @sp += @mem.main[@pc + 1]
+        set_sp(@sp + @mem.main[@pc + 1])
         @pc += pc_delta
       when "compare"
         compare()
@@ -172,14 +172,14 @@ class Vm
         addr = @mem.main[@pc + 1]
         jump_eq(addr)
       when "call"
-        @sp -= 1 # スタックポインタを1減らす
+        set_sp(@sp - 1) # スタックポインタを1減らす
         @mem.stack[@sp] = @pc + 2 # 戻り先を記憶
         next_addr = @mem.main[@pc + 1] # ジャンプ先
         @pc = next_addr
       when "ret"
         ret_addr = @mem.stack[@sp] # 戻り先アドレスを取得
         @pc = ret_addr # 戻る
-        @sp += 1 # スタックポインタを戻す
+        set_sp(@sp + 1) # スタックポインタを戻す
       when "push"
         arg = @mem.main[@pc + 1]
         val_to_push =
@@ -191,7 +191,7 @@ class Vm
           else
             raise not_yet_impl("push", arg)
           end
-        @sp -= 1
+        set_sp(@sp - 1)
         @mem.stack[@sp] = val_to_push
         @pc += pc_delta
       when "pop"
@@ -202,7 +202,7 @@ class Vm
         else
           raise not_yet_impl("pop", arg)
         end
-        @sp += 1
+        set_sp(@sp + 1)
         @pc += pc_delta
       else
         raise "Unknown operator (#{op})"
@@ -232,7 +232,7 @@ class Vm
     when "bp"
       @bp = src_val
     when "sp"
-      @sp = src_val
+      set_sp(src_val)
     else
       raise not_yet_impl("copy dest", arg2)
     end
