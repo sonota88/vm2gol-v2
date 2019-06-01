@@ -1,0 +1,16 @@
+  push 34   # 引数2 を先に push
+  push 12   # その次に引数1 を push
+  call sub
+  add_sp 2  # 引数の数だけスタックポインタを戻す
+  exit
+
+label sub
+  push bp
+  cp sp bp
+
+  # サブルーチンの処理本体
+  cp [bp+2] reg_a
+
+  cp bp sp
+  pop bp
+  ret
