@@ -244,7 +244,7 @@ class Vm
       2
     when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp"
       1
-    when "ret", "exit"
+    when "ret", "exit", "add_ab"
       0
     else
       raise "Invalid operator (#{operator})"
