@@ -160,6 +160,9 @@ class Vm
       when "add_sp"
         set_sp(@sp + @mem.main[@pc + 1])
         @pc += pc_delta
+      when "sub_sp"
+        set_sp(@sp - @mem.main[@pc + 1])
+        @pc += pc_delta
       when "compare"
         compare()
         @pc += pc_delta
@@ -244,7 +247,7 @@ class Vm
     case operator
     when "cp"
       2
-    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp"
+    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp", "sub_sp"
       1
     when "ret", "exit", "add_ab"
       0
