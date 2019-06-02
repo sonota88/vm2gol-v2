@@ -1,0 +1,16 @@
+  call sub
+  exit
+
+label sub
+  push bp
+  cp sp bp
+
+  # サブルーチンの処理本体
+  set_reg_a 11
+  sub_sp 1         # ローカル変数1の宣言（領域確保）
+  cp reg_a [bp-1]  # ローカル変数1に値をセット
+  cp [bp-1] reg_b  # ローカル変数1の値を参照して reg_b にコピー
+
+  cp bp sp
+  pop bp
+  ret
