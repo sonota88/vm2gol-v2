@@ -240,6 +240,8 @@ class Vm
       @bp = src_val
     when "sp"
       set_sp(src_val)
+    when /^\[bp-(\d+)\]$/
+      @mem.stack[@bp - $1.to_i] = src_val
     else
       raise not_yet_impl("copy dest", arg2)
     end
