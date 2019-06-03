@@ -227,6 +227,8 @@ class Vm
         @bp
       when /^\[bp\+(\d+)\]$/
         @mem.stack[@bp + $1.to_i]
+      when /^\[bp-(\d+)\]$/
+        @mem.stack[@bp - $1.to_i]
       else
         raise not_yet_impl("copy src", arg1)
       end
