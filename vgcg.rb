@@ -8,6 +8,7 @@ def codegen(tree)
   alines = []
 
   fn_name = tree[1]
+  body = tree[3]
 
   alines << "  call main"
   alines << "  exit"
@@ -19,6 +20,9 @@ def codegen(tree)
 
   alines << ""
   alines << "  # 関数の処理本体"
+  body.each {|stmt|
+    alines << "  # TODO"
+  }
 
   alines << ""
   alines << "  cp bp sp"
