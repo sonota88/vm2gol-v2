@@ -7,11 +7,13 @@ require 'json'
 def codegen(tree)
   alines = []
 
+  fn_name = tree[1]
+
   alines << "  call main"
   alines << "  exit"
 
   alines << ""
-  alines << "label main"
+  alines << "label #{fn_name}"
   alines << "  push bp"
   alines << "  cp sp bp"
 
