@@ -4,14 +4,11 @@
 
 require 'json'
 
-def codegen(tree)
+def codegen_func_def(rest)
   alines = []
 
-  fn_name = tree[1]
-  body = tree[3]
-
-  alines << "  call main"
-  alines << "  exit"
+  fn_name = rest[0]
+  body = rest[2]
 
   alines << ""
   alines << "label #{fn_name}"
@@ -28,6 +25,18 @@ def codegen(tree)
   alines << "  cp bp sp"
   alines << "  pop bp"
   alines << "  ret"
+
+  alines
+end
+
+def codegen(tree)
+  alines = []
+
+  alines << "  call main"
+  alines << "  exit"
+
+  head, *rest = tree
+  alines += codegen_func_def(rest)
 
   alines
 end
