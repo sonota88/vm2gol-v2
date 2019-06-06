@@ -31,6 +31,22 @@ def codegen_func_def(rest)
   alines
 end
 
+def codegen_stmts(rest)
+  alines = []
+
+  rest.each do |stmt|
+    stmt_head, *stmt_rest = stmt
+    case stmt_head
+    when "func"
+      alines += codegen_func_def(stmt_rest)
+    else
+      raise not_yet_impl("stmt_head", stmt_head)
+    end
+  end
+
+  alines
+end
+
 def codegen(tree)
   alines = []
 
@@ -38,7 +54,8 @@ def codegen(tree)
   alines << "  exit"
 
   head, *rest = tree
-  alines += codegen_func_def(rest)
+  # assert head == "stmts"
+  alines += codegen_stmts(rest)
 
   alines
 end
