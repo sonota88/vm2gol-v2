@@ -4,6 +4,8 @@
 
 require 'json'
 
+require './common'
+
 def codegen_func_def(rest)
   alines = []
 
