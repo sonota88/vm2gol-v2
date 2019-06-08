@@ -25,6 +25,8 @@ def codegen_func_def(rest)
     when "call"
       fn_name = stmt_rest[0]
       alines << "  call #{fn_name}"
+    when "var"
+      alines << "  sub_sp 1"
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
