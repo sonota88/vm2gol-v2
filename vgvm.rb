@@ -219,6 +219,8 @@ class Vm
   def copy(arg1, arg2)
     src_val =
       case arg1
+      when Integer
+        arg1
       when "reg_a"
         @reg_a
       when "sp"
