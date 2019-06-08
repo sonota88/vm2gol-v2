@@ -20,7 +20,14 @@ def codegen_func_def(rest)
   alines << ""
   alines << "  # 関数の処理本体"
   body.each {|stmt|
-    alines << "  # TODO"
+    stmt_head, *stmt_rest = stmt
+    case stmt_head
+    when "call"
+      fn_name = stmt_rest[0]
+      alines << "  call #{fn_name}"
+    else
+      raise not_yet_impl("stmt_head", stmt_head)
+    end
   }
 
   alines << ""
