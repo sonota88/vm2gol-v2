@@ -19,6 +19,9 @@ def codegen_func_def(rest)
 
   alines << ""
   alines << "  # 関数の処理本体"
+
+  lvar_names = []
+
   body.each {|stmt|
     stmt_head, *stmt_rest = stmt
     case stmt_head
@@ -26,11 +29,13 @@ def codegen_func_def(rest)
       fn_name = stmt_rest[0]
       alines << "  call #{fn_name}"
     when "var"
+      lvar_names << stmt_rest[0]
       alines << "  sub_sp 1"
     when "set"
       lvar_name = stmt_rest[0]
       val = stmt_rest[1]
-      alines << "  cp #{val} [bp-1]"
+      lvar_pos = lvar_names.index(lvar_name) + 1
+      alines << "  cp #{val} [bp-#{lvar_pos}]"
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
