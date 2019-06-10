@@ -26,10 +26,10 @@ def codegen_func_def(rest)
     stmt_head, *stmt_rest = stmt
     case stmt_head
     when "call"
-      fn_name = stmt_rest[0]
-      alines << "  push 34"
+      fn_name, *fn_args = stmt_rest
+      alines << "  push #{fn_args[0]}"
       alines << "  call #{fn_name}"
-      alines << "  add_sp 1"
+      alines << "  add_sp #{fn_args.size}"
     when "var"
       lvar_names << stmt_rest[0]
       alines << "  sub_sp 1"
