@@ -10,6 +10,7 @@ def codegen_func_def(rest)
   alines = []
 
   fn_name = rest[0]
+  fn_arg_names = rest[1]
   body = rest[2]
 
   alines << ""
@@ -35,7 +36,18 @@ def codegen_func_def(rest)
       alines << "  sub_sp 1"
     when "set"
       lvar_name = stmt_rest[0]
-      val = stmt_rest[1]
+
+      val =
+        case
+        when stmt_rest[1].is_a?(Integer)
+          stmt_rest[1]
+        when fn_arg_names.include?(stmt_rest[1])
+          fn_arg_pos = fn_arg_names.index(stmt_rest[1]) + 2
+          "[bp+#{fn_arg_pos}]"
+        else
+          raise not_yet_impl("set val", stmt_rest)
+        end
+
       lvar_pos = lvar_names.index(lvar_name) + 1
       alines << "  cp #{val} [bp-#{lvar_pos}]"
     else
