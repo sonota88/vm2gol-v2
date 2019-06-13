@@ -28,7 +28,9 @@ def codegen_func_def(rest)
     case stmt_head
     when "call"
       fn_name, *fn_args = stmt_rest
-      alines << "  push #{fn_args[0]}"
+      fn_args.reverse.each {|fn_arg|
+        alines << "  push #{fn_arg}"
+      }
       alines << "  call #{fn_name}"
       alines << "  add_sp #{fn_args.size}"
     when "var"
