@@ -52,6 +52,9 @@ def codegen_func_def(rest)
 
       lvar_pos = lvar_names.index(lvar_name) + 1
       alines << "  cp #{val} [bp-#{lvar_pos}]"
+    when "return"
+      val = stmt_rest[0]
+      alines << "  set_reg_a #{val}"
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
