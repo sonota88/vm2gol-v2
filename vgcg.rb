@@ -6,6 +6,48 @@ require 'json'
 
 require './common'
 
+def codegen_case(when_blocks)
+  alines = []
+
+  when_idx = -1
+  then_bodies = []
+
+  when_blocks.each do |when_block|
+    when_idx += 1
+    cond, *rest = when_block
+    cond_head, *cond_rest = cond
+    alines << "  # 条件 #{when_idx}: #{cond.inspect}"
+
+    case cond_head
+    when "eq"
+      alines << "  set_reg_a #{cond_rest[0]}"
+      alines << "  set_reg_b #{cond_rest[1]}"
+      alines << "  compare"
+      alines << "  jump_eq when_#{when_idx}"
+
+      then_alines = ["label when_#{when_idx}"]
+      rest.each {|stmt|
+        then_alines << "  " + stmt.join(" ")
+      }
+      then_alines << "  jump end_case"
+      then_bodies << then_alines
+    else
+      raise not_yet_impl("cond_head", cond_head)
+    end
+  end
+
+  # すべての条件が偽だった場合
+  alines << "  jump end_case"
+
+  then_bodies.each {|then_alines|
+    alines += then_alines
+  }
+
+  alines << "label end_case"
+
+  alines
+end
+
 def codegen_func_def(rest)
   alines = []
 
