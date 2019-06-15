@@ -33,6 +33,17 @@ def codegen_func_def(rest)
       }
       alines << "  call #{fn_name}"
       alines << "  add_sp #{fn_args.size}"
+    when "call_set"
+      lvar_name, fn_temp = stmt_rest
+      fn_name, *fn_args = fn_temp
+      fn_args.reverse.each {|fn_arg|
+        alines << "  push #{fn_arg}"
+      }
+      alines << "  call #{fn_name}"
+      alines << "  add_sp #{fn_args.size}"
+
+      lvar_pos = lvar_names.index(lvar_name) + 1
+      alines << "  cp reg_a [bp-#{lvar_pos}]"
     when "var"
       lvar_names << stmt_rest[0]
       alines << "  sub_sp 1"
