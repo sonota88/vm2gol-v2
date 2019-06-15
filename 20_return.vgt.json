@@ -1,0 +1,17 @@
+["stmts"
+
+, ["func", "main"
+  , []
+  , [
+      ["call", "fn_sub"]
+    ]
+  ]
+
+, ["func", "fn_sub"
+  , []
+  , [
+      ["return", 12]
+    ]
+  ]
+
+]
