@@ -108,6 +108,8 @@ def codegen_func_def(rest)
     when "return"
       val = stmt_rest[0]
       alines << "  set_reg_a #{val}"
+    when "case"
+      alines += codegen_case(stmt_rest)
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
