@@ -255,9 +255,9 @@ class Vm
     case operator
     when "cp"
       2
-    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp", "sub_sp"
+    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp", "sub_sp", "jump_eq", "jump"
       1
-    when "ret", "exit", "add_ab"
+    when "ret", "exit", "add_ab", "compare"
       0
     else
       raise "Invalid operator (#{operator})"
