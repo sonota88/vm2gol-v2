@@ -6,8 +6,12 @@ require 'json'
 
 require './common'
 
+$label_id = 0
+
 def codegen_case(when_blocks)
   alines = []
+  $label_id += 1
+  label_id = $label_id
 
   when_idx = -1
   then_bodies = []
@@ -16,20 +20,20 @@ def codegen_case(when_blocks)
     when_idx += 1
     cond, *rest = when_block
     cond_head, *cond_rest = cond
-    alines << "  # 条件 #{when_idx}: #{cond.inspect}"
+    alines << "  # 条件 #{label_id}_#{when_idx}: #{cond.inspect}"
 
     case cond_head
     when "eq"
       alines << "  set_reg_a #{cond_rest[0]}"
       alines << "  set_reg_b #{cond_rest[1]}"
       alines << "  compare"
-      alines << "  jump_eq when_#{when_idx}"
+      alines << "  jump_eq when_#{label_id}_#{when_idx}"
 
-      then_alines = ["label when_#{when_idx}"]
+      then_alines = ["label when_#{label_id}_#{when_idx}"]
       rest.each {|stmt|
         then_alines << "  " + stmt.join(" ")
       }
-      then_alines << "  jump end_case"
+      then_alines << "  jump end_case_#{label_id}"
       then_bodies << then_alines
     else
       raise not_yet_impl("cond_head", cond_head)
@@ -37,13 +41,13 @@ def codegen_case(when_blocks)
   end
 
   # すべての条件が偽だった場合
-  alines << "  jump end_case"
+  alines << "  jump end_case_#{label_id}"
 
   then_bodies.each {|then_alines|
     alines += then_alines
   }
 
-  alines << "label end_case"
+  alines << "label end_case_#{label_id}"
 
   alines
 end
