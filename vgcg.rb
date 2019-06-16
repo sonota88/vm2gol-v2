@@ -52,6 +52,27 @@ def codegen_case(when_blocks)
   alines
 end
 
+def codegen_set(fn_arg_names, lvar_names, stmt_rest)
+  alines = []
+  lvar_name = stmt_rest[0]
+
+  val =
+    case
+    when stmt_rest[1].is_a?(Integer)
+      stmt_rest[1]
+    when fn_arg_names.include?(stmt_rest[1])
+      fn_arg_pos = fn_arg_names.index(stmt_rest[1]) + 2
+      "[bp+#{fn_arg_pos}]"
+    else
+      raise not_yet_impl("set val", stmt_rest)
+    end
+
+  lvar_pos = lvar_names.index(lvar_name) + 1
+  alines << "  cp #{val} [bp-#{lvar_pos}]"
+
+  alines
+end
+
 def codegen_func_def(rest)
   alines = []
 
@@ -94,21 +115,7 @@ def codegen_func_def(rest)
       lvar_names << stmt_rest[0]
       alines << "  sub_sp 1"
     when "set"
-      lvar_name = stmt_rest[0]
-
-      val =
-        case
-        when stmt_rest[1].is_a?(Integer)
-          stmt_rest[1]
-        when fn_arg_names.include?(stmt_rest[1])
-          fn_arg_pos = fn_arg_names.index(stmt_rest[1]) + 2
-          "[bp+#{fn_arg_pos}]"
-        else
-          raise not_yet_impl("set val", stmt_rest)
-        end
-
-      lvar_pos = lvar_names.index(lvar_name) + 1
-      alines << "  cp #{val} [bp-#{lvar_pos}]"
+      alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
     when "return"
       val = stmt_rest[0]
       alines << "  set_reg_a #{val}"
