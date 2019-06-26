@@ -56,7 +56,7 @@ def codegen_set(fn_arg_names, lvar_names, stmt_rest)
   alines = []
   lvar_name = stmt_rest[0]
 
-  val =
+  src_val =
     case
     when stmt_rest[1].is_a?(Integer)
       stmt_rest[1]
@@ -64,11 +64,11 @@ def codegen_set(fn_arg_names, lvar_names, stmt_rest)
       fn_arg_pos = fn_arg_names.index(stmt_rest[1]) + 2
       "[bp+#{fn_arg_pos}]"
     else
-      raise not_yet_impl("set val", stmt_rest)
+      raise not_yet_impl("set src_val", stmt_rest)
     end
 
   lvar_pos = lvar_names.index(lvar_name) + 1
-  alines << "  cp #{val} [bp-#{lvar_pos}]"
+  alines << "  cp #{src_val} [bp-#{lvar_pos}]"
 
   alines
 end
