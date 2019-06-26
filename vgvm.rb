@@ -308,7 +308,16 @@ class Vm
   end
 
   def set_reg_a(val)
-    @reg_a = val
+    @reg_a =
+      case val
+      when Integer
+        val
+      when /^\[bp-(\d+)\]$/
+        stack_addr = @bp - $1.to_i
+        @mem.stack[stack_addr]
+      else
+        raise not_yet_impl("val", val)
+      end
   end
 
   def compare
