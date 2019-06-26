@@ -135,7 +135,7 @@ class Vm
         exit
       when "set_reg_a"
         n = @mem.main[@pc + 1]
-        @reg_a = n
+        set_reg_a(n)
         @pc += pc_delta
       when "set_reg_b"
         n = @mem.main[@pc + 1]
@@ -305,6 +305,10 @@ class Vm
 
   def add_ac
     @reg_a = @reg_a + @reg_c
+  end
+
+  def set_reg_a(val)
+    @reg_a = val
   end
 
   def compare
