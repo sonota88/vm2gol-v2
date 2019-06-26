@@ -52,11 +52,26 @@ def codegen_case(when_blocks)
   alines
 end
 
-def codegen_exp(exp)
+def codegen_exp(lvar_names, exp)
   alines = []
   operator, *args = exp
 
-  left = args[0]
+  left =
+    case args[0]
+    when Integer
+      args[0]
+    when String
+      case
+      when lvar_names.include?(args[0])
+        lvar_pos = lvar_names.index(args[0]) + 1
+        "[bp-#{lvar_pos}]"
+      else
+        raise not_yet_impl("left", args[0])
+      end
+    else
+      raise not_yet_impl("left", args[0])
+    end
+
   right = args[1]
 
   case operator
@@ -81,7 +96,7 @@ def codegen_set(fn_arg_names, lvar_names, rest)
       rest[1]
     when rest[1].is_a?(Array)
       exp = rest[1]
-      alines += codegen_exp(exp)
+      alines += codegen_exp(lvar_names, exp)
       "reg_a"
     when fn_arg_names.include?(rest[1])
       fn_arg_pos = fn_arg_names.index(rest[1]) + 2
