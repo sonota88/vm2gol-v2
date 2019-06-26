@@ -52,19 +52,19 @@ def codegen_case(when_blocks)
   alines
 end
 
-def codegen_set(fn_arg_names, lvar_names, stmt_rest)
+def codegen_set(fn_arg_names, lvar_names, rest)
   alines = []
-  lvar_name = stmt_rest[0]
+  lvar_name = rest[0]
 
   src_val =
     case
-    when stmt_rest[1].is_a?(Integer)
-      stmt_rest[1]
-    when fn_arg_names.include?(stmt_rest[1])
-      fn_arg_pos = fn_arg_names.index(stmt_rest[1]) + 2
+    when rest[1].is_a?(Integer)
+      rest[1]
+    when fn_arg_names.include?(rest[1])
+      fn_arg_pos = fn_arg_names.index(rest[1]) + 2
       "[bp+#{fn_arg_pos}]"
     else
-      raise not_yet_impl("set src_val", stmt_rest)
+      raise not_yet_impl("set src_val", rest)
     end
 
   lvar_pos = lvar_names.index(lvar_name) + 1
