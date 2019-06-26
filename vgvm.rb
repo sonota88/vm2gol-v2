@@ -134,8 +134,8 @@ class Vm
         $stderr.puts "exit"
         exit
       when "set_reg_a"
-        n = @mem.main[@pc + 1]
-        set_reg_a(n)
+        val = @mem.main[@pc + 1]
+        set_reg_a(val)
         @pc += pc_delta
       when "set_reg_b"
         n = @mem.main[@pc + 1]
