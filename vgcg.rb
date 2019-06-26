@@ -52,6 +52,25 @@ def codegen_case(when_blocks)
   alines
 end
 
+def codegen_exp(exp)
+  alines = []
+  operator, *args = exp
+
+  left = args[0]
+  right = args[1]
+
+  case operator
+  when "+"
+    alines << "  set_reg_a #{left}"
+    alines << "  set_reg_b #{right}"
+    alines << "  add_ab"
+  else
+    raise not_yet_impl("operator", operator)
+  end
+
+  alines
+end
+
 def codegen_set(fn_arg_names, lvar_names, rest)
   alines = []
   lvar_name = rest[0]
@@ -60,6 +79,10 @@ def codegen_set(fn_arg_names, lvar_names, rest)
     case
     when rest[1].is_a?(Integer)
       rest[1]
+    when rest[1].is_a?(Array)
+      exp = rest[1]
+      alines += codegen_exp(exp)
+      "reg_a"
     when fn_arg_names.include?(rest[1])
       fn_arg_pos = fn_arg_names.index(rest[1]) + 2
       "[bp+#{fn_arg_pos}]"
