@@ -77,7 +77,8 @@ def codegen_while(lvar_names, rest)
   alines << "  jump end_while_#{label_id}"
 
   alines << "label true_#{label_id}"
-  alines << "  # TODO ループの本体"
+  # ループの本体
+  alines += codegen_stmts(body)
 
   # ループの先頭に戻る
   alines << "  jump while_#{label_id}"
