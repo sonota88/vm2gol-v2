@@ -52,7 +52,8 @@ def codegen_case(when_blocks)
   alines
 end
 
-def codegen_while()
+def codegen_while(lvar_names, rest)
+  cond_exp, body = rest
   alines = []
 
   $label_id += 1
@@ -63,8 +64,8 @@ def codegen_while()
   # ループの先頭
   alines << "label while_#{label_id}"
 
-  # TODO 条件の評価
-  alines << "  set_reg_a 1"
+  # 条件の評価 ... 結果が reg_a に入る
+  alines += codegen_exp(lvar_names, cond_exp)
   # 比較対象の値（真）をセット
   alines << "  set_reg_b 1"
   alines << "  compare"
@@ -215,7 +216,7 @@ def codegen_func_def(rest)
     when "case"
       alines += codegen_case(stmt_rest)
     when "while"
-      alines += codegen_while()
+      alines += codegen_while(lvar_names, stmt_rest)
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
