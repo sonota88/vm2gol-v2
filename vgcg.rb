@@ -52,7 +52,7 @@ def codegen_case(when_blocks)
   alines
 end
 
-def codegen_while(lvar_names, rest)
+def codegen_while(fn_arg_names, lvar_names, rest)
   cond_exp, body = rest
   alines = []
 
@@ -78,7 +78,7 @@ def codegen_while(lvar_names, rest)
 
   alines << "label true_#{label_id}"
   # ループの本体
-  alines += codegen_stmts(body)
+  alines += codegen_stmts(fn_arg_names, lvar_names, body)
 
   # ループの先頭に戻る
   alines << "  jump while_#{label_id}"
@@ -217,7 +217,7 @@ def codegen_func_def(rest)
     when "case"
       alines += codegen_case(stmt_rest)
     when "while"
-      alines += codegen_while(lvar_names, stmt_rest)
+      alines += codegen_while(fn_arg_names, lvar_names, stmt_rest)
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
@@ -231,7 +231,7 @@ def codegen_func_def(rest)
   alines
 end
 
-def codegen_stmts(rest)
+def codegen_stmts(fn_arg_names, lvar_names, rest)
   alines = []
 
   rest.each do |stmt|
@@ -257,7 +257,7 @@ def codegen(tree)
 
   head, *rest = tree
   # assert head == "stmts"
-  alines += codegen_stmts(rest)
+  alines += codegen_stmts([], [], rest)
 
   alines
 end
