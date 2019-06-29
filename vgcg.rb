@@ -79,6 +79,24 @@ def codegen_exp(lvar_names, exp)
     alines << "  set_reg_a #{left}"
     alines << "  set_reg_b #{right}"
     alines << "  add_ab"
+  when "eq"
+    $label_id += 1
+    label_id = $label_id
+
+    alines << "  set_reg_a #{left}"
+    alines << "  set_reg_b #{right}"
+    alines << "  compare"
+    alines << "  jump_eq then_#{label_id}"
+
+    # else
+    alines << "  set_reg_a 0"
+    alines << "  jump end_eq_#{label_id}"
+
+    # then
+    alines << "label then_#{label_id}"
+    alines << "  set_reg_a 1"
+
+    alines << "label end_eq_#{label_id}"
   else
     raise not_yet_impl("operator", operator)
   end
@@ -154,6 +172,8 @@ def codegen_func_def(rest)
       alines << "  sub_sp 1"
     when "set"
       alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
+    when "eq"
+      alines += codegen_exp(lvar_names, stmt)
     when "return"
       val = stmt_rest[0]
       alines << "  set_reg_a #{val}"
