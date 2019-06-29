@@ -239,6 +239,8 @@ def codegen_stmts(rest)
     case stmt_head
     when "func"
       alines += codegen_func_def(stmt_rest)
+    when "set"
+      alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
