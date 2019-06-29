@@ -52,6 +52,41 @@ def codegen_case(when_blocks)
   alines
 end
 
+def codegen_while()
+  alines = []
+
+  $label_id += 1
+  label_id = $label_id
+
+  alines << ""
+
+  # ループの先頭
+  alines << "label while_#{label_id}"
+
+  # TODO 条件の評価
+  alines << "  set_reg_a 1"
+  # 比較対象の値（真）をセット
+  alines << "  set_reg_b 1"
+  alines << "  compare"
+
+  # true の場合ループの本体を実行
+  alines << "  jump_eq true_#{label_id}"
+
+  # false の場合ループを抜ける
+  alines << "  jump end_while_#{label_id}"
+
+  alines << "label true_#{label_id}"
+  alines << "  # TODO ループの本体"
+
+  # ループの先頭に戻る
+  alines << "  jump while_#{label_id}"
+
+  alines << "label end_while_#{label_id}"
+  alines << ""
+
+  alines
+end
+
 def codegen_exp(lvar_names, exp)
   alines = []
   operator, *args = exp
@@ -179,6 +214,8 @@ def codegen_func_def(rest)
       alines << "  set_reg_a #{val}"
     when "case"
       alines += codegen_case(stmt_rest)
+    when "while"
+      alines += codegen_while()
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
