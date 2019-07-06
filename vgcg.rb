@@ -156,6 +156,10 @@ def codegen_set(fn_arg_names, lvar_names, rest)
     when fn_arg_names.include?(rest[1])
       fn_arg_pos = fn_arg_names.index(rest[1]) + 2
       "[bp+#{fn_arg_pos}]"
+    when /^vram\[(.+)\]$/ =~ rest[1]
+      vram_addr = $1
+      alines << "  get_vram #{vram_addr} reg_a"
+      "reg_a"
     else
       raise not_yet_impl("set src_val", rest)
     end
