@@ -169,8 +169,8 @@ def codegen_set(fn_arg_names, lvar_names, rest)
     vram_addr = $1
     alines << "  set_vram #{vram_addr} #{src_val}"
   else
-  lvar_pos = lvar_names.index(lvar_name) + 1
-  alines << "  cp #{src_val} [bp-#{lvar_pos}]"
+    lvar_pos = lvar_names.index(lvar_name) + 1
+    alines << "  cp #{src_val} [bp-#{lvar_pos}]"
   end
 
   alines
