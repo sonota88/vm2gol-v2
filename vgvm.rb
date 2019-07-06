@@ -209,6 +209,13 @@ class Vm
         end
         set_sp(@sp + 1)
         @pc += pc_delta
+      when "set_vram"
+        arg1 = @mem.main[@pc + 1]
+        arg2 = @mem.main[@pc + 2]
+
+        @mem.vram[arg1] = arg2
+
+        @pc += pc_delta
       else
         raise "Unknown operator (#{op})"
       end
@@ -255,7 +262,7 @@ class Vm
 
   def self.num_args_for(operator)
     case operator
-    when "cp"
+    when "cp", "set_vram"
       2
     when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp", "sub_sp", "jump_eq", "jump"
       1
