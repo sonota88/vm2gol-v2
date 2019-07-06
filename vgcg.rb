@@ -143,7 +143,7 @@ end
 
 def codegen_set(fn_arg_names, lvar_names, rest)
   alines = []
-  lvar_name = rest[0]
+  dest = rest[0]
 
   src_val =
     case
@@ -164,12 +164,12 @@ def codegen_set(fn_arg_names, lvar_names, rest)
       raise not_yet_impl("set src_val", rest)
     end
 
-  case lvar_name
+  case dest
   when /^vram\[(.+)\]$/
     vram_addr = $1
     alines << "  set_vram #{vram_addr} #{src_val}"
   else
-    lvar_pos = lvar_names.index(lvar_name) + 1
+    lvar_pos = lvar_names.index(dest) + 1
     alines << "  cp #{src_val} [bp-#{lvar_pos}]"
   end
 
