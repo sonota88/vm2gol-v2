@@ -90,6 +90,10 @@ class Memory
     end
     lines.join("\n")
   end
+
+  def dump_vram
+    @vram.inspect
+  end
 end
 
 class Vm
@@ -303,6 +307,8 @@ class Vm
 #{ @mem.dump_main(@pc) }
 ---- memory (stack) ----
 #{ @mem.dump_stack(@sp, @bp) }
+---- memory (vram) ----
+#{ @mem.dump_vram() }
     EOB
   end
 
