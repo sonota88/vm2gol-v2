@@ -18,7 +18,7 @@ class Memory
     # スタック領域
     @stack = Array.new(stack_size, 0)
 
-    @vram = Array.new(10, 0)
+    @vram = Array.new(50, 0)
   end
 
   def dump_main(pc)
