@@ -91,8 +91,18 @@ class Memory
     lines.join("\n")
   end
 
+  def format_cols(cols)
+    cols.map{|col| col == 1 ? "@" : "." }.join("")
+  end
+
   def dump_vram
-    @vram.inspect
+    rows = @vram.each_slice(5).to_a
+    main = rows[0..4]
+    buf = rows[5..9]
+
+    (0..4).map {|li| # line index
+      format_cols(main[li]) + " " + format_cols(buf[li])
+    }.join("\n")
   end
 end
 
