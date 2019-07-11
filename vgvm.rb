@@ -173,6 +173,9 @@ class Vm
       when "add_ac"
         add_ac()
         @pc += pc_delta
+      when "mult_ab"
+        mult_ab()
+        @pc += pc_delta
       when "add_sp"
         set_sp(@sp + @mem.main[@pc + 1])
         @pc += pc_delta
@@ -294,7 +297,7 @@ class Vm
       2
     when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp", "sub_sp", "jump_eq", "jump"
       1
-    when "ret", "exit", "add_ab", "compare"
+    when "ret", "exit", "add_ab", "compare", "mult_ab"
       0
     else
       raise "Invalid operator (#{operator})"
@@ -344,6 +347,10 @@ class Vm
 
   def add_ac
     @reg_a = @reg_a + @reg_c
+  end
+
+  def mult_ab
+    @reg_a = @reg_a * @reg_b
   end
 
   def set_reg_a(val)
