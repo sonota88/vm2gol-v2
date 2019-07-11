@@ -1,0 +1,25 @@
+["stmts"
+, ["func", "vram_set", ["w", "x", "y", "val"]
+  , [
+      ["var", "yw"]
+    , ["set", "yw", ["*", "y", "w"]]
+
+    , ["var", "vi"] // vram index
+    , ["set", "vi", ["+", "yw", "x"]]
+
+    , ["set", "vram[vi]", "val"]
+    ]
+  ]
+
+, ["func", "main", []
+  , [
+      ["var", "w"] // 盤面の幅
+    , ["set", "w", 5]
+
+      // VRAM の初期化（ブリンカー）
+    , ["call", "vram_set", "w", 2, 1, 1]
+    , ["call", "vram_set", "w", 2, 2, 1]
+    , ["call", "vram_set", "w", 2, 3, 1]
+    ]
+  ]
+]
