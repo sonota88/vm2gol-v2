@@ -154,8 +154,8 @@ class Vm
         set_reg_a(val)
         @pc += pc_delta
       when "set_reg_b"
-        n = @mem.main[@pc + 1]
-        @reg_b = n
+        val = @mem.main[@pc + 1]
+        set_reg_b(val)
         @pc += pc_delta
       when "set_reg_c"
         n = @mem.main[@pc + 1]
@@ -363,6 +363,22 @@ class Vm
 
   def set_reg_a(val)
     @reg_a =
+      case val
+      when Integer
+        val
+      when /^\[bp-(\d+)\]$/
+        stack_addr = @bp - $1.to_i
+        @mem.stack[stack_addr]
+      when /^\[bp\+(\d+)\]$/
+        stack_addr = @bp + $1.to_i
+        @mem.stack[stack_addr]
+      else
+        raise not_yet_impl("val", val)
+      end
+  end
+
+  def set_reg_b(val)
+    @reg_b =
       case val
       when Integer
         val
