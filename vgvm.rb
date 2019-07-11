@@ -238,7 +238,27 @@ class Vm
         arg1 = @mem.main[@pc + 1]
         arg2 = @mem.main[@pc + 2]
 
-        @mem.vram[arg1] = arg2
+        src_val =
+          case arg2
+          when Integer
+            arg2
+          when /^\[bp\+(\d+)\]$/
+            stack_addr = @bp + $1.to_i
+            @mem.stack[stack_addr]
+          else
+            raise not_yet_impl("set_vram", arg2)
+          end
+
+        case arg1
+        when Integer
+          @mem.vram[arg1] = src_val
+        when /^\[bp-(\d+)\]$/
+          stack_addr = @bp - $1.to_i
+          vram_addr = @mem.stack[stack_addr]
+          @mem.vram[vram_addr] = src_val
+        else
+          raise not_yet_impl("set_vram", arg1)
+        end
 
         @pc += pc_delta
       when "get_vram"
