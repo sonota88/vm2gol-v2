@@ -119,6 +119,10 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
     alines << "  set_reg_a #{left}"
     alines << "  set_reg_b #{right}"
     alines << "  add_ab"
+  when "*"
+    alines << "  set_reg_a #{left}"
+    alines << "  set_reg_b #{right}"
+    alines << "  mult_ab"
   when "eq"
     $label_id += 1
     label_id = $label_id
