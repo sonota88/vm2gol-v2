@@ -65,7 +65,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   alines << "label while_#{label_id}"
 
   # 条件の評価 ... 結果が reg_a に入る
-  alines += codegen_exp(lvar_names, cond_exp)
+  alines += codegen_exp(fn_arg_names, lvar_names, cond_exp)
   # 比較対象の値（真）をセット
   alines << "  set_reg_b 1"
   alines << "  compare"
@@ -89,7 +89,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   alines
 end
 
-def codegen_exp(lvar_names, exp)
+def codegen_exp(fn_arg_names, lvar_names, exp)
   alines = []
   operator, *args = exp
 
@@ -102,6 +102,9 @@ def codegen_exp(lvar_names, exp)
       when lvar_names.include?(args[0])
         lvar_pos = lvar_names.index(args[0]) + 1
         "[bp-#{lvar_pos}]"
+      when fn_arg_names.include?(args[0])
+        fn_arg_pos = fn_arg_names.index(args[0]) + 2
+        "[bp+#{fn_arg_pos}]"
       else
         raise not_yet_impl("left", args[0])
       end
@@ -151,7 +154,7 @@ def codegen_set(fn_arg_names, lvar_names, rest)
       rest[1]
     when rest[1].is_a?(Array)
       exp = rest[1]
-      alines += codegen_exp(lvar_names, exp)
+      alines += codegen_exp(fn_arg_names, lvar_names, exp)
       "reg_a"
     when fn_arg_names.include?(rest[1])
       fn_arg_pos = fn_arg_names.index(rest[1]) + 2
@@ -220,7 +223,7 @@ def codegen_func_def(rest)
     when "set"
       alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
     when "eq"
-      alines += codegen_exp(lvar_names, stmt)
+      alines += codegen_exp(fn_arg_names, lvar_names, stmt)
     when "return"
       val = stmt_rest[0]
       alines << "  set_reg_a #{val}"
