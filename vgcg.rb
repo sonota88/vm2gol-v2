@@ -206,7 +206,20 @@ def codegen_func_def(rest)
     when "call"
       fn_name, *fn_args = stmt_rest
       fn_args.reverse.each {|fn_arg|
-        alines << "  push #{fn_arg}"
+        case fn_arg
+        when Integer
+          alines << "  push #{fn_arg}"
+        when String
+          case
+          when lvar_names.include?(fn_arg)
+            lvar_pos = lvar_names.index(fn_arg) + 1
+            alines << "  push [bp-#{lvar_pos}]"
+          else
+            raise not_yet_impl(fn_arg)
+          end
+        else
+          raise not_yet_impl(fn_arg)
+        end
       }
       alines << "  call #{fn_name}"
       alines << "  add_sp #{fn_args.size}"
