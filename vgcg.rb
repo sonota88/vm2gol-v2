@@ -112,7 +112,21 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
       raise not_yet_impl("left", args[0])
     end
 
-  right = args[1]
+  right =
+    case args[1]
+    when Integer
+      args[1]
+    when String
+      case
+      when fn_arg_names.include?(args[1])
+        fn_arg_pos = fn_arg_names.index(args[1]) + 2
+        "[bp+#{fn_arg_pos}]"
+      else
+        raise not_yet_impl("right", args[1])
+      end
+    else
+      raise not_yet_impl("right", args[1])
+    end
 
   case operator
   when "+"
