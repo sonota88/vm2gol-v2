@@ -208,8 +208,16 @@ class Vm
           case arg
           when Integer
             arg
-          when "bp"
-            @bp
+          when String
+            case arg
+            when "bp"
+              @bp
+            when /^\[bp\-(\d+)\]$/
+              stack_addr = @bp - $1.to_i
+              @mem.stack[stack_addr]
+            else
+              raise not_yet_impl("push", arg)
+            end
           else
             raise not_yet_impl("push", arg)
           end
