@@ -80,6 +80,7 @@ class Memory
     @stack.each_with_index do |x, i|
       addr = i
       next if addr < sp - 8
+      next if addr > sp + 8
       head =
         case addr
         when sp
