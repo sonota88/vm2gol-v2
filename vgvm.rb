@@ -12,6 +12,8 @@ end
 class Memory
   attr_accessor :main, :stack, :vram
 
+  MAIN_DUMP_WIDTH = 30
+
   def initialize(stack_size)
     @main = []
 
@@ -34,7 +36,12 @@ class Memory
       addr += 1 + num_args
     end
 
-    vmcmds.map{ |vmcmd|
+    vmcmds
+    .select {|vmcmd|
+      pc - MAIN_DUMP_WIDTH <= vmcmd[:addr] &&
+      vmcmd[:addr] <= pc + MAIN_DUMP_WIDTH
+    }
+    .map {|vmcmd|
       head =
         if vmcmd[:addr] == pc
           "pc =>"
