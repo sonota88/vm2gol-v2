@@ -195,6 +195,23 @@ def codegen_call(lvar_names, stmt_rest)
   alines
 end
 
+def codegen_call_set(lvar_names, stmt_rest)
+  alines = []
+
+  lvar_name, fn_temp = stmt_rest
+  fn_name, *fn_args = fn_temp
+  fn_args.reverse.each {|fn_arg|
+    alines << "  push #{fn_arg}"
+  }
+  alines << "  call #{fn_name}"
+  alines << "  add_sp #{fn_args.size}"
+
+  lvar_addr = to_lvar_addr(lvar_names, lvar_name)
+  alines << "  cp reg_a #{lvar_addr}"
+
+  alines
+end
+
 def codegen_set(fn_arg_names, lvar_names, rest)
   alines = []
   dest = rest[0]
@@ -260,16 +277,7 @@ def codegen_func_def(rest)
     when "call"
       alines += codegen_call(lvar_names, stmt_rest)
     when "call_set"
-      lvar_name, fn_temp = stmt_rest
-      fn_name, *fn_args = fn_temp
-      fn_args.reverse.each {|fn_arg|
-        alines << "  push #{fn_arg}"
-      }
-      alines << "  call #{fn_name}"
-      alines << "  add_sp #{fn_args.size}"
-
-      lvar_addr = to_lvar_addr(lvar_names, lvar_name)
-      alines << "  cp reg_a #{lvar_addr}"
+      alines += codegen_call_set(lvar_names, stmt_rest)
     when "var"
       lvar_names << stmt_rest[0]
       alines << "  sub_sp 1"
