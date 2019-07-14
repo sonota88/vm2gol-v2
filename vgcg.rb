@@ -169,6 +169,32 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
   alines
 end
 
+def codegen_call(lvar_names, stmt_rest)
+  alines = []
+
+  fn_name, *fn_args = stmt_rest
+  fn_args.reverse.each {|fn_arg|
+    case fn_arg
+    when Integer
+      alines << "  push #{fn_arg}"
+    when String
+      case
+      when lvar_names.include?(fn_arg)
+        lvar_addr = to_lvar_addr(lvar_names, fn_arg)
+        alines << "  push #{lvar_addr}"
+      else
+        raise not_yet_impl(fn_arg)
+      end
+    else
+      raise not_yet_impl(fn_arg)
+    end
+  }
+  alines << "  call #{fn_name}"
+  alines << "  add_sp #{fn_args.size}"
+
+  alines
+end
+
 def codegen_set(fn_arg_names, lvar_names, rest)
   alines = []
   dest = rest[0]
@@ -232,25 +258,7 @@ def codegen_func_def(rest)
     stmt_head, *stmt_rest = stmt
     case stmt_head
     when "call"
-      fn_name, *fn_args = stmt_rest
-      fn_args.reverse.each {|fn_arg|
-        case fn_arg
-        when Integer
-          alines << "  push #{fn_arg}"
-        when String
-          case
-          when lvar_names.include?(fn_arg)
-            lvar_addr = to_lvar_addr(lvar_names, fn_arg)
-            alines << "  push #{lvar_addr}"
-          else
-            raise not_yet_impl(fn_arg)
-          end
-        else
-          raise not_yet_impl(fn_arg)
-        end
-      }
-      alines << "  call #{fn_name}"
-      alines << "  add_sp #{fn_args.size}"
+      alines += codegen_call(lvar_names, stmt_rest)
     when "call_set"
       lvar_name, fn_temp = stmt_rest
       fn_name, *fn_args = fn_temp
