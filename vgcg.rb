@@ -8,6 +8,11 @@ require './common'
 
 $label_id = 0
 
+def to_fn_arg_addr(fn_arg_names, fn_arg_name)
+  index = fn_arg_names.index(fn_arg_name)
+  "[bp+#{index + 2}]"
+end
+
 def codegen_case(when_blocks)
   alines = []
   $label_id += 1
@@ -103,8 +108,7 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
         lvar_pos = lvar_names.index(args[0]) + 1
         "[bp-#{lvar_pos}]"
       when fn_arg_names.include?(args[0])
-        fn_arg_pos = fn_arg_names.index(args[0]) + 2
-        "[bp+#{fn_arg_pos}]"
+        to_fn_arg_addr(fn_arg_names, args[0])
       else
         raise not_yet_impl("left", args[0])
       end
@@ -119,8 +123,7 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
     when String
       case
       when fn_arg_names.include?(args[1])
-        fn_arg_pos = fn_arg_names.index(args[1]) + 2
-        "[bp+#{fn_arg_pos}]"
+        to_fn_arg_addr(fn_arg_names, args[1])
       else
         raise not_yet_impl("right", args[1])
       end
@@ -175,8 +178,7 @@ def codegen_set(fn_arg_names, lvar_names, rest)
       alines += codegen_exp(fn_arg_names, lvar_names, exp)
       "reg_a"
     when fn_arg_names.include?(rest[1])
-      fn_arg_pos = fn_arg_names.index(rest[1]) + 2
-      "[bp+#{fn_arg_pos}]"
+      to_fn_arg_addr(fn_arg_names, rest[1])
     when /^vram\[(.+)\]$/ =~ rest[1]
       vram_addr = $1
       alines << "  get_vram #{vram_addr} reg_a"
