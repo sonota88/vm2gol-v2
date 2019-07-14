@@ -13,6 +13,11 @@ def to_fn_arg_addr(fn_arg_names, fn_arg_name)
   "[bp+#{index + 2}]"
 end
 
+def to_lvar_addr(lvar_names, lvar_name)
+  index = lvar_names.index(lvar_name)
+  "[bp-#{index + 1}]"
+end
+
 def codegen_case(when_blocks)
   alines = []
   $label_id += 1
@@ -105,8 +110,7 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
     when String
       case
       when lvar_names.include?(args[0])
-        lvar_pos = lvar_names.index(args[0]) + 1
-        "[bp-#{lvar_pos}]"
+        to_lvar_addr(lvar_names, args[0])
       when fn_arg_names.include?(args[0])
         to_fn_arg_addr(fn_arg_names, args[0])
       else
@@ -194,14 +198,14 @@ def codegen_set(fn_arg_names, lvar_names, rest)
     when /^\d+$/ =~ vram_addr
       alines << "  set_vram #{vram_addr} #{src_val}"
     when lvar_names.include?(vram_addr)
-      lvar_pos = lvar_names.index(vram_addr) + 1
-      alines << "  set_vram [bp-#{lvar_pos}] #{src_val}"
+      lvar_addr = to_lvar_addr(lvar_names, vram_addr)
+      alines << "  set_vram #{lvar_addr} #{src_val}"
     else
       raise not_yet_impl("vram_addr", vram_addr)
     end
   else
-    lvar_pos = lvar_names.index(dest) + 1
-    alines << "  cp #{src_val} [bp-#{lvar_pos}]"
+    lvar_addr = to_lvar_addr(lvar_names, dest)
+    alines << "  cp #{src_val} #{lvar_addr}"
   end
 
   alines
@@ -236,8 +240,8 @@ def codegen_func_def(rest)
         when String
           case
           when lvar_names.include?(fn_arg)
-            lvar_pos = lvar_names.index(fn_arg) + 1
-            alines << "  push [bp-#{lvar_pos}]"
+            lvar_addr = to_lvar_addr(lvar_names, fn_arg)
+            alines << "  push #{lvar_addr}"
           else
             raise not_yet_impl(fn_arg)
           end
@@ -256,8 +260,8 @@ def codegen_func_def(rest)
       alines << "  call #{fn_name}"
       alines << "  add_sp #{fn_args.size}"
 
-      lvar_pos = lvar_names.index(lvar_name) + 1
-      alines << "  cp reg_a [bp-#{lvar_pos}]"
+      lvar_addr = to_lvar_addr(lvar_names, lvar_name)
+      alines << "  cp reg_a #{lvar_addr}"
     when "var"
       lvar_names << stmt_rest[0]
       alines << "  sub_sp 1"
