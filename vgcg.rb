@@ -164,6 +164,24 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
     alines << "  set_reg_a 1"
 
     alines << "label end_eq_#{label_id}"
+  when "neq"
+    $label_id += 1
+    label_id = $label_id
+
+    alines << "  set_reg_a #{left}"
+    alines << "  set_reg_b #{right}"
+    alines << "  compare"
+    alines << "  jump_eq then_#{label_id}"
+
+    # else
+    alines << "  set_reg_a 1"
+    alines << "  jump end_neq_#{label_id}"
+
+    # then
+    alines << "label then_#{label_id}"
+    alines << "  set_reg_a 0"
+
+    alines << "label end_neq_#{label_id}"
   else
     raise not_yet_impl("operator", operator)
   end
