@@ -128,6 +128,8 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
       case
       when fn_arg_names.include?(args[1])
         to_fn_arg_addr(fn_arg_names, args[1])
+      when lvar_names.include?(args[1])
+        to_lvar_addr(lvar_names, args[1])
       else
         raise not_yet_impl("right", args[1])
       end
