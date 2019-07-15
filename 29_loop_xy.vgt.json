@@ -1,0 +1,40 @@
+["stmts"
+, ["func", "vram_set", ["w", "x", "y", "val"]
+  , [
+      ["var", "yw"]
+    , ["set", "yw", ["*", "y", "w"]]
+
+    , ["var", "vi"] // vram index
+    , ["set", "vi", ["+", "yw", "x"]]
+
+    , ["set", "vram[vi]", "val"]
+    ]
+  ]
+
+, ["func", "main", []
+  , [
+      ["var", "w"] // 盤面の幅
+    , ["set", "w", 5]
+    , ["var", "h"] // 盤面の高さ
+    , ["set", "h", 5]
+
+    , ["var", "x"]
+    , ["set", "x", 0]
+
+    , ["var", "y"]
+    , ["set", "y", 0]
+
+    , ["while", ["neq", "y", "h"], [
+        ["set", "x", 0]
+
+      , ["while", ["neq", "x", "w"], [
+          ["call", "vram_set", "w", "x", "y", 1]
+        , ["set", "x", ["+", "x", 1]]
+        ]]
+
+        , ["set", "y", ["+", "y", 1]]
+
+      ]]
+    ]
+  ]
+]
