@@ -289,6 +289,15 @@ def codegen_set(fn_arg_names, lvar_names, rest)
   alines
 end
 
+def codegen_return(stmt_rest)
+  alines = []
+
+  val = stmt_rest[0]
+  alines << "  set_reg_a #{val}"
+
+  alines
+end
+
 def codegen_func_def(rest)
   alines = []
 
@@ -321,8 +330,7 @@ def codegen_func_def(rest)
     when "eq"
       alines += codegen_exp(fn_arg_names, lvar_names, stmt)
     when "return"
-      val = stmt_rest[0]
-      alines << "  set_reg_a #{val}"
+      alines += codegen_return(stmt_rest)
     when "case"
       alines += codegen_case(stmt_rest)
     when "while"
