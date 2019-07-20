@@ -288,7 +288,7 @@ class Vm
       end
 
       dump_v2()
-      $stdin.gets
+      # $stdin.gets
     end
   end
 
