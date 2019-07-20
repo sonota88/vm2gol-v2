@@ -223,6 +223,9 @@ class Vm
             when /^\[bp\-(\d+)\]$/
               stack_addr = @bp - $1.to_i
               @mem.stack[stack_addr]
+            when /^\[bp\+(\d+)\]$/
+              stack_addr = @bp + $1.to_i
+              @mem.stack[stack_addr]
             else
               raise not_yet_impl("push", arg)
             end
