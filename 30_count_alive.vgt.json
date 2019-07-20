@@ -1,0 +1,54 @@
+["stmts"
+
+, ["func", "vram_set", ["w", "x", "y", "val"]
+  , [
+      ["var", "yw"]
+    , ["set", "yw", ["*", "y", "w"]]
+
+    , ["var", "vi"] // vram index
+    , ["set", "vi", ["+", "yw", "x"]]
+
+    , ["set", "vram[vi]", "val"]
+    ]
+  ]
+
+, ["func", "vram_get", ["w", "x", "y"]
+  , [
+      ["var", "yw"]
+    , ["set", "yw", ["*", "y", "w"]]
+
+    , ["var", "vi"] // vram index
+    , ["set", "vi", ["+", "yw", "x"]]
+
+    , ["return", "vram[vi]"]
+    ]
+  ]
+
+, ["func", "count_alive", ["w", "x", "y"]
+  , [
+      ["var", "count"]
+    , ["set", "count", 0]
+
+    , ["var", "tmp"]
+    , ["call_set", "tmp", ["vram_get", "w", "x", "y"]]
+    ]
+  ]
+
+, ["func", "main", []
+  , [
+      ["var", "w"] // 盤面の幅
+    , ["set", "w", 5]
+    , ["var", "h"] // 盤面の高さ
+    , ["set", "h", 5]
+
+    , ["var", "x"]
+    , ["set", "x", 0]
+
+    , ["var", "y"]
+    , ["set", "y", 0]
+
+    , ["call", "count_alive", "w", 1, 1]
+    ]
+  ]
+
+]
