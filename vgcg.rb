@@ -289,11 +289,31 @@ def codegen_set(fn_arg_names, lvar_names, rest)
   alines
 end
 
-def codegen_return(stmt_rest)
+def codegen_return(lvar_names, stmt_rest)
   alines = []
 
-  val = stmt_rest[0]
-  alines << "  set_reg_a #{val}"
+  retval = stmt_rest[0]
+
+  case retval
+  when Integer
+    alines << "  set_reg_a #{retval}"
+  when String
+    case retval
+    when /^vram\[([a-z0-9_]+)\]$/
+      var_name = $1
+      case
+      when lvar_names.include?(var_name)
+        lvar_addr = to_lvar_addr(lvar_names, var_name)
+        alines << "  get_vram #{lvar_addr} reg_a"
+      else
+        raise not_yet_impl("retval", retval)
+      end
+    else
+      raise not_yet_impl("retval", retval)
+    end
+  else
+    raise not_yet_impl("retval", retval)
+  end
 
   alines
 end
@@ -330,7 +350,7 @@ def codegen_func_def(rest)
     when "eq"
       alines += codegen_exp(fn_arg_names, lvar_names, stmt)
     when "return"
-      alines += codegen_return(stmt_rest)
+      alines += codegen_return(lvar_names, stmt_rest)
     when "case"
       alines += codegen_case(stmt_rest)
     when "while"
