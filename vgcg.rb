@@ -215,14 +215,29 @@ def codegen_call(lvar_names, stmt_rest)
   alines
 end
 
-def codegen_call_set(lvar_names, stmt_rest)
+def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
   alines = []
 
   lvar_name, fn_temp = stmt_rest
   fn_name, *fn_args = fn_temp
+
   fn_args.reverse.each {|fn_arg|
-    alines << "  push #{fn_arg}"
+    case fn_arg
+    when Integer
+      alines << "  push #{fn_arg}"
+    when String
+      case
+      when fn_arg_names.include?(fn_arg)
+        fn_arg_addr = to_fn_arg_addr(fn_arg_names, fn_arg)
+        alines << "  push #{fn_arg_addr}"
+      else
+        raise not_yet_impl(fn_arg)
+      end
+    else
+      raise not_yet_impl(fn_arg)
+    end
   }
+
   alines << "  call #{fn_name}"
   alines << "  add_sp #{fn_args.size}"
 
@@ -297,7 +312,7 @@ def codegen_func_def(rest)
     when "call"
       alines += codegen_call(lvar_names, stmt_rest)
     when "call_set"
-      alines += codegen_call_set(lvar_names, stmt_rest)
+      alines += codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
     when "var"
       lvar_names << stmt_rest[0]
       alines << "  sub_sp 1"
