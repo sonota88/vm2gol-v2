@@ -132,6 +132,8 @@ class Vm
     @sp = stack_size - 1
     # ベースポインタ
     @bp = stack_size - 1
+
+    @step = 0
   end
 
   def set_sp(addr)
@@ -148,6 +150,8 @@ class Vm
     $stdin.gets
 
     loop do
+      @step += 1
+
       # operator
       op = @mem.main[@pc]
 
@@ -371,7 +375,7 @@ class Vm
   def dump_v2
     puts <<-EOB
 ================================
-#{ dump_reg() } zf(#{ @zf })
+#{ @step }: #{ dump_reg() } zf(#{ @zf })
 ---- memory (main) ----
 #{ @mem.dump_main(@pc) }
 ---- memory (stack) ----
