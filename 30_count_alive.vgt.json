@@ -47,6 +47,7 @@
     , ["var", "y"]
     , ["set", "y", 0]
 
+    , ["call", "vram_set", "w", 1, 1, 1]
     , ["call", "count_alive", "w", 1, 1]
     ]
   ]
