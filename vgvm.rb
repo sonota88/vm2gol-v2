@@ -307,7 +307,7 @@ class Vm
       end
 
       dump_v2()
-      # $stdin.gets
+      $stdin.gets
       sleep 0.01
     end
   end
