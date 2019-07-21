@@ -283,7 +283,7 @@ class Vm
           when String
             case arg1
             when /^\[bp\-(\d+)\]$/
-              stack_addr = $1.to_i
+              stack_addr = @bp - $1.to_i
               @mem.stack[stack_addr]
             else
               raise not_yet_impl("arg1", arg1)
