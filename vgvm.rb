@@ -276,7 +276,23 @@ class Vm
         arg1 = @mem.main[@pc + 1]
         arg2 = @mem.main[@pc + 2]
 
-        val = @mem.vram[arg1]
+        vram_addr =
+          case arg1
+          when Integer
+            arg1
+          when String
+            case arg1
+            when /^\[bp\-(\d+)\]$/
+              stack_addr = $1.to_i
+              @mem.stack[stack_addr]
+            else
+              raise not_yet_impl("arg1", arg1)
+            end
+          else
+            raise not_yet_impl("arg1", arg1)
+          end
+
+        val = @mem.vram[vram_addr]
 
         case arg2
         when "reg_a"
