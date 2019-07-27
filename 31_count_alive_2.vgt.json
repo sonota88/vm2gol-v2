@@ -29,6 +29,16 @@
       ["var", "count"]
     , ["set", "count", 0]
 
+    , ["var", "xl"]
+    , ["var", "xr"]
+    , ["var", "yt"]
+    , ["var", "yb"]
+
+    , ["set", "xl", ["+", "x", -1]]
+    , ["set", "xr", ["+", "x",  1]]
+    , ["set", "yt", ["+", "y", -1]]
+    , ["set", "yb", ["+", "y",  1]]
+
     , ["var", "tmp"]
     , ["call_set", "tmp", ["vram_get", "w", "x", "y"]]
     ]
