@@ -40,7 +40,8 @@
     , ["set", "yb", ["+", "y",  1]]
 
     , ["var", "tmp"]
-    , ["call_set", "tmp", ["vram_get", "w", "x", "y"]]
+    , ["call_set", "tmp", ["vram_get", "w", "xl", "yt"]]
+    , ["set", "count", ["+", "count", "tmp"]]
     ]
   ]
 
