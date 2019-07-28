@@ -313,7 +313,7 @@ class Vm
       end
 
       dump_v2()
-      $stdin.gets if @step >= 37
+      $stdin.gets if @step >= 56
       sleep 0.01
     end
   end
