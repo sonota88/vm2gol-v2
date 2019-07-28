@@ -209,7 +209,7 @@ def codegen_call(lvar_names, stmt_rest)
       raise not_yet_impl(fn_arg)
     end
   }
-  alines << "  _cmt call__#{fn_name}"
+  alines += codegen_comment("call  #{fn_name}")
   alines << "  call #{fn_name}"
   alines << "  add_sp #{fn_args.size}"
 
@@ -242,7 +242,7 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
     end
   }
 
-  alines << "  _cmt call_set__#{fn_name}"
+  alines += codegen_comment("call_set  #{fn_name}")
   alines << "  call #{fn_name}"
   alines << "  add_sp #{fn_args.size}"
 
