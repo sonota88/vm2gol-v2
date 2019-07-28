@@ -242,6 +242,7 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
     end
   }
 
+  alines << "  _cmt call_set__#{fn_name}"
   alines << "  call #{fn_name}"
   alines << "  add_sp #{fn_args.size}"
 
