@@ -306,6 +306,8 @@ class Vm
         end
 
         @pc += pc_delta
+      when "_cmt"
+        @pc += pc_delta
       else
         raise "Unknown operator (#{op})"
       end
@@ -355,7 +357,7 @@ class Vm
     case operator
     when "cp", "set_vram", "get_vram"
       2
-    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp", "sub_sp", "jump_eq", "jump"
+    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp", "sub_sp", "jump_eq", "jump", "_cmt"
       1
     when "ret", "exit", "add_ab", "compare", "mult_ab"
       0
