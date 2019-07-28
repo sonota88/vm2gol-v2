@@ -41,7 +41,9 @@
 
     , ["var", "tmp"]
     , ["call_set", "tmp", ["vram_get", "w", "xl", "yt"]]
+    , ["_cmt", "★countに足す"]
     , ["set", "count", ["+", "count", "tmp"]]
+    , ["_cmt", "★countに足した直後"]
     ]
   ]
 
