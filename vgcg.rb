@@ -230,6 +230,9 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
       when fn_arg_names.include?(fn_arg)
         fn_arg_addr = to_fn_arg_addr(fn_arg_names, fn_arg)
         alines << "  push #{fn_arg_addr}"
+      when lvar_names.include?(fn_arg)
+        lvar_addr = to_lvar_addr(lvar_names, fn_arg)
+        alines << "  push #{lvar_addr}"
       else
         raise not_yet_impl(fn_arg)
       end
