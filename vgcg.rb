@@ -209,6 +209,7 @@ def codegen_call(lvar_names, stmt_rest)
       raise not_yet_impl(fn_arg)
     end
   }
+  alines << "  _cmt call__#{fn_name}"
   alines << "  call #{fn_name}"
   alines << "  add_sp #{fn_args.size}"
 
