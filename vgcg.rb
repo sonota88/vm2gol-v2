@@ -323,6 +323,12 @@ def codegen_return(lvar_names, stmt_rest)
   alines
 end
 
+def codegen_comment(comment)
+  [
+    "  _cmt " + comment.gsub(" ", "~")
+  ]
+end
+
 def codegen_func_def(rest)
   alines = []
 
@@ -360,6 +366,8 @@ def codegen_func_def(rest)
       alines += codegen_case(stmt_rest)
     when "while"
       alines += codegen_while(fn_arg_names, lvar_names, stmt_rest)
+    when "_cmt"
+      alines += codegen_comment(stmt_rest[0])
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
