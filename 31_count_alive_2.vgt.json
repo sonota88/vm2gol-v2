@@ -44,6 +44,11 @@
     , ["_cmt", "★countに足す"]
     , ["set", "count", ["+", "count", "tmp"]]
     , ["_cmt", "★countに足した直後"]
+
+    , ["call_set", "tmp", ["vram_get", "w", "x", "yt"]]
+    , ["set", "count", ["+", "count", "tmp"]]
+
+    , ["_cmt", "★count_aliveの最後"]
     ]
   ]
 
