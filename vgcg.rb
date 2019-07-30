@@ -266,6 +266,8 @@ def codegen_set(fn_arg_names, lvar_names, rest)
       "reg_a"
     when fn_arg_names.include?(rest[1])
       to_fn_arg_addr(fn_arg_names, rest[1])
+    when lvar_names.include?(rest[1])
+      to_lvar_addr(lvar_names, rest[1])
     when /^vram\[(.+)\]$/ =~ rest[1]
       vram_addr = $1
       alines << "  get_vram #{vram_addr} reg_a"
