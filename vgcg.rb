@@ -18,7 +18,7 @@ def to_lvar_addr(lvar_names, lvar_name)
   "[bp-#{index + 1}]"
 end
 
-def codegen_case(when_blocks)
+def codegen_case(fn_arg_names, lvar_names, when_blocks)
   alines = []
   $label_id += 1
   label_id = $label_id
@@ -40,9 +40,7 @@ def codegen_case(when_blocks)
       alines << "  jump_eq when_#{label_id}_#{when_idx}"
 
       then_alines = ["label when_#{label_id}_#{when_idx}"]
-      rest.each {|stmt|
-        then_alines << "  " + stmt.join(" ")
-      }
+      then_alines += codegen_stmts(fn_arg_names, lvar_names, rest)
       then_alines << "  jump end_case_#{label_id}"
       then_bodies << then_alines
     else
@@ -365,7 +363,7 @@ def codegen_func_def(rest)
     when "return"
       alines += codegen_return(lvar_names, stmt_rest)
     when "case"
-      alines += codegen_case(stmt_rest)
+      alines += codegen_case(fn_arg_names, lvar_names, stmt_rest)
     when "while"
       alines += codegen_while(fn_arg_names, lvar_names, stmt_rest)
     when "_cmt"
