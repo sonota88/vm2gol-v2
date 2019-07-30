@@ -99,7 +99,7 @@
     , ["var", "y"]
     , ["set", "y", 0]
 
-    , ["call", "count_alive", "w", 2, 2]
+    , ["call", "count_alive", "w", 0, 2]
     ]
   ]
 
