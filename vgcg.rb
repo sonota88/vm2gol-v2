@@ -34,8 +34,12 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
 
     case cond_head
     when "eq"
-      alines << "  set_reg_a #{cond_rest[0]}"
-      alines << "  set_reg_b #{cond_rest[1]}"
+      # 式の結果が reg_a に入る
+      alines += codegen_exp(fn_arg_names, lvar_names, cond)
+
+      # 式の結果と比較するための値を reg_b に入れる
+      alines << "  set_reg_b 1"
+
       alines << "  compare"
       alines << "  jump_eq when_#{label_id}_#{when_idx}"
 
