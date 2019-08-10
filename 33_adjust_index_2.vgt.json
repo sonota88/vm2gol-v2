@@ -65,12 +65,7 @@
     , ["_cmt", "★ xl の補正の直後"]
 
     , ["_cmt", "★ xr の補正の直前"]
-    , ["case"
-      , [["eq", "xr", "w"]
-        , ["_cmt", "★ 右端を超えた場合"]
-        , ["set", "xr", 0]
-        ]
-      ]
+    , ["call_set", "xr", ["adjust_index", "w", "xr"]]
     , ["_cmt", "★ xr の補正の直後"]
 
     , ["_cmt", "★ yt の補正の直前"]
@@ -157,7 +152,7 @@
     , ["var", "y"]
     , ["set", "y", 0]
 
-    , ["call", "count_alive", "w", "h", 0, 2]
+    , ["call", "count_alive", "w", "h", 4, 2]
     ]
   ]
 
