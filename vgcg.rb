@@ -307,8 +307,8 @@ def codegen_return(lvar_names, stmt_rest)
   when Integer
     alines << "  set_reg_a #{retval}"
   when String
-    case retval
-    when /^vram\[([a-z0-9_]+)\]$/
+    case
+    when /^vram\[([a-z0-9_]+)\]$/ =~ retval
       var_name = $1
       case
       when lvar_names.include?(var_name)
@@ -317,6 +317,9 @@ def codegen_return(lvar_names, stmt_rest)
       else
         raise not_yet_impl("retval", retval)
       end
+    when lvar_names.include?(retval)
+      lvar_addr = to_lvar_addr(lvar_names, retval)
+      alines << "  cp #{lvar_addr} reg_a"
     else
       raise not_yet_impl("retval", retval)
     end
