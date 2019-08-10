@@ -24,6 +24,27 @@
     ]
   ]
 
+, ["func", "adjust_index", ["width", "i"]
+  , [
+      ["var", "adjusted"]
+    , ["var", "max_i"]
+    , ["set", "max_i", ["+", "width", -1]]
+
+    , ["case"
+      , [["eq", "i", -1]
+        , ["_cmt", "下限を超えた場合"]
+        , ["set", "adjusted", "max_i"]]
+      , [["eq", "i", "width"]
+        , ["_cmt", "上限を超えた場合"]
+        , ["set", "adjusted", 0]]
+      , [["eq", 1, 1]
+        , ["_cmt", "補正が不要な場合"]
+        , ["set", "adjusted", "i"]]
+      ]
+    , ["return", "adjusted"]
+    ]
+  ]
+
 , ["func", "count_alive", ["w", "h", "x", "y"]
   , [
       ["var", "count"]
