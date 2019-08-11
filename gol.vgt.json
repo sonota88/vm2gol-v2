@@ -230,11 +230,11 @@
     // , ["call_set", "tmp", ["adjust_index", 5, 1]]
     // , ["_cmt", "★ 座標補正の確認 補正なし: 1 になるべき"]
 
-      ["call", "test_calc_next_gen"]
+    //   ["call", "test_calc_next_gen"]
 
     // ----------------
 
-    , ["var", "w"] // 盤面の幅
+      ["var", "w"] // 盤面の幅
     , ["set", "w", 5]
     , ["var", "h"] // 盤面の高さ
     , ["set", "h", 5]
