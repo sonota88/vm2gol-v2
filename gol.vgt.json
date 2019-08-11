@@ -45,6 +45,32 @@
     ]
   ]
 
+, ["func", "calc_next_gen", ["current_val", "count"]
+  , [
+      // 注目しているセルの次世代の生死
+      ["var", "next_val"]
+    , ["set", "next_val", 0]
+
+    , ["case"
+      , [["eq", "current_val", 0]
+        , ["case"
+          , [["eq", "count", 3]
+            , ["set", "next_val", 1]]
+          ]
+        ]
+      , [["eq", 0, 0]
+        , ["case"
+          , [["eq", "count", 2]
+            , ["set", "next_val", 1]]
+          , [["eq", "count", 3]
+            , ["set", "next_val", 1]]
+          ]
+        ]
+      ]
+    , ["return", "next_val"]
+    ]
+  ]
+
 , ["func", "count_alive", ["w", "h", "x", "y"]
   , [
       ["var", "count"]
@@ -124,24 +150,7 @@
 
       // 注目しているセルの次世代の生死
     , ["var", "next_val"]
-    , ["set", "next_val", 0]
-
-    , ["case"
-      , [["eq", "current_val", 0]
-        , ["case"
-          , [["eq", "count", 3]
-            , ["set", "next_val", 1]]
-          ]
-        ]
-      , [["eq", 0, 0]
-        , ["case"
-          , [["eq", "count", 2]
-            , ["set", "next_val", 1]]
-          , [["eq", "count", 3]
-            , ["set", "next_val", 1]]
-          ]
-        ]
-      ]
+    , ["call_set", "next_val", ["calc_next_gen", "current_val", "count"]]
 
     , ["_cmt", "★次世代の生死決定の直後"]
 
