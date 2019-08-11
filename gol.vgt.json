@@ -113,6 +113,38 @@
     , ["set", "count", ["+", "count", "tmp"]]
 
     , ["_cmt", "★count_aliveの最後"]
+
+      // ----------------
+
+    , ["_cmt", "★次世代の生死決定の直前"]
+
+      // 注目しているセルの現世代の生死
+    , ["var", "current_val"]
+    , ["call_set", "current_val", ["vram_get", "w", "h", "x", "y"]]
+
+      // 注目しているセルの次世代の生死
+    , ["var", "next_val"]
+    , ["set", "next_val", 0]
+
+    , ["case"
+      , [["eq", "current_val", 0]
+        , ["case"
+          , [["eq", "count", 3]
+            , ["set", "next_val", 1]]
+          ]
+        ]
+      , [["eq", 0, 0]
+        , ["case"
+          , [["eq", "count", 2]
+            , ["set", "next_val", 1]]
+          , [["eq", "count", 3]
+            , ["set", "next_val", 1]]
+          ]
+        ]
+      ]
+
+    , ["_cmt", "★次世代の生死決定の直後"]
+
     ]
   ]
 
