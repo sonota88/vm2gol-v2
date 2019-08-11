@@ -400,6 +400,8 @@ def codegen_stmts(fn_arg_names, lvar_names, rest)
       alines += codegen_call(lvar_names, stmt_rest)
     when "set"
       alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
+    when "case"
+      alines += codegen_case(fn_arg_names, lvar_names, stmt_rest)
     when "while"
       alines += codegen_while(fn_arg_names, lvar_names, stmt_rest)
     when "_cmt"
