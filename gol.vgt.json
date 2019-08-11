@@ -1,0 +1,149 @@
+["stmts"
+
+, ["func", "vram_set", ["w", "x", "y", "val"]
+  , [
+      ["var", "yw"]
+    , ["set", "yw", ["*", "y", "w"]]
+
+    , ["var", "vi"] // vram index
+    , ["set", "vi", ["+", "yw", "x"]]
+
+    , ["set", "vram[vi]", "val"]
+    ]
+  ]
+
+, ["func", "vram_get", ["w", "x", "y"]
+  , [
+      ["var", "yw"]
+    , ["set", "yw", ["*", "y", "w"]]
+
+    , ["var", "vi"] // vram index
+    , ["set", "vi", ["+", "yw", "x"]]
+
+    , ["return", "vram[vi]"]
+    ]
+  ]
+
+, ["func", "adjust_index", ["width", "i"]
+  , [
+      ["var", "adjusted"]
+    , ["var", "max_i"]
+    , ["set", "max_i", ["+", "width", -1]]
+
+    , ["case"
+      , [["eq", "i", -1]
+        , ["_cmt", "下限を超えた場合"]
+        , ["set", "adjusted", "max_i"]]
+      , [["eq", "i", "width"]
+        , ["_cmt", "上限を超えた場合"]
+        , ["set", "adjusted", 0]]
+      , [["eq", 1, 1]
+        , ["_cmt", "補正が不要な場合"]
+        , ["set", "adjusted", "i"]]
+      ]
+    , ["return", "adjusted"]
+    ]
+  ]
+
+, ["func", "count_alive", ["w", "h", "x", "y"]
+  , [
+      ["var", "count"]
+    , ["set", "count", 0]
+
+    , ["var", "xl"]
+    , ["var", "xr"]
+    , ["var", "yt"]
+    , ["var", "yb"]
+
+    , ["set", "xl", ["+", "x", -1]]
+    , ["set", "xr", ["+", "x",  1]]
+    , ["set", "yt", ["+", "y", -1]]
+    , ["set", "yb", ["+", "y",  1]]
+
+    , ["_cmt", "★ xl の補正の直前"]
+    , ["call_set", "xl", ["adjust_index", "w", "xl"]]
+    , ["_cmt", "★ xl の補正の直後"]
+
+    , ["_cmt", "★ xr の補正の直前"]
+    , ["call_set", "xr", ["adjust_index", "w", "xr"]]
+    , ["_cmt", "★ xr の補正の直後"]
+
+    , ["_cmt", "★ yt の補正の直前"]
+    , ["call_set", "yt", ["adjust_index", "h", "yt"]]
+    , ["_cmt", "★ yt の補正の直後"]
+
+    , ["_cmt", "★ yb の補正の直前"]
+    , ["call_set", "yb", ["adjust_index", "h", "yb"]]
+    , ["_cmt", "★ yb の補正の直後"]
+
+    , ["_cmt", "★ 座標補正の直後"]
+
+    , ["var", "tmp"]
+
+    , ["_cmt", "左上"]
+    , ["call_set", "tmp", ["vram_get", "w", "xl", "yt"]]
+    , ["set", "count", ["+", "count", "tmp"]]
+
+    , ["_cmt", "上"]
+    , ["call_set", "tmp", ["vram_get", "w", "x", "yt"]]
+    , ["set", "count", ["+", "count", "tmp"]]
+
+    , ["_cmt", "右上"]
+    , ["call_set", "tmp", ["vram_get", "w", "xr", "yt"]]
+    , ["set", "count", ["+", "count", "tmp"]]
+
+    , ["_cmt", "左"]
+    , ["call_set", "tmp", ["vram_get", "w", "xl", "y"]]
+    , ["set", "count", ["+", "count", "tmp"]]
+
+    , ["_cmt", "右"]
+    , ["call_set", "tmp", ["vram_get", "w", "xr", "y"]]
+    , ["set", "count", ["+", "count", "tmp"]]
+
+    , ["_cmt", "左下"]
+    , ["call_set", "tmp", ["vram_get", "w", "xl", "yb"]]
+    , ["set", "count", ["+", "count", "tmp"]]
+
+    , ["_cmt", "下"]
+    , ["call_set", "tmp", ["vram_get", "w", "x", "yb"]]
+    , ["set", "count", ["+", "count", "tmp"]]
+
+    , ["_cmt", "右下"]
+    , ["call_set", "tmp", ["vram_get", "w", "xr", "yb"]]
+    , ["set", "count", ["+", "count", "tmp"]]
+
+    , ["_cmt", "★count_aliveの最後"]
+    ]
+  ]
+
+, ["func", "main", []
+  , [
+    //   ["var", "tmp"]
+    // 
+    // , ["call_set", "tmp", ["adjust_index", 5, -1]]
+    // , ["_cmt", "★ 座標補正の確認 下端: 4 になるべき"]
+    // 
+    // , ["call_set", "tmp", ["adjust_index", 5, 5]]
+    // , ["_cmt", "★ 座標補正の確認 上端: 0 になるべき"]
+    // 
+    // , ["call_set", "tmp", ["adjust_index", 5, 1]]
+    // , ["_cmt", "★ 座標補正の確認 補正なし: 1 になるべき"]
+
+    // ----------------
+
+      ["var", "w"] // 盤面の幅
+    , ["set", "w", 5]
+    , ["var", "h"] // 盤面の高さ
+    , ["set", "h", 5]
+
+    , ["var", "x"]
+    , ["set", "x", 0]
+
+    , ["var", "y"]
+    , ["set", "y", 0]
+
+    , ["call", "count_alive", "w", "h", 2, 4]
+    ]
+  ]
+
+]
