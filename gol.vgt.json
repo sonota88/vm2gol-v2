@@ -153,21 +153,7 @@
 
     , ["_cmt", "★count_aliveの最後"]
 
-      // ----------------
-
-    , ["_cmt", "★次世代の生死決定の直前"]
-
-      // 注目しているセルの現世代の生死
-    , ["var", "current_val"]
-    , ["call_set", "current_val", ["vram_get", "w", "h", "x", "y"]]
-
-      // 注目しているセルの次世代の生死
-    , ["var", "next_val"]
-    , ["call_set", "next_val", ["calc_next_gen", "current_val", "count"]]
-
-    , ["_cmt", "★次世代の生死決定の直後"]
-
-    , ["return", "next_val"]
+    , ["return", "count"]
     ]
   ]
 
@@ -275,10 +261,22 @@
     , ["call", "vram_set", "w", 2, 1, 1]
     , ["call", "vram_set", "w", 3, 1, 1]
 
-    , ["var", "next_val"]
+    , ["var", "count"]
 
-    , ["call_set", "next_val", ["count_alive", "w", "h", 2, 2]]
+    , ["call_set", "count", ["count_alive", "w", "h", 2, 2]]
     , ["_cmt", "★ count_alive から戻った直後"]
+
+    , ["_cmt", "★次世代の生死決定の直前"]
+
+      // 注目しているセルの現世代の生死
+    , ["var", "current_val"]
+    , ["call_set", "current_val", ["vram_get", "w", "h", 2, 2]]
+
+      // 注目しているセルの次世代の生死
+    , ["var", "next_val"]
+    , ["call_set", "next_val", ["calc_next_gen", "current_val", "count"]]
+
+    , ["_cmt", "★次世代の生死決定の直後"]
 
     , ["call", "vram_set_buf", "w", 2, 2, "next_val"]
     , ["_cmt", "★ vram_set_buf から戻った直後"]
