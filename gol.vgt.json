@@ -231,6 +231,15 @@
     ]
   ]
 
+, ["func", "test_vram_set_buf", []
+  , [
+      ["call", "vram_set_buf", 5, 2, 2, 1]
+    , ["_cmt", "★ (2,2) に 1 をセット"]
+    , ["call", "vram_set_buf", 5, 2, 2, 0]
+    , ["_cmt", "★ (2,2) に 0 をセット"]
+    ]
+  ]
+
 , ["func", "main", []
   , [
     //   ["var", "tmp"]
@@ -246,9 +255,11 @@
 
     //   ["call", "test_calc_next_gen"]
 
+      ["call", "test_vram_set_buf"]
+
     // ----------------
 
-      ["var", "w"] // 盤面の幅
+    , ["var", "w"] // 盤面の幅
     , ["set", "w", 5]
     , ["var", "h"] // 盤面の高さ
     , ["set", "h", 5]
