@@ -272,10 +272,9 @@
     , ["set", "y", 0]
 
       // 初期状態の設定
-    , ["call", "vram_set", "w", 2, 2, 1]
     , ["call", "vram_set", "w", 1, 1, 1]
-    , ["call", "vram_set", "w", 1, 2, 1]
-    , ["call", "vram_set", "w", 1, 3, 1]
+    , ["call", "vram_set", "w", 2, 1, 1]
+    , ["call", "vram_set", "w", 3, 1, 1]
 
     , ["var", "next_val"]
 
