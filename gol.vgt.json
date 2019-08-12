@@ -12,6 +12,20 @@
     ]
   ]
 
+, ["func", "vram_set_buf", ["w", "x", "y", "val"]
+  , [
+      ["var", "yw"]
+    , ["set", "yw", ["*", "y", "w"]]
+
+    , ["var", "vi"] // vram index
+    , ["set", "vi", ["+", "yw", "x"]]
+
+    , ["set", "vi", ["+", "vi", 25]]
+
+    , ["set", "vram[vi]", "val"]
+    ]
+  ]
+
 , ["func", "vram_get", ["w", "x", "y"]
   , [
       ["var", "yw"]
