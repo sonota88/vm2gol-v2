@@ -15,38 +15,24 @@
 
 , ["func", "vram_set", ["w", "x", "y", "val"]
   , [
-      ["var", "yw"]
-    , ["set", "yw", ["*", "y", "w"]]
-
-    , ["var", "vi"] // vram index
-    , ["set", "vi", ["+", "yw", "x"]]
-
+      ["var", "vi"] // vram index
+    , ["call_set", "vi", ["to_vi", "w", "x", "y", 0]]
     , ["set", "vram[vi]", "val"]
     ]
   ]
 
 , ["func", "vram_set_buf", ["w", "x", "y", "val"]
   , [
-      ["var", "yw"]
-    , ["set", "yw", ["*", "y", "w"]]
-
-    , ["var", "vi"] // vram index
-    , ["set", "vi", ["+", "yw", "x"]]
-
-    , ["set", "vi", ["+", "vi", 25]]
-
+      ["var", "vi"] // vram index
+    , ["call_set", "vi", ["to_vi", "w", "x", "y", 25]]
     , ["set", "vram[vi]", "val"]
     ]
   ]
 
 , ["func", "vram_get", ["w", "x", "y"]
   , [
-      ["var", "yw"]
-    , ["set", "yw", ["*", "y", "w"]]
-
-    , ["var", "vi"] // vram index
-    , ["set", "vi", ["+", "yw", "x"]]
-
+      ["var", "vi"] // vram index
+    , ["call_set", "vi", ["to_vi", "w", "x", "y", 0]]
     , ["return", "vram[vi]"]
     ]
   ]
