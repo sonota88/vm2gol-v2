@@ -269,18 +269,18 @@
       // 注目しているセルの次世代の生死
     , ["var", "next_val"]
 
-    , ["call_set", "count", ["count_alive", "w", "h", 2, 2]]
+    , ["call_set", "count", ["count_alive", "w", "h", "x", "y"]]
     , ["_cmt", "★ count_alive から戻った直後"]
 
     , ["_cmt", "★次世代の生死決定の直前"]
 
-    , ["call_set", "current_val", ["vram_get", "w", "h", 2, 2]]
+    , ["call_set", "current_val", ["vram_get", "w", "h", "x", "y"]]
 
     , ["call_set", "next_val", ["calc_next_gen", "current_val", "count"]]
 
     , ["_cmt", "★次世代の生死決定の直後"]
 
-    , ["call", "vram_set_buf", "w", 2, 2, "next_val"]
+    , ["call", "vram_set_buf", "w", "x", "y", "next_val"]
     , ["_cmt", "★ vram_set_buf から戻った直後"]
     ]
   ]
