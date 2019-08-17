@@ -398,6 +398,8 @@ def codegen_stmts(fn_arg_names, lvar_names, rest)
       alines += codegen_func_def(stmt_rest)
     when "call"
       alines += codegen_call(lvar_names, stmt_rest)
+    when "call_set"
+      alines += codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
     when "set"
       alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
     when "case"
