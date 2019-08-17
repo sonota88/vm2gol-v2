@@ -274,19 +274,19 @@
           ["set", "x", 0]
         , ["while", ["neq", "x", "w"]
           , [
-      ["call_set", "count", ["count_alive", "w", "h", "x", "y"]]
-    , ["_cmt", "★ count_alive から戻った直後"]
+              ["call_set", "count", ["count_alive", "w", "h", "x", "y"]]
+            , ["_cmt", "★ count_alive から戻った直後"]
 
-    , ["_cmt", "★次世代の生死決定の直前"]
+            , ["_cmt", "★次世代の生死決定の直前"]
 
-    , ["call_set", "current_val", ["vram_get", "w", "h", "x", "y"]]
+            , ["call_set", "current_val", ["vram_get", "w", "h", "x", "y"]]
 
-    , ["call_set", "next_val", ["calc_next_gen", "current_val", "count"]]
+            , ["call_set", "next_val", ["calc_next_gen", "current_val", "count"]]
 
-    , ["_cmt", "★次世代の生死決定の直後"]
+            , ["_cmt", "★次世代の生死決定の直後"]
 
-    , ["call", "vram_set_buf", "w", "x", "y", "next_val"]
-    , ["_cmt", "★ vram_set_buf から戻った直後"]
+            , ["call", "vram_set_buf", "w", "x", "y", "next_val"]
+            , ["_cmt", "★ vram_set_buf から戻った直後"]
 
             , ["set", "x", ["+", "x", 1]]
             ]
