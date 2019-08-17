@@ -279,7 +279,7 @@
 
             , ["_cmt", "★次世代の生死決定の直前"]
 
-            , ["call_set", "current_val", ["vram_get", "w", "h", "x", "y"]]
+            , ["call_set", "current_val", ["vram_get", "w", "x", "y"]]
 
             , ["call_set", "next_val", ["calc_next_gen", "current_val", "count"]]
 
