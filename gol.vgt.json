@@ -226,42 +226,13 @@
     ]
   ]
 
-, ["func", "main", []
+, ["func", "make_next_gen", ["w", "h"]
   , [
-    //   ["var", "tmp"]
-    // 
-    // , ["call_set", "tmp", ["adjust_index", 5, -1]]
-    // , ["_cmt", "★ 座標補正の確認 下端: 4 になるべき"]
-    // 
-    // , ["call_set", "tmp", ["adjust_index", 5, 5]]
-    // , ["_cmt", "★ 座標補正の確認 上端: 0 になるべき"]
-    // 
-    // , ["call_set", "tmp", ["adjust_index", 5, 1]]
-    // , ["_cmt", "★ 座標補正の確認 補正なし: 1 になるべき"]
-
-    //   ["call", "test_calc_next_gen"]
-
-    //   ["call", "test_vram_set_buf"]
-
-    // ----------------
-
-      ["var", "w"] // 盤面の幅
-    , ["set", "w", 5]
-    , ["var", "h"] // 盤面の高さ
-    , ["set", "h", 5]
-
-    , ["var", "x"]
+      ["var", "x"]
     , ["set", "x", 0]
 
     , ["var", "y"]
     , ["set", "y", 0]
-
-      // 初期状態の設定
-    , ["call", "vram_set", "w", 1, 0, 1]
-    , ["call", "vram_set", "w", 2, 1, 1]
-    , ["call", "vram_set", "w", 0, 2, 1]
-    , ["call", "vram_set", "w", 1, 2, 1]
-    , ["call", "vram_set", "w", 2, 2, 1]
 
     , ["var", "count"]
       // 注目しているセルの現世代の生死
@@ -294,6 +265,41 @@
         , ["set", "y", ["+", "y", 1]]
         ]
       ]
+    ]
+  ]
+
+, ["func", "main", []
+  , [
+    //   ["var", "tmp"]
+    // 
+    // , ["call_set", "tmp", ["adjust_index", 5, -1]]
+    // , ["_cmt", "★ 座標補正の確認 下端: 4 になるべき"]
+    // 
+    // , ["call_set", "tmp", ["adjust_index", 5, 5]]
+    // , ["_cmt", "★ 座標補正の確認 上端: 0 になるべき"]
+    // 
+    // , ["call_set", "tmp", ["adjust_index", 5, 1]]
+    // , ["_cmt", "★ 座標補正の確認 補正なし: 1 になるべき"]
+
+    //   ["call", "test_calc_next_gen"]
+
+    //   ["call", "test_vram_set_buf"]
+
+    // ----------------
+
+      ["var", "w"] // 盤面の幅
+    , ["set", "w", 5]
+    , ["var", "h"] // 盤面の高さ
+    , ["set", "h", 5]
+
+      // 初期状態の設定
+    , ["call", "vram_set", "w", 1, 0, 1]
+    , ["call", "vram_set", "w", 2, 1, 1]
+    , ["call", "vram_set", "w", 0, 2, 1]
+    , ["call", "vram_set", "w", 1, 2, 1]
+    , ["call", "vram_set", "w", 2, 2, 1]
+
+    , ["call", "make_next_gen", "w", "h"]
     ]
   ]
 
