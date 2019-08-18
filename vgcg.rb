@@ -191,7 +191,7 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
   alines
 end
 
-def codegen_call(lvar_names, stmt_rest)
+def codegen_call(fn_arg_names, lvar_names, stmt_rest)
   alines = []
 
   fn_name, *fn_args = stmt_rest
@@ -201,6 +201,9 @@ def codegen_call(lvar_names, stmt_rest)
       alines << "  push #{fn_arg}"
     when String
       case
+      when fn_arg_names.include?(fn_arg)
+        fn_arg_addr = to_fn_arg_addr(fn_arg_names, fn_arg)
+        alines << "  push #{fn_arg_addr}"
       when lvar_names.include?(fn_arg)
         lvar_addr = to_lvar_addr(lvar_names, fn_arg)
         alines << "  push #{lvar_addr}"
@@ -357,7 +360,7 @@ def codegen_func_def(rest)
     stmt_head, *stmt_rest = stmt
     case stmt_head
     when "call"
-      alines += codegen_call(lvar_names, stmt_rest)
+      alines += codegen_call(fn_arg_names, lvar_names, stmt_rest)
     when "call_set"
       alines += codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
     when "var"
@@ -397,7 +400,7 @@ def codegen_stmts(fn_arg_names, lvar_names, rest)
     when "func"
       alines += codegen_func_def(stmt_rest)
     when "call"
-      alines += codegen_call(lvar_names, stmt_rest)
+      alines += codegen_call(fn_arg_names, lvar_names, stmt_rest)
     when "call_set"
       alines += codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
     when "set"
