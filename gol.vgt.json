@@ -268,6 +268,25 @@
     ]
   ]
 
+, ["func", "replace_with_buf", []
+  , [
+      ["var", "vi"]
+    , ["set", "vi", 0]
+
+    , ["var", "vi_buf"]
+    , ["var", "temp"]
+
+    , ["while", ["neq", "vi", 25]
+      , [
+          ["set", "vi_buf", ["+", "vi", 25]]
+        , ["set", "temp", "vram[vi_buf]"]
+        , ["set", "vram[vi]", "temp"]
+        , ["set", "vi", ["+", "vi", 1]]
+        ]
+      ]
+    ]
+  ]
+
 , ["func", "main", []
   , [
     //   ["var", "tmp"]
@@ -300,6 +319,7 @@
     , ["call", "vram_set", "w", 2, 2, 1]
 
     , ["call", "make_next_gen", "w", "h"]
+    , ["call", "replace_with_buf"]
     ]
   ]
 
