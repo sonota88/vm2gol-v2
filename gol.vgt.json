@@ -318,8 +318,12 @@
     , ["call", "vram_set", "w", 1, 2, 1]
     , ["call", "vram_set", "w", 2, 2, 1]
 
-    , ["call", "make_next_gen", "w", "h"]
-    , ["call", "replace_with_buf"]
+    , ["while", ["eq", 0, 0]
+      , [
+          ["call", "make_next_gen", "w", "h"]
+        , ["call", "replace_with_buf"]
+        ]
+      ]
     ]
   ]
 
