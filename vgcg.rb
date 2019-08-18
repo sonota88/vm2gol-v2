@@ -273,9 +273,19 @@ def codegen_set(fn_arg_names, lvar_names, rest)
       to_fn_arg_addr(fn_arg_names, rest[1])
     when lvar_names.include?(rest[1])
       to_lvar_addr(lvar_names, rest[1])
-    when /^vram\[(.+)\]$/ =~ rest[1]
+    when /^vram\[(\d+)\]$/ =~ rest[1]
       vram_addr = $1
       alines << "  get_vram #{vram_addr} reg_a"
+      "reg_a"
+    when /^vram\[([a-z_][a-z0-9_]*)\]$/ =~ rest[1]
+      dest = $1
+      case
+      when lvar_names.include?(dest)
+        lvar_addr = to_lvar_addr(lvar_names, dest)
+        alines << "  get_vram #{ lvar_addr } reg_a"
+      else
+        raise not_yet_impl("rest", rest)
+      end
       "reg_a"
     else
       raise not_yet_impl("set src_val", rest)
