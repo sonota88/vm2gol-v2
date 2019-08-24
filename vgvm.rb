@@ -7,6 +7,7 @@ require './common'
 module TermColor
   RESET  = "\e[m"
   RED    = "\e[0;31m"
+  BLUE   = "\e[0;34m"
 end
 
 class Memory
@@ -55,6 +56,8 @@ class Memory
         case operator
         when "exit", "call", "ret", "jump", "jump_eq"
           TermColor::RED
+        when "_cmt"
+          TermColor::BLUE
         else
           ""
         end
