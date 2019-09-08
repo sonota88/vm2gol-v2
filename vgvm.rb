@@ -218,29 +218,7 @@ class Vm
         @pc = ret_addr # 戻る
         set_sp(@sp + 1) # スタックポインタを戻す
       when "push"
-        arg = @mem.main[@pc + 1]
-        val_to_push =
-          case arg
-          when Integer
-            arg
-          when String
-            case arg
-            when "bp"
-              @bp
-            when /^\[bp\-(\d+)\]$/
-              stack_addr = @bp - $1.to_i
-              @mem.stack[stack_addr]
-            when /^\[bp\+(\d+)\]$/
-              stack_addr = @bp + $1.to_i
-              @mem.stack[stack_addr]
-            else
-              raise not_yet_impl("push", arg)
-            end
-          else
-            raise not_yet_impl("push", arg)
-          end
-        set_sp(@sp - 1)
-        @mem.stack[@sp] = val_to_push
+        push()
         @pc += pc_delta
       when "pop"
         arg = @mem.main[@pc + 1]
@@ -463,6 +441,34 @@ class Vm
     else
       @pc += 2
     end
+  end
+
+  def push
+    arg = @mem.main[@pc + 1]
+
+    val_to_push =
+      case arg
+      when Integer
+        arg
+      when String
+        case arg
+        when "bp"
+          @bp
+        when /^\[bp\-(\d+)\]$/
+          stack_addr = @bp - $1.to_i
+          @mem.stack[stack_addr]
+        when /^\[bp\+(\d+)\]$/
+          stack_addr = @bp + $1.to_i
+          @mem.stack[stack_addr]
+        else
+          raise not_yet_impl("push", arg)
+        end
+      else
+        raise not_yet_impl("push", arg)
+      end
+
+    set_sp(@sp - 1)
+    @mem.stack[@sp] = val_to_push
   end
 end
 
