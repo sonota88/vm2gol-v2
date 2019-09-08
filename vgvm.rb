@@ -221,14 +221,7 @@ class Vm
         push()
         @pc += pc_delta
       when "pop"
-        arg = @mem.main[@pc + 1]
-        case arg
-        when "bp"
-          @bp = @mem.stack[@sp]
-        else
-          raise not_yet_impl("pop", arg)
-        end
-        set_sp(@sp + 1)
+        pop()
         @pc += pc_delta
       when "set_vram"
         arg1 = @mem.main[@pc + 1]
@@ -469,6 +462,19 @@ class Vm
 
     set_sp(@sp - 1)
     @mem.stack[@sp] = val_to_push
+  end
+
+  def pop
+    arg = @mem.main[@pc + 1]
+
+    case arg
+    when "bp"
+      @bp = @mem.stack[@sp]
+    else
+      raise not_yet_impl("pop", arg)
+    end
+
+    set_sp(@sp + 1)
   end
 end
 
