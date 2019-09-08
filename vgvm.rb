@@ -227,34 +227,7 @@ class Vm
         set_vram()
         @pc += pc_delta
       when "get_vram"
-        arg1 = @mem.main[@pc + 1]
-        arg2 = @mem.main[@pc + 2]
-
-        vram_addr =
-          case arg1
-          when Integer
-            arg1
-          when String
-            case arg1
-            when /^\[bp\-(\d+)\]$/
-              stack_addr = @bp - $1.to_i
-              @mem.stack[stack_addr]
-            else
-              raise not_yet_impl("arg1", arg1)
-            end
-          else
-            raise not_yet_impl("arg1", arg1)
-          end
-
-        val = @mem.vram[vram_addr]
-
-        case arg2
-        when "reg_a"
-          @reg_a = val
-        else
-          raise not_yet_impl("arg2", arg2)
-        end
-
+        get_vram()
         @pc += pc_delta
       when "_cmt"
         @pc += pc_delta
@@ -477,6 +450,36 @@ class Vm
       @mem.vram[vram_addr] = src_val
     else
       raise not_yet_impl("set_vram", arg1)
+    end
+  end
+
+  def get_vram
+    arg1 = @mem.main[@pc + 1]
+    arg2 = @mem.main[@pc + 2]
+
+    vram_addr =
+      case arg1
+      when Integer
+        arg1
+      when String
+        case arg1
+        when /^\[bp\-(\d+)\]$/
+          stack_addr = @bp - $1.to_i
+          @mem.stack[stack_addr]
+        else
+          raise not_yet_impl("arg1", arg1)
+        end
+      else
+        raise not_yet_impl("arg1", arg1)
+      end
+
+    val = @mem.vram[vram_addr]
+
+    case arg2
+    when "reg_a"
+      @reg_a = val
+    else
+      raise not_yet_impl("arg2", arg2)
     end
   end
 end
