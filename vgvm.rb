@@ -318,7 +318,7 @@ class Vm
         raise "Unknown operator (#{op})"
       end
 
-      dump_v2()
+      dump_v2() if @step % 10 == 0
       # $stdin.gets if @step >= 600
       # sleep 0.01
     end
