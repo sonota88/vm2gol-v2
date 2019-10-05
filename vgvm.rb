@@ -310,22 +310,6 @@ class Vm
     EOB
   end
 
-  def set_mem(addr, n)
-    @mem.main[addr] = n
-  end
-
-  def copy_mem_to_reg_a(addr)
-    @reg_a = @mem.main[addr]
-  end
-
-  def copy_mem_to_reg_b(addr)
-    @reg_b = @mem.main[addr]
-  end
-
-  def copy_reg_c_to_mem(addr)
-    @mem.main[addr] = @reg_c
-  end
-
   def add_ab
     @reg_a = @reg_a + @reg_b
   end
