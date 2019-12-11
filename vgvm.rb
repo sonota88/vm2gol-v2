@@ -235,8 +235,14 @@ class Vm
         raise "Unknown operator (#{op})"
       end
 
-      dump_v2() if @step % 10 == 0
-      # $stdin.gets if @step >= 600
+      if ENV.key?("STEP")
+        dump_v2()
+        $stdin.gets
+        # $stdin.gets if @step >= 600
+      else
+        dump_v2() if @step % 10 == 0
+      end
+
       # sleep 0.01
     end
   end
