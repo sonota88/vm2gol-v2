@@ -140,6 +140,9 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
       else
         raise not_yet_impl("right", args[1])
       end
+    when Array
+      alines += codegen_exp(fn_arg_names, lvar_names, args[1])
+      "reg_a"
     else
       raise not_yet_impl("right", args[1])
     end
