@@ -122,6 +122,8 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
       raise not_yet_impl("left", args[0])
     end
 
+  alines << "  push #{left}"
+
   right =
     case args[1]
     when Integer
@@ -141,14 +143,12 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
 
   case operator
   when "+"
-    alines << "  push #{left}"
     alines << "  push #{right}"
     alines << "  pop reg_b"
     alines << "  pop reg_a"
 
     alines << "  add_ab"
   when "*"
-    alines << "  push #{left}"
     alines << "  push #{right}"
     alines << "  pop reg_b"
     alines << "  pop reg_a"
@@ -158,7 +158,6 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
     $label_id += 1
     label_id = $label_id
 
-    alines << "  push #{left}"
     alines << "  push #{right}"
     alines << "  pop reg_b"
     alines << "  pop reg_a"
@@ -179,7 +178,6 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
     $label_id += 1
     label_id = $label_id
 
-    alines << "  push #{left}"
     alines << "  push #{right}"
     alines << "  pop reg_b"
     alines << "  pop reg_a"
