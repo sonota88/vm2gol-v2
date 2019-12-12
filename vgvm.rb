@@ -406,6 +406,10 @@ class Vm
     arg = @mem.main[@pc + 1]
 
     case arg
+    when "reg_a"
+      @reg_a = @mem.stack[@sp]
+    when "reg_b"
+      @reg_b = @mem.stack[@sp]
     when "bp"
       @bp = @mem.stack[@sp]
     else
