@@ -158,8 +158,11 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
     $label_id += 1
     label_id = $label_id
 
-    alines << "  set_reg_a #{left}"
-    alines << "  set_reg_b #{right}"
+    alines << "  push #{left}"
+    alines << "  push #{right}"
+    alines << "  pop reg_b"
+    alines << "  pop reg_a"
+
     alines << "  compare"
     alines << "  jump_eq then_#{label_id}"
 
