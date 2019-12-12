@@ -381,6 +381,8 @@ class Vm
         arg
       when String
         case arg
+        when "reg_a"
+          @reg_a
         when "bp"
           @bp
         when /^\[bp\-(\d+)\]$/
