@@ -141,8 +141,11 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
 
   case operator
   when "+"
-    alines << "  set_reg_a #{left}"
-    alines << "  set_reg_b #{right}"
+    alines << "  push #{left}"
+    alines << "  push #{right}"
+    alines << "  pop reg_b"
+    alines << "  pop reg_a"
+
     alines << "  add_ab"
   when "*"
     alines << "  set_reg_a #{left}"
