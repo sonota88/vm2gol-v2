@@ -2,12 +2,16 @@
 
 , ["func", "to_vi", ["w", "x", "y", "offset"]
   , [
-      ["var", "yw"]
-    , ["set", "yw", ["*", "y", "w"]]
-
-    , ["var", "vi"] // vram index
-    , ["set", "vi", ["+", "yw", "x"]]
-    , ["set", "vi", ["+", "vi", "offset"]]
+      ["var", "vi"] // vram index
+    , ["set", "vi"
+      , ["+"
+        , ["+"
+            , ["*", "y", "w"]
+            , "x"
+          ]
+        , "offset"
+        ]
+      ]
 
     , ["return", "vi"]
     ]
