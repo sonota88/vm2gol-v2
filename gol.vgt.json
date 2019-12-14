@@ -157,66 +157,6 @@
     ]
   ]
 
-, ["func", "test_calc_next_gen", []
-  , [
-      ["var", "next_val"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 0, 0]]
-    , ["_cmt", "★ 死-0 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 0, 1]]
-    , ["_cmt", "★ 死-1 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 0, 2]]
-    , ["_cmt", "★ 死-2 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 0, 3]]
-    , ["_cmt", "★ 死-3 → 生になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 0, 4]]
-    , ["_cmt", "★ 死-4 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 0, 5]]
-    , ["_cmt", "★ 死-5 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 0, 6]]
-    , ["_cmt", "★ 死-6 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 0, 7]]
-    , ["_cmt", "★ 死-7 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 0, 8]]
-    , ["_cmt", "★ 死-8 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 1, 0]]
-    , ["_cmt", "★ 生-0 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 1, 1]]
-    , ["_cmt", "★ 生-1 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 1, 2]]
-    , ["_cmt", "★ 生-2 → 生になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 1, 3]]
-    , ["_cmt", "★ 生-3 → 生になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 1, 4]]
-    , ["_cmt", "★ 生-4 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 1, 5]]
-    , ["_cmt", "★ 生-5 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 1, 6]]
-    , ["_cmt", "★ 生-6 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 1, 7]]
-    , ["_cmt", "★ 生-7 → 死になるはず"]
-
-    , ["call_set", "next_val", ["calc_next_gen", 1, 8]]
-    , ["_cmt", "★ 生-8 → 死になるはず"]
-    ]
-  ]
-
 , ["func", "test_vram_set_buf", []
   , [
       ["call", "vram_set_buf", 5, 2, 2, 1]
@@ -289,8 +229,6 @@
 
 , ["func", "main", []
   , [
-    //   ["call", "test_calc_next_gen"]
-
     //   ["call", "test_vram_set_buf"]
 
     // ----------------
