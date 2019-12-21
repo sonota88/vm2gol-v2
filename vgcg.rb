@@ -390,6 +390,9 @@ def codegen_func_def(rest)
     when "var"
       lvar_names << stmt_rest[0]
       alines << "  sub_sp 1"
+      if stmt_rest.size == 2
+        alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
+      end
     when "set"
       alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
     when "eq"
