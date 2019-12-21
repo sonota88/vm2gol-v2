@@ -63,8 +63,7 @@
 , ["func", "calc_next_gen", ["current_val", "count"]
   , [
       // 注目しているセルの次世代の生死
-      ["var", "next_val"]
-    , ["set", "next_val", 0]
+      ["var", "next_val", 0]
 
     , ["case"
       , [["eq", "current_val", 0]
@@ -88,8 +87,7 @@
 
 , ["func", "count_alive", ["w", "h", "x", "y"]
   , [
-      ["var", "count"]
-    , ["set", "count", 0]
+      ["var", "count", 0]
 
     , ["var", "xl"]
     , ["var", "xr"]
@@ -161,11 +159,8 @@
 
 , ["func", "make_next_gen", ["w", "h"]
   , [
-      ["var", "x"]
-    , ["set", "x", 0]
-
-    , ["var", "y"]
-    , ["set", "y", 0]
+      ["var", "x", 0]
+    , ["var", "y", 0]
 
     , ["var", "count"]
       // 注目しているセルの現世代の生死
@@ -203,8 +198,7 @@
 
 , ["func", "replace_with_buf", []
   , [
-      ["var", "vi"]
-    , ["set", "vi", 0]
+      ["var", "vi", 0]
 
     , ["var", "vi_buf"]
     , ["var", "temp"]
@@ -222,10 +216,8 @@
 
 , ["func", "main", []
   , [
-      ["var", "w"] // 盤面の幅
-    , ["set", "w", 5]
-    , ["var", "h"] // 盤面の高さ
-    , ["set", "h", 5]
+      ["var", "w", 5] // 盤面の幅
+    , ["var", "h", 5] // 盤面の高さ
 
       // 初期状態の設定
     , ["call", "vram_set", "w", 1, 0, 1]
