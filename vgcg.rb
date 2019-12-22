@@ -101,6 +101,34 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   alines
 end
 
+def codegen_exp_term(fn_arg_names, lvar_names, exp)
+  alines = []
+
+  val_to_push =
+    case exp
+    when Integer
+      exp
+    when String
+      case
+      when lvar_names.include?(exp)
+        to_lvar_addr(lvar_names, exp)
+      when fn_arg_names.include?(exp)
+        to_fn_arg_addr(fn_arg_names, exp)
+      else
+        raise not_yet_impl("exp", exp)
+      end
+    when Array
+      alines += codegen_exp(fn_arg_names, lvar_names, exp)
+      "reg_a"
+    else
+      raise not_yet_impl("exp", exp)
+    end
+
+  alines << "  push #{val_to_push}"
+
+  alines
+end
+
 def codegen_exp(fn_arg_names, lvar_names, exp)
   alines = []
   operator, *args = exp
