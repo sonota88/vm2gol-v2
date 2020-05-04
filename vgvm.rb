@@ -150,6 +150,7 @@ class Vm
 
   def start
     dump_v2() # 初期状態
+    puts "Press enter key to start"
     $stdin.gets
 
     loop do
