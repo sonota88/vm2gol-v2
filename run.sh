@@ -3,10 +3,12 @@
 set -o errexit
 
 file="$1"
-bname=$(basename $file .vgt.json)
+bname=$(basename $file .vg.txt)
+treefile=tmp/${bname}.vgt.json
 asmfile=tmp/${bname}.vga.txt
 exefile=tmp/${bname}.vge.yaml
 
-ruby vgcg.rb $file > $asmfile
+ruby vgparser.rb $file > $treefile
+ruby vgcg.rb $treefile > $asmfile
 ruby vgasm.rb $asmfile > $exefile
 ruby vgvm.rb $exefile
