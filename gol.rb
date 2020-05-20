@@ -22,7 +22,7 @@ $buf = []
 def dump
   (0...$h).each {|y|
     puts $grid[y].map {|v|
-      v == 0 ? " " : "@"
+      v == 0 ? "." : "@"
     }.join("")
   }
   puts "--------"
