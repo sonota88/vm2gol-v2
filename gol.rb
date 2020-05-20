@@ -1,7 +1,7 @@
 # coding: utf-8
 
-$w = 8
-$h = 6
+$w = 5
+$h = 5
 $grid = []
 $buf = []
 
@@ -73,11 +73,11 @@ def replace_with_buf
   }
 end
 
-$grid[0][0] = 1
 $grid[0][1] = 1
-$grid[0][2] = 1
 $grid[1][2] = 1
+$grid[2][0] = 1
 $grid[2][1] = 1
+$grid[2][2] = 1
 
 
 loop do
