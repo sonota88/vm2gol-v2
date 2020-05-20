@@ -65,6 +65,14 @@ def make_next_gen
   }
 end
 
+def replace_with_buf
+  (0...$h).each {|y|
+    (0...$w).each {|x|
+      $grid[y][x] = $buf[y][x]
+    }
+  }
+end
+
 $grid[0][0] = 1
 $grid[0][1] = 1
 $grid[0][2] = 1
@@ -74,12 +82,7 @@ $grid[2][1] = 1
 
 loop do
   make_next_gen()
-
-  (0...$h).each {|y|
-    (0...$w).each {|x|
-      $grid[y][x] = $buf[y][x]
-    }
-  }
+  replace_with_buf()
 
   dump
   sleep 0.1
