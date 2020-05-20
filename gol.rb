@@ -13,7 +13,6 @@ $buf = []
 
 (0...$h).each {|y|
   (0...$w).each {|x|
-    puts "#{x} #{y}"
     $grid[y][x] = 0
     $buf[y][x] = 0
   }
