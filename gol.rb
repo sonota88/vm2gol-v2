@@ -1,7 +1,7 @@
 # coding: utf-8
 
-$w = 8
-$h = 6
+$w = 5
+$h = 5
 $grid = []
 $buf = []
 
@@ -13,29 +13,22 @@ $buf = []
 
 (0...$h).each {|y|
   (0...$w).each {|x|
-    puts "#{x} #{y}"
     $grid[y][x] = 0
     $buf[y][x] = 0
   }
 }
 
-def dump
+def dump(turn)
+  puts "turn: #{turn}"
   (0...$h).each {|y|
     puts $grid[y].map {|v|
-      v == 0 ? " " : "@"
+      v == 0 ? "." : "@"
     }.join("")
   }
   puts "--------"
 end
 
-$grid[0][0] = 1
-$grid[0][1] = 1
-$grid[0][2] = 1
-$grid[1][2] = 1
-$grid[2][1] = 1
-
-
-loop do
+def make_next_gen
   (0...$h).each {|y|
     (0...$w).each {|x|
       xl = (x == 0) ? $w - 1 : x - 1
@@ -70,13 +63,36 @@ loop do
       end
     }
   }
+end
 
+def replace_with_buf
   (0...$h).each {|y|
     (0...$w).each {|x|
       $grid[y][x] = $buf[y][x]
     }
   }
+end
 
-  dump
+# 初期状態
+$grid[0][1] = 1
+$grid[1][2] = 1
+$grid[2][0] = 1
+$grid[2][1] = 1
+$grid[2][2] = 1
+
+
+turn = 0
+
+# 初期状態の表示
+dump(turn)
+sleep 0.1
+
+loop do
+  turn += 1
+
+  make_next_gen()
+  replace_with_buf()
+
+  dump(turn)
   sleep 0.1
 end
