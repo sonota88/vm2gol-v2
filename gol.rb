@@ -18,7 +18,8 @@ $buf = []
   }
 }
 
-def dump
+def dump(turn)
+  puts "turn: #{turn}"
   (0...$h).each {|y|
     puts $grid[y].map {|v|
       v == 0 ? "." : "@"
@@ -80,14 +81,18 @@ $grid[2][1] = 1
 $grid[2][2] = 1
 
 
+turn = 0
+
 # 初期状態の表示
-dump
+dump(turn)
 sleep 0.1
 
 loop do
+  turn += 1
+
   make_next_gen()
   replace_with_buf()
 
-  dump
+  dump(turn)
   sleep 0.1
 end
