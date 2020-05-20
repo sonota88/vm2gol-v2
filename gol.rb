@@ -72,12 +72,17 @@ def replace_with_buf
   }
 end
 
+# 初期状態
 $grid[0][1] = 1
 $grid[1][2] = 1
 $grid[2][0] = 1
 $grid[2][1] = 1
 $grid[2][2] = 1
 
+
+# 初期状態の表示
+dump
+sleep 0.1
 
 loop do
   make_next_gen()
