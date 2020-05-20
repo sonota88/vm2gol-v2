@@ -73,40 +73,7 @@ $grid[2][1] = 1
 
 
 loop do
-  (0...$h).each {|y|
-    (0...$w).each {|x|
-      xl = (x == 0) ? $w - 1 : x - 1
-      xr = (x == $w - 1) ? 0 : x + 1
-      yt = (y == 0) ? $h - 1 : y - 1
-      yb = (y == $h - 1) ? 0 : y + 1
-
-      n = 0
-      n += $grid[yt][xl]
-      n += $grid[y ][xl]
-      n += $grid[yb][xl]
-      n += $grid[yt][x ]
-      n += $grid[yb][x ]
-      n += $grid[yt][xr]
-      n += $grid[y ][xr]
-      n += $grid[yb][xr]
-
-      if $grid[y][x] == 0
-        if n == 3
-          $buf[y][x] = 1
-        else
-          $buf[y][x] = 0 # 死んだまま
-        end
-      else
-        if n <= 1
-          $buf[y][x] = 0
-        elsif n >= 4
-          $buf[y][x] = 0
-        else
-          $buf[y][x] = 1
-        end
-      end
-    }
-  }
+  make_next_gen()
 
   (0...$h).each {|y|
     (0...$w).each {|x|
