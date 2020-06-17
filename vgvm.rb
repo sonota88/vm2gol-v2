@@ -481,6 +481,7 @@ class Vm
   end
 end
 
+if $0 == __FILE__
 exe_file = ARGV[0]
 
 stack_size = 50
@@ -489,3 +490,4 @@ vm = Vm.new(mem, stack_size)
 vm.load_program(exe_file)
 
 vm.start
+end
