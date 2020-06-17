@@ -38,4 +38,31 @@ class GolTest < Minitest::Test
       @vm.dump_vram_main()
     )
   end
+
+  def test_first_generation
+    # 1世代で終了するように書き換える
+    vg_file_replaced = File.join(TMP_DIR, "gol_replaced.vg.txt")
+    src = File.read(VG_FILE)
+    open(vg_file_replaced, "w") {|f|
+      f.print src.sub("var gen_limit = 21;", "var gen_limit = 2;")
+    }
+
+    system %Q{ ruby #{PROJECT_DIR}/vgparser.rb #{vg_file_replaced} > #{VGT_FILE} }
+    system %Q{ ruby #{PROJECT_DIR}/vgcg.rb     #{VGT_FILE} > #{ASM_FILE} }
+    system %Q{ ruby #{PROJECT_DIR}/vgasm.rb    #{ASM_FILE} > #{EXE_FILE} }
+
+    @vm.load_program(EXE_FILE)
+    @vm.start()
+
+    assert_equal(
+      [
+        ".....",
+        "@.@..",
+        ".@@..",
+        ".@...",
+        ".....",
+      ].join("\n"),
+      @vm.dump_vram_main()
+    )
+  end
 end
