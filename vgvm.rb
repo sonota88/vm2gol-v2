@@ -169,8 +169,7 @@ class Vm
 
       case op
       when "exit"
-        $stderr.puts "exit"
-        exit
+        return
       when "set_reg_a"
         val = @mem.main[@pc + 1]
         set_reg_a(val)
@@ -499,4 +498,5 @@ vm.load_program(exe_file)
 
 vm.start
 vm.dump_v2()
+$stderr.puts "exit"
 end
