@@ -139,6 +139,10 @@ class Vm
     @step = 0
   end
 
+  def test?
+    ENV.key?("TEST")
+  end
+
   def set_sp(addr)
     raise "Stack overflow" if addr < 0
     @sp = addr
@@ -149,9 +153,11 @@ class Vm
   end
 
   def start
+    unless test?
     dump_v2() # 初期状態
     puts "Press enter key to start"
     $stdin.gets
+    end
 
     loop do
       @step += 1
@@ -236,6 +242,7 @@ class Vm
         raise "Unknown operator (#{op})"
       end
 
+      unless test?
       if ENV.key?("STEP")
         dump_v2()
         $stdin.gets
@@ -245,6 +252,7 @@ class Vm
       end
 
       # sleep 0.01
+      end
     end
   end
 
