@@ -163,9 +163,9 @@ class Vm
 
   def start
     unless test?
-    dump_v2() # 初期状態
-    puts "Press enter key to start"
-    $stdin.gets
+      dump_v2() # 初期状態
+      puts "Press enter key to start"
+      $stdin.gets
     end
 
     loop do
@@ -251,15 +251,15 @@ class Vm
       end
 
       unless test?
-      if ENV.key?("STEP")
-        dump_v2()
-        $stdin.gets
-        # $stdin.gets if @step >= 600
-      else
-        dump_v2() if @step % 10 == 0
-      end
+        if ENV.key?("STEP")
+          dump_v2()
+          $stdin.gets
+          # $stdin.gets if @step >= 600
+        else
+          dump_v2() if @step % 10 == 0
+        end
 
-      # sleep 0.01
+        # sleep 0.01
       end
     end
   end
@@ -502,14 +502,14 @@ class Vm
 end
 
 if $0 == __FILE__
-exe_file = ARGV[0]
+  exe_file = ARGV[0]
 
-stack_size = 50
-mem = Memory.new(stack_size)
-vm = Vm.new(mem, stack_size)
-vm.load_program(exe_file)
+  stack_size = 50
+  mem = Memory.new(stack_size)
+  vm = Vm.new(mem, stack_size)
+  vm.load_program(exe_file)
 
-vm.start
-vm.dump_v2()
-$stderr.puts "exit"
+  vm.start
+  vm.dump_v2()
+  $stderr.puts "exit"
 end
