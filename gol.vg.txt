@@ -201,7 +201,7 @@ func main() {
   call vram_set(w, 1, 2, 1);
   call vram_set(w, 2, 2, 1);
 
-  var gen_limit = 21;
+  var gen_limit = 0;
   var gen = 1;
   while (gen != gen_limit) {
     call make_next_gen(w, h);

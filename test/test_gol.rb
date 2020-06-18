@@ -20,7 +20,14 @@ class GolTest < Minitest::Test
   end
 
   def test_20generations
-    system %Q{ ruby #{PROJECT_DIR}/vgparser.rb #{VG_FILE}  > #{VGT_FILE} }
+    # 1世代で終了するように書き換える
+    vg_file_replaced = File.join(TMP_DIR, "gol_replaced.vg.txt")
+    src = File.read(VG_FILE)
+    open(vg_file_replaced, "w") {|f|
+      f.print src.sub("var gen_limit = 0;", "var gen_limit = 21;")
+    }
+
+    system %Q{ ruby #{PROJECT_DIR}/vgparser.rb #{vg_file_replaced}  > #{VGT_FILE} }
     system %Q{ ruby #{PROJECT_DIR}/vgcg.rb     #{VGT_FILE} > #{ASM_FILE} }
     system %Q{ ruby #{PROJECT_DIR}/vgasm.rb    #{ASM_FILE} > #{EXE_FILE} }
 
@@ -44,7 +51,7 @@ class GolTest < Minitest::Test
     vg_file_replaced = File.join(TMP_DIR, "gol_replaced.vg.txt")
     src = File.read(VG_FILE)
     open(vg_file_replaced, "w") {|f|
-      f.print src.sub("var gen_limit = 21;", "var gen_limit = 2;")
+      f.print src.sub("var gen_limit = 0;", "var gen_limit = 2;")
     }
 
     system %Q{ ruby #{PROJECT_DIR}/vgparser.rb #{vg_file_replaced} > #{VGT_FILE} }
