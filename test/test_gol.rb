@@ -28,12 +28,15 @@ class GolTest < Minitest::Test
     }
   end
 
-  def test_20generations
-    replace_gen_limit(20)
-
-    system %Q{ ruby #{PROJECT_DIR}/vgparser.rb #{VG_FILE_REPLACED}  > #{VGT_FILE} }
+  def compile
+    system %Q{ ruby #{PROJECT_DIR}/vgparser.rb #{VG_FILE_REPLACED} > #{VGT_FILE} }
     system %Q{ ruby #{PROJECT_DIR}/vgcg.rb     #{VGT_FILE} > #{ASM_FILE} }
     system %Q{ ruby #{PROJECT_DIR}/vgasm.rb    #{ASM_FILE} > #{EXE_FILE} }
+  end
+
+  def test_20generations
+    replace_gen_limit(20)
+    compile()
 
     @vm.load_program(EXE_FILE)
     @vm.start()
@@ -52,10 +55,7 @@ class GolTest < Minitest::Test
 
   def test_first_generation
     replace_gen_limit(1)
-
-    system %Q{ ruby #{PROJECT_DIR}/vgparser.rb #{VG_FILE_REPLACED} > #{VGT_FILE} }
-    system %Q{ ruby #{PROJECT_DIR}/vgcg.rb     #{VGT_FILE} > #{ASM_FILE} }
-    system %Q{ ruby #{PROJECT_DIR}/vgasm.rb    #{ASM_FILE} > #{EXE_FILE} }
+    compile()
 
     @vm.load_program(EXE_FILE)
     @vm.start()
