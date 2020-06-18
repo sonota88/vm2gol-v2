@@ -115,15 +115,6 @@ class Memory
       format_cols(main[li]) + " " + format_cols(buf[li])
     }.join("\n")
   end
-
-  def dump_vram_main
-    rows = @vram.each_slice(5).to_a
-    main = rows[0..4]
-
-    (0..4).map {|li|
-      format_cols(main[li])
-    }.join("\n")
-  end
 end
 
 class Vm
@@ -331,10 +322,6 @@ class Vm
 ---- memory (vram) ----
 #{ @mem.dump_vram() }
     EOB
-  end
-
-  def dump_vram_main
-    @mem.dump_vram_main()
   end
 
   def add_ab

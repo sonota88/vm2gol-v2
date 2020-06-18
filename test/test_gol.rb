@@ -2,6 +2,23 @@
 require "minitest/autorun"
 require_relative "../vgvm"
 
+class Memory
+  def dump_vram_main
+    rows = @vram.each_slice(5).to_a
+    main = rows[0..4]
+
+    (0..4).map {|li|
+      format_cols(main[li])
+    }.join("\n")
+  end
+end
+
+class Vm
+  def dump_vram_main
+    @mem.dump_vram_main()
+  end
+end
+
 class GolTest < Minitest::Test
   PROJECT_DIR = File.join(__dir__, "../")
   TMP_DIR = File.join(PROJECT_DIR, "tmp")
