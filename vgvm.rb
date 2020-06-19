@@ -498,4 +498,5 @@ vm = Vm.new(mem, stack_size)
 vm.load_program(exe_file)
 
 vm.start
+vm.dump_v2()
 end
