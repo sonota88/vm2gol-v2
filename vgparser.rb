@@ -372,7 +372,7 @@ def tokenize(src)
 
   pos = 0
 
-  while pos < src.size do
+  while pos < src.size
     rest = src[pos .. -1]
 
     case rest
