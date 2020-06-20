@@ -380,7 +380,7 @@ def tokenize(src)
       str = $1
       pos += str.size
 
-    when /\A(\/\/.*)$/
+    when %r{\A(//.*)$}
       str = $1
       pos += str.size
 
