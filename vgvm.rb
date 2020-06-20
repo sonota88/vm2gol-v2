@@ -154,7 +154,11 @@ class Vm
   end
 
   def load_program_file(path)
-    @mem.main = YAML.load_file(path)
+    load_program(YAML.load_file(path))
+  end
+
+  def load_program(words)
+    @mem.main = words
   end
 
   def start
