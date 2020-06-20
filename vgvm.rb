@@ -315,7 +315,7 @@ class Vm
   end
 
   def dump_v2
-    puts <<~EOB
+    puts <<~DUMP
       ================================
       #{ @step }: #{ dump_reg() } zf(#{ @zf })
       ---- memory (main) ----
@@ -324,7 +324,7 @@ class Vm
       #{ @mem.dump_stack(@sp, @bp) }
       ---- memory (vram) ----
       #{ @mem.dump_vram() }
-    EOB
+    DUMP
   end
 
   def add_ab
