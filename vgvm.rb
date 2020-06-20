@@ -39,44 +39,44 @@ class Memory
     end
 
     vmcmds
-    .select {|vmcmd|
-      pc - MAIN_DUMP_WIDTH <= vmcmd[:addr] &&
-      vmcmd[:addr] <= pc + MAIN_DUMP_WIDTH
-    }
-    .map {|vmcmd|
-      head =
-        if vmcmd[:addr] == pc
-          "pc =>"
-        else
-          "     "
-        end
+      .select {|vmcmd|
+        pc - MAIN_DUMP_WIDTH <= vmcmd[:addr] &&
+        vmcmd[:addr] <= pc + MAIN_DUMP_WIDTH
+      }
+      .map {|vmcmd|
+        head =
+          if vmcmd[:addr] == pc
+            "pc =>"
+          else
+            "     "
+          end
 
-      operator = vmcmd[:xs][0]
+        operator = vmcmd[:xs][0]
 
-      color =
-        case operator
-        when "exit", "call", "ret", "jump", "jump_eq"
-          TermColor::RED
-        when "_cmt"
-          TermColor::BLUE
-        else
-          ""
-        end
+        color =
+          case operator
+          when "exit", "call", "ret", "jump", "jump_eq"
+            TermColor::RED
+          when "_cmt"
+            TermColor::BLUE
+          else
+            ""
+          end
 
-      indent =
-        if operator == "label"
-          ""
-        else
-          "  "
-        end
+        indent =
+          if operator == "label"
+            ""
+          else
+            "  "
+          end
 
-      "%s %02d #{color}%s%s#{TermColor::RESET}" % [
-        head,
-        vmcmd[:addr],
-        indent,
-        vmcmd[:xs].inspect
-      ]
-    }.join("\n")
+        "%s %02d #{color}%s%s#{TermColor::RESET}" % [
+          head,
+          vmcmd[:addr],
+          indent,
+          vmcmd[:xs].inspect
+        ]
+      }.join("\n")
   end
 
   def dump_stack(sp, bp)
