@@ -40,9 +40,9 @@ class Parser
 
     if t.value != exp
       raise ParseError, "Assertion failed: expected(%s) actual(%s)" % [
-              exp.inspect,
-              t.inspect
-            ]
+        exp.inspect,
+        t.inspect
+      ]
     end
   end
 
