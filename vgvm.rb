@@ -41,7 +41,7 @@ class Memory
     vmcmds
       .select {|vmcmd|
         pc - MAIN_DUMP_WIDTH <= vmcmd[:addr] &&
-        vmcmd[:addr] <= pc + MAIN_DUMP_WIDTH
+          vmcmd[:addr] <= pc + MAIN_DUMP_WIDTH
       }
       .map {|vmcmd|
         head =
