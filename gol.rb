@@ -29,8 +29,8 @@ def dump(turn)
 end
 
 def make_next_gen
-  (0...$h).each {|y|
-    (0...$w).each {|x|
+  (0...$h).each do |y|
+    (0...$w).each do |x|
       xl = (x == 0) ? $w - 1 : x - 1
       xr = (x == $w - 1) ? 0 : x + 1
       yt = (y == 0) ? $h - 1 : y - 1
@@ -61,8 +61,8 @@ def make_next_gen
           $buf[y][x] = 1
         end
       end
-    }
-  }
+    end
+  end
 end
 
 def replace_with_buf

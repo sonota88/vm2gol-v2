@@ -39,11 +39,11 @@ class Memory
     end
 
     vmcmds
-      .select {|vmcmd|
+      .select do |vmcmd|
         pc - MAIN_DUMP_WIDTH <= vmcmd[:addr] &&
           vmcmd[:addr] <= pc + MAIN_DUMP_WIDTH
-      }
-      .map {|vmcmd|
+      end
+      .map do |vmcmd|
         head =
           if vmcmd[:addr] == pc
             "pc =>"
@@ -76,7 +76,8 @@ class Memory
           indent,
           vmcmd[:xs].inspect
         ]
-      }.join("\n")
+      end
+      .join("\n")
   end
 
   def dump_stack(sp, bp)

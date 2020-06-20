@@ -209,7 +209,7 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
   alines = []
 
   fn_name, *fn_args = stmt_rest
-  fn_args.reverse.each {|fn_arg|
+  fn_args.reverse.each do |fn_arg|
     case fn_arg
     when Integer
       alines << "  push #{fn_arg}"
@@ -227,7 +227,7 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
     else
       raise not_yet_impl(fn_arg)
     end
-  }
+  end
   alines += codegen_comment("call  #{fn_name}")
   alines << "  call #{fn_name}"
   alines << "  add_sp #{fn_args.size}"
@@ -241,7 +241,7 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
   lvar_name, fn_temp = stmt_rest
   fn_name, *fn_args = fn_temp
 
-  fn_args.reverse.each {|fn_arg|
+  fn_args.reverse.each do |fn_arg|
     case fn_arg
     when Integer
       alines << "  push #{fn_arg}"
@@ -259,7 +259,7 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
     else
       raise not_yet_impl(fn_arg)
     end
-  }
+  end
 
   alines += codegen_comment("call_set  #{fn_name}")
   alines << "  call #{fn_name}"
@@ -380,7 +380,7 @@ def codegen_func_def(rest)
 
   lvar_names = []
 
-  body.each {|stmt|
+  body.each do |stmt|
     stmt_head, *stmt_rest = stmt
     case stmt_head
     when "call"
@@ -408,7 +408,7 @@ def codegen_func_def(rest)
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
-  }
+  end
 
   alines << ""
   alines << "  cp bp sp"
