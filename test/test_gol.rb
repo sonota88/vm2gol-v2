@@ -65,7 +65,7 @@ class GolTest < Minitest::Test
         "..@..",
         "@@@..",
         ".....",
-        ".....",
+        "....."
       ].join("\n"),
       @vm.dump_vram_main()
     )
@@ -84,7 +84,7 @@ class GolTest < Minitest::Test
         "@.@..",
         ".@@..",
         ".@...",
-        ".....",
+        "....."
       ].join("\n"),
       @vm.dump_vram_main()
     )
