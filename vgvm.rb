@@ -70,12 +70,13 @@ class Memory
             "  "
           end
 
-        "%s %02d #{color}%s%s#{TermColor::RESET}" % [
+        format(
+          "%s %02d #{color}%s%s#{TermColor::RESET}",
           head,
           vmcmd[:addr],
           indent,
           vmcmd[:xs].inspect
-        ]
+        )
       end
       .join("\n")
   end

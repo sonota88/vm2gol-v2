@@ -24,7 +24,7 @@ class Parser
 
   def rest_head
     @tokens[@pos ... @pos + 8]
-      .map { |t| "%s<%s>" % [t.type, t.value] }
+      .map { |t| format("%s<%s>", t.type, t.value) }
   end
 
   def dump_state(msg = nil)
@@ -39,10 +39,12 @@ class Parser
     t = @tokens[pos]
 
     if t.value != exp
-      raise ParseError, "Assertion failed: expected(%s) actual(%s)" % [
+      msg = format(
+        "Assertion failed: expected(%s) actual(%s)",
         exp.inspect,
         t.inspect
-      ]
+      )
+      raise ParseError, msg
     end
   end
 
