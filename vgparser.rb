@@ -221,7 +221,7 @@ class Parser
     consume ")"
 
     consume ";"
-    
+
     [:call, func_name, *args]
   end
 
