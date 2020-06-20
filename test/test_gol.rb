@@ -47,9 +47,9 @@ class GolTest < Minitest::Test
   end
 
   def compile
-    system %Q{ ruby #{PROJECT_DIR}/vgparser.rb #{VG_FILE_REPLACED} > #{VGT_FILE} }
-    system %Q{ ruby #{PROJECT_DIR}/vgcg.rb     #{VGT_FILE} > #{ASM_FILE} }
-    system %Q{ ruby #{PROJECT_DIR}/vgasm.rb    #{ASM_FILE} > #{EXE_FILE} }
+    system %{ ruby #{PROJECT_DIR}/vgparser.rb #{VG_FILE_REPLACED} > #{VGT_FILE} }
+    system %{ ruby #{PROJECT_DIR}/vgcg.rb     #{VGT_FILE} > #{ASM_FILE} }
+    system %{ ruby #{PROJECT_DIR}/vgasm.rb    #{ASM_FILE} > #{EXE_FILE} }
   end
 
   def test_20generations
