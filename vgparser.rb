@@ -27,7 +27,7 @@ class Parser
       .map { |t| "%s<%s>" % [t.type, t.value] }
   end
 
-  def dump_state(msg=nil)
+  def dump_state(msg = nil)
     pp_e [
       msg,
       @pos,
