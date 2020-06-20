@@ -353,8 +353,10 @@ class Parser
 
     loop do
       break if end?()
+
       stmt = parse_stmt()
       break if stmt.nil?
+
       stmts << stmt
     end
 

@@ -85,6 +85,7 @@ class Memory
       addr = i
       next if addr < sp - 8
       next if addr > sp + 8
+
       head =
         case addr
         when sp
@@ -146,6 +147,7 @@ class Vm
 
   def set_sp(addr)
     raise "Stack overflow" if addr < 0
+
     @sp = addr
   end
 
