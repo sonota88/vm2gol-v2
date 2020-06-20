@@ -56,7 +56,7 @@ class GolTest < Minitest::Test
     replace_gen_limit(20)
     compile()
 
-    @vm.load_program(EXE_FILE)
+    @vm.load_program_file(EXE_FILE)
     @vm.start()
 
     assert_equal(
@@ -75,7 +75,7 @@ class GolTest < Minitest::Test
     replace_gen_limit(1)
     compile()
 
-    @vm.load_program(EXE_FILE)
+    @vm.load_program_file(EXE_FILE)
     @vm.start()
 
     assert_equal(

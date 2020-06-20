@@ -153,7 +153,7 @@ class Vm
     @sp = addr
   end
 
-  def load_program(path)
+  def load_program_file(path)
     @mem.main = YAML.load_file(path)
   end
 
@@ -499,7 +499,7 @@ if $PROGRAM_NAME == __FILE__
   stack_size = 50
   mem = Memory.new(stack_size)
   vm = Vm.new(mem, stack_size)
-  vm.load_program(exe_file)
+  vm.load_program_file(exe_file)
 
   vm.start
   vm.dump_v2()
