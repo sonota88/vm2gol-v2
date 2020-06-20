@@ -55,7 +55,7 @@ alines.each do |aline|
     label_name = rest[0]
     words << label_addr_map[label_name] + 2
   else
-    words += rest.map{ |arg|
+    words += rest.map {|arg|
       (/^\-?\d+$/ =~ arg) ? arg.to_i : arg
     }
   end
