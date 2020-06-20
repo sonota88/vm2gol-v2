@@ -315,15 +315,15 @@ class Vm
   end
 
   def dump_v2
-    puts <<-EOB
-================================
-#{ @step }: #{ dump_reg() } zf(#{ @zf })
----- memory (main) ----
-#{ @mem.dump_main(@pc) }
----- memory (stack) ----
-#{ @mem.dump_stack(@sp, @bp) }
----- memory (vram) ----
-#{ @mem.dump_vram() }
+    puts <<~EOB
+      ================================
+      #{ @step }: #{ dump_reg() } zf(#{ @zf })
+      ---- memory (main) ----
+      #{ @mem.dump_main(@pc) }
+      ---- memory (stack) ----
+      #{ @mem.dump_stack(@sp, @bp) }
+      ---- memory (vram) ----
+      #{ @mem.dump_vram() }
     EOB
   end
 
