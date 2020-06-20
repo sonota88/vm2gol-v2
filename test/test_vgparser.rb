@@ -2,7 +2,6 @@ require_relative "./helper"
 require "vgparser"
 
 class ParserTest < Minitest::Test
-
   def test_func_1
     src = <<-EOS
       func f1(){}
@@ -402,5 +401,4 @@ class ParserTest < Minitest::Test
     body = func[3]
     JSON.pretty_generate(body)
   end
-
 end

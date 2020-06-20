@@ -15,7 +15,6 @@ class Token
 end
 
 class Parser
-
   class ParseError < StandardError; end
 
   def initialize(tokens)
