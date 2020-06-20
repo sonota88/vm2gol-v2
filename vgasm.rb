@@ -1,7 +1,7 @@
 # coding: utf-8
 
-require 'pp'
-require 'yaml'
+require "pp"
+require "yaml"
 
 def parse(src)
   alines = []

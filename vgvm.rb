@@ -1,9 +1,9 @@
 # coding: utf-8
 
-require 'pp'
-require 'yaml'
+require "pp"
+require "yaml"
 
-require_relative './common'
+require_relative "./common"
 
 module TermColor
   RESET  = "\e[m"
