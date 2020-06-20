@@ -3,7 +3,7 @@
 require "json"
 require "pp"
 
-require "./common"
+require_relative "./common"
 
 class Token
   attr_reader :type, :value

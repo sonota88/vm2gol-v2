@@ -2,7 +2,7 @@
 require 'pp'
 require 'yaml'
 
-require './common'
+require_relative './common'
 
 module TermColor
   RESET  = "\e[m"

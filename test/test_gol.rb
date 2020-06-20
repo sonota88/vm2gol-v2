@@ -1,6 +1,6 @@
 # coding: utf-8
-require "minitest/autorun"
-require_relative "../vgvm"
+require_relative "./helper"
+require "vgvm"
 
 class Memory
   def dump_vram_main

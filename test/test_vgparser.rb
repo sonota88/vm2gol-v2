@@ -1,5 +1,5 @@
-require_relative "../vgparser"
-require "minitest/autorun"
+require_relative "./helper"
+require "vgparser"
 
 class ParserTest < Minitest::Test
 

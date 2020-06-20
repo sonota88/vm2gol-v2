@@ -4,7 +4,7 @@
 
 require 'json'
 
-require './common'
+require_relative './common'
 
 $label_id = 0
 
