@@ -489,7 +489,7 @@ class Vm
   end
 end
 
-if $0 == __FILE__
+if $PROGRAM_NAME == __FILE__
   exe_file = ARGV[0]
 
   stack_size = 50

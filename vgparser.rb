@@ -421,7 +421,7 @@ end
 
 # --------------------------------
 
-if $0 == __FILE__
+if $PROGRAM_NAME == __FILE__
   in_file = ARGV[0]
   tokens = tokenize(File.read(in_file))
 
