@@ -1,0 +1,105 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.6
+
+Layout/SpaceInsideReferenceBrackets:
+  Enabled: false
+
+Layout/SpaceInsideStringInterpolation:
+  Enabled: false
+
+Layout/SpaceInsideRangeLiteral:
+  Enabled: false
+
+Layout/AlignArray:
+  Exclude:
+    - 'test/test_vgparser.rb'
+
+Layout/IndentArray:
+  Exclude:
+    - 'test/test_vgparser.rb'
+
+Layout/MultilineArrayBraceLayout:
+  Exclude:
+    - 'test/test_vgparser.rb'
+
+Lint/UselessAssignment:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+Naming/AccessorMethodName:
+  Exclude:
+    - 'vgvm.rb'
+
+Naming/HeredocDelimiterNaming:
+  Exclude:
+    - 'test/test_vgparser.rb'
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/TernaryParentheses:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ConditionalAssignment:
+  Exclude:
+    - 'gol.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyCaseCondition:
+  Exclude:
+    - 'vgcg.rb'
+
+Style/Encoding:
+  Enabled: false
+
+Style/HashSyntax:
+  Exclude:
+    - 'Rakefile'
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/SelfAssignment:
+  Enabled: false
+
+Style/StderrPuts:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Performance/RegexpMatch:
+  Enabled: false
+
+Performance/ReverseEach:
+  Enabled: false
+
+Performance/StringReplacement:
+  Enabled: false
+
+Security/Open:
+  Enabled: false
