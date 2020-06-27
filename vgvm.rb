@@ -161,6 +161,89 @@ class Vm
     @mem.main = words
   end
 
+  def execute
+    # operator
+    op = @mem.main[@pc]
+
+    pc_delta = 1 + Vm.num_args_for(op)
+
+    case op
+    when "exit"
+      return true
+    when "set_reg_a"
+      val = @mem.main[@pc + 1]
+      set_reg_a(val)
+      @pc += pc_delta
+    when "set_reg_b"
+      val = @mem.main[@pc + 1]
+      set_reg_b(val)
+      @pc += pc_delta
+    when "set_reg_c"
+      n = @mem.main[@pc + 1]
+      @reg_c = n
+      @pc += pc_delta
+    when "cp"
+      copy(
+        @mem.main[@pc + 1],
+        @mem.main[@pc + 2]
+      )
+      @pc += pc_delta
+    when "add_ab"
+      add_ab()
+      @pc += pc_delta
+    when "add_ac"
+      add_ac()
+      @pc += pc_delta
+    when "mult_ab"
+      mult_ab()
+      @pc += pc_delta
+    when "add_sp"
+      set_sp(@sp + @mem.main[@pc + 1])
+      @pc += pc_delta
+    when "sub_sp"
+      set_sp(@sp - @mem.main[@pc + 1])
+      @pc += pc_delta
+    when "compare"
+      compare()
+      @pc += pc_delta
+    when "label"
+      @pc += pc_delta
+    when "jump"
+      addr = @mem.main[@pc + 1]
+      @pc = addr
+    when "jump_eq"
+      addr = @mem.main[@pc + 1]
+      jump_eq(addr)
+    when "call"
+      set_sp(@sp - 1) # スタックポインタを1減らす
+      @mem.stack[@sp] = @pc + 2 # 戻り先を記憶
+      next_addr = @mem.main[@pc + 1] # ジャンプ先
+      @pc = next_addr
+    when "ret"
+      ret_addr = @mem.stack[@sp] # 戻り先アドレスを取得
+      @pc = ret_addr # 戻る
+      set_sp(@sp + 1) # スタックポインタを戻す
+    when "push"
+      push()
+      @pc += pc_delta
+    when "pop"
+      pop()
+      @pc += pc_delta
+    when "set_vram"
+      set_vram()
+      @pc += pc_delta
+    when "get_vram"
+      get_vram()
+      @pc += pc_delta
+    when "_cmt"
+      @pc += pc_delta
+    else
+      raise "Unknown operator (#{op})"
+    end
+
+    false
+  end
+
   def start
     unless test?
       dump_v2() # 初期状態
@@ -171,84 +254,8 @@ class Vm
     loop do
       @step += 1
 
-      # operator
-      op = @mem.main[@pc]
-
-      pc_delta = 1 + Vm.num_args_for(op)
-
-      case op
-      when "exit"
-        return
-      when "set_reg_a"
-        val = @mem.main[@pc + 1]
-        set_reg_a(val)
-        @pc += pc_delta
-      when "set_reg_b"
-        val = @mem.main[@pc + 1]
-        set_reg_b(val)
-        @pc += pc_delta
-      when "set_reg_c"
-        n = @mem.main[@pc + 1]
-        @reg_c = n
-        @pc += pc_delta
-      when "cp"
-        copy(
-          @mem.main[@pc + 1],
-          @mem.main[@pc + 2]
-        )
-        @pc += pc_delta
-      when "add_ab"
-        add_ab()
-        @pc += pc_delta
-      when "add_ac"
-        add_ac()
-        @pc += pc_delta
-      when "mult_ab"
-        mult_ab()
-        @pc += pc_delta
-      when "add_sp"
-        set_sp(@sp + @mem.main[@pc + 1])
-        @pc += pc_delta
-      when "sub_sp"
-        set_sp(@sp - @mem.main[@pc + 1])
-        @pc += pc_delta
-      when "compare"
-        compare()
-        @pc += pc_delta
-      when "label"
-        @pc += pc_delta
-      when "jump"
-        addr = @mem.main[@pc + 1]
-        @pc = addr
-      when "jump_eq"
-        addr = @mem.main[@pc + 1]
-        jump_eq(addr)
-      when "call"
-        set_sp(@sp - 1) # スタックポインタを1減らす
-        @mem.stack[@sp] = @pc + 2 # 戻り先を記憶
-        next_addr = @mem.main[@pc + 1] # ジャンプ先
-        @pc = next_addr
-      when "ret"
-        ret_addr = @mem.stack[@sp] # 戻り先アドレスを取得
-        @pc = ret_addr # 戻る
-        set_sp(@sp + 1) # スタックポインタを戻す
-      when "push"
-        push()
-        @pc += pc_delta
-      when "pop"
-        pop()
-        @pc += pc_delta
-      when "set_vram"
-        set_vram()
-        @pc += pc_delta
-      when "get_vram"
-        get_vram()
-        @pc += pc_delta
-      when "_cmt"
-        @pc += pc_delta
-      else
-        raise "Unknown operator (#{op})"
-      end
+      do_exit = execute()
+      return if do_exit
 
       unless test?
         if ENV.key?("STEP")
