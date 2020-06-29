@@ -21,7 +21,6 @@ class Vm
 end
 
 class GolTest < Minitest::Test
-  PROJECT_DIR = File.join(__dir__, "../")
   TMP_DIR = File.join(PROJECT_DIR, "tmp")
 
   VG_FILE = File.join(PROJECT_DIR, "gol.vg.txt")

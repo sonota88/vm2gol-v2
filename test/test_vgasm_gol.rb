@@ -3,7 +3,6 @@
 require_relative "./helper"
 
 class VgasmGolTest < Minitest::Test
-  PROJECT_DIR = File.expand_path("..", __dir__)
   EXE_FILE = File.join(PROJECT_DIR, "tmp/test_vgasm_gol.vge.yaml")
 
   def test_vgasm_gol

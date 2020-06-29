@@ -3,7 +3,6 @@
 require_relative "./helper"
 
 class VgparserGolTest < Minitest::Test
-  PROJECT_DIR = File.expand_path("..", __dir__)
   TREE_FILE = File.join(PROJECT_DIR, "tmp/test_vgasm_gol.vgt.json")
 
   def test_vgcg_gol

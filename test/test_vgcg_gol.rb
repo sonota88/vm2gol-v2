@@ -3,7 +3,6 @@
 require_relative "./helper"
 
 class VgcgGolTest < Minitest::Test
-  PROJECT_DIR = File.expand_path("..", __dir__)
   ASM_FILE = File.join(PROJECT_DIR, "tmp/test_vgasm_gol.vga.txt")
 
   def test_vgcg_gol
