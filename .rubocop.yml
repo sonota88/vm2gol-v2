@@ -92,6 +92,10 @@ Style/StderrPuts:
 Metrics/LineLength:
   Max: 120
 
+Metrics/ClassLength:
+  Exclude:
+    - 'vgvm.rb'
+
 Performance/RegexpMatch:
   Enabled: false
 
