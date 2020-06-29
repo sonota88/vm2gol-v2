@@ -122,6 +122,9 @@ class Memory
 end
 
 class Vm
+  FLAG_TRUE = 1
+  FLAG_FALSE = 0
+
   def initialize(mem, stack_size)
     # program counter
     @pc = 0
@@ -132,7 +135,7 @@ class Vm
     @reg_c = 0
 
     # flag
-    @zf = 0
+    @zf = FLAG_FALSE
 
     @mem = mem
     # スタックポインタ
@@ -385,11 +388,11 @@ class Vm
   end
 
   def compare
-    @zf = (@reg_a == @reg_b) ? 1 : 0
+    @zf = (@reg_a == @reg_b) ? FLAG_TRUE : FLAG_FALSE
   end
 
   def jump_eq(addr)
-    if @zf == 1
+    if @zf == FLAG_TRUE
       @pc = addr
     else
       @pc += 2
