@@ -446,14 +446,15 @@ class Vm
 
   def pop
     arg = @mem.main[@pc + 1]
+    val = @mem.stack[@sp]
 
     case arg
     when "reg_a"
-      @reg_a = @mem.stack[@sp]
+      @reg_a = val
     when "reg_b"
-      @reg_b = @mem.stack[@sp]
+      @reg_b = val
     when "bp"
-      @bp = @mem.stack[@sp]
+      @bp = val
     else
       raise not_yet_impl("pop", arg)
     end
