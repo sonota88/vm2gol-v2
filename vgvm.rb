@@ -156,7 +156,6 @@ class Vm
     # register
     @reg_a = 0
     @reg_b = 0
-    @reg_c = 0
 
     # flag
     @zf = FLAG_FALSE
@@ -205,10 +204,6 @@ class Vm
       val = @mem.main[@pc + 1]
       set_reg_b(val)
       @pc += pc_delta
-    when "set_reg_c"
-      n = @mem.main[@pc + 1]
-      @reg_c = n
-      @pc += pc_delta
     when "cp"
       copy(
         @mem.main[@pc + 1],
@@ -217,9 +212,6 @@ class Vm
       @pc += pc_delta
     when "add_ab"
       add_ab()
-      @pc += pc_delta
-    when "add_ac"
-      add_ac()
       @pc += pc_delta
     when "mult_ab"
       mult_ab()
@@ -340,8 +332,7 @@ class Vm
   def dump_reg
     [
       "reg_a(#{ @reg_a.inspect })",
-      "reg_b(#{ @reg_b.inspect })",
-      "reg_c(#{ @reg_c.inspect })"
+      "reg_b(#{ @reg_b.inspect })"
     ].join(" ")
   end
 
@@ -360,10 +351,6 @@ class Vm
 
   def add_ab
     @reg_a = @reg_a + @reg_b
-  end
-
-  def add_ac
-    @reg_a = @reg_a + @reg_c
   end
 
   def mult_ab
