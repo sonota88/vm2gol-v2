@@ -229,9 +229,7 @@ class Vm
     when "call"
       call()
     when "ret"
-      ret_addr = @mem.stack[@sp] # 戻り先アドレスを取得
-      @pc = ret_addr # 戻る
-      set_sp(@sp + 1) # スタックポインタを戻す
+      ret()
     when "push"
       push()
       @pc += pc_delta
@@ -417,6 +415,12 @@ class Vm
     @mem.stack[@sp] = @pc + 2 # 戻り先を記憶
     next_addr = @mem.main[@pc + 1] # ジャンプ先
     @pc = next_addr
+  end
+
+  def ret
+    ret_addr = @mem.stack[@sp] # 戻り先アドレスを取得
+    @pc = ret_addr # 戻る
+    set_sp(@sp + 1) # スタックポインタを戻す
   end
 
   def push
