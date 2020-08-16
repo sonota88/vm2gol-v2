@@ -203,10 +203,7 @@ class Vm
       set_reg_b()
       @pc += pc_delta
     when "cp"
-      copy(
-        @mem.main[@pc + 1],
-        @mem.main[@pc + 2]
-      )
+      copy()
       @pc += pc_delta
     when "add_ab"
       add_ab()
@@ -288,7 +285,10 @@ class Vm
     end
   end
 
-  def copy(arg1, arg2)
+  def copy
+    arg1 = @mem.main[@pc + 1]
+    arg2 = @mem.main[@pc + 2]
+
     src_val =
       case arg1
       when Integer
