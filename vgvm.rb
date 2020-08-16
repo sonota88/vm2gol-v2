@@ -215,7 +215,7 @@ class Vm
       add_sp()
       @pc += pc_delta
     when "sub_sp"
-      set_sp(@sp - @mem.main[@pc + 1])
+      sub_sp()
       @pc += pc_delta
     when "compare"
       compare()
@@ -392,6 +392,10 @@ class Vm
 
   def add_sp
     set_sp(@sp + @mem.main[@pc + 1])
+  end
+
+  def sub_sp
+    set_sp(@sp - @mem.main[@pc + 1])
   end
 
   def compare
