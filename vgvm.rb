@@ -125,6 +125,30 @@ class Vm
   FLAG_TRUE = 1
   FLAG_FALSE = 0
 
+  NUM_ARGS_MAP = {
+    "cp"       => 2,
+    "set_vram" => 2,
+    "get_vram" => 2,
+
+    "set_reg_a" => 1,
+    "set_reg_b" => 1,
+    "label"     => 1,
+    "call"      => 1,
+    "push"      => 1,
+    "pop"       => 1,
+    "add_sp"    => 1,
+    "sub_sp"    => 1,
+    "jump_eq"   => 1,
+    "jump"      => 1,
+    "_cmt"      => 1,
+
+    "ret"     => 0,
+    "exit"    => 0,
+    "add_ab"  => 0,
+    "compare" => 0,
+    "mult_ab" => 0
+  }
+
   def initialize(mem, stack_size)
     # program counter
     @pc = 0
@@ -310,16 +334,7 @@ class Vm
   end
 
   def self.num_args_for(operator)
-    case operator
-    when "cp", "set_vram", "get_vram"
-      2
-    when "set_reg_a", "set_reg_b", "label", "call", "push", "pop", "add_sp", "sub_sp", "jump_eq", "jump", "_cmt"
-      1
-    when "ret", "exit", "add_ab", "compare", "mult_ab"
-      0
-    else
-      raise "Invalid operator (#{operator})"
-    end
+    NUM_ARGS_MAP.fetch(operator)
   end
 
   def dump_reg
