@@ -3,6 +3,8 @@ inherit_from: .rubocop_todo.yml
 AllCops:
   TargetRubyVersion: 2.6
 
+#--------------------------------
+
 Layout/SpaceInsideReferenceBrackets:
   Enabled: false
 
@@ -12,11 +14,11 @@ Layout/SpaceInsideStringInterpolation:
 Layout/SpaceInsideRangeLiteral:
   Enabled: false
 
-Layout/AlignArray:
+Layout/ArrayAlignment:
   Exclude:
     - 'test/test_vgparser.rb'
 
-Layout/IndentArray:
+Layout/FirstArrayElementIndentation:
   Exclude:
     - 'test/test_vgparser.rb'
 
@@ -24,10 +26,32 @@ Layout/MultilineArrayBraceLayout:
   Exclude:
     - 'test/test_vgparser.rb'
 
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+# --------------------------------
+
 Lint/UselessAssignment:
   Enabled: false
 
-Naming/UncommunicativeMethodParamName:
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+#--------------------------------
+
+Naming/MethodParameterName:
   Enabled: false
 
 Naming/AccessorMethodName:
@@ -37,6 +61,8 @@ Naming/AccessorMethodName:
 Naming/HeredocDelimiterNaming:
   Exclude:
     - 'test/test_vgparser.rb'
+
+#--------------------------------
 
 Style/AsciiComments:
   Enabled: false
@@ -89,6 +115,29 @@ Style/SelfAssignment:
 Style/StderrPuts:
   Enabled: false
 
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+
+# Style/RedundantRegexpEscape:
+#   Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: false
+
+#--------------------------------
+
 Metrics/LineLength:
   Max: 120
 
@@ -96,14 +145,7 @@ Metrics/ClassLength:
   Exclude:
     - 'vgvm.rb'
 
-Performance/RegexpMatch:
-  Enabled: false
-
-Performance/ReverseEach:
-  Enabled: false
-
-Performance/StringReplacement:
-  Enabled: false
+#--------------------------------
 
 Security/Open:
   Enabled: false
