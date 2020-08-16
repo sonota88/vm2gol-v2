@@ -277,24 +277,25 @@ end
 def codegen_set(fn_arg_names, lvar_names, rest)
   alines = []
   dest = rest[0]
+  exp = rest[1]
 
   src_val =
     case
-    when rest[1].is_a?(Integer)
-      rest[1]
-    when rest[1].is_a?(Array)
-      exp = rest[1]
+    when exp.is_a?(Integer)
+      exp
+    when exp.is_a?(Array)
+      exp = exp
       alines += codegen_exp(fn_arg_names, lvar_names, exp)
       "reg_a"
-    when fn_arg_names.include?(rest[1])
-      to_fn_arg_addr(fn_arg_names, rest[1])
-    when lvar_names.include?(rest[1])
-      to_lvar_addr(lvar_names, rest[1])
-    when /^vram\[(\d+)\]$/ =~ rest[1]
+    when fn_arg_names.include?(exp)
+      to_fn_arg_addr(fn_arg_names, exp)
+    when lvar_names.include?(exp)
+      to_lvar_addr(lvar_names, exp)
+    when /^vram\[(\d+)\]$/ =~ exp
       vram_addr = $1
       alines << "  get_vram #{vram_addr} reg_a"
       "reg_a"
-    when /^vram\[([a-z_][a-z0-9_]*)\]$/ =~ rest[1]
+    when /^vram\[([a-z_][a-z0-9_]*)\]$/ =~ exp
       var_name = $1
       case
       when lvar_names.include?(var_name)
