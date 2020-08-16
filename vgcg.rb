@@ -106,6 +106,7 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
   operator, *args = exp
 
   arg_l = args[0]
+  arg_r = args[1]
 
   left =
     case arg_l
@@ -130,23 +131,23 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
   alines << "  push #{left}"
 
   right =
-    case args[1]
+    case arg_r
     when Integer
-      args[1]
+      arg_r
     when String
       case
-      when fn_arg_names.include?(args[1])
-        to_fn_arg_addr(fn_arg_names, args[1])
-      when lvar_names.include?(args[1])
-        to_lvar_addr(lvar_names, args[1])
+      when fn_arg_names.include?(arg_r)
+        to_fn_arg_addr(fn_arg_names, arg_r)
+      when lvar_names.include?(arg_r)
+        to_lvar_addr(lvar_names, arg_r)
       else
-        raise not_yet_impl("right", args[1])
+        raise not_yet_impl("arg_r", arg_r)
       end
     when Array
-      alines += codegen_exp(fn_arg_names, lvar_names, args[1])
+      alines += codegen_exp(fn_arg_names, lvar_names, arg_r)
       "reg_a"
     else
-      raise not_yet_impl("right", args[1])
+      raise not_yet_impl("arg_r", arg_r)
     end
 
   alines << "  push #{right}"
