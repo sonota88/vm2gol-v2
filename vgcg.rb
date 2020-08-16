@@ -111,10 +111,10 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
       args[0]
     when String
       case
-      when lvar_names.include?(args[0])
-        to_lvar_addr(lvar_names, args[0])
       when fn_arg_names.include?(args[0])
         to_fn_arg_addr(fn_arg_names, args[0])
+      when lvar_names.include?(args[0])
+        to_lvar_addr(lvar_names, args[0])
       else
         raise not_yet_impl("left", args[0])
       end
