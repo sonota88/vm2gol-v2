@@ -33,7 +33,7 @@ class Memory
       num_args = Vm.num_args_for(operator)
       vmcmds << {
         addr: addr,
-        xs: @main[addr .. addr + num_args]
+        values: @main[addr .. addr + num_args]
       }
       addr += 1 + num_args
     end
@@ -51,7 +51,7 @@ class Memory
             "     "
           end
 
-        operator = vmcmd[:xs][0]
+        operator = vmcmd[:values][0]
 
         color =
           case operator
@@ -75,7 +75,7 @@ class Memory
           head,
           vmcmd[:addr],
           indent,
-          vmcmd[:xs].inspect
+          vmcmd[:values].inspect
         )
       end
       .join("\n")
