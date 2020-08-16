@@ -212,7 +212,7 @@ class Vm
       mult_ab()
       @pc += pc_delta
     when "add_sp"
-      set_sp(@sp + @mem.main[@pc + 1])
+      add_sp()
       @pc += pc_delta
     when "sub_sp"
       set_sp(@sp - @mem.main[@pc + 1])
@@ -388,6 +388,10 @@ class Vm
       else
         raise not_yet_impl("val", val)
       end
+  end
+
+  def add_sp
+    set_sp(@sp + @mem.main[@pc + 1])
   end
 
   def compare
