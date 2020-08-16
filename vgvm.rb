@@ -223,8 +223,7 @@ class Vm
     when "label"
       @pc += pc_delta
     when "jump"
-      addr = @mem.main[@pc + 1]
-      @pc = addr
+      jump()
     when "jump_eq"
       jump_eq()
     when "call"
@@ -400,6 +399,11 @@ class Vm
 
   def compare
     @zf = (@reg_a == @reg_b) ? FLAG_TRUE : FLAG_FALSE
+  end
+
+  def jump
+    jump_dest = @mem.main[@pc + 1]
+    @pc = jump_dest
   end
 
   def jump_eq
