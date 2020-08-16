@@ -3,9 +3,9 @@ https://memo88.hatenablog.com/entry/2019/05/04/234516
 
 
 ```
-テストの実行
+# Run tests / テストの実行
 rake test
 
-ライフゲームの実行
+# Run game of life / ライフゲームの実行
 ./run.sh gol.vg.txt
 ```
