@@ -197,8 +197,7 @@ class Vm
     when "exit"
       return true
     when "set_reg_a"
-      val = @mem.main[@pc + 1]
-      set_reg_a(val)
+      set_reg_a()
       @pc += pc_delta
     when "set_reg_b"
       val = @mem.main[@pc + 1]
@@ -357,7 +356,9 @@ class Vm
     @reg_a = @reg_a * @reg_b
   end
 
-  def set_reg_a(val)
+  def set_reg_a
+    val = @mem.main[@pc + 1]
+
     @reg_a =
       case val
       when Integer
