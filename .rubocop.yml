@@ -32,6 +32,9 @@ Layout/EmptyLinesAroundAttributeAccessor:
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 
+Layout/HashAlignment:
+  Enabled: false
+
 # --------------------------------
 
 Lint/UselessAssignment:
