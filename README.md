@@ -5,4 +5,7 @@ https://memo88.hatenablog.com/entry/2019/05/04/234516
 ```
 テストの実行
 rake test
+
+ライフゲームの実行
+./run.sh gol.vg.txt
 ```
