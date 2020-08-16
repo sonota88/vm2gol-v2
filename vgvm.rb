@@ -200,8 +200,7 @@ class Vm
       set_reg_a()
       @pc += pc_delta
     when "set_reg_b"
-      val = @mem.main[@pc + 1]
-      set_reg_b(val)
+      set_reg_b()
       @pc += pc_delta
     when "cp"
       copy(
@@ -374,7 +373,9 @@ class Vm
       end
   end
 
-  def set_reg_b(val)
+  def set_reg_b
+    val = @mem.main[@pc + 1]
+
     @reg_b =
       case val
       when Integer
