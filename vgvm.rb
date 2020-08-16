@@ -226,8 +226,7 @@ class Vm
       addr = @mem.main[@pc + 1]
       @pc = addr
     when "jump_eq"
-      addr = @mem.main[@pc + 1]
-      jump_eq(addr)
+      jump_eq()
     when "call"
       set_sp(@sp - 1) # スタックポインタを1減らす
       @mem.stack[@sp] = @pc + 2 # 戻り先を記憶
@@ -395,9 +394,10 @@ class Vm
     @zf = (@reg_a == @reg_b) ? FLAG_TRUE : FLAG_FALSE
   end
 
-  def jump_eq(addr)
+  def jump_eq
     if @zf == FLAG_TRUE
-      @pc = addr
+      jump_dest = @mem.main[@pc + 1]
+      @pc = jump_dest
     else
       @pc += 2
     end
