@@ -227,10 +227,7 @@ class Vm
     when "jump_eq"
       jump_eq()
     when "call"
-      set_sp(@sp - 1) # スタックポインタを1減らす
-      @mem.stack[@sp] = @pc + 2 # 戻り先を記憶
-      next_addr = @mem.main[@pc + 1] # ジャンプ先
-      @pc = next_addr
+      call()
     when "ret"
       ret_addr = @mem.stack[@sp] # 戻り先アドレスを取得
       @pc = ret_addr # 戻る
@@ -413,6 +410,13 @@ class Vm
     else
       @pc += 2
     end
+  end
+
+  def call
+    set_sp(@sp - 1) # スタックポインタを1減らす
+    @mem.stack[@sp] = @pc + 2 # 戻り先を記憶
+    next_addr = @mem.main[@pc + 1] # ジャンプ先
+    @pc = next_addr
   end
 
   def push
