@@ -412,7 +412,7 @@ class Vm
           @reg_a
         when "bp"
           @bp
-        when /^\[bp\-(\d+)\]$/
+        when /^\[bp-(\d+)\]$/
           stack_addr = @bp - $1.to_i
           @mem.stack[stack_addr]
         when /^\[bp\+(\d+)\]$/
@@ -486,7 +486,7 @@ class Vm
         arg1
       when String
         case arg1
-        when /^\[bp\-(\d+)\]$/
+        when /^\[bp-(\d+)\]$/
           stack_addr = @bp - $1.to_i
           @mem.stack[stack_addr]
         else

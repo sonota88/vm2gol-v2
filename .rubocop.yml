@@ -130,8 +130,8 @@ Style/HashTransformValues:
 Style/RedundantRegexpCharacterClass:
   Enabled: true
 
-# Style/RedundantRegexpEscape:
-#   Enabled: true
+Style/RedundantRegexpEscape:
+  Enabled: true
 
 Style/SlicingWithRange:
   Enabled: false

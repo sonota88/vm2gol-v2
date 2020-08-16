@@ -403,7 +403,7 @@ def tokenize(src)
       tokens << Token.new(:int, str.to_i)
       pos += str.size
 
-    when /\A(==|!=|[\(\)\{\}=;\+\*,])/
+    when /\A(==|!=|[(){}=;+*,])/
       str = $1
       tokens << Token.new(:symbol, str)
       pos += str.size
