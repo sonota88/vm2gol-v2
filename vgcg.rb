@@ -436,16 +436,6 @@ def codegen_top_stmts(fn_arg_names, lvar_names, rest)
     case stmt_head
     when "func"
       alines += codegen_func_def(stmt_rest)
-    when "call"
-      alines += codegen_call(fn_arg_names, lvar_names, stmt_rest)
-    when "call_set"
-      alines += codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
-    when "set"
-      alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
-    when "case"
-      alines += codegen_case(fn_arg_names, lvar_names, stmt_rest)
-    when "while"
-      alines += codegen_while(fn_arg_names, lvar_names, stmt_rest)
     when "_cmt"
       alines += codegen_comment(stmt_rest[0])
     else
