@@ -303,6 +303,9 @@ def codegen_set(fn_arg_names, lvar_names, rest)
     when exp.is_a?(Array)
       alines += codegen_exp(fn_arg_names, lvar_names, exp)
       "reg_a"
+    when exp.is_a?(String)
+
+    case
     when fn_arg_names.include?(exp)
       to_fn_arg_addr(fn_arg_names, exp)
     when lvar_names.include?(exp)
@@ -321,6 +324,10 @@ def codegen_set(fn_arg_names, lvar_names, rest)
         raise not_yet_impl("rest", rest)
       end
       "reg_a"
+    else
+      raise not_yet_impl("rest", rest)
+    end
+
     else
       raise not_yet_impl("set src_val", rest)
     end
