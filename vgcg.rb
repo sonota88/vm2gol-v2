@@ -383,8 +383,8 @@ def codegen_stmts(fn_arg_names, lvar_names, stmts)
       end
     when "set"
       alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
-    when "eq"
-      alines += codegen_exp(fn_arg_names, lvar_names, stmt)
+    # when "eq"
+    #   alines += codegen_exp(fn_arg_names, lvar_names, stmt)
     when "return"
       alines += codegen_return(lvar_names, stmt_rest)
     when "case"
