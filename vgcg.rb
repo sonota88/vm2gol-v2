@@ -284,7 +284,6 @@ def codegen_set(fn_arg_names, lvar_names, rest)
     when exp.is_a?(Integer)
       exp
     when exp.is_a?(Array)
-      exp = exp
       alines += codegen_exp(fn_arg_names, lvar_names, exp)
       "reg_a"
     when fn_arg_names.include?(exp)
