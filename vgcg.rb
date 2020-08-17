@@ -65,8 +65,8 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
 end
 
 def codegen_while(fn_arg_names, lvar_names, rest)
-  cond_exp, body = rest
   alines = []
+  cond_exp, body = rest
 
   $label_id += 1
   label_id = $label_id
