@@ -44,7 +44,7 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
       alines << "  jump_eq when_#{label_id}_#{when_idx}"
 
       then_alines = ["label when_#{label_id}_#{when_idx}"]
-      then_alines += codegen_top_stmts(fn_arg_names, lvar_names, rest)
+      then_alines += codegen_stmts(fn_arg_names, lvar_names, rest)
       then_alines << "  jump end_case_#{label_id}"
       then_bodies << then_alines
     else
@@ -90,7 +90,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
 
   alines << "label true_#{label_id}"
   # ループの本体
-  alines += codegen_top_stmts(fn_arg_names, lvar_names, body)
+  alines += codegen_stmts(fn_arg_names, lvar_names, body)
 
   # ループの先頭に戻る
   alines << "  jump while_#{label_id}"
