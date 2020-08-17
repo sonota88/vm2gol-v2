@@ -278,44 +278,6 @@ class Vm
     end
   end
 
-  def copy
-    arg1 = @mem.main[@pc + 1]
-    arg2 = @mem.main[@pc + 2]
-
-    src_val =
-      case arg1
-      when Integer
-        arg1
-      when "reg_a"
-        @reg_a
-      when "sp"
-        @sp
-      when "bp"
-        @bp
-      when /^\[bp\+(\d+)\]$/
-        @mem.stack[@bp + $1.to_i]
-      when /^\[bp-(\d+)\]$/
-        @mem.stack[@bp - $1.to_i]
-      else
-        raise not_yet_impl("copy src", arg1)
-      end
-
-    case arg2
-    when "reg_a"
-      @reg_a = src_val
-    when "reg_b"
-      @reg_b = src_val
-    when "bp"
-      @bp = src_val
-    when "sp"
-      set_sp(src_val)
-    when /^\[bp-(\d+)\]$/
-      @mem.stack[@bp - $1.to_i] = src_val
-    else
-      raise not_yet_impl("copy dest", arg2)
-    end
-  end
-
   def self.num_args_for(operator)
     NUM_ARGS_MAP.fetch(operator)
   end
@@ -382,6 +344,44 @@ class Vm
       else
         raise not_yet_impl("val", val)
       end
+  end
+
+  def copy
+    arg1 = @mem.main[@pc + 1]
+    arg2 = @mem.main[@pc + 2]
+
+    src_val =
+      case arg1
+      when Integer
+        arg1
+      when "reg_a"
+        @reg_a
+      when "sp"
+        @sp
+      when "bp"
+        @bp
+      when /^\[bp\+(\d+)\]$/
+        @mem.stack[@bp + $1.to_i]
+      when /^\[bp-(\d+)\]$/
+        @mem.stack[@bp - $1.to_i]
+      else
+        raise not_yet_impl("copy src", arg1)
+      end
+
+    case arg2
+    when "reg_a"
+      @reg_a = src_val
+    when "reg_b"
+      @reg_b = src_val
+    when "bp"
+      @bp = src_val
+    when "sp"
+      set_sp(src_val)
+    when /^\[bp-(\d+)\]$/
+      @mem.stack[@bp - $1.to_i] = src_val
+    else
+      raise not_yet_impl("copy dest", arg2)
+    end
   end
 
   def add_sp
