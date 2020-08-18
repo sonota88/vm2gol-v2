@@ -101,34 +101,35 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   alines
 end
 
-def _codegen_exp_push_left(fn_arg_names, lvar_names, arg_l)
+def _codegen_exp_push(fn_arg_names, lvar_names, val)
   alines = []
 
-  left =
-    case arg_l
+  push_arg =
+    case val
     when Integer
-      arg_l
+      val
     when String
       case
-      when fn_arg_names.include?(arg_l)
-        to_fn_arg_addr(fn_arg_names, arg_l)
-      when lvar_names.include?(arg_l)
-        to_lvar_addr(lvar_names, arg_l)
+      when fn_arg_names.include?(val)
+        to_fn_arg_addr(fn_arg_names, val)
+      when lvar_names.include?(val)
+        to_lvar_addr(lvar_names, val)
       else
-        raise not_yet_impl("arg_l", arg_l)
+        raise not_yet_impl("val", val)
       end
     when Array
-      alines += codegen_exp(fn_arg_names, lvar_names, arg_l)
+      alines += codegen_exp(fn_arg_names, lvar_names, val)
       "reg_a"
     else
-      raise not_yet_impl("arg_l", arg_l)
+      raise not_yet_impl("val", val)
     end
 
-  alines << "  push #{left}"
+  alines << "  push #{push_arg}"
 
   alines
 end
 
+=begin
 def _codegen_exp_push_right(fn_arg_names, lvar_names, arg_r)
   alines = []
 
@@ -156,6 +157,7 @@ def _codegen_exp_push_right(fn_arg_names, lvar_names, arg_r)
 
   alines
 end
+=end
 
 def codegen_exp(fn_arg_names, lvar_names, exp)
   alines = []
@@ -164,8 +166,8 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
   arg_l = args[0]
   arg_r = args[1]
 
-  alines += _codegen_exp_push_left(fn_arg_names, lvar_names, arg_l)
-  alines += _codegen_exp_push_right(fn_arg_names, lvar_names, arg_r)
+  alines += _codegen_exp_push(fn_arg_names, lvar_names, arg_l)
+  alines += _codegen_exp_push(fn_arg_names, lvar_names, arg_r)
 
   case operator
   when "+"
