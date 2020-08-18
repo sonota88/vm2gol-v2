@@ -176,6 +176,31 @@ def _codegen_exp_eq
   alines
 end
 
+def _codegen_exp_neq
+  alines = []
+
+  $label_id += 1
+  label_id = $label_id
+
+  alines << "  pop reg_b"
+  alines << "  pop reg_a"
+
+  alines << "  compare"
+  alines << "  jump_eq then_#{label_id}"
+
+  # else
+  alines << "  set_reg_a 1"
+  alines << "  jump end_neq_#{label_id}"
+
+  # then
+  alines << "label then_#{label_id}"
+  alines << "  set_reg_a 0"
+
+  alines << "label end_neq_#{label_id}"
+
+  alines
+end
+
 def codegen_exp(fn_arg_names, lvar_names, exp)
   alines = []
   operator, *args = exp
@@ -194,24 +219,7 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
   when "eq"
     alines += _codegen_exp_eq()
   when "neq"
-    $label_id += 1
-    label_id = $label_id
-
-    alines << "  pop reg_b"
-    alines << "  pop reg_a"
-
-    alines << "  compare"
-    alines << "  jump_eq then_#{label_id}"
-
-    # else
-    alines << "  set_reg_a 1"
-    alines << "  jump end_neq_#{label_id}"
-
-    # then
-    alines << "label then_#{label_id}"
-    alines << "  set_reg_a 0"
-
-    alines << "label end_neq_#{label_id}"
+    alines += _codegen_exp_neq()
   else
     raise not_yet_impl("operator", operator)
   end
