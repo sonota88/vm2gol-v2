@@ -129,6 +129,17 @@ def _codegen_exp_push(fn_arg_names, lvar_names, val)
   alines
 end
 
+def _codegen_exp_add
+  alines = []
+
+  alines << "  pop reg_b"
+  alines << "  pop reg_a"
+
+  alines << "  add_ab"
+
+  alines
+end
+
 def codegen_exp(fn_arg_names, lvar_names, exp)
   alines = []
   operator, *args = exp
@@ -141,10 +152,7 @@ def codegen_exp(fn_arg_names, lvar_names, exp)
 
   case operator
   when "+"
-    alines << "  pop reg_b"
-    alines << "  pop reg_a"
-
-    alines << "  add_ab"
+    alines += _codegen_exp_add()
   when "*"
     alines << "  pop reg_b"
     alines << "  pop reg_a"
