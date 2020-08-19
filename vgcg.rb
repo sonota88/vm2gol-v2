@@ -428,7 +428,7 @@ def codegen_func_def(rest)
   alines
 end
 
-def codegen_top_stmts(fn_arg_names, lvar_names, rest)
+def codegen_top_stmts(rest)
   alines = []
 
   rest.each do |stmt|
@@ -454,7 +454,7 @@ def codegen(tree)
 
   head, *rest = tree
   # assert head == "stmts"
-  alines += codegen_top_stmts([], [], rest)
+  alines += codegen_top_stmts(rest)
 
   alines
 end
