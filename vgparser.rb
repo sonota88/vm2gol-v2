@@ -349,6 +349,21 @@ class Parser
     end
   end
 
+  def _parse_when_clause
+    t = peek()
+    return nil if t.value == "}"
+
+    consume "("
+    expr = parse_expr()
+    consume ")"
+
+    consume "{"
+    stmts = parse_stmts()
+    consume "}"
+
+    [expr, *stmts]
+  end
+
   def parse_case
     consume "case"
 
@@ -357,18 +372,12 @@ class Parser
     when_clauses = []
 
     loop do
-      t = peek()
-      break if t.value == "}"
-
-      consume "("
-      expr = parse_expr()
-      consume ")"
-
-      consume "{"
-      stmts = parse_stmts()
-      consume "}"
-
-      when_clauses << [expr, *stmts]
+      when_clause = _parse_when_clause()
+      if when_clause.nil?
+        break
+      else
+        when_clauses << when_clause
+      end
     end
 
     consume "}"
