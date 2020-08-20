@@ -14,6 +14,60 @@ class Token
   end
 end
 
+def tokenize(src)
+  tokens = []
+
+  pos = 0
+
+  while pos < src.size
+    rest = src[pos .. -1]
+
+    case rest
+    when /\A([ \n]+)/
+      str = $1
+      pos += str.size
+
+    when %r{\A(//.*)$}
+      str = $1
+      pos += str.size
+
+    when /\A"(.*)"/
+      str = $1
+      tokens << Token.new(:string, str)
+      pos += str.size + 2
+
+    when /\A(func|set|var|call_set|call|return|case|while|_cmt)[^a-z_]/
+      str = $1
+      tokens << Token.new(:reserved, str)
+      pos += str.size
+
+    when /\A(-?[0-9]+)/
+      str = $1
+      tokens << Token.new(:int, str.to_i)
+      pos += str.size
+
+    when /\A(==|!=|[(){}=;+*,])/
+      str = $1
+      tokens << Token.new(:symbol, str)
+      pos += str.size
+
+    when /\A([a-z_][a-z0-9_\[\]]*)/
+      str = $1
+      tokens << Token.new(:ident, str)
+      pos += str.size
+
+    else
+      p_e rest[0...100]
+      raise "must not happen"
+
+    end
+  end
+
+  tokens
+end
+
+# --------------------------------
+
 class Parser
   class ParseError < StandardError; end
 
@@ -369,58 +423,6 @@ class Parser
     stmts = parse_stmts()
     [:stmts, *stmts]
   end
-end
-
-def tokenize(src)
-  tokens = []
-
-  pos = 0
-
-  while pos < src.size
-    rest = src[pos .. -1]
-
-    case rest
-    when /\A([ \n]+)/
-      str = $1
-      pos += str.size
-
-    when %r{\A(//.*)$}
-      str = $1
-      pos += str.size
-
-    when /\A"(.*)"/
-      str = $1
-      tokens << Token.new(:string, str)
-      pos += str.size + 2
-
-    when /\A(func|set|var|call_set|call|return|case|while|_cmt)[^a-z_]/
-      str = $1
-      tokens << Token.new(:reserved, str)
-      pos += str.size
-
-    when /\A(-?[0-9]+)/
-      str = $1
-      tokens << Token.new(:int, str.to_i)
-      pos += str.size
-
-    when /\A(==|!=|[(){}=;+*,])/
-      str = $1
-      tokens << Token.new(:symbol, str)
-      pos += str.size
-
-    when /\A([a-z_][a-z0-9_\[\]]*)/
-      str = $1
-      tokens << Token.new(:ident, str)
-      pos += str.size
-
-    else
-      p_e rest[0...100]
-      raise "must not happen"
-
-    end
-  end
-
-  tokens
 end
 
 # --------------------------------
