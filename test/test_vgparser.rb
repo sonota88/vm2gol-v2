@@ -378,7 +378,12 @@ class ParserTest < Minitest::Test
 
   def parse(src)
     tokens = tokenize(src)
-    Parser.new(tokens).parse()
+    begin
+      Parser.new(tokens).parse()
+    rescue ParseError => e
+      parser.dump_state()
+      raise e
+    end
   end
 
   def format(tree)

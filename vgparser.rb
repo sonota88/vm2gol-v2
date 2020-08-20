@@ -131,7 +131,6 @@ class Parser
       elsif t.value == ","
         @pos += 1
       else
-        dump_state()
         raise ParseError
       end
     end
@@ -191,7 +190,6 @@ class Parser
     elsif t.value == "="
       parse_var_init()
     else
-      dump_state()
       raise ParseError
     end
   end
@@ -225,7 +223,6 @@ class Parser
       [:neq, expr_l, expr_r]
 
     else
-      dump_state()
       raise ParseError
     end
   end
@@ -248,7 +245,6 @@ class Parser
       parse_expr_right(expr_l)
 
     else
-      dump_state()
       raise ParseError
     end
   end
@@ -399,7 +395,6 @@ class Parser
     when "case"     then parse_case()
     when "_cmt"     then parse__cmt()
     else
-      dump_state()
       raise ParseError
     end
   end
@@ -436,7 +431,13 @@ if $PROGRAM_NAME == __FILE__
   tokens = tokenize(File.read(in_file))
 
   parser = Parser.new(tokens)
-  tree = parser.parse()
+
+  begin
+    tree = parser.parse()
+  rescue ParseError => e
+    parser.dump_state()
+    raise e
+  end
 
   puts JSON.pretty_generate(tree)
 end
