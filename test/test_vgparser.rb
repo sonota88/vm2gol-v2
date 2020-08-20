@@ -2,6 +2,33 @@ require_relative "./helper"
 require "vgparser"
 
 class ParserTest < Minitest::Test
+  def test_args_1
+    src = <<~EOS
+      1, 2, a)
+    EOS
+
+    exp = [1, 2, "a"]
+
+    parser = Parser.new(tokenize(src))
+    act = parser.parse_args()
+
+    assert_equal(format(exp), format(act))
+  end
+
+  def test_args_no_commas
+    src = <<~EOS
+      1 2 a)
+    EOS
+
+    parser = Parser.new(tokenize(src))
+
+    assert_raises Parser::ParseError do
+      parser.parse_args()
+    end
+  end
+
+  # --------------------------------
+
   def test_func_1
     src = <<-EOS
       func f1(){}

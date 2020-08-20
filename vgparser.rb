@@ -113,25 +113,56 @@ class Parser
 
   # --------------------------------
 
+  def _parse_args_first
+    return nil if peek().value == ")"
+
+    t = peek()
+
+    if t.type == :ident
+      @pos += 1
+      t.value
+    elsif t.type == :int
+      @pos += 1
+      t.value
+    else
+      raise ParseError
+    end
+  end
+
+  def _parse_args_rest
+    return nil if peek().value == ")"
+
+    consume(",")
+
+    t = peek()
+
+    if t.type == :ident
+      @pos += 1
+      t.value
+    elsif t.type == :int
+      @pos += 1
+      t.value
+    else
+      raise ParseError
+    end
+  end
+
   def parse_args
     args = []
 
-    loop do
-      t = peek()
-      break if t.value == ")"
+    first_arg = _parse_args_first()
+    if first_arg.nil?
+      return args
+    else
+      args << first_arg
+    end
 
-      if t.type == :ident
-        @pos += 1
-        name = t.value
-        args << name
-      elsif t.type == :int
-        @pos += 1
-        val = t.value
-        args << val
-      elsif t.value == ","
-        @pos += 1
+    loop do
+      rest_arg = _parse_args_rest()
+      if rest_arg.nil?
+        break
       else
-        raise ParseError
+        args << rest_arg
       end
     end
 
