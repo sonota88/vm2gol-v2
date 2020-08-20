@@ -81,6 +81,10 @@ class Parser
       .map { |t| format("%s<%s>", t.type, t.value) }
   end
 
+  def peek
+    @tokens[@pos]
+  end
+
   def dump_state(msg = nil)
     pp_e [
       msg,
@@ -113,7 +117,7 @@ class Parser
     args = []
 
     loop do
-      t = @tokens[@pos]
+      t = peek()
       break if t.value == ")"
 
       if t.type == :ident
@@ -138,7 +142,7 @@ class Parser
   def parse_func
     consume "func"
 
-    t = @tokens[@pos]
+    t = peek()
     @pos += 1
     func_name = t.value
 
@@ -154,7 +158,7 @@ class Parser
   end
 
   def parse_var_declare
-    t = @tokens[@pos]
+    t = peek()
     @pos += 1
     var_name = t.value
 
@@ -164,7 +168,7 @@ class Parser
   end
 
   def parse_var_init
-    t = @tokens[@pos]
+    t = peek()
     @pos += 1
     var_name = t.value
 
@@ -193,7 +197,7 @@ class Parser
   end
 
   def parse_expr_right(expr_l)
-    t = @tokens[@pos]
+    t = peek()
 
     if t.value == ";" || t.value == ")"
       return expr_l
@@ -227,7 +231,7 @@ class Parser
   end
 
   def parse_expr
-    t_left = @tokens[@pos]
+    t_left = peek()
 
     if t_left.value == "("
       consume "("
@@ -252,7 +256,7 @@ class Parser
   def parse_set
     consume "set"
 
-    t = @tokens[@pos]
+    t = peek()
     @pos += 1
     var_name = t.value
 
@@ -268,7 +272,7 @@ class Parser
   def parse_call
     consume "call"
 
-    t = @tokens[@pos]
+    t = peek()
     @pos += 1
     func_name = t.value
 
@@ -282,7 +286,7 @@ class Parser
   end
 
   def parse_funcall
-    t = @tokens[@pos]
+    t = peek()
     @pos += 1
     func_name = t.value
 
@@ -296,7 +300,7 @@ class Parser
   def parse_call_set
     consume "call_set"
 
-    t = @tokens[@pos]
+    t = peek()
     @pos += 1
     var_name = t.value
 
@@ -312,7 +316,7 @@ class Parser
   def parse_return
     consume "return"
 
-    t = @tokens[@pos]
+    t = peek()
 
     if t.value == ";"
       consume ";"
@@ -332,7 +336,7 @@ class Parser
     when_clauses = []
 
     loop do
-      t = @tokens[@pos]
+      t = peek()
       break if t.value == "}"
 
       consume "("
@@ -369,7 +373,7 @@ class Parser
     consume "_cmt"
     consume "("
 
-    t = @tokens[@pos]
+    t = peek()
     @pos += 1
     comment = t.value
 
@@ -380,7 +384,7 @@ class Parser
   end
 
   def parse_stmt
-    t = @tokens[@pos]
+    t = peek()
 
     return nil if t.value == "}"
 
