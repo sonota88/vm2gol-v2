@@ -130,19 +130,6 @@ class Parser
   def _parse_args_first
     return nil if peek().value == ")"
 
-=begin
-    t = peek()
-
-    if t.type == :ident
-      @pos += 1
-      t.value
-    elsif t.type == :int
-      @pos += 1
-      t.value
-    else
-      raise ParseError
-    end
-=end
     _parse_arg()
   end
 
@@ -151,19 +138,6 @@ class Parser
 
     consume(",")
 
-=begin
-    t = peek()
-
-    if t.type == :ident
-      @pos += 1
-      t.value
-    elsif t.type == :int
-      @pos += 1
-      t.value
-    else
-      raise ParseError
-    end
-=end
     _parse_arg()
   end
 
