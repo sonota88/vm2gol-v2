@@ -291,6 +291,13 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
   alines
 end
 
+def _match_vram_addr(str)
+  md = /^vram\[(\d+)\]$/.match(str)
+  return nil if md.nil?
+
+  md[1]
+end
+
 def codegen_set(fn_arg_names, lvar_names, rest)
   alines = []
   dest = rest[0]
@@ -309,8 +316,8 @@ def codegen_set(fn_arg_names, lvar_names, rest)
         to_fn_arg_addr(fn_arg_names, exp)
       when lvar_names.include?(exp)
         to_lvar_addr(lvar_names, exp)
-      when /^vram\[(\d+)\]$/ =~ exp
-        vram_addr = $1
+      when _match_vram_addr(exp)
+        vram_addr = _match_vram_addr(exp)
         alines << "  get_vram #{vram_addr} reg_a"
         "reg_a"
       when /^vram\[([a-z_][a-z0-9_]*)\]$/ =~ exp
