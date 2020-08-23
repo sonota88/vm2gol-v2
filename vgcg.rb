@@ -377,8 +377,8 @@ def codegen_return(lvar_names, stmt_rest)
     alines << "  set_reg_a #{retval}"
   when String
     case
-    when /^vram\[([a-z0-9_]+)\]$/ =~ retval
-      var_name = $1
+    when _match_vram_ref(retval)
+      var_name = _match_vram_ref(retval)
       case
       when lvar_names.include?(var_name)
         lvar_addr = to_lvar_addr(lvar_names, var_name)
