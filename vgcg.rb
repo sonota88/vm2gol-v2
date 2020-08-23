@@ -344,21 +344,24 @@ def codegen_set(fn_arg_names, lvar_names, rest)
       raise not_yet_impl("set src_val", rest)
     end
 
-  case dest
-  when /^vram\[(.+)\]$/
-    vram_addr = $1
+  case
+  when _match_vram_addr(dest)
+    vram_addr = _match_vram_addr(dest)
+    alines << "  set_vram #{vram_addr} #{src_val}"
+  when _match_vram_ref(dest)
+    vram_addr = _match_vram_ref(dest)
     case
-    when /^\d+$/ =~ vram_addr
-      alines << "  set_vram #{vram_addr} #{src_val}"
     when lvar_names.include?(vram_addr)
       lvar_addr = to_lvar_addr(lvar_names, vram_addr)
       alines << "  set_vram #{lvar_addr} #{src_val}"
     else
-      raise not_yet_impl("vram_addr", vram_addr)
+      raise not_yet_impl("dest", dest)
     end
-  else
+  when lvar_names.include?(dest)
     lvar_addr = to_lvar_addr(lvar_names, dest)
     alines << "  cp #{src_val} #{lvar_addr}"
+  else
+    raise not_yet_impl("dest", dest)
   end
 
   alines
