@@ -297,13 +297,13 @@ def codegen_set(fn_arg_names, lvar_names, rest)
   exp = rest[1]
 
   src_val =
-    case
-    when exp.is_a?(Integer)
+    case exp
+    when Integer
       exp
-    when exp.is_a?(Array)
+    when Array
       alines += codegen_exp(fn_arg_names, lvar_names, exp)
       "reg_a"
-    when exp.is_a?(String)
+    when String
       case
       when fn_arg_names.include?(exp)
         to_fn_arg_addr(fn_arg_names, exp)
