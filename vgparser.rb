@@ -8,6 +8,12 @@ require_relative "./common"
 class Token
   attr_reader :type, :value
 
+  # type:
+  #   str:   string
+  #   kw:    keyword
+  #   int:   integer
+  #   sym:   symbol
+  #   ident: identifier
   def initialize(type, value)
     @type = type
     @value = value
@@ -33,12 +39,12 @@ def tokenize(src)
 
     when /\A"(.*)"/
       str = $1
-      tokens << Token.new(:string, str)
+      tokens << Token.new(:str, str)
       pos += str.size + 2
 
     when /\A(func|set|var|call_set|call|return|case|while|_cmt)[^a-z_]/
       str = $1
-      tokens << Token.new(:reserved, str)
+      tokens << Token.new(:kw, str)
       pos += str.size
 
     when /\A(-?[0-9]+)/
@@ -48,7 +54,7 @@ def tokenize(src)
 
     when /\A(==|!=|[(){}=;+*,])/
       str = $1
-      tokens << Token.new(:symbol, str)
+      tokens << Token.new(:sym, str)
       pos += str.size
 
     when /\A([a-z_][a-z0-9_\[\]]*)/
