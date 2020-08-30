@@ -71,10 +71,14 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   $label_id += 1
   label_id = $label_id
 
+  label_begin = "while_#{label_id}"
+  label_end = "end_while_#{label_id}"
+  label_true = "true_#{label_id}"
+
   alines << ""
 
   # ループの先頭
-  alines << "label while_#{label_id}"
+  alines << "label #{label_begin}"
 
   # 条件の評価 ... 結果が reg_a に入る
   alines += codegen_exp(fn_arg_names, lvar_names, cond_exp)
@@ -83,19 +87,19 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   alines << "  compare"
 
   # true の場合ループの本体を実行
-  alines << "  jump_eq true_#{label_id}"
+  alines << "  jump_eq #{label_true}"
 
   # false の場合ループを抜ける
-  alines << "  jump end_while_#{label_id}"
+  alines << "  jump #{label_end}"
 
-  alines << "label true_#{label_id}"
+  alines << "label #{label_true}"
   # ループの本体
   alines += codegen_stmts(fn_arg_names, lvar_names, body)
 
   # ループの先頭に戻る
-  alines << "  jump while_#{label_id}"
+  alines << "  jump #{label_begin}"
 
-  alines << "label end_while_#{label_id}"
+  alines << "label #{label_end}"
   alines << ""
 
   alines
