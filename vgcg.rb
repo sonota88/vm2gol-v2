@@ -426,14 +426,6 @@ def codegen_stmt(fn_arg_names, lvar_names, stmt)
     codegen_call(fn_arg_names, lvar_names, stmt_rest)
   when "call_set"
     codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
-  when "var"
-    alines = []
-    lvar_names << stmt_rest[0]
-    alines << "  sub_sp 1"
-    if stmt_rest.size == 2
-      alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
-    end
-    alines
   when "set"
     codegen_set(fn_arg_names, lvar_names, stmt_rest)
   # when "eq"
@@ -478,7 +470,18 @@ def codegen_func_def(rest)
 
   lvar_names = []
 
-  alines += codegen_stmts(fn_arg_names, lvar_names, body)
+  body.each do |stmt|
+    if stmt[0] == "var"
+      _, *stmt_rest = stmt
+      lvar_names << stmt_rest[0]
+      alines << "  sub_sp 1"
+      if stmt_rest.size == 2
+        alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
+      end
+    else
+      alines += codegen_stmt(fn_arg_names, lvar_names, stmt)
+    end
+  end
 
   alines << ""
   alines << "  cp bp sp"
