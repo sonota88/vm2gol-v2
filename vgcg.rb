@@ -164,21 +164,24 @@ def _codegen_exp_eq
   $label_id += 1
   label_id = $label_id
 
+  label_end = "end_eq_#{label_id}"
+  label_then = "then_#{label_id}"
+
   alines << "  pop reg_b"
   alines << "  pop reg_a"
 
   alines << "  compare"
-  alines << "  jump_eq then_#{label_id}"
+  alines << "  jump_eq #{label_then}"
 
   # else
   alines << "  set_reg_a 0"
-  alines << "  jump end_eq_#{label_id}"
+  alines << "  jump #{label_end}"
 
   # then
-  alines << "label then_#{label_id}"
+  alines << "label #{label_then}"
   alines << "  set_reg_a 1"
 
-  alines << "label end_eq_#{label_id}"
+  alines << "label #{label_end}"
 
   alines
 end
@@ -189,21 +192,24 @@ def _codegen_exp_neq
   $label_id += 1
   label_id = $label_id
 
+  label_end = "end_neq_#{label_id}"
+  label_then = "then_#{label_id}"
+
   alines << "  pop reg_b"
   alines << "  pop reg_a"
 
   alines << "  compare"
-  alines << "  jump_eq then_#{label_id}"
+  alines << "  jump_eq #{label_then}"
 
   # else
   alines << "  set_reg_a 1"
-  alines << "  jump end_neq_#{label_id}"
+  alines << "  jump #{label_end}"
 
   # then
-  alines << "label then_#{label_id}"
+  alines << "label #{label_then}"
   alines << "  set_reg_a 0"
 
-  alines << "label end_neq_#{label_id}"
+  alines << "label #{label_end}"
 
   alines
 end
