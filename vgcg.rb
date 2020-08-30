@@ -288,7 +288,7 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
     )
   end
 
-  alines += codegen_comment("call  #{fn_name}")
+  alines += codegen_vm_comment("call  #{fn_name}")
   alines << "  call #{fn_name}"
   alines << "  add_sp #{fn_args.size}"
 
@@ -307,7 +307,7 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
     )
   end
 
-  alines += codegen_comment("call_set  #{fn_name}")
+  alines += codegen_vm_comment("call_set  #{fn_name}")
   alines << "  call #{fn_name}"
   alines << "  add_sp #{fn_args.size}"
 
@@ -425,7 +425,7 @@ def codegen_return(lvar_names, stmt_rest)
   alines
 end
 
-def codegen_comment(comment)
+def codegen_vm_comment(comment)
   [
     "  _cmt " + comment.gsub(" ", "~")
   ]
@@ -450,7 +450,7 @@ def codegen_stmt(fn_arg_names, lvar_names, stmt)
   when "while"
     codegen_while(fn_arg_names, lvar_names, stmt_rest)
   when "_cmt"
-    codegen_comment(stmt_rest[0])
+    codegen_vm_comment(stmt_rest[0])
   else
     raise not_yet_impl("stmt_head", stmt_head)
   end
@@ -510,7 +510,7 @@ def codegen_top_stmts(rest)
     when "func"
       alines += codegen_func_def(stmt_rest)
     when "_cmt"
-      alines += codegen_comment(stmt_rest[0])
+      alines += codegen_vm_comment(stmt_rest[0])
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end

@@ -403,7 +403,7 @@ class Parser
     [:while, expr, stmts]
   end
 
-  def parse__cmt
+  def parse_vm_comment
     consume "_cmt"
     consume "("
 
@@ -431,7 +431,7 @@ class Parser
     when "return"   then parse_return()
     when "while"    then parse_while()
     when "case"     then parse_case()
-    when "_cmt"     then parse__cmt()
+    when "_cmt"     then parse_vm_comment()
     else
       raise ParseError
     end
