@@ -50,7 +50,7 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
     case cond_head
     when "eq"
       # 式の結果が reg_a に入る
-      alines += codegen_exp(fn_arg_names, lvar_names, cond)
+      alines += codegen_expr(fn_arg_names, lvar_names, cond)
 
       # 式の結果と比較するための値を reg_b に入れる
       alines << "  set_reg_b 1"
@@ -81,7 +81,7 @@ end
 
 def codegen_while(fn_arg_names, lvar_names, rest)
   alines = []
-  cond_exp, body = rest
+  cond_expr, body = rest
 
   $label_id += 1
   label_id = $label_id
@@ -96,7 +96,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   alines << "label #{label_begin}"
 
   # 条件の評価 ... 結果が reg_a に入る
-  alines += codegen_exp(fn_arg_names, lvar_names, cond_exp)
+  alines += codegen_expr(fn_arg_names, lvar_names, cond_expr)
   # 比較対象の値（真）をセット
   alines << "  set_reg_b 1"
   alines << "  compare"
@@ -120,7 +120,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   alines
 end
 
-def _codegen_exp_push(fn_arg_names, lvar_names, val)
+def _codegen_expr_push(fn_arg_names, lvar_names, val)
   alines = []
 
   push_arg =
@@ -137,7 +137,7 @@ def _codegen_exp_push(fn_arg_names, lvar_names, val)
         raise not_yet_impl("val", val)
       end
     when Array
-      alines += codegen_exp(fn_arg_names, lvar_names, val)
+      alines += codegen_expr(fn_arg_names, lvar_names, val)
       "reg_a"
     else
       raise not_yet_impl("val", val)
@@ -148,7 +148,7 @@ def _codegen_exp_push(fn_arg_names, lvar_names, val)
   alines
 end
 
-def _codegen_exp_add
+def _codegen_expr_add
   alines = []
 
   alines << "  pop reg_b"
@@ -159,7 +159,7 @@ def _codegen_exp_add
   alines
 end
 
-def _codegen_exp_mult
+def _codegen_expr_mult
   alines = []
 
   alines << "  pop reg_b"
@@ -170,7 +170,7 @@ def _codegen_exp_mult
   alines
 end
 
-def _codegen_exp_eq
+def _codegen_expr_eq
   alines = []
 
   $label_id += 1
@@ -198,7 +198,7 @@ def _codegen_exp_eq
   alines
 end
 
-def _codegen_exp_neq
+def _codegen_expr_neq
   alines = []
 
   $label_id += 1
@@ -226,25 +226,25 @@ def _codegen_exp_neq
   alines
 end
 
-def codegen_exp(fn_arg_names, lvar_names, exp)
+def codegen_expr(fn_arg_names, lvar_names, expr)
   alines = []
-  operator, *args = exp
+  operator, *args = expr
 
   arg_l = args[0]
   arg_r = args[1]
 
-  alines += _codegen_exp_push(fn_arg_names, lvar_names, arg_l)
-  alines += _codegen_exp_push(fn_arg_names, lvar_names, arg_r)
+  alines += _codegen_expr_push(fn_arg_names, lvar_names, arg_l)
+  alines += _codegen_expr_push(fn_arg_names, lvar_names, arg_r)
 
   case operator
   when "+"
-    alines += _codegen_exp_add()
+    alines += _codegen_expr_add()
   when "*"
-    alines += _codegen_exp_mult()
+    alines += _codegen_expr_mult()
   when "eq"
-    alines += _codegen_exp_eq()
+    alines += _codegen_expr_eq()
   when "neq"
-    alines += _codegen_exp_neq()
+    alines += _codegen_expr_neq()
   else
     raise not_yet_impl("operator", operator)
   end
@@ -333,27 +333,27 @@ end
 def codegen_set(fn_arg_names, lvar_names, rest)
   alines = []
   dest = rest[0]
-  exp = rest[1]
+  expr = rest[1]
 
   src_val =
-    case exp
+    case expr
     when Integer
-      exp
+      expr
     when Array
-      alines += codegen_exp(fn_arg_names, lvar_names, exp)
+      alines += codegen_expr(fn_arg_names, lvar_names, expr)
       "reg_a"
     when String
       case
-      when fn_arg_names.include?(exp)
-        to_fn_arg_addr(fn_arg_names, exp)
-      when lvar_names.include?(exp)
-        to_lvar_addr(lvar_names, exp)
-      when _match_vram_addr(exp)
-        vram_addr = _match_vram_addr(exp)
+      when fn_arg_names.include?(expr)
+        to_fn_arg_addr(fn_arg_names, expr)
+      when lvar_names.include?(expr)
+        to_lvar_addr(lvar_names, expr)
+      when _match_vram_addr(expr)
+        vram_addr = _match_vram_addr(expr)
         alines << "  get_vram #{vram_addr} reg_a"
         "reg_a"
-      when _match_vram_ref(exp)
-        var_name = _match_vram_ref(exp)
+      when _match_vram_ref(expr)
+        var_name = _match_vram_ref(expr)
         case
         when lvar_names.include?(var_name)
           lvar_addr = to_lvar_addr(lvar_names, var_name)
@@ -441,7 +441,7 @@ def codegen_stmt(fn_arg_names, lvar_names, stmt)
   when "set"
     codegen_set(fn_arg_names, lvar_names, stmt_rest)
   # when "eq"
-  #   alines += codegen_exp(fn_arg_names, lvar_names, stmt)
+  #   alines += codegen_expr(fn_arg_names, lvar_names, stmt)
   when "return"
     codegen_return(lvar_names, stmt_rest)
   when "case"
