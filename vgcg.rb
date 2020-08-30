@@ -18,6 +18,18 @@ def to_lvar_addr(lvar_names, lvar_name)
   "[bp-#{index + 1}]"
 end
 
+def codegen_var(fn_arg_names, lvar_names, stmt_rest)
+  alines = []
+
+  alines << "  sub_sp 1"
+
+  if stmt_rest.size == 2
+    alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
+  end
+
+  alines
+end
+
 def codegen_case(fn_arg_names, lvar_names, when_blocks)
   alines = []
   $label_id += 1
@@ -474,10 +486,7 @@ def codegen_func_def(rest)
     if stmt[0] == "var"
       _, *stmt_rest = stmt
       lvar_names << stmt_rest[0]
-      alines << "  sub_sp 1"
-      if stmt_rest.size == 2
-        alines += codegen_set(fn_arg_names, lvar_names, stmt_rest)
-      end
+      alines += codegen_var(fn_arg_names, lvar_names, stmt_rest)
     else
       alines += codegen_stmt(fn_arg_names, lvar_names, stmt)
     end
