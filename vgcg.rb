@@ -256,21 +256,21 @@ def _codegen_call_push_fn_arg(fn_arg_names, lvar_names, fn_arg)
   alines = []
 
   push_arg =
-  case fn_arg
-  when Integer
-    fn_arg
-  when String
-    case
-    when fn_arg_names.include?(fn_arg)
-      to_fn_arg_addr(fn_arg_names, fn_arg)
-    when lvar_names.include?(fn_arg)
-      to_lvar_addr(lvar_names, fn_arg)
+    case fn_arg
+    when Integer
+      fn_arg
+    when String
+      case
+      when fn_arg_names.include?(fn_arg)
+        to_fn_arg_addr(fn_arg_names, fn_arg)
+      when lvar_names.include?(fn_arg)
+        to_lvar_addr(lvar_names, fn_arg)
+      else
+        raise not_yet_impl(fn_arg)
+      end
     else
       raise not_yet_impl(fn_arg)
     end
-  else
-    raise not_yet_impl(fn_arg)
-  end
 
   alines << "  push #{push_arg}"
 
