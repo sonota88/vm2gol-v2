@@ -478,7 +478,7 @@ if $PROGRAM_NAME == __FILE__
 
   begin
     tree = parser.parse()
-  rescue ParseError => e
+  rescue Parser::ParseError => e
     parser.dump_state()
     raise e
   end
