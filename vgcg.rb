@@ -41,16 +41,22 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
   label_when_head = "when_#{label_id}"
   label_end_when_head = "end_when_#{label_id}"
 
+  alines << ""
+  alines << "  # -->> case_#{label_id}"
+
   when_blocks.each do |when_block|
     when_idx += 1
     cond, *rest = when_block
     cond_head, *cond_rest = cond
-    alines << "  # 条件 #{label_id}_#{when_idx}: #{cond.inspect}"
+
+    alines << "  # when_#{label_id}_#{when_idx}: #{cond.inspect}"
 
     case cond_head
     when "eq"
       # 式の結果が reg_a に入る
+      alines << "  # -->> expr"
       alines += codegen_expr(fn_arg_names, lvar_names, cond)
+      alines << "  # <<-- expr"
 
       # 式の結果と比較するための値を reg_b に入れる
       alines << "  set_reg_b 1"
@@ -75,6 +81,8 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
   end
 
   alines << "label #{label_end}"
+  alines << "  # <<-- case_#{label_id}"
+  alines << ""
 
   alines
 end
