@@ -36,10 +36,10 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
   label_id = $label_id
 
   when_idx = -1
-  then_bodies = []
 
   label_end = "end_case_#{label_id}"
   label_when_head = "when_#{label_id}"
+  label_end_when_head = "end_when_#{label_id}"
 
   when_blocks.each do |when_block|
     when_idx += 1
@@ -56,23 +56,23 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
       alines << "  set_reg_b 1"
 
       alines << "  compare"
-      alines << "  jump_eq #{label_when_head}_#{when_idx}"
+      alines << "  jump_eq #{label_when_head}_#{when_idx}"  # 真の場合
+      alines << "  jump #{label_end_when_head}_#{when_idx}" # 偽の場合
 
-      then_alines = ["label #{label_when_head}_#{when_idx}"]
-      then_alines += codegen_stmts(fn_arg_names, lvar_names, rest)
-      then_alines << "  jump #{label_end}"
-      then_bodies << then_alines
+      # 真の場合ここにジャンプ
+      alines << "label #{label_when_head}_#{when_idx}"
+
+      alines += codegen_stmts(fn_arg_names, lvar_names, rest)
+
+      alines << "  jump #{label_end}"
+
+      # 偽の場合ここにジャンプ
+      alines << "label #{label_end_when_head}_#{when_idx}"
+
     else
       raise not_yet_impl("cond_head", cond_head)
     end
   end
-
-  # すべての条件が偽だった場合
-  alines << "  jump #{label_end}"
-
-  then_bodies.each {|then_alines|
-    alines += then_alines
-  }
 
   alines << "label #{label_end}"
 
