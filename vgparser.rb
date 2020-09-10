@@ -117,6 +117,10 @@ class Parser
     @pos += 1
   end
 
+  def end?
+    @tokens.size <= @pos
+  end
+
   # --------------------------------
 
   def _parse_arg
@@ -441,10 +445,6 @@ class Parser
     else
       raise ParseError
     end
-  end
-
-  def end?
-    @tokens.size <= @pos
   end
 
   def parse_stmts
