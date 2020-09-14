@@ -87,8 +87,8 @@ class Parser
       .map { |t| format("%s<%s>", t.type, t.value) }
   end
 
-  def peek
-    @tokens[@pos]
+  def peek(offset = 0)
+    @tokens[@pos + offset]
   end
 
   def dump_state(msg = nil)
