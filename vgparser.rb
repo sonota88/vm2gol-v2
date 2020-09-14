@@ -100,7 +100,7 @@ class Parser
   end
 
   def assert_value(pos, exp)
-    t = @tokens[pos]
+    t = peek()
 
     if t.value != exp
       msg = format(
@@ -218,7 +218,7 @@ class Parser
   def parse_var
     consume "var"
 
-    t = @tokens[@pos + 1]
+    t = peek(1)
 
     if t.value == ";"
       parse_var_declare()
