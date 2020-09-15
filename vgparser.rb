@@ -496,8 +496,8 @@ class Parser
   end
 
   def parse
-    stmts = parse_top_stmts()
-    [:stmts, *stmts]
+    top_stmts = parse_top_stmts()
+    [:top_stmts, *top_stmts]
   end
 end
 
