@@ -408,7 +408,7 @@ def codegen_return(lvar_names, stmt_rest)
 
   case retval
   when Integer
-    alines << "  set_reg_a #{retval}"
+    alines << "  cp #{retval} reg_a"
   when String
     case
     when _match_vram_ref(retval)
