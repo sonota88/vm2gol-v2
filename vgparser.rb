@@ -462,9 +462,7 @@ class Parser
     loop do
       break if peek().value == "}"
 
-      stmt = parse_stmt()
-
-      stmts << stmt
+      stmts << parse_stmt()
     end
 
     stmts
