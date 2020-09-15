@@ -474,6 +474,28 @@ class Parser
     stmts
   end
 
+  def parse_top_stmt
+    t = peek()
+
+    case t.value
+    when "func" then parse_func()
+    else
+      raise ParseError, "Unexpected token (#{t.inspect})"
+    end
+  end
+
+  def parse_top_stmts
+    stmts = []
+
+    loop do
+      break if end?()
+
+      stmts << parse_top_stmt()
+    end
+
+    stmts
+  end
+
   def parse
     stmts = parse_stmts()
     [:stmts, *stmts]
