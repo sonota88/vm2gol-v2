@@ -446,7 +446,6 @@ class Parser
     return nil if t.value == "}"
 
     case t.value
-    when "func"     then parse_func()
     when "set"      then parse_set()
     when "call"     then parse_call()
     when "call_set" then parse_call_set()
