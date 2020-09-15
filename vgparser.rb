@@ -443,8 +443,6 @@ class Parser
   def parse_stmt
     t = peek()
 
-    return nil if t.value == "}"
-
     case t.value
     when "set"      then parse_set()
     when "call"     then parse_call()
@@ -462,10 +460,9 @@ class Parser
     stmts = []
 
     loop do
-      break if end?()
+      break if peek().value == "}"
 
       stmt = parse_stmt()
-      break if stmt.nil?
 
       stmts << stmt
     end
