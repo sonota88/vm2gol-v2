@@ -443,7 +443,7 @@ class Parser
     when "case"     then parse_case()
     when "_cmt"     then parse_vm_comment()
     else
-      raise ParseError
+      raise ParseError, "Unexpected token (#{t.inspect})"
     end
   end
 
