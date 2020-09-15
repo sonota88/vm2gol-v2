@@ -286,14 +286,16 @@ class ParserTest < Minitest::Test
 
   def test_while_2
     src = <<-EOS
+      var a;
       while (a == 1) {
-        var b;
+        set a = 2;
       }
     EOS
 
     tree_exp = [
+      [:var, "a"],
       [:while, [:eq, "a", 1], [
-         [:var, "b"]]]]
+         [:set, "a", 2]]]]
 
     tree_act = parse_stmts(src)
 
@@ -319,14 +321,16 @@ class ParserTest < Minitest::Test
 
   def test_case_1
     src = <<-EOS
+      var a;
       case {
-        (1){ var a; }
+        (1){ set a = 2; }
       }
     EOS
 
     tree_exp = [
+      [:var, "a"],
       [:case,
-       [1, [:var, "a"]]]]
+       [1, [:set, "a", 2]]]]
 
     tree_act = parse_stmts(src)
 
@@ -335,16 +339,18 @@ class ParserTest < Minitest::Test
 
   def test_case_2
     src = <<-EOS
+      var a;
       case {
-        (1){ var a; }
-        (2){ var b; }
+        (1){ set a = 3; }
+        (2){ set a = 4; }
       }
     EOS
 
     tree_exp = [
+      [:var, "a"],
       [:case,
-       [1, [:var, "a"]],
-       [2, [:var, "b"]]]]
+       [1, [:set, "a", 3]],
+       [2, [:set, "a", 4]]]]
 
     tree_act = parse_stmts(src)
 
@@ -353,14 +359,16 @@ class ParserTest < Minitest::Test
 
   def test_case_3
     src = <<-EOS
+      var a;
       case {
-        (a == 1){ var b; }
+        (a == 1){ set a = 2; }
       }
     EOS
 
     tree_exp = [
+      [:var, "a"],
       [:case,
-       [[:eq, "a", 1], [:var, "b"]]]]
+       [[:eq, "a", 1], [:set, "a", 2]]]]
 
     tree_act = parse_stmts(src)
 

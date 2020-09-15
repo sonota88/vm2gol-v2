@@ -185,7 +185,20 @@ class Parser
     consume ")"
 
     consume "{"
-    stmts = parse_stmts()
+
+    stmts = []
+    loop do
+      t = peek()
+      break if t.value == "}"
+
+      stmts <<
+        if t.value == "var"
+          parse_var()
+        else
+          parse_stmt()
+        end
+    end
+
     consume "}"
 
     [:func, func_name, args, stmts]
@@ -434,7 +447,6 @@ class Parser
 
     case t.value
     when "func"     then parse_func()
-    when "var"      then parse_var()
     when "set"      then parse_set()
     when "call"     then parse_call()
     when "call_set" then parse_call_set()
