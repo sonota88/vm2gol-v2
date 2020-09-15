@@ -302,25 +302,6 @@ class ParserTest < Minitest::Test
 
   def test_while_3
     src = <<-EOS
-      case {
-        (a == b) {
-          var c;
-        }
-      }
-    EOS
-
-    tree_exp = [
-      [:case,
-       [[:eq, "a", "b"],
-        [:var, "c"]]]]
-
-    tree_act = parse_stmts(src)
-
-    assert_equal(format(tree_exp), format_stmts(tree_act))
-  end
-
-  def test_while_4
-    src = <<-EOS
       while (a != b) {}
     EOS
 
