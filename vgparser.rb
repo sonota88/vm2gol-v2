@@ -316,13 +316,7 @@ class Parser
   def parse_call
     consume "call"
 
-    t = peek()
-    @pos += 1
-    func_name = t.value
-
-    consume "("
-    args = parse_args()
-    consume ")"
+    func_name, *args = parse_funcall()
 
     consume ";"
 
