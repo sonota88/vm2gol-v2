@@ -1,3 +1,4 @@
+require "fileutils"
 require "minitest/autorun"
 
 PROJECT_DIR = File.expand_path("..", __dir__)
@@ -14,4 +15,8 @@ def _system(cmd)
   unless status.success?
     raise "Ablormal exit status (#{status.inspect})"
   end
+end
+
+def setup_common
+  FileUtils.mkdir_p File.join(PROJECT_DIR, "tmp")
 end

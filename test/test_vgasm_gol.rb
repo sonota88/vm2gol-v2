@@ -5,6 +5,10 @@ require_relative "./helper"
 class VgasmGolTest < Minitest::Test
   EXE_FILE = project_path("tmp/test_vgasm_gol.vge.yaml")
 
+  def setup
+    setup_common()
+  end
+
   def test_vgasm_gol
     system %( ruby #{PROJECT_DIR}/vgasm.rb #{PROJECT_DIR}/test/gol.vga.txt > #{EXE_FILE} )
 

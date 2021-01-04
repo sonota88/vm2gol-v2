@@ -30,6 +30,8 @@ class GolTest < Minitest::Test
   EXE_FILE = File.join(TMP_DIR, "gol.vge.yaml")
 
   def setup
+    setup_common()
+
     ENV["TEST"] = ""
 
     stack_size = 50

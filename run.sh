@@ -2,6 +2,8 @@
 
 set -o errexit
 
+mkdir -p ./tmp/
+
 file="$1"
 bname=$(basename $file .vg.txt)
 treefile=tmp/${bname}.vgt.json
