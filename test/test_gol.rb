@@ -27,7 +27,7 @@ class GolTest < Minitest::Test
   VG_FILE_REPLACED = File.join(TMP_DIR, "gol_replaced.vg.txt")
   VGT_FILE = File.join(TMP_DIR, "gol.vgt.json")
   ASM_FILE = File.join(TMP_DIR, "gol.vga.txt")
-  EXE_FILE = File.join(TMP_DIR, "gol.vge.yaml")
+  EXE_FILE = File.join(TMP_DIR, "gol.vge.txt")
 
   def setup
     setup_common()

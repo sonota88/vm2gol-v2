@@ -28,7 +28,7 @@ class VmTest < Minitest::Test
   # --------------------------------
 
   def test_set_reg_a
-    execute("set_reg_a", 42)
+    execute(["set_reg_a", 42])
 
     assert_equal(42, @vm.reg_a)
   end
@@ -36,7 +36,7 @@ class VmTest < Minitest::Test
   # --------------------------------
 
   def test_set_reg_b
-    execute("set_reg_b", 42)
+    execute(["set_reg_b", 42])
 
     assert_equal(42, @vm.reg_b)
   end
@@ -44,13 +44,13 @@ class VmTest < Minitest::Test
   # --------------------------------
 
   def test_cp_to_reg_a
-    execute("cp", 42, "reg_a")
+    execute(["cp", 42, "reg_a"])
 
     assert_equal(42, @vm.reg_a)
   end
 
   def test_cp_to_reg_b
-    execute("cp", 42, "reg_b")
+    execute(["cp", 42, "reg_b"])
 
     assert_equal(42, @vm.reg_b)
   end
@@ -60,7 +60,7 @@ class VmTest < Minitest::Test
   def test_cp_from_reg_a
     @vm.reg_a = 42
 
-    execute("cp", "reg_a", "reg_b")
+    execute(["cp", "reg_a", "reg_b"])
 
     assert_equal(42, @vm.reg_b)
   end
@@ -68,7 +68,7 @@ class VmTest < Minitest::Test
   def test_cp_from_sp
     @vm.sp = 42
 
-    execute("cp", "sp", "reg_a")
+    execute(["cp", "sp", "reg_a"])
 
     assert_equal(42, @vm.reg_a)
   end
@@ -76,7 +76,7 @@ class VmTest < Minitest::Test
   def test_cp_from_bp
     @vm.bp = 42
 
-    execute("cp", "bp", "reg_a")
+    execute(["cp", "bp", "reg_a"])
 
     assert_equal(42, @vm.reg_a)
   end
@@ -85,7 +85,7 @@ class VmTest < Minitest::Test
     @vm.bp = 45
     @vm.mem.stack[@vm.bp + 2] = 42
 
-    execute("cp", "[bp+2]", "reg_a")
+    execute(["cp", "[bp+2]", "reg_a"])
 
     assert_equal(42, @vm.reg_a)
   end
@@ -93,7 +93,7 @@ class VmTest < Minitest::Test
   def test_cp_from_bp_minus
     @vm.mem.stack[@vm.bp - 2] = 42
 
-    execute("cp", "[bp-2]", "reg_a")
+    execute(["cp", "[bp-2]", "reg_a"])
 
     assert_equal(42, @vm.reg_a)
   end
@@ -101,13 +101,13 @@ class VmTest < Minitest::Test
   # --------------------------------
 
   def test_cp_to_bp
-    execute("cp", 42, "bp")
+    execute(["cp", 42, "bp"])
 
     assert_equal(42, @vm.bp)
   end
 
   def test_cp_to_sp
-    execute("cp", 42, "sp")
+    execute(["cp", 42, "sp"])
 
     assert_equal(42, @vm.sp)
   end
@@ -115,7 +115,7 @@ class VmTest < Minitest::Test
   def test_cp_to_bp_minus
     assert_equal(49, @vm.bp)
 
-    execute("cp", 42, "[bp-2]")
+    execute(["cp", 42, "[bp-2]"])
 
     assert_equal(42, @vm.mem.stack[49 - 2])
   end
@@ -126,7 +126,7 @@ class VmTest < Minitest::Test
     @vm.reg_a = 2
     @vm.reg_b = 3
 
-    execute("add_ab")
+    execute(["add_ab"])
 
     assert_equal(5, @vm.reg_a)
   end
@@ -137,7 +137,7 @@ class VmTest < Minitest::Test
     @vm.reg_a = 2
     @vm.reg_b = 3
 
-    execute("mult_ab")
+    execute(["mult_ab"])
 
     assert_equal(6, @vm.reg_a)
   end
@@ -147,7 +147,7 @@ class VmTest < Minitest::Test
   def test_add_sb
     @vm.sp = 45
 
-    execute("add_sp", 2)
+    execute(["add_sp", 2])
 
     assert_equal(45 + 2, @vm.sp)
   end
@@ -157,7 +157,7 @@ class VmTest < Minitest::Test
   def test_sub_sp
     assert_equal(49, @vm.sp)
 
-    execute("sub_sp", 2)
+    execute(["sub_sp", 2])
 
     assert_equal(49 - 2, @vm.sp)
   end
@@ -168,7 +168,7 @@ class VmTest < Minitest::Test
     @vm.reg_a = 0
     @vm.reg_b = 0
 
-    execute("compare")
+    execute(["compare"])
 
     assert_equal(Vm::FLAG_TRUE, @vm.zf)
   end
@@ -177,7 +177,7 @@ class VmTest < Minitest::Test
     @vm.reg_a = 0
     @vm.reg_b = 1
 
-    execute("compare")
+    execute(["compare"])
 
     assert_equal(Vm::FLAG_FALSE, @vm.zf)
   end
@@ -185,7 +185,7 @@ class VmTest < Minitest::Test
   # --------------------------------
 
   def test_jump
-    execute("jump", 3)
+    execute(["jump", 3])
 
     assert_equal(3, @vm.pc)
   end
@@ -196,7 +196,7 @@ class VmTest < Minitest::Test
     @vm.zf = Vm::FLAG_TRUE
     @vm.reg_b = 1
 
-    execute("jump_eq", 3)
+    execute(["jump_eq", 3])
 
     assert_equal(3, @vm.pc)
   end
@@ -205,9 +205,11 @@ class VmTest < Minitest::Test
     @vm.zf = Vm::FLAG_FALSE
     @vm.reg_b = 1
 
-    execute("jump_eq", 3)
+    assert_equal(0, @vm.pc)
 
-    assert_equal(2, @vm.pc)
+    execute(["jump_eq", 3])
+
+    assert_equal(1, @vm.pc)
   end
 
   # --------------------------------
@@ -216,10 +218,10 @@ class VmTest < Minitest::Test
     assert_equal(0, @vm.pc)
     assert_equal(49, @vm.sp)
 
-    execute("call", 8)
+    execute(["call", 8])
 
     assert_equal(49 - 1, @vm.sp)
-    assert_equal(0 + 2, @vm.mem.stack[@vm.sp])
+    assert_equal(0 + 1, @vm.mem.stack[@vm.sp])
     assert_equal(8, @vm.pc)
   end
 
@@ -230,7 +232,7 @@ class VmTest < Minitest::Test
     @vm.mem.stack[@vm.sp] = 0
     @vm.pc = 1
 
-    execute(nil, "ret")
+    execute(nil, ["ret"])
 
     assert_equal(45 + 1, @vm.sp)
     assert_equal(0, @vm.pc)
@@ -241,7 +243,7 @@ class VmTest < Minitest::Test
   def test_push_imm
     @vm.sp = 48
 
-    execute("push", 42)
+    execute(["push", 42])
 
     assert_equal(48 - 1, @vm.sp)
     assert_equal(42, @vm.mem.stack[@vm.sp])
@@ -251,7 +253,7 @@ class VmTest < Minitest::Test
     @vm.reg_a = 42
     @vm.sp = 48
 
-    execute("push", "reg_a")
+    execute(["push", "reg_a"])
 
     assert_equal(48 - 1, @vm.sp)
     assert_equal(42, @vm.reg_a)
@@ -261,7 +263,7 @@ class VmTest < Minitest::Test
     @vm.sp = 48
     assert_equal(49, @vm.bp)
 
-    execute("push", "bp")
+    execute(["push", "bp"])
 
     assert_equal(48 - 1, @vm.sp)
     assert_equal(49, @vm.mem.stack[@vm.sp])
@@ -272,7 +274,7 @@ class VmTest < Minitest::Test
     assert_equal(49, @vm.bp)
     @vm.mem.stack[49 - 2] = 42
 
-    execute("push", "[bp-2]")
+    execute(["push", "[bp-2]"])
 
     assert_equal(49 - 1, @vm.sp)
     assert_equal(42, @vm.mem.stack[@vm.sp])
@@ -283,7 +285,7 @@ class VmTest < Minitest::Test
     @vm.bp = 45
     @vm.mem.stack[45 + 2] = 42
 
-    execute("push", "[bp+2]")
+    execute(["push", "[bp+2]"])
 
     assert_equal(45 - 1, @vm.sp)
     assert_equal(42, @vm.mem.stack[@vm.sp])
@@ -295,7 +297,7 @@ class VmTest < Minitest::Test
     @vm.sp = 45
     @vm.mem.stack[@vm.sp] = 42
 
-    execute("pop", "reg_a")
+    execute(["pop", "reg_a"])
 
     assert_equal(45 + 1, @vm.sp)
     assert_equal(42, @vm.reg_a)
@@ -305,7 +307,7 @@ class VmTest < Minitest::Test
     @vm.sp = 45
     @vm.mem.stack[@vm.sp] = 42
 
-    execute("pop", "reg_b")
+    execute(["pop", "reg_b"])
 
     assert_equal(45 + 1, @vm.sp)
     assert_equal(42, @vm.reg_b)
@@ -315,7 +317,7 @@ class VmTest < Minitest::Test
     @vm.sp = 45
     @vm.mem.stack[@vm.sp] = 42
 
-    execute("pop", "bp")
+    execute(["pop", "bp"])
 
     assert_equal(45 + 1, @vm.sp)
     assert_equal(42, @vm.bp)
@@ -329,7 +331,7 @@ class VmTest < Minitest::Test
 
     assert_equal(0, @vm.mem.vram[0])
 
-    execute("set_vram", 0, "[bp+2]")
+    execute(["set_vram", 0, "[bp+2]"])
 
     assert_equal(1, @vm.mem.vram[0])
   end
@@ -340,7 +342,7 @@ class VmTest < Minitest::Test
 
     assert_equal(0, @vm.mem.vram[0])
 
-    execute("set_vram", 0, "[bp-2]")
+    execute(["set_vram", 0, "[bp-2]"])
 
     assert_equal(1, @vm.mem.vram[0])
   end
@@ -351,7 +353,7 @@ class VmTest < Minitest::Test
 
     assert_equal(0, @vm.mem.vram[0])
 
-    execute("set_vram", "[bp-2]", 1)
+    execute(["set_vram", "[bp-2]", 1])
 
     assert_equal(1, @vm.mem.vram[0])
   end
@@ -361,7 +363,7 @@ class VmTest < Minitest::Test
   def test_get_vram_imm
     @vm.mem.vram[0] = 1
 
-    execute("get_vram", 0, "reg_a")
+    execute(["get_vram", 0, "reg_a"])
 
     assert_equal(1, @vm.reg_a)
   end
@@ -370,7 +372,7 @@ class VmTest < Minitest::Test
     @vm.mem.vram[0] = 1
     @vm.mem.stack[@vm.bp - 2] = 0
 
-    execute("get_vram", "[bp-2]", "reg_a")
+    execute(["get_vram", "[bp-2]", "reg_a"])
 
     assert_equal(1, @vm.reg_a)
   end
