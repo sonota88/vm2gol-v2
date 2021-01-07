@@ -1,7 +1,7 @@
 # coding: utf-8
 
 require "pp"
-require "yaml"
+require "json"
 
 require_relative "./common"
 
@@ -27,15 +27,8 @@ class Memory
 
   def dump_main(pc)
     vmcmds = []
-    addr = 0
-    while addr < @main.size
-      operator = @main[addr]
-      num_args = Vm.num_args_for(operator)
-      vmcmds << {
-        addr: addr,
-        values: @main[addr .. addr + num_args]
-      }
-      addr += 1 + num_args
+    @main.each_with_index do |insn, i|
+      vmcmds << { addr: i, values: insn }
     end
 
     vmcmds
@@ -125,30 +118,6 @@ class Vm
   FLAG_TRUE = 1
   FLAG_FALSE = 0
 
-  NUM_ARGS_MAP = {
-    "cp"       => 2,
-    "set_vram" => 2,
-    "get_vram" => 2,
-
-    "set_reg_a" => 1,
-    "set_reg_b" => 1,
-    "label"     => 1,
-    "call"      => 1,
-    "push"      => 1,
-    "pop"       => 1,
-    "add_sp"    => 1,
-    "sub_sp"    => 1,
-    "jump_eq"   => 1,
-    "jump"      => 1,
-    "_cmt"      => 1,
-
-    "ret"     => 0,
-    "exit"    => 0,
-    "add_ab"  => 0,
-    "compare" => 0,
-    "mult_ab" => 0
-  }
-
   def initialize(mem, stack_size)
     # program counter
     @pc = 0
@@ -180,7 +149,8 @@ class Vm
   end
 
   def load_program_file(path)
-    load_program(YAML.load_file(path))
+    insns = File.open(path).lines.map { |line| JSON.parse(line) }
+    load_program(insns)
   end
 
   def load_program(words)
@@ -188,10 +158,11 @@ class Vm
   end
 
   def execute
+    insn = @mem.main[@pc]
     # operator
-    op = @mem.main[@pc]
+    op = insn[0]
 
-    pc_delta = 1 + Vm.num_args_for(op)
+    pc_delta = 1
 
     case op
     when "exit"
@@ -278,10 +249,6 @@ class Vm
     end
   end
 
-  def self.num_args_for(operator)
-    NUM_ARGS_MAP.fetch(operator)
-  end
-
   def dump_reg
     [
       "reg_a(#{ @reg_a.inspect })",
@@ -311,7 +278,7 @@ class Vm
   end
 
   def set_reg_a
-    val = @mem.main[@pc + 1]
+    val = @mem.main[@pc][1]
 
     @reg_a =
       case val
@@ -329,7 +296,7 @@ class Vm
   end
 
   def set_reg_b
-    val = @mem.main[@pc + 1]
+    val = @mem.main[@pc][1]
 
     @reg_b =
       case val
@@ -347,8 +314,8 @@ class Vm
   end
 
   def copy
-    arg1 = @mem.main[@pc + 1]
-    arg2 = @mem.main[@pc + 2]
+    arg1 = @mem.main[@pc][1]
+    arg2 = @mem.main[@pc][2]
 
     src_val =
       case arg1
@@ -385,11 +352,11 @@ class Vm
   end
 
   def add_sp
-    set_sp(@sp + @mem.main[@pc + 1])
+    set_sp(@sp + @mem.main[@pc][1])
   end
 
   def sub_sp
-    set_sp(@sp - @mem.main[@pc + 1])
+    set_sp(@sp - @mem.main[@pc][1])
   end
 
   def compare
@@ -397,23 +364,23 @@ class Vm
   end
 
   def jump
-    jump_dest = @mem.main[@pc + 1]
+    jump_dest = @mem.main[@pc][1]
     @pc = jump_dest
   end
 
   def jump_eq
     if @zf == FLAG_TRUE
-      jump_dest = @mem.main[@pc + 1]
+      jump_dest = @mem.main[@pc][1]
       @pc = jump_dest
     else
-      @pc += 2
+      @pc += 1
     end
   end
 
   def call
     set_sp(@sp - 1) # スタックポインタを1減らす
-    @mem.stack[@sp] = @pc + 2 # 戻り先を記憶
-    next_addr = @mem.main[@pc + 1] # ジャンプ先
+    @mem.stack[@sp] = @pc + 1 # 戻り先を記憶
+    next_addr = @mem.main[@pc][1] # ジャンプ先
     @pc = next_addr
   end
 
@@ -424,7 +391,7 @@ class Vm
   end
 
   def push
-    arg = @mem.main[@pc + 1]
+    arg = @mem.main[@pc][1]
 
     val_to_push =
       case arg
@@ -454,7 +421,7 @@ class Vm
   end
 
   def pop
-    arg = @mem.main[@pc + 1]
+    arg = @mem.main[@pc][1]
     val = @mem.stack[@sp]
 
     case arg
@@ -472,8 +439,8 @@ class Vm
   end
 
   def set_vram
-    arg1 = @mem.main[@pc + 1]
-    arg2 = @mem.main[@pc + 2]
+    arg1 = @mem.main[@pc][1]
+    arg2 = @mem.main[@pc][2]
 
     src_val =
       case arg2
@@ -502,8 +469,8 @@ class Vm
   end
 
   def get_vram
-    arg1 = @mem.main[@pc + 1]
-    arg2 = @mem.main[@pc + 2]
+    arg1 = @mem.main[@pc][1]
+    arg2 = @mem.main[@pc][2]
 
     vram_addr =
       case arg1
