@@ -14,7 +14,7 @@ end
 class Memory
   attr_accessor :main, :stack, :vram
 
-  MAIN_DUMP_WIDTH = 30
+  MAIN_DUMP_WIDTH = 10
 
   def initialize(stack_size)
     @main = []
