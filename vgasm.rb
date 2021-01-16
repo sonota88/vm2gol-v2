@@ -40,19 +40,19 @@ label_addr_map = create_label_addr_map(alines)
 alines.each do |aline|
   head, *rest = aline
 
-  words = [head]
+  insn = [head]
 
   case head
   when "label"
-    words << rest[0]
+    insn << rest[0]
   when "jump", "jump_eq", "call"
     label_name = rest[0]
-    words << label_addr_map[label_name]
+    insn << label_addr_map[label_name]
   else
-    words += rest.map {|arg|
+    insn += rest.map {|arg|
       (/^-?\d+$/ =~ arg) ? arg.to_i : arg
     }
   end
 
-  puts JSON.generate(words)
+  puts JSON.generate(insn)
 end
