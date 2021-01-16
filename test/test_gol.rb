@@ -25,6 +25,7 @@ class GolTest < Minitest::Test
 
   VG_FILE = File.join(PROJECT_DIR, "gol.vg.txt")
   VG_FILE_REPLACED = File.join(TMP_DIR, "gol_replaced.vg.txt")
+  TOKENS_FILE = File.join(TMP_DIR, "gol.tokens.txt")
   VGT_FILE = File.join(TMP_DIR, "gol.vgt.json")
   ASM_FILE = File.join(TMP_DIR, "gol.vga.txt")
   EXE_FILE = File.join(TMP_DIR, "gol.vge.txt")
@@ -48,7 +49,8 @@ class GolTest < Minitest::Test
   end
 
   def compile
-    _system %( ruby #{PROJECT_DIR}/vgparser.rb #{VG_FILE_REPLACED} > #{VGT_FILE} )
+    _system %( ruby #{PROJECT_DIR}/vglexer.rb  #{VG_FILE_REPLACED} > #{TOKENS_FILE} )
+    _system %( ruby #{PROJECT_DIR}/vgparser.rb #{TOKENS_FILE} > #{VGT_FILE} )
     _system %( ruby #{PROJECT_DIR}/vgcg.rb     #{VGT_FILE} > #{ASM_FILE} )
     _system %( ruby #{PROJECT_DIR}/vgasm.rb    #{ASM_FILE} > #{EXE_FILE} )
   end

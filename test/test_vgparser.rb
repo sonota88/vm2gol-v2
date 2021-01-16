@@ -3,34 +3,8 @@ require "vgparser"
 
 class ParserTest < Minitest::Test
   VG_FILE   = project_path("tmp/test.vg.txt")
-  TREE_FILE = project_path("tmp/test.vgt.txt")
-
-  # --------------------------------
-
-  def test_args_1
-    src = <<~EOS
-      1, 2, a)
-    EOS
-
-    exp = [1, 2, "a"]
-
-    parser = Parser.new(tokenize(src))
-    act = parser.parse_args()
-
-    assert_equal(format(exp), format(act))
-  end
-
-  def test_args_no_commas
-    src = <<~EOS
-      1 2 a)
-    EOS
-
-    parser = Parser.new(tokenize(src))
-
-    assert_raises Parser::ParseError do
-      parser.parse_args()
-    end
-  end
+  TOKENS_FILE = project_path("tmp/test.tokens.txt")
+  TREE_FILE = project_path("tmp/test.vgt.json")
 
   # --------------------------------
 
@@ -399,7 +373,8 @@ class ParserTest < Minitest::Test
 
   def _parse(src)
     File.open(VG_FILE, "wb") { |f| f.print src }
-    _system %( ruby #{PROJECT_DIR}/vgparser.rb #{VG_FILE} > #{TREE_FILE} )
+    _system %( ruby #{PROJECT_DIR}/vglexer.rb  #{VG_FILE} > #{TOKENS_FILE} )
+    _system %( ruby #{PROJECT_DIR}/vgparser.rb #{TOKENS_FILE} > #{TREE_FILE} )
     json = File.read(TREE_FILE)
     JSON.parse(json)
   end

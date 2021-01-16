@@ -11,6 +11,18 @@ class Token
     @type = type
     @value = value
   end
+
+  def to_line
+    "#{@type}:#{@value}"
+  end
+
+  def self.from_line(line)
+    if /^(.+?):(.+)$/ =~ line
+      Token.new($1.to_sym, $2)
+    else
+      nil
+    end
+  end
 end
 
 def p_e(*args)
