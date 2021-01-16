@@ -44,10 +44,10 @@ class Memory
             "     "
           end
 
-        operator = vmcmd[:values][0]
+        opcode = vmcmd[:values][0]
 
         color =
-          case operator
+          case opcode
           when "exit", "call", "ret", "jump", "jump_eq"
             TermColor::RED
           when "_cmt"
@@ -57,7 +57,7 @@ class Memory
           end
 
         indent =
-          if operator == "label"
+          if opcode == "label"
             ""
           else
             "  "
