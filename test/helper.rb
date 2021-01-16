@@ -13,7 +13,7 @@ def _system(cmd)
   system cmd
   status = $?
   unless status.success?
-    raise "Ablormal exit status (#{status.inspect})"
+    raise "Abnormal exit status (#{status.inspect})"
   end
 end
 
