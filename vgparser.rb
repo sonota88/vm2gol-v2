@@ -5,21 +5,6 @@ require "pp"
 
 require_relative "./common"
 
-class Token
-  attr_reader :type, :value
-
-  # type:
-  #   str:   string
-  #   kw:    keyword
-  #   int:   integer
-  #   sym:   symbol
-  #   ident: identifier
-  def initialize(type, value)
-    @type = type
-    @value = value
-  end
-end
-
 def tokenize(src)
   tokens = []
 

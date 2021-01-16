@@ -1,3 +1,18 @@
+class Token
+  attr_reader :type, :value
+
+  # type:
+  #   str:   string
+  #   kw:    keyword
+  #   int:   integer
+  #   sym:   symbol
+  #   ident: identifier
+  def initialize(type, value)
+    @type = type
+    @value = value
+  end
+end
+
 def p_e(*args)
   args.each {|arg| $stderr.puts arg.inspect }
 end
