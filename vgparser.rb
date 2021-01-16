@@ -49,7 +49,7 @@ def tokenize(src)
 
     when /\A(-?[0-9]+)/
       str = $1
-      tokens << Token.new(:int, str.to_i)
+      tokens << Token.new(:int, str)
       pos += str.size
 
     when /\A(==|!=|[(){}=;+*,])/
@@ -131,7 +131,7 @@ class Parser
       t.value
     elsif t.type == :int
       @pos += 1
-      t.value
+      t.value.to_i
     else
       raise ParseError
     end
@@ -289,7 +289,14 @@ class Parser
     if t_left.type == :int || t_left.type == :ident
       @pos += 1
 
-      expr_l = t_left.value
+      expr_l =
+        case t_left.type
+        when :int
+          t_left.value.to_i
+        else
+          t_left.value
+        end
+
       parse_expr_right(expr_l)
 
     else
