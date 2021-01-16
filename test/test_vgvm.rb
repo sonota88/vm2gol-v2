@@ -20,8 +20,8 @@ class VmTest < Minitest::Test
     @vm = Vm.new(mem, stack_size)
   end
 
-  def execute(*words)
-    @vm.load_program(words)
+  def execute(*insns)
+    @vm.load_program(insns)
     @vm.execute()
   end
 

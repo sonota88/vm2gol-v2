@@ -153,8 +153,8 @@ class Vm
     load_program(insns)
   end
 
-  def load_program(words)
-    @mem.main = words
+  def load_program(insns)
+    @mem.main = insns
   end
 
   def execute
