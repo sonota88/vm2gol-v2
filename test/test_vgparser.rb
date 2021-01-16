@@ -2,6 +2,11 @@ require_relative "./helper"
 require "vgparser"
 
 class ParserTest < Minitest::Test
+  VG_FILE   = project_path("tmp/test.vg.txt")
+  TREE_FILE = project_path("tmp/test.vgt.txt")
+
+  # --------------------------------
+
   def test_args_1
     src = <<~EOS
       1, 2, a)
@@ -393,8 +398,10 @@ class ParserTest < Minitest::Test
   # --------------------------------
 
   def _parse(src)
-    tokens = tokenize(src)
-    Parser.new(tokens).parse()
+    File.open(VG_FILE, "wb") { |f| f.print src }
+    _system %( ruby #{PROJECT_DIR}/vgparser.rb #{VG_FILE} > #{TREE_FILE} )
+    json = File.read(TREE_FILE)
+    JSON.parse(json)
   end
 
   def parse(src)
