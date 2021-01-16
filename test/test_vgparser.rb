@@ -392,10 +392,14 @@ class ParserTest < Minitest::Test
 
   # --------------------------------
 
-  def parse(src)
+  def _parse(src)
     tokens = tokenize(src)
+    Parser.new(tokens).parse()
+  end
+
+  def parse(src)
     begin
-      Parser.new(tokens).parse()
+      _parse(src)
     rescue ParseError => e
       parser.dump_state()
       raise e
@@ -413,8 +417,7 @@ class ParserTest < Minitest::Test
       }
     EOS
 
-    tokens = tokenize(wrapped_src)
-    Parser.new(tokens).parse()
+    _parse(wrapped_src)
   end
 
   def format_stmts(tree)
