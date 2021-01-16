@@ -159,12 +159,11 @@ class Vm
 
   def execute
     insn = @mem.main[@pc]
-    # operator
-    op = insn[0]
+    opcode = insn[0]
 
     pc_delta = 1
 
-    case op
+    case opcode
     when "exit"
       return true
     when "set_reg_a"
@@ -216,7 +215,7 @@ class Vm
     when "_cmt"
       @pc += pc_delta
     else
-      raise "Unknown operator (#{op})"
+      raise "Unknown opcode (#{opcode})"
     end
 
     false
