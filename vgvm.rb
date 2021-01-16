@@ -28,7 +28,7 @@ class Memory
   def dump_main(pc)
     vmcmds = []
     @main.each_with_index do |insn, i|
-      vmcmds << { addr: i, values: insn }
+      vmcmds << { addr: i, insn: insn }
     end
 
     vmcmds
@@ -44,7 +44,7 @@ class Memory
             "     "
           end
 
-        opcode = vmcmd[:values][0]
+        opcode = vmcmd[:insn][0]
 
         color =
           case opcode
@@ -68,7 +68,7 @@ class Memory
           head,
           vmcmd[:addr],
           indent,
-          vmcmd[:values].inspect
+          vmcmd[:insn].inspect
         )
       end
       .join("\n")
