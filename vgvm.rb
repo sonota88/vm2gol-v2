@@ -268,6 +268,20 @@ class Vm
     DUMP
   end
 
+  def calc_indirect_addr(str)
+    _, base_str, disp_str = str.split(":")
+
+    base =
+      case base_str
+      when "bp"
+        @bp
+      else
+        raise not_yet_impl("base_str", base_str)
+      end
+
+    base + disp_str.to_i
+  end
+
   def add_ab
     @reg_a = @reg_a + @reg_b
   end
@@ -283,11 +297,8 @@ class Vm
       case val
       when Integer
         val
-      when /^\[bp-(\d+)\]$/
-        stack_addr = @bp - $1.to_i
-        @mem.stack[stack_addr]
-      when /^\[bp\+(\d+)\]$/
-        stack_addr = @bp + $1.to_i
+      when /^ind:/
+        stack_addr = calc_indirect_addr(val)
         @mem.stack[stack_addr]
       else
         raise not_yet_impl("val", val)
@@ -301,11 +312,8 @@ class Vm
       case val
       when Integer
         val
-      when /^\[bp-(\d+)\]$/
-        stack_addr = @bp - $1.to_i
-        @mem.stack[stack_addr]
-      when /^\[bp\+(\d+)\]$/
-        stack_addr = @bp + $1.to_i
+      when /^ind:/
+        stack_addr = calc_indirect_addr(val)
         @mem.stack[stack_addr]
       else
         raise not_yet_impl("val", val)
@@ -326,10 +334,8 @@ class Vm
         @sp
       when "bp"
         @bp
-      when /^\[bp\+(\d+)\]$/
-        @mem.stack[@bp + $1.to_i]
-      when /^\[bp-(\d+)\]$/
-        @mem.stack[@bp - $1.to_i]
+      when /^ind:/
+        @mem.stack[calc_indirect_addr(arg1)]
       else
         raise not_yet_impl("copy src", arg1)
       end
@@ -343,8 +349,8 @@ class Vm
       @bp = src_val
     when "sp"
       set_sp(src_val)
-    when /^\[bp-(\d+)\]$/
-      @mem.stack[@bp - $1.to_i] = src_val
+    when /^ind:/
+      @mem.stack[calc_indirect_addr(arg2)] = src_val
     else
       raise not_yet_impl("copy dest", arg2)
     end
@@ -402,11 +408,8 @@ class Vm
           @reg_a
         when "bp"
           @bp
-        when /^\[bp-(\d+)\]$/
-          stack_addr = @bp - $1.to_i
-          @mem.stack[stack_addr]
-        when /^\[bp\+(\d+)\]$/
-          stack_addr = @bp + $1.to_i
+        when /^ind:/
+          stack_addr = calc_indirect_addr(arg)
           @mem.stack[stack_addr]
         else
           raise not_yet_impl("push", arg)
@@ -445,11 +448,8 @@ class Vm
       case arg2
       when Integer
         arg2
-      when /^\[bp\+(\d+)\]$/
-        stack_addr = @bp + $1.to_i
-        @mem.stack[stack_addr]
-      when /^\[bp-(\d+)\]$/
-        stack_addr = @bp - $1.to_i
+      when /^ind:/
+        stack_addr = calc_indirect_addr(arg2)
         @mem.stack[stack_addr]
       else
         raise not_yet_impl("set_vram", arg2)
@@ -458,8 +458,8 @@ class Vm
     case arg1
     when Integer
       @mem.vram[arg1] = src_val
-    when /^\[bp-(\d+)\]$/
-      stack_addr = @bp - $1.to_i
+    when /^ind:/
+      stack_addr = calc_indirect_addr(arg1)
       vram_addr = @mem.stack[stack_addr]
       @mem.vram[vram_addr] = src_val
     else
@@ -477,8 +477,8 @@ class Vm
         arg1
       when String
         case arg1
-        when /^\[bp-(\d+)\]$/
-          stack_addr = @bp - $1.to_i
+        when /^ind:/
+          stack_addr = calc_indirect_addr(arg1)
           @mem.stack[stack_addr]
         else
           raise not_yet_impl("arg1", arg1)

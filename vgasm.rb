@@ -31,6 +31,15 @@ def create_label_addr_map(alines)
   map
 end
 
+def to_machine_code_operand(arg)
+  case arg
+  when /^\[bp\-(\d+)\]$/ then "ind:bp:-#{$1}"
+  when /^\[bp\+(\d+)\]$/ then "ind:bp:#{$1}"
+  when /^-?\d+$/         then arg.to_i
+  else                        arg
+  end
+end
+
 src = File.read(ARGV[0])
 alines = parse(src)
 
@@ -49,9 +58,7 @@ alines.each do |aline|
     label_name = rest[0]
     insn << label_addr_map[label_name]
   else
-    insn += rest.map {|arg|
-      (/^-?\d+$/ =~ arg) ? arg.to_i : arg
-    }
+    insn += rest.map {|arg| to_machine_code_operand(arg) }
   end
 
   puts JSON.generate(insn)
