@@ -1,5 +1,4 @@
 require_relative "./helper"
-require "vgparser"
 
 class ParserTest < Minitest::Test
   VG_FILE   = project_path("tmp/test.vg.txt")

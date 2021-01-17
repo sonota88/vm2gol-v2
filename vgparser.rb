@@ -5,6 +5,9 @@ require "pp"
 
 require_relative "./common"
 
+$tokens = nil
+$pos = nil
+
 def read_tokens(src)
   tokens = []
 
@@ -18,27 +21,21 @@ end
 
 # --------------------------------
 
-class Parser
   class ParseError < StandardError; end
 
-  def initialize(tokens)
-    @tokens = tokens
-    @pos = 0
-  end
-
   def rest_head
-    @tokens[@pos ... @pos + 8]
+    $tokens[$pos ... $pos + 8]
       .map { |t| format("%s<%s>", t.type, t.value) }
   end
 
   def peek(offset = 0)
-    @tokens[@pos + offset]
+    $tokens[$pos + offset]
   end
 
   def dump_state(msg = nil)
     pp_e [
       msg,
-      @pos,
+      $pos,
       rest_head
     ]
   end
@@ -57,12 +54,12 @@ class Parser
   end
 
   def consume(str)
-    assert_value(@pos, str)
-    @pos += 1
+    assert_value($pos, str)
+    $pos += 1
   end
 
   def end?
-    @tokens.size <= @pos
+    $tokens.size <= $pos
   end
 
   # --------------------------------
@@ -71,10 +68,10 @@ class Parser
     t = peek()
 
     if t.type == :ident
-      @pos += 1
+      $pos += 1
       t.value
     elsif t.type == :int
-      @pos += 1
+      $pos += 1
       t.value.to_i
     else
       raise ParseError
@@ -121,7 +118,7 @@ class Parser
     consume "func"
 
     t = peek()
-    @pos += 1
+    $pos += 1
     func_name = t.value
 
     consume "("
@@ -150,7 +147,7 @@ class Parser
 
   def parse_var_declare
     t = peek()
-    @pos += 1
+    $pos += 1
     var_name = t.value
 
     consume ";"
@@ -160,7 +157,7 @@ class Parser
 
   def parse_var_init
     t = peek()
-    @pos += 1
+    $pos += 1
     var_name = t.value
 
     consume "="
@@ -231,7 +228,7 @@ class Parser
     end
 
     if t_left.type == :int || t_left.type == :ident
-      @pos += 1
+      $pos += 1
 
       expr_l =
         case t_left.type
@@ -252,7 +249,7 @@ class Parser
     consume "set"
 
     t = peek()
-    @pos += 1
+    $pos += 1
     var_name = t.value
 
     consume "="
@@ -276,7 +273,7 @@ class Parser
 
   def parse_funcall
     t = peek()
-    @pos += 1
+    $pos += 1
     func_name = t.value
 
     consume "("
@@ -290,7 +287,7 @@ class Parser
     consume "call_set"
 
     t = peek()
-    @pos += 1
+    $pos += 1
     var_name = t.value
 
     consume "="
@@ -376,7 +373,7 @@ class Parser
     consume "("
 
     t = peek()
-    @pos += 1
+    $pos += 1
     comment = t.value
 
     consume ")"
@@ -439,22 +436,19 @@ class Parser
     top_stmts = parse_top_stmts()
     [:top_stmts, *top_stmts]
   end
-end
 
 # --------------------------------
 
-if $PROGRAM_NAME == __FILE__
   in_file = ARGV[0]
-  tokens = read_tokens(File.read(in_file))
 
-  parser = Parser.new(tokens)
+  $tokens = read_tokens(File.read(in_file))
+  $pos = 0
 
   begin
-    tree = parser.parse()
-  rescue Parser::ParseError => e
-    parser.dump_state()
+    tree = parse()
+  rescue ParseError => e
+    dump_state()
     raise e
   end
 
   puts JSON.pretty_generate(tree)
-end
