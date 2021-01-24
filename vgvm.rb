@@ -149,7 +149,7 @@ class Vm
   end
 
   def load_program_file(path)
-    insns = File.open(path).lines.map { |line| JSON.parse(line) }
+    insns = File.open(path).each_line.map { |line| JSON.parse(line) }
     load_program(insns)
   end
 
