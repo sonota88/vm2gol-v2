@@ -117,27 +117,25 @@ def codegen_while(fn_arg_names, lvar_names, rest)
 end
 
 def _codegen_expr_push(fn_arg_names, lvar_names, val)
-  push_arg =
     case val
     when Integer
-      val
+      puts "  cp #{val} reg_a"
     when String
       case
       when fn_arg_names.include?(val)
-        to_fn_arg_addr(fn_arg_names, val)
+        cp_src = to_fn_arg_addr(fn_arg_names, val)
+        puts "  cp #{cp_src} reg_a"
       when lvar_names.include?(val)
-        to_lvar_addr(lvar_names, val)
+        cp_src = to_lvar_addr(lvar_names, val)
+        puts "  cp #{cp_src} reg_a"
       else
         raise not_yet_impl("val", val)
       end
     when Array
       _codegen_expr_binary(fn_arg_names, lvar_names, val)
-      "reg_a"
     else
       raise not_yet_impl("val", val)
     end
-
-  puts "  push #{push_arg}"
 end
 
 def _codegen_expr_add
@@ -209,7 +207,9 @@ def _codegen_expr_binary(fn_arg_names, lvar_names, expr)
   arg_r = args[1]
 
   _codegen_expr_push(fn_arg_names, lvar_names, arg_l)
+  puts "  push reg_a"
   _codegen_expr_push(fn_arg_names, lvar_names, arg_r)
+  puts "  push reg_a"
 
   case operator
   when "+"
