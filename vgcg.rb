@@ -225,6 +225,15 @@ def _codegen_expr_binary(fn_arg_names, lvar_names, expr)
   end
 end
 
+def codegen_expr(fn_arg_names, lvar_names, expr)
+  case expr
+  when Array
+    _codegen_expr_binary(fn_arg_names, lvar_names, expr)
+  else
+    raise not_yet_impl("expr", expr)
+  end
+end
+
 def _codegen_call_push_fn_arg(fn_arg_names, lvar_names, fn_arg)
   push_arg =
     case fn_arg
