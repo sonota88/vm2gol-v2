@@ -448,6 +448,8 @@ class Vm
       case arg2
       when Integer
         arg2
+      when "reg_a"
+        @reg_a
       when /^ind:/
         stack_addr = calc_indirect_addr(arg2)
         @mem.stack[stack_addr]
