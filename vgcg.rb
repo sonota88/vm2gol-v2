@@ -229,6 +229,17 @@ def codegen_expr(fn_arg_names, lvar_names, expr)
   case expr
   when Integer
     puts "  cp #{expr} reg_a"
+  when String
+    case
+    when fn_arg_names.include?(expr)
+      cp_src = to_fn_arg_addr(fn_arg_names, expr)
+      puts "  cp #{cp_src} reg_a"
+    when lvar_names.include?(expr)
+      cp_src = to_lvar_addr(lvar_names, expr)
+      puts "  cp #{cp_src} reg_a"
+    else
+      raise not_yet_impl("expr", expr)
+    end
   when Array
     _codegen_expr_binary(fn_arg_names, lvar_names, expr)
   else
