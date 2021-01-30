@@ -215,6 +215,15 @@ def codegen_expr(fn_arg_names, lvar_names, expr)
     when lvar_names.include?(expr)
       cp_src = to_lvar_addr(lvar_names, expr)
       puts "  cp #{cp_src} reg_a"
+    when _match_vram_ref(expr)
+      var_name = _match_vram_ref(expr)
+      case
+      when lvar_names.include?(var_name)
+        vram_addr = to_lvar_addr(lvar_names, var_name)
+        puts "  get_vram #{vram_addr} reg_a"
+      else
+        raise not_yet_impl("rest", rest)
+      end
     else
       raise not_yet_impl("expr", expr)
     end
