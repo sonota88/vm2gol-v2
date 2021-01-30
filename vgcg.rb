@@ -48,7 +48,7 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
     when "eq"
       # 式の結果が reg_a に入る
       puts "  # -->> expr"
-      codegen_expr(fn_arg_names, lvar_names, cond)
+      _codegen_expr_binary(fn_arg_names, lvar_names, cond)
       puts "  # <<-- expr"
 
       # 式の結果と比較するための値を reg_b に入れる
@@ -94,7 +94,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   puts "label #{label_begin}"
 
   # 条件の評価 ... 結果が reg_a に入る
-  codegen_expr(fn_arg_names, lvar_names, cond_expr)
+  _codegen_expr_binary(fn_arg_names, lvar_names, cond_expr)
   # 比較対象の値（真）をセット
   puts "  set_reg_b 1"
   puts "  compare"
@@ -131,7 +131,7 @@ def _codegen_expr_push(fn_arg_names, lvar_names, val)
         raise not_yet_impl("val", val)
       end
     when Array
-      codegen_expr(fn_arg_names, lvar_names, val)
+      _codegen_expr_binary(fn_arg_names, lvar_names, val)
       "reg_a"
     else
       raise not_yet_impl("val", val)
@@ -202,7 +202,7 @@ def _codegen_expr_neq
   puts "label #{label_end}"
 end
 
-def codegen_expr(fn_arg_names, lvar_names, expr)
+def _codegen_expr_binary(fn_arg_names, lvar_names, expr)
   operator, *args = expr
 
   arg_l = args[0]
@@ -301,7 +301,7 @@ def codegen_set(fn_arg_names, lvar_names, rest)
     when Integer
       expr
     when Array
-      codegen_expr(fn_arg_names, lvar_names, expr)
+      _codegen_expr_binary(fn_arg_names, lvar_names, expr)
       "reg_a"
     when String
       case
