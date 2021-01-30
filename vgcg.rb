@@ -286,39 +286,8 @@ def codegen_set(fn_arg_names, lvar_names, rest)
   dest = rest[0]
   expr = rest[1]
 
-  src_val =
-    case expr
-    when Integer
-      expr
-    when Array
-      _codegen_expr_binary(fn_arg_names, lvar_names, expr)
-      "reg_a"
-    when String
-      case
-      when fn_arg_names.include?(expr)
-        to_fn_arg_addr(fn_arg_names, expr)
-      when lvar_names.include?(expr)
-        to_lvar_addr(lvar_names, expr)
-      when _match_vram_addr(expr)
-        vram_addr = _match_vram_addr(expr)
-        puts "  get_vram #{vram_addr} reg_a"
-        "reg_a"
-      when _match_vram_ref(expr)
-        var_name = _match_vram_ref(expr)
-        case
-        when lvar_names.include?(var_name)
-          lvar_addr = to_lvar_addr(lvar_names, var_name)
-          puts "  get_vram #{ lvar_addr } reg_a"
-        else
-          raise not_yet_impl("rest", rest)
-        end
-        "reg_a"
-      else
-        raise not_yet_impl("rest", rest)
-      end
-    else
-      raise not_yet_impl("set src_val", rest)
-    end
+  codegen_expr(fn_arg_names, lvar_names, expr)
+  src_val = "reg_a"
 
   case
   when _match_vram_addr(dest)
