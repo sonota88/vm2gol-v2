@@ -312,30 +312,7 @@ end
 
 def codegen_return(lvar_names, stmt_rest)
   retval = stmt_rest[0]
-
-  case retval
-  when Integer
-    puts "  cp #{retval} reg_a"
-  when String
-    case
-    when _match_vram_ref(retval)
-      var_name = _match_vram_ref(retval)
-      case
-      when lvar_names.include?(var_name)
-        lvar_addr = to_lvar_addr(lvar_names, var_name)
-        puts "  get_vram #{lvar_addr} reg_a"
-      else
-        raise not_yet_impl("retval", retval)
-      end
-    when lvar_names.include?(retval)
-      lvar_addr = to_lvar_addr(lvar_names, retval)
-      puts "  cp #{lvar_addr} reg_a"
-    else
-      raise not_yet_impl("retval", retval)
-    end
-  else
-    raise not_yet_impl("retval", retval)
-  end
+  codegen_expr([], lvar_names, retval);
 end
 
 def codegen_vm_comment(comment)
