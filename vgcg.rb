@@ -225,32 +225,11 @@ def codegen_expr(fn_arg_names, lvar_names, expr)
   end
 end
 
-def _codegen_call_push_fn_arg(fn_arg_names, lvar_names, fn_arg)
-  push_arg =
-    case fn_arg
-    when Integer
-      fn_arg
-    when String
-      case
-      when fn_arg_names.include?(fn_arg)
-        to_fn_arg_addr(fn_arg_names, fn_arg)
-      when lvar_names.include?(fn_arg)
-        to_lvar_addr(lvar_names, fn_arg)
-      else
-        raise not_yet_impl(fn_arg)
-      end
-    else
-      raise not_yet_impl(fn_arg)
-    end
-
-  puts "  cp #{push_arg} reg_a"
-end
-
 def codegen_call(fn_arg_names, lvar_names, stmt_rest)
   fn_name, *fn_args = stmt_rest
 
   fn_args.reverse.each do |fn_arg|
-    _codegen_call_push_fn_arg(
+    codegen_expr(
       fn_arg_names, lvar_names, fn_arg
     )
     puts "  push reg_a"
@@ -266,7 +245,7 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
   fn_name, *fn_args = fn_temp
 
   fn_args.reverse.each do |fn_arg|
-    _codegen_call_push_fn_arg(
+    codegen_expr(
       fn_arg_names, lvar_names, fn_arg
     )
     puts "  push reg_a"
