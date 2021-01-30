@@ -227,6 +227,8 @@ end
 
 def codegen_expr(fn_arg_names, lvar_names, expr)
   case expr
+  when Integer
+    puts "  cp #{expr} reg_a"
   when Array
     _codegen_expr_binary(fn_arg_names, lvar_names, expr)
   else
