@@ -116,28 +116,6 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   puts ""
 end
 
-def _codegen_expr_push(fn_arg_names, lvar_names, val)
-    case val
-    when Integer
-      puts "  cp #{val} reg_a"
-    when String
-      case
-      when fn_arg_names.include?(val)
-        cp_src = to_fn_arg_addr(fn_arg_names, val)
-        puts "  cp #{cp_src} reg_a"
-      when lvar_names.include?(val)
-        cp_src = to_lvar_addr(lvar_names, val)
-        puts "  cp #{cp_src} reg_a"
-      else
-        raise not_yet_impl("val", val)
-      end
-    when Array
-      _codegen_expr_binary(fn_arg_names, lvar_names, val)
-    else
-      raise not_yet_impl("val", val)
-    end
-end
-
 def _codegen_expr_add
   puts "  pop reg_b"
   puts "  pop reg_a"
@@ -206,9 +184,9 @@ def _codegen_expr_binary(fn_arg_names, lvar_names, expr)
   arg_l = args[0]
   arg_r = args[1]
 
-  _codegen_expr_push(fn_arg_names, lvar_names, arg_l)
+  codegen_expr(fn_arg_names, lvar_names, arg_l)
   puts "  push reg_a"
-  _codegen_expr_push(fn_arg_names, lvar_names, arg_r)
+  codegen_expr(fn_arg_names, lvar_names, arg_r)
   puts "  push reg_a"
 
   case operator
