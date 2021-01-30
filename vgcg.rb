@@ -243,7 +243,7 @@ def _codegen_call_push_fn_arg(fn_arg_names, lvar_names, fn_arg)
       raise not_yet_impl(fn_arg)
     end
 
-  puts "  push #{push_arg}"
+  puts "  cp #{push_arg} reg_a"
 end
 
 def codegen_call(fn_arg_names, lvar_names, stmt_rest)
@@ -253,6 +253,7 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
     _codegen_call_push_fn_arg(
       fn_arg_names, lvar_names, fn_arg
     )
+    puts "  push reg_a"
   end
 
   codegen_vm_comment("call  #{fn_name}")
@@ -268,6 +269,7 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
     _codegen_call_push_fn_arg(
       fn_arg_names, lvar_names, fn_arg
     )
+    puts "  push reg_a"
   end
 
   codegen_vm_comment("call_set  #{fn_name}")

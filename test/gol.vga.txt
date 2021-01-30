@@ -39,10 +39,14 @@ label vram_set
 
   # 関数の処理本体
   sub_sp 1
-  push 0
-  push [bp:4]
-  push [bp:3]
-  push [bp:2]
+  cp 0 reg_a
+  push reg_a
+  cp [bp:4] reg_a
+  push reg_a
+  cp [bp:3] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~to_vi
   call to_vi
   add_sp 4
@@ -59,10 +63,14 @@ label vram_set_buf
 
   # 関数の処理本体
   sub_sp 1
-  push 25
-  push [bp:4]
-  push [bp:3]
-  push [bp:2]
+  cp 25 reg_a
+  push reg_a
+  cp [bp:4] reg_a
+  push reg_a
+  cp [bp:3] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~to_vi
   call to_vi
   add_sp 4
@@ -79,10 +87,14 @@ label vram_get
 
   # 関数の処理本体
   sub_sp 1
-  push 0
-  push [bp:4]
-  push [bp:3]
-  push [bp:2]
+  cp 0 reg_a
+  push reg_a
+  cp [bp:4] reg_a
+  push reg_a
+  cp [bp:3] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~to_vi
   call to_vi
   add_sp 4
@@ -382,32 +394,40 @@ label count_alive
   add_ab
   cp reg_a [bp:-5]
   _cmt ★~xl~の補正の直前
-  push [bp:-2]
-  push [bp:2]
+  cp [bp:-2] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~adjust_index
   call adjust_index
   add_sp 2
   cp reg_a [bp:-2]
   _cmt ★~xl~の補正の直後
   _cmt ★~xr~の補正の直前
-  push [bp:-3]
-  push [bp:2]
+  cp [bp:-3] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~adjust_index
   call adjust_index
   add_sp 2
   cp reg_a [bp:-3]
   _cmt ★~xr~の補正の直後
   _cmt ★~yt~の補正の直前
-  push [bp:-4]
-  push [bp:3]
+  cp [bp:-4] reg_a
+  push reg_a
+  cp [bp:3] reg_a
+  push reg_a
   _cmt call_set~~adjust_index
   call adjust_index
   add_sp 2
   cp reg_a [bp:-4]
   _cmt ★~yt~の補正の直後
   _cmt ★~yb~の補正の直前
-  push [bp:-5]
-  push [bp:3]
+  cp [bp:-5] reg_a
+  push reg_a
+  cp [bp:3] reg_a
+  push reg_a
   _cmt call_set~~adjust_index
   call adjust_index
   add_sp 2
@@ -416,9 +436,12 @@ label count_alive
   _cmt ★~座標補正の直後
   sub_sp 1
   _cmt 左上
-  push [bp:-4]
-  push [bp:-2]
-  push [bp:2]
+  cp [bp:-4] reg_a
+  push reg_a
+  cp [bp:-2] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~vram_get
   call vram_get
   add_sp 3
@@ -432,9 +455,12 @@ label count_alive
   add_ab
   cp reg_a [bp:-1]
   _cmt 上
-  push [bp:-4]
-  push [bp:4]
-  push [bp:2]
+  cp [bp:-4] reg_a
+  push reg_a
+  cp [bp:4] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~vram_get
   call vram_get
   add_sp 3
@@ -448,9 +474,12 @@ label count_alive
   add_ab
   cp reg_a [bp:-1]
   _cmt 右上
-  push [bp:-4]
-  push [bp:-3]
-  push [bp:2]
+  cp [bp:-4] reg_a
+  push reg_a
+  cp [bp:-3] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~vram_get
   call vram_get
   add_sp 3
@@ -464,9 +493,12 @@ label count_alive
   add_ab
   cp reg_a [bp:-1]
   _cmt 左
-  push [bp:5]
-  push [bp:-2]
-  push [bp:2]
+  cp [bp:5] reg_a
+  push reg_a
+  cp [bp:-2] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~vram_get
   call vram_get
   add_sp 3
@@ -480,9 +512,12 @@ label count_alive
   add_ab
   cp reg_a [bp:-1]
   _cmt 右
-  push [bp:5]
-  push [bp:-3]
-  push [bp:2]
+  cp [bp:5] reg_a
+  push reg_a
+  cp [bp:-3] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~vram_get
   call vram_get
   add_sp 3
@@ -496,9 +531,12 @@ label count_alive
   add_ab
   cp reg_a [bp:-1]
   _cmt 左下
-  push [bp:-5]
-  push [bp:-2]
-  push [bp:2]
+  cp [bp:-5] reg_a
+  push reg_a
+  cp [bp:-2] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~vram_get
   call vram_get
   add_sp 3
@@ -512,9 +550,12 @@ label count_alive
   add_ab
   cp reg_a [bp:-1]
   _cmt 下
-  push [bp:-5]
-  push [bp:4]
-  push [bp:2]
+  cp [bp:-5] reg_a
+  push reg_a
+  cp [bp:4] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~vram_get
   call vram_get
   add_sp 3
@@ -528,9 +569,12 @@ label count_alive
   add_ab
   cp reg_a [bp:-1]
   _cmt 右下
-  push [bp:-5]
-  push [bp:-3]
-  push [bp:2]
+  cp [bp:-5] reg_a
+  push reg_a
+  cp [bp:-3] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~vram_get
   call vram_get
   add_sp 3
@@ -603,34 +647,47 @@ label end_neq_16
   jump_eq true_15
   jump end_while_15
 label true_15
-  push [bp:-2]
-  push [bp:-1]
-  push [bp:3]
-  push [bp:2]
+  cp [bp:-2] reg_a
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
+  cp [bp:3] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~count_alive
   call count_alive
   add_sp 4
   cp reg_a [bp:-3]
   _cmt ★~count_alive~から戻った直後
   _cmt ★次世代の生死決定の直前
-  push [bp:-2]
-  push [bp:-1]
-  push [bp:2]
+  cp [bp:-2] reg_a
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call_set~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-4]
-  push [bp:-3]
-  push [bp:-4]
+  cp [bp:-3] reg_a
+  push reg_a
+  cp [bp:-4] reg_a
+  push reg_a
   _cmt call_set~~calc_next_gen
   call calc_next_gen
   add_sp 2
   cp reg_a [bp:-5]
   _cmt ★次世代の生死決定の直後
-  push [bp:-5]
-  push [bp:-2]
-  push [bp:-1]
-  push [bp:2]
+  cp [bp:-5] reg_a
+  push reg_a
+  cp [bp:-2] reg_a
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
+  cp [bp:2] reg_a
+  push reg_a
   _cmt call~~vram_set_buf
   call vram_set_buf
   add_sp 4
@@ -727,38 +784,58 @@ label main
   cp 5 [bp:-1]
   sub_sp 1
   cp 5 [bp:-2]
-  push 1
-  push 0
-  push 1
-  push [bp:-1]
+  cp 1 reg_a
+  push reg_a
+  cp 0 reg_a
+  push reg_a
+  cp 1 reg_a
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
   _cmt call~~vram_set
   call vram_set
   add_sp 4
-  push 1
-  push 1
-  push 2
-  push [bp:-1]
+  cp 1 reg_a
+  push reg_a
+  cp 1 reg_a
+  push reg_a
+  cp 2 reg_a
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
   _cmt call~~vram_set
   call vram_set
   add_sp 4
-  push 1
-  push 2
-  push 0
-  push [bp:-1]
+  cp 1 reg_a
+  push reg_a
+  cp 2 reg_a
+  push reg_a
+  cp 0 reg_a
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
   _cmt call~~vram_set
   call vram_set
   add_sp 4
-  push 1
-  push 2
-  push 1
-  push [bp:-1]
+  cp 1 reg_a
+  push reg_a
+  cp 2 reg_a
+  push reg_a
+  cp 1 reg_a
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
   _cmt call~~vram_set
   call vram_set
   add_sp 4
-  push 1
-  push 2
-  push 2
-  push [bp:-1]
+  cp 1 reg_a
+  push reg_a
+  cp 2 reg_a
+  push reg_a
+  cp 2 reg_a
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
   _cmt call~~vram_set
   call vram_set
   add_sp 4
@@ -786,8 +863,10 @@ label end_neq_20
   jump_eq true_19
   jump end_while_19
 label true_19
-  push [bp:-2]
-  push [bp:-1]
+  cp [bp:-2] reg_a
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
   _cmt call~~make_next_gen
   call make_next_gen
   add_sp 2
