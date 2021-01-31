@@ -48,7 +48,7 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
     when "eq"
       # 式の結果が reg_a に入る
       puts "  # -->> expr"
-      _codegen_expr_binary(fn_arg_names, lvar_names, cond)
+      codegen_expr(fn_arg_names, lvar_names, cond)
       puts "  # <<-- expr"
 
       # 式の結果と比較するための値を reg_b に入れる
@@ -94,7 +94,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   puts "label #{label_begin}"
 
   # 条件の評価 ... 結果が reg_a に入る
-  _codegen_expr_binary(fn_arg_names, lvar_names, cond_expr)
+  codegen_expr(fn_arg_names, lvar_names, cond_expr)
   # 比較対象の値（真）をセット
   puts "  set_reg_b 1"
   puts "  compare"
