@@ -249,6 +249,7 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
   puts "  add_sp #{fn_args.size}"
 end
 
+# TODO codegen_call を流用できそう
 def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
   lvar_name, fn_temp = stmt_rest
   fn_name, *fn_args = fn_temp
