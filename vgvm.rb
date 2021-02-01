@@ -48,9 +48,9 @@ class Memory
 
         color =
           case opcode
-          when "exit", "call", "ret", "jump", "jump_eq"
+          when "exit", "call", "ret", "jump", "jump_eq", "jump_g"
             TermColor::RED
-          when "_cmt"
+          when "_cmt", "_debug"
             TermColor::BLUE
           else
             ""
@@ -74,11 +74,32 @@ class Memory
       .join("\n")
   end
 
+  def _chr(n)
+    if n.nil?
+      return "! nil"
+    end
+    unless n.is_a?(Integer)
+      return "! non-integer"
+    end
+
+    if n < 32
+      if n == 12
+        "LF"
+      else
+        "ctrl"
+      end
+    elsif 32 <= n && n < 128
+      "'#{n.chr}'"
+    else
+      ""
+    end
+  end
+
   def dump_stack(sp, bp)
     lines = []
     @stack.each_with_index do |x, i|
       addr = i
-      next if addr < sp - 8
+      next if addr < sp - 12
       next if addr > sp + 8
 
       head =
@@ -94,7 +115,11 @@ class Memory
         else
           "         "
         end
-      lines << head + "#{addr} #{x.inspect}"
+      begin
+        lines << head + format("%04d % 4d %s", addr, x, _chr(x))
+      rescue => e
+        lines << [e.message, { x: x }].inspect
+      end
     end
     lines.join("\n")
   end
@@ -120,7 +145,16 @@ class Vm
   FLAG_TRUE = 1
   FLAG_FALSE = 0
 
-  def initialize(mem, stack_size)
+  def initialize(mem, stack_size, debug, verbose)
+    @debug = debug
+
+    @verbose =
+      if @debug
+        true
+      else
+        verbose
+      end
+
     # program counter
     @pc = 0
 
@@ -128,22 +162,23 @@ class Vm
     @reg_a = 0
     @reg_b = 0
 
-    # zero flag
-    @zf = FLAG_FALSE
+    @zf = FLAG_FALSE # zero flag
+    @sf = FLAG_FALSE # sign flag
 
     @mem = mem
     @sp = stack_size - 1 # stack pointer
     @bp = stack_size - 1 # base pointer
 
     @step = 0
-  end
 
-  def test?
-    ENV.key?("TEST")
+    @output = ""
   end
 
   def set_sp(addr)
-    raise "Stack overflow" if addr < 0
+    if addr < 0
+      dump_at_exit()
+      raise "Stack overflow"
+    end
 
     @sp = addr
   end
@@ -159,26 +194,32 @@ class Vm
 
   def execute
     insn = @mem.main[@pc]
+
     opcode = insn[0]
 
     case opcode
-    when "exit"      then return true
-    when "cp"        then copy()      ; @pc += 1
-    when "add_ab"    then add_ab()    ; @pc += 1
-    when "mult_ab"   then mult_ab()   ; @pc += 1
-    when "add_sp"    then add_sp()    ; @pc += 1
-    when "sub_sp"    then sub_sp()    ; @pc += 1
-    when "compare"   then compare()   ; @pc += 1
-    when "label"     then               @pc += 1
-    when "jump"      then jump()
-    when "jump_eq"   then jump_eq()
-    when "call"      then call()
-    when "ret"       then ret()
-    when "push"      then push()      ; @pc += 1
-    when "pop"       then pop()       ; @pc += 1
-    when "set_vram"  then set_vram()  ; @pc += 1
-    when "get_vram"  then get_vram()  ; @pc += 1
-    when "_cmt"      then               @pc += 1
+    when "exit"     then return true
+    when "cp"       then copy()     ; @pc += 1
+    when "lea"      then lea()      ; @pc += 1
+    when "add_ab"   then add_ab()   ; @pc += 1
+    when "mult_ab"  then mult_ab()  ; @pc += 1
+    when "add_sp"   then add_sp()   ; @pc += 1
+    when "sub_sp"   then sub_sp()   ; @pc += 1
+    when "compare"  then compare()  ; @pc += 1
+    when "label"    then              @pc += 1
+    when "jump"     then jump()
+    when "jump_eq"  then jump_eq()
+    when "jump_g"   then jump_g()
+    when "call"     then call()
+    when "ret"      then ret()
+    when "push"     then push()     ; @pc += 1
+    when "pop"      then pop()      ; @pc += 1
+    when "getchar"  then getchar()  ; @pc += 1
+    when "putchar"  then putchar()  ; @pc += 1
+    when "set_vram" then set_vram() ; @pc += 1
+    when "get_vram" then get_vram() ; @pc += 1
+    when "_cmt"     then              @pc += 1
+    when "_debug"   then _debug()   ; @pc += 1
     else
       raise "Unknown opcode (#{opcode})"
     end
@@ -187,9 +228,9 @@ class Vm
   end
 
   def start
-    unless test?
-      dump() # 初期状態
-      puts "Press enter key to start"
+    dump() # 初期状態
+    if @debug
+      $stderr.puts "Press enter key to start"
       $stdin.gets
     end
 
@@ -197,19 +238,14 @@ class Vm
       @step += 1
 
       do_exit = execute()
-      return if do_exit
-
-      unless test?
-        if ENV.key?("STEP")
-          dump()
-          $stdin.gets
-          # $stdin.gets if @step >= 600
-        else
-          dump() if @step % 10 == 0
-        end
-
-        # sleep 0.01
+      if do_exit
+        dump()
+        $stderr.puts "exit" if @verbose
+        return
       end
+
+      dump()
+      $stdin.gets if @debug
     end
   end
 
@@ -221,31 +257,61 @@ class Vm
   end
 
   def dump
-    puts <<~DUMP
+    return unless @verbose
+
+    $stderr.puts <<~DUMP
       ================================
-      #{ @step }: #{ dump_reg() } zf(#{ @zf })
+      #{ @step }: #{ dump_reg() } zf(#{ @zf }) sf(#{ @sf })
       ---- memory (main) ----
       #{ @mem.dump_main(@pc) }
       ---- memory (stack) ----
       #{ @mem.dump_stack(@sp, @bp) }
       ---- memory (vram) ----
       #{ @mem.dump_vram() }
+      ---- output ----
+      #{ @output.inspect }
     DUMP
   end
 
-  def calc_indirect_addr(str)
-    _, base_str, disp_str = str.split(":")
-
-    base =
-      case base_str
-      when "bp"
-        @bp
-      else
-        raise not_yet_impl("base_str", base_str)
-      end
-
-    base + disp_str.to_i
+  def get_value(str)
+    case str
+    when "reg_a"   then @reg_a
+    when "reg_b"   then @reg_b
+    when "bp"      then @bp
+    when "sp"      then @sp
+    when /^-?\d+$/ then str.to_i
+    when /^ind:/   then @mem.stack[calc_indirect_addr(str)]
+    else
+      raise not_yet_impl("str", str)
+    end
   end
+
+  def calc_indirect_addr(str)
+    _, base_str, disp_str, index_str = str.split(":")
+    
+    base  = get_value(base_str)
+    disp  = get_value(disp_str)
+    index = get_value(index_str)
+
+    base + disp + index
+  end
+
+  def dump_at_exit
+    lines = []
+    @mem.stack.each_with_index do |n, i|
+      line = format("%04d (% 4d) (0x% 4x)", i, n, n)
+      if 32 <= n && n <= 126
+        line += " (#{ n.chr })"
+      end
+      lines << line
+    end
+
+    File.open("tmp/dump.txt", "wb") { |f|
+      f.puts lines.join("\n")
+    }
+  end
+
+  # --------------------------------
 
   def add_ab
     @reg_a = @reg_a + @reg_b
@@ -261,33 +327,40 @@ class Vm
 
     src_val =
       case arg1
-      when Integer
-        arg1
-      when "reg_a"
-        @reg_a
-      when "sp"
-        @sp
-      when "bp"
-        @bp
-      when /^ind:/
-        @mem.stack[calc_indirect_addr(arg1)]
+      when Integer then arg1
+      when String  then get_value(arg1)
       else
         raise not_yet_impl("copy src", arg1)
       end
 
     case arg2
-    when "reg_a"
-      @reg_a = src_val
-    when "reg_b"
-      @reg_b = src_val
-    when "bp"
-      @bp = src_val
-    when "sp"
-      set_sp(src_val)
-    when /^ind:/
-      @mem.stack[calc_indirect_addr(arg2)] = src_val
+    when "reg_a"          then @reg_a                               = src_val
+    when "reg_b"          then @reg_b                               = src_val
+    when "bp"             then @bp                                  = src_val
+    when "sp"             then set_sp(src_val)
+    when /^ind:/          then @mem.stack[calc_indirect_addr(arg2)] = src_val
     else
       raise not_yet_impl("copy dest", arg2)
+    end
+  end
+
+  # load effective address
+  def lea
+    _, dest, src = @mem.main[@pc]
+
+    addr =
+      case src
+      when /^ind:/
+        calc_indirect_addr(src)
+      else
+        raise not_yet_impl("src", src)
+      end
+
+    case dest
+    when "reg_a"
+      @reg_a = addr
+    else
+      raise not_yet_impl("dest", dest)
     end
   end
 
@@ -300,7 +373,9 @@ class Vm
   end
 
   def compare
-    @zf = (@reg_a == @reg_b) ? FLAG_TRUE : FLAG_FALSE
+    result = @reg_b - @reg_a
+    @zf = (result == 0) ? FLAG_TRUE : FLAG_FALSE
+    @sf = (0 <= result) ? FLAG_TRUE : FLAG_FALSE
   end
 
   def jump
@@ -310,6 +385,15 @@ class Vm
 
   def jump_eq
     if @zf == FLAG_TRUE
+      jump_dest = @mem.main[@pc][1]
+      @pc = jump_dest
+    else
+      @pc += 1
+    end
+  end
+
+  def jump_g
+    if @zf == FLAG_FALSE && @sf == FLAG_TRUE
       jump_dest = @mem.main[@pc][1]
       @pc = jump_dest
     else
@@ -333,25 +417,7 @@ class Vm
   def push
     arg = @mem.main[@pc][1]
 
-    val_to_push =
-      case arg
-      when Integer
-        arg
-      when String
-        case arg
-        when "reg_a"
-          @reg_a
-        when "bp"
-          @bp
-        when /^ind:/
-          stack_addr = calc_indirect_addr(arg)
-          @mem.stack[stack_addr]
-        else
-          raise not_yet_impl("push", arg)
-        end
-      else
-        raise not_yet_impl("push", arg)
-      end
+    val_to_push = get_value(arg)
 
     set_sp(@sp - 1)
     @mem.stack[@sp] = val_to_push
@@ -362,17 +428,57 @@ class Vm
     val = @mem.stack[@sp]
 
     case arg
-    when "reg_a"
-      @reg_a = val
-    when "reg_b"
-      @reg_b = val
-    when "bp"
-      @bp = val
+    when "reg_a" then @reg_a = val
+    when "reg_b" then @reg_b = val
+    when "bp"    then @bp    = val
     else
       raise not_yet_impl("pop", arg)
     end
 
     set_sp(@sp + 1)
+  end
+
+  def getchar
+    raise "stdin is not available" if $stdin_.nil?
+
+    arg = @mem.main[@pc][1]
+
+    c = $stdin_.getc
+    n =
+      if c.nil?
+        -1 # EOF
+      else
+        c.ord
+      end
+
+    case arg
+    when "reg_a"
+      @reg_a = n
+    else
+      raise not_yet_impl("arg", arg)
+    end
+  end
+
+  def putchar
+    arg = @mem.main[@pc][1]
+
+    n =
+      case arg
+      when Integer
+        arg
+      when "reg_a"
+        @reg_a
+      else
+        raise not_yet_impl("arg", arg)
+      end
+
+    c = n.chr
+    $stdout.write c
+
+    @output += c
+    if 80 < @output.size
+      @output = @output[1..-1]
+    end
   end
 
   def set_vram
@@ -383,10 +489,13 @@ class Vm
       case arg2
       when Integer
         arg2
-      when "reg_a"
-        @reg_a
-      when /^ind:/
-        stack_addr = calc_indirect_addr(arg2)
+      when /^\[bp\+(\d+)\]$/
+        raise "TODO [...] 記法をやめる"
+        stack_addr = @bp + $1.to_i
+        @mem.stack[stack_addr]
+      when /^\[bp-(\d+)\]$/
+        raise "TODO [...] 記法をやめる"
+        stack_addr = @bp - $1.to_i
         @mem.stack[stack_addr]
       else
         raise not_yet_impl("set_vram", arg2)
@@ -395,8 +504,9 @@ class Vm
     case arg1
     when Integer
       @mem.vram[arg1] = src_val
-    when /^ind:/
-      stack_addr = calc_indirect_addr(arg1)
+    when /^\[bp-(\d+)\]$/
+      raise "TODO [...] 記法をやめる"
+      stack_addr = @bp - $1.to_i
       vram_addr = @mem.stack[stack_addr]
       @mem.vram[vram_addr] = src_val
     else
@@ -414,8 +524,9 @@ class Vm
         arg1
       when String
         case arg1
-        when /^ind:/
-          stack_addr = calc_indirect_addr(arg1)
+        when /^\[bp-(\d+)\]$/
+          raise "TODO [...] 記法をやめる"
+          stack_addr = @bp - $1.to_i
           @mem.stack[stack_addr]
         else
           raise not_yet_impl("arg1", arg1)
@@ -433,17 +544,49 @@ class Vm
       raise not_yet_impl("arg2", arg2)
     end
   end
+
+  def _debug
+    @debug = true
+  end
 end
 
+def env_to_bool(key, default = false)
+  if ENV.key?(key)
+    case ENV[key]
+    when "0" then false
+    when "1" then true
+    else          default
+    end
+  else
+    false
+  end
+end
+
+$stdin_ = nil
+
 if $PROGRAM_NAME == __FILE__
+  stdin_file = "tmp/stdin"
+  # File.open(stdin_file, "wb"){|f| f.write $stdin.read }
+
   exe_file = ARGV[0]
 
-  stack_size = 50
-  mem = Memory.new(stack_size)
-  vm = Vm.new(mem, stack_size)
-  vm.load_program_file(exe_file)
+  ARGV.each { |arg|
+    if /^stdin=(.+)/ =~ arg
+      stdin_file = $1
+    end
+  }
+  if File.exist?(stdin_file)
+    $stdin_ = File.open(stdin_file, "rb")
+  end
 
+  stack_size = 600
+  mem = Memory.new(stack_size)
+  vm = Vm.new(
+    mem,
+    stack_size,
+    env_to_bool("DEBUG"),
+    env_to_bool("VERBOSE")
+  )
+  vm.load_program_file(exe_file)
   vm.start
-  vm.dump()
-  $stderr.puts "exit"
 end
