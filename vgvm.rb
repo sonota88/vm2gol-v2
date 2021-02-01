@@ -162,56 +162,25 @@ class Vm
     pc_delta = 1
 
     case opcode
-    when "exit"
-      return true
-    when "set_reg_a"
-      set_reg_a()
-      @pc += pc_delta
-    when "set_reg_b"
-      set_reg_b()
-      @pc += pc_delta
-    when "cp"
-      copy()
-      @pc += pc_delta
-    when "add_ab"
-      add_ab()
-      @pc += pc_delta
-    when "mult_ab"
-      mult_ab()
-      @pc += pc_delta
-    when "add_sp"
-      add_sp()
-      @pc += pc_delta
-    when "sub_sp"
-      sub_sp()
-      @pc += pc_delta
-    when "compare"
-      compare()
-      @pc += pc_delta
-    when "label"
-      @pc += pc_delta
-    when "jump"
-      jump()
-    when "jump_eq"
-      jump_eq()
-    when "call"
-      call()
-    when "ret"
-      ret()
-    when "push"
-      push()
-      @pc += pc_delta
-    when "pop"
-      pop()
-      @pc += pc_delta
-    when "set_vram"
-      set_vram()
-      @pc += pc_delta
-    when "get_vram"
-      get_vram()
-      @pc += pc_delta
-    when "_cmt"
-      @pc += pc_delta
+    when "exit"      then return true
+    when "set_reg_a" then set_reg_a() ; @pc += pc_delta
+    when "set_reg_b" then set_reg_b() ; @pc += pc_delta
+    when "cp"        then copy()      ; @pc += pc_delta
+    when "add_ab"    then add_ab()    ; @pc += pc_delta
+    when "mult_ab"   then mult_ab()   ; @pc += pc_delta
+    when "add_sp"    then add_sp()    ; @pc += pc_delta
+    when "sub_sp"    then sub_sp()    ; @pc += pc_delta
+    when "compare"   then compare()   ; @pc += pc_delta
+    when "label"     then               @pc += pc_delta
+    when "jump"      then jump()
+    when "jump_eq"   then jump_eq()
+    when "call"      then call()
+    when "ret"       then ret()
+    when "push"      then push()      ; @pc += pc_delta
+    when "pop"       then pop()       ; @pc += pc_delta
+    when "set_vram"  then set_vram()  ; @pc += pc_delta
+    when "get_vram"  then get_vram()  ; @pc += pc_delta
+    when "_cmt"      then               @pc += pc_delta
     else
       raise "Unknown opcode (#{opcode})"
     end
