@@ -26,25 +26,25 @@ class Memory
   end
 
   def dump_main(pc)
-    vmcmds = []
+    work_insns = []
     @main.each_with_index do |insn, i|
-      vmcmds << { addr: i, insn: insn }
+      work_insns << { addr: i, insn: insn }
     end
 
-    vmcmds
-      .select do |vmcmd|
-        pc - MAIN_DUMP_WIDTH <= vmcmd[:addr] &&
-          vmcmd[:addr] <= pc + MAIN_DUMP_WIDTH
+    work_insns
+      .select do |work_insn|
+        pc - MAIN_DUMP_WIDTH <= work_insn[:addr] &&
+          work_insn[:addr] <= pc + MAIN_DUMP_WIDTH
       end
-      .map do |vmcmd|
+      .map do |work_insn|
         head =
-          if vmcmd[:addr] == pc
+          if work_insn[:addr] == pc
             "pc =>"
           else
             "     "
           end
 
-        opcode = vmcmd[:insn][0]
+        opcode = work_insn[:insn][0]
 
         color =
           case opcode
@@ -66,9 +66,9 @@ class Memory
         format(
           "%s %02d #{color}%s%s#{TermColor::RESET}",
           head,
-          vmcmd[:addr],
+          work_insn[:addr],
           indent,
-          vmcmd[:insn].inspect
+          work_insn[:insn].inspect
         )
       end
       .join("\n")
