@@ -242,21 +242,10 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
   puts "  add_sp #{fn_args.size}"
 end
 
-# TODO codegen_call を流用できそう
 def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
   lvar_name, fn_temp = stmt_rest
-  fn_name, *fn_args = fn_temp
 
-  fn_args.reverse.each do |fn_arg|
-    codegen_expr(
-      fn_arg_names, lvar_names, fn_arg
-    )
-    puts "  push reg_a"
-  end
-
-  codegen_vm_comment("call_set  #{fn_name}")
-  puts "  call #{fn_name}"
-  puts "  add_sp #{fn_args.size}"
+  codegen_call(fn_arg_names, lvar_names, fn_temp)
 
   lvar_addr = to_lvar_addr(lvar_names, lvar_name)
   puts "  cp reg_a #{lvar_addr}"
