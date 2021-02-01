@@ -1,0 +1,747 @@
+  call main
+  exit
+
+label to_vi
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  push [bp+4]
+  push [bp+2]
+  pop reg_b
+  pop reg_a
+  mult_ab
+  push reg_a
+  push [bp+3]
+  pop reg_b
+  pop reg_a
+  add_ab
+  push reg_a
+  push [bp+5]
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  cp [bp-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
+
+label vram_set
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  push 0
+  push [bp+4]
+  push [bp+3]
+  push [bp+2]
+  _cmt call_set~~to_vi
+  call to_vi
+  add_sp 4
+  cp reg_a [bp-1]
+  set_vram [bp-1] [bp+5]
+
+  cp bp sp
+  pop bp
+  ret
+
+label vram_set_buf
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  push 25
+  push [bp+4]
+  push [bp+3]
+  push [bp+2]
+  _cmt call_set~~to_vi
+  call to_vi
+  add_sp 4
+  cp reg_a [bp-1]
+  set_vram [bp-1] [bp+5]
+
+  cp bp sp
+  pop bp
+  ret
+
+label vram_get
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  push 0
+  push [bp+4]
+  push [bp+3]
+  push [bp+2]
+  _cmt call_set~~to_vi
+  call to_vi
+  add_sp 4
+  cp reg_a [bp-1]
+  get_vram [bp-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
+
+label adjust_index
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+
+  # -->> case_1
+  # when_1_0: ["eq", "i", -1]
+  # -->> expr
+  push [bp+3]
+  push -1
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_2
+  set_reg_a 0
+  jump end_eq_2
+label then_2
+  set_reg_a 1
+label end_eq_2
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_1_0
+  jump end_when_1_0
+label when_1_0
+  _cmt 下限を超えた場合
+  push [bp+2]
+  push -1
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  jump end_case_1
+label end_when_1_0
+  # when_1_1: ["eq", "i", "width"]
+  # -->> expr
+  push [bp+3]
+  push [bp+2]
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_3
+  set_reg_a 0
+  jump end_eq_3
+label then_3
+  set_reg_a 1
+label end_eq_3
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_1_1
+  jump end_when_1_1
+label when_1_1
+  _cmt 上限を超えた場合
+  cp 0 [bp-1]
+  jump end_case_1
+label end_when_1_1
+  # when_1_2: ["eq", 1, 1]
+  # -->> expr
+  push 1
+  push 1
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_4
+  set_reg_a 0
+  jump end_eq_4
+label then_4
+  set_reg_a 1
+label end_eq_4
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_1_2
+  jump end_when_1_2
+label when_1_2
+  _cmt 補正が不要な場合
+  cp [bp+3] [bp-1]
+  jump end_case_1
+label end_when_1_2
+label end_case_1
+  # <<-- case_1
+
+  cp [bp-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
+
+label calc_next_gen
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp 0 [bp-1]
+
+  # -->> case_5
+  # when_5_0: ["eq", "current_val", 0]
+  # -->> expr
+  push [bp+2]
+  push 0
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_6
+  set_reg_a 0
+  jump end_eq_6
+label then_6
+  set_reg_a 1
+label end_eq_6
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_5_0
+  jump end_when_5_0
+label when_5_0
+
+  # -->> case_7
+  # when_7_0: ["eq", "count", 3]
+  # -->> expr
+  push [bp+3]
+  push 3
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_8
+  set_reg_a 0
+  jump end_eq_8
+label then_8
+  set_reg_a 1
+label end_eq_8
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_7_0
+  jump end_when_7_0
+label when_7_0
+  cp 1 [bp-1]
+  jump end_case_7
+label end_when_7_0
+label end_case_7
+  # <<-- case_7
+
+  jump end_case_5
+label end_when_5_0
+  # when_5_1: ["eq", 0, 0]
+  # -->> expr
+  push 0
+  push 0
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_9
+  set_reg_a 0
+  jump end_eq_9
+label then_9
+  set_reg_a 1
+label end_eq_9
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_5_1
+  jump end_when_5_1
+label when_5_1
+
+  # -->> case_10
+  # when_10_0: ["eq", "count", 2]
+  # -->> expr
+  push [bp+3]
+  push 2
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_11
+  set_reg_a 0
+  jump end_eq_11
+label then_11
+  set_reg_a 1
+label end_eq_11
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_10_0
+  jump end_when_10_0
+label when_10_0
+  cp 1 [bp-1]
+  jump end_case_10
+label end_when_10_0
+  # when_10_1: ["eq", "count", 3]
+  # -->> expr
+  push [bp+3]
+  push 3
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_12
+  set_reg_a 0
+  jump end_eq_12
+label then_12
+  set_reg_a 1
+label end_eq_12
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_10_1
+  jump end_when_10_1
+label when_10_1
+  cp 1 [bp-1]
+  jump end_case_10
+label end_when_10_1
+label end_case_10
+  # <<-- case_10
+
+  jump end_case_5
+label end_when_5_1
+label end_case_5
+  # <<-- case_5
+
+  cp [bp-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
+
+label count_alive
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp 0 [bp-1]
+  sub_sp 1
+  push [bp+4]
+  push -1
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-2]
+  sub_sp 1
+  push [bp+4]
+  push 1
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-3]
+  sub_sp 1
+  push [bp+5]
+  push -1
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-4]
+  sub_sp 1
+  push [bp+5]
+  push 1
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-5]
+  _cmt ★~xl~の補正の直前
+  push [bp-2]
+  push [bp+2]
+  _cmt call_set~~adjust_index
+  call adjust_index
+  add_sp 2
+  cp reg_a [bp-2]
+  _cmt ★~xl~の補正の直後
+  _cmt ★~xr~の補正の直前
+  push [bp-3]
+  push [bp+2]
+  _cmt call_set~~adjust_index
+  call adjust_index
+  add_sp 2
+  cp reg_a [bp-3]
+  _cmt ★~xr~の補正の直後
+  _cmt ★~yt~の補正の直前
+  push [bp-4]
+  push [bp+3]
+  _cmt call_set~~adjust_index
+  call adjust_index
+  add_sp 2
+  cp reg_a [bp-4]
+  _cmt ★~yt~の補正の直後
+  _cmt ★~yb~の補正の直前
+  push [bp-5]
+  push [bp+3]
+  _cmt call_set~~adjust_index
+  call adjust_index
+  add_sp 2
+  cp reg_a [bp-5]
+  _cmt ★~yb~の補正の直後
+  _cmt ★~座標補正の直後
+  sub_sp 1
+  _cmt 左上
+  push [bp-4]
+  push [bp-2]
+  push [bp+2]
+  _cmt call_set~~vram_get
+  call vram_get
+  add_sp 3
+  cp reg_a [bp-6]
+  push [bp-1]
+  push [bp-6]
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  _cmt 上
+  push [bp-4]
+  push [bp+4]
+  push [bp+2]
+  _cmt call_set~~vram_get
+  call vram_get
+  add_sp 3
+  cp reg_a [bp-6]
+  push [bp-1]
+  push [bp-6]
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  _cmt 右上
+  push [bp-4]
+  push [bp-3]
+  push [bp+2]
+  _cmt call_set~~vram_get
+  call vram_get
+  add_sp 3
+  cp reg_a [bp-6]
+  push [bp-1]
+  push [bp-6]
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  _cmt 左
+  push [bp+5]
+  push [bp-2]
+  push [bp+2]
+  _cmt call_set~~vram_get
+  call vram_get
+  add_sp 3
+  cp reg_a [bp-6]
+  push [bp-1]
+  push [bp-6]
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  _cmt 右
+  push [bp+5]
+  push [bp-3]
+  push [bp+2]
+  _cmt call_set~~vram_get
+  call vram_get
+  add_sp 3
+  cp reg_a [bp-6]
+  push [bp-1]
+  push [bp-6]
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  _cmt 左下
+  push [bp-5]
+  push [bp-2]
+  push [bp+2]
+  _cmt call_set~~vram_get
+  call vram_get
+  add_sp 3
+  cp reg_a [bp-6]
+  push [bp-1]
+  push [bp-6]
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  _cmt 下
+  push [bp-5]
+  push [bp+4]
+  push [bp+2]
+  _cmt call_set~~vram_get
+  call vram_get
+  add_sp 3
+  cp reg_a [bp-6]
+  push [bp-1]
+  push [bp-6]
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  _cmt 右下
+  push [bp-5]
+  push [bp-3]
+  push [bp+2]
+  _cmt call_set~~vram_get
+  call vram_get
+  add_sp 3
+  cp reg_a [bp-6]
+  push [bp-1]
+  push [bp-6]
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  _cmt ★count_aliveの最後
+  cp [bp-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
+
+label make_next_gen
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp 0 [bp-1]
+  sub_sp 1
+  cp 0 [bp-2]
+  sub_sp 1
+  sub_sp 1
+  sub_sp 1
+
+label while_13
+  push [bp-2]
+  push [bp+3]
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_14
+  set_reg_a 1
+  jump end_neq_14
+label then_14
+  set_reg_a 0
+label end_neq_14
+  set_reg_b 1
+  compare
+  jump_eq true_13
+  jump end_while_13
+label true_13
+  cp 0 [bp-1]
+
+label while_15
+  push [bp-1]
+  push [bp+2]
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_16
+  set_reg_a 1
+  jump end_neq_16
+label then_16
+  set_reg_a 0
+label end_neq_16
+  set_reg_b 1
+  compare
+  jump_eq true_15
+  jump end_while_15
+label true_15
+  push [bp-2]
+  push [bp-1]
+  push [bp+3]
+  push [bp+2]
+  _cmt call_set~~count_alive
+  call count_alive
+  add_sp 4
+  cp reg_a [bp-3]
+  _cmt ★~count_alive~から戻った直後
+  _cmt ★次世代の生死決定の直前
+  push [bp-2]
+  push [bp-1]
+  push [bp+2]
+  _cmt call_set~~vram_get
+  call vram_get
+  add_sp 3
+  cp reg_a [bp-4]
+  push [bp-3]
+  push [bp-4]
+  _cmt call_set~~calc_next_gen
+  call calc_next_gen
+  add_sp 2
+  cp reg_a [bp-5]
+  _cmt ★次世代の生死決定の直後
+  push [bp-5]
+  push [bp-2]
+  push [bp-1]
+  push [bp+2]
+  _cmt call~~vram_set_buf
+  call vram_set_buf
+  add_sp 4
+  _cmt ★~vram_set_buf~から戻った直後
+  push [bp-1]
+  push 1
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  jump while_15
+label end_while_15
+
+  push [bp-2]
+  push 1
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-2]
+  jump while_13
+label end_while_13
+
+
+  cp bp sp
+  pop bp
+  ret
+
+label replace_with_buf
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp 0 [bp-1]
+  sub_sp 1
+  sub_sp 1
+
+label while_17
+  push [bp-1]
+  push 25
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_18
+  set_reg_a 1
+  jump end_neq_18
+label then_18
+  set_reg_a 0
+label end_neq_18
+  set_reg_b 1
+  compare
+  jump_eq true_17
+  jump end_while_17
+label true_17
+  push [bp-1]
+  push 25
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-2]
+  get_vram [bp-2] reg_a
+  cp reg_a [bp-3]
+  set_vram [bp-1] [bp-3]
+  push [bp-1]
+  push 1
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-1]
+  jump while_17
+label end_while_17
+
+
+  cp bp sp
+  pop bp
+  ret
+
+label main
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp 5 [bp-1]
+  sub_sp 1
+  cp 5 [bp-2]
+  push 1
+  push 0
+  push 1
+  push [bp-1]
+  _cmt call~~vram_set
+  call vram_set
+  add_sp 4
+  push 1
+  push 1
+  push 2
+  push [bp-1]
+  _cmt call~~vram_set
+  call vram_set
+  add_sp 4
+  push 1
+  push 2
+  push 0
+  push [bp-1]
+  _cmt call~~vram_set
+  call vram_set
+  add_sp 4
+  push 1
+  push 2
+  push 1
+  push [bp-1]
+  _cmt call~~vram_set
+  call vram_set
+  add_sp 4
+  push 1
+  push 2
+  push 2
+  push [bp-1]
+  _cmt call~~vram_set
+  call vram_set
+  add_sp 4
+  sub_sp 1
+  cp 0 [bp-3]
+  sub_sp 1
+  cp 1 [bp-4]
+
+label while_19
+  push [bp-4]
+  push [bp-3]
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_20
+  set_reg_a 1
+  jump end_neq_20
+label then_20
+  set_reg_a 0
+label end_neq_20
+  set_reg_b 1
+  compare
+  jump_eq true_19
+  jump end_while_19
+label true_19
+  push [bp-2]
+  push [bp-1]
+  _cmt call~~make_next_gen
+  call make_next_gen
+  add_sp 2
+  _cmt call~~replace_with_buf
+  call replace_with_buf
+  add_sp 0
+  push [bp-4]
+  push 1
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp-4]
+  jump while_19
+label end_while_19
+
+
+  cp bp sp
+  pop bp
+  ret

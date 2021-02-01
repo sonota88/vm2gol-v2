@@ -1,0 +1,7 @@
+// -*- mode: javascript -*-
+
+func main() {
+  var a;
+  var vi = 0;
+  set a = vram[vi];
+}

@@ -1,0 +1,2 @@
+kw:func
+ident:main

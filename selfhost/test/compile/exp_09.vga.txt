@@ -1,0 +1,26 @@
+  call main
+  exit
+
+label sub
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label main
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  push 1
+  _cmt call~~sub
+  call sub
+  add_sp 1
+
+  cp bp sp
+  pop bp
+  ret

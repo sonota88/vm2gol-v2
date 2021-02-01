@@ -1,0 +1,43 @@
+  call main
+  exit
+
+label ret_vram_lvar
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp 49 [bp-1]
+  get_vram [bp-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
+
+label ret_lvar
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp [bp-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
+
+label main
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  _cmt call~~ret_vram
+  call ret_vram
+  add_sp 0
+  _cmt call~~ret_lvar
+  call ret_lvar
+  add_sp 0
+
+  cp bp sp
+  pop bp
+  ret

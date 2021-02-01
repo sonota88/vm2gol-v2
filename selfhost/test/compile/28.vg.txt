@@ -1,0 +1,18 @@
+// -*- mode: javascript -*-
+
+func ret_vram_lvar() {
+  var vi = 49;
+  // vram[ローカル変数] を return
+  return vram[vi];
+}
+
+func ret_lvar() {
+  var a;
+  // ローカル変数 を return
+  return a;
+}
+
+func main() {
+  call ret_vram();
+  call ret_lvar();
+}

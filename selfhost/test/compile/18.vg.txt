@@ -1,0 +1,8 @@
+// -*- mode: javascript -*-
+
+func main() {
+  var a = 0;
+  while (a == 0) {
+    set a = 1;
+  }
+}

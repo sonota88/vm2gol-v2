@@ -1,0 +1,211 @@
+// -*- mode: javascript -*-
+
+func to_vi(w, x, y, offset) {
+  var vi; // vram index
+
+  set vi = 
+    ((y * w) + x)
+    +
+    offset
+  ;
+
+  return vi;
+}
+
+func vram_set(w, x, y, val) {
+  var vi; // vram index
+  call_set vi = to_vi(w, x, y, 0);
+  set vram[vi] = val;
+}
+
+func vram_set_buf(w, x, y, val) {
+  var vi; // vram index
+  call_set  vi = to_vi(w, x, y, 25);
+  set vram[vi] = val;
+}
+
+func vram_get(w, x, y) {
+  var vi; // vram index
+  call_set vi = to_vi(w, x, y, 0);
+  return vram[vi];
+}
+
+func adjust_index(width, i) {
+  var adjusted;
+
+  case {
+    (i == -1) {
+      _cmt("下限を超えた場合");
+      set adjusted = width + -1;
+    }
+    (i == width) {
+      _cmt("上限を超えた場合");
+      set adjusted = 0;
+    }
+    (1 == 1) {
+      _cmt("補正が不要な場合");
+     set adjusted = i;
+    }
+  }
+
+  return adjusted;
+}
+
+func calc_next_gen(current_val, count) {
+  // 注目しているセルの次世代の生死
+  var next_val = 0;
+
+  case {
+    (current_val == 0) {
+      case {
+        (count == 3) {
+          set next_val = 1;
+        }
+      }
+    }
+    (0 == 0) {
+      case {
+        (count == 2) {
+          set next_val = 1;
+        }
+        (count == 3) {
+          set next_val = 1;
+        }
+      }
+    }
+  }
+  
+  return next_val;
+}
+
+func count_alive(w, h, x, y) {
+  var count = 0;
+
+  var xl = x + -1;
+  var xr = x +  1;
+  var yt = y + -1;
+  var yb = y +  1;
+
+  _cmt("★ xl の補正の直前");
+  call_set xl = adjust_index(w, xl);
+  _cmt("★ xl の補正の直後");
+
+  _cmt("★ xr の補正の直前");
+  call_set xr = adjust_index(w, xr);
+  _cmt("★ xr の補正の直後");
+
+  _cmt("★ yt の補正の直前");
+  call_set yt = adjust_index(h, yt);
+  _cmt("★ yt の補正の直後");
+
+  _cmt("★ yb の補正の直前");
+  call_set yb = adjust_index(h, yb);
+  _cmt("★ yb の補正の直後");
+
+  _cmt("★ 座標補正の直後");
+
+  var tmp;
+
+  _cmt("左上");
+  call_set tmp = vram_get(w, xl, yt);
+  set count = count + tmp;
+
+  _cmt("上");
+  call_set tmp = vram_get(w, x, yt);
+  set count = count + tmp;
+
+  _cmt("右上");
+  call_set tmp = vram_get(w, xr, yt);
+  set count = count + tmp;
+
+  _cmt("左");
+  call_set tmp = vram_get(w, xl, y);
+  set count = count + tmp;
+
+  _cmt("右");
+  call_set tmp = vram_get(w, xr, y);
+  set count = count + tmp;
+
+  _cmt("左下");
+  call_set tmp = vram_get(w, xl, yb);
+  set count = count + tmp;
+
+  _cmt("下");
+  call_set tmp = vram_get(w, x, yb);
+  set count = count + tmp;
+
+  _cmt("右下");
+  call_set tmp = vram_get(w, xr, yb);
+  set count = count + tmp;
+
+  _cmt("★count_aliveの最後");
+
+  return count;
+}
+
+func make_next_gen(w, h) {
+  var x = 0;
+  var y = 0;
+
+  var count;
+  // 注目しているセルの現世代の生死
+  var current_val;
+  // 注目しているセルの次世代の生死
+  var next_val;
+
+  while (y != h) {
+    set x = 0;
+    while (x != w) {
+      call_set count = count_alive(w, h, x, y);
+      _cmt("★ count_alive から戻った直後");
+
+      _cmt("★次世代の生死決定の直前");
+
+      call_set current_val = vram_get(w, x, y);
+
+      call_set next_val = calc_next_gen(current_val, count);
+
+      _cmt("★次世代の生死決定の直後");
+
+      call vram_set_buf(w, x, y, next_val);
+      _cmt("★ vram_set_buf から戻った直後");
+
+      set x = x + 1;
+    }
+    set y = y + 1;
+  }
+}
+
+func replace_with_buf() {
+  var vi = 0;
+
+  var vi_buf;
+  var temp;
+
+  while (vi != 25) {
+    set vi_buf = vi + 25;
+    set temp = vram[vi_buf];
+    set vram[vi] = temp;
+    set vi = vi + 1;
+  }
+}
+
+func main() {
+  var w = 5; // 盤面の幅
+  var h = 5; // 盤面の高さ
+
+  // 初期状態の設定
+  call vram_set(w, 1, 0, 1);
+  call vram_set(w, 2, 1, 1);
+  call vram_set(w, 0, 2, 1);
+  call vram_set(w, 1, 2, 1);
+  call vram_set(w, 2, 2, 1);
+
+  var gen_limit = 0;
+  var gen = 1;
+  while (gen != gen_limit) {
+    call make_next_gen(w, h);
+    call replace_with_buf();
+    set gen = gen + 1;
+  }
+}
