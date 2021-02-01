@@ -1,3 +1,5 @@
+require "pp"
+
 class Token
   attr_reader :type, :value
 
@@ -7,21 +9,31 @@ class Token
   #   int:   integer
   #   sym:   symbol
   #   ident: identifier
-  def initialize(type, value)
+  def initialize(type, value, lineno)
     @type = type
     @value = value
+    @lineno = lineno
   end
 
   def to_line
-    "#{@type}:#{@value}"
+    "#{@lineno}:#{@type}:#{@value}"
   end
 
   def self.from_line(line)
-    if /^(.+?):(.+)$/ =~ line
-      Token.new($1.to_sym, $2)
+    if /^(\d+?):(.+?):(.+)$/ =~ line
+      lineno, sym, str = $1, $2, $3
+      Token.new(sym.to_sym, str, lineno.to_i)
     else
       nil
     end
+  end
+
+  def to_s
+    "(Token type=#{@type} value=(_#{@value}_) lineno=#{@lineno})"
+  end
+
+  def is(type, str)
+    @type == type && @value == str
   end
 end
 

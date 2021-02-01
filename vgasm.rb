@@ -3,6 +3,8 @@
 require "pp"
 require "json"
 
+require_relative "common"
+
 def parse(src)
   alines = []
   src.each_line do |line|
@@ -33,10 +35,16 @@ end
 
 def to_machine_code_operand(arg)
   case arg
-  when /^\[bp\-(\d+)\]$/ then "ind:bp:-#{$1}"
-  when /^\[bp\+(\d+)\]$/ then "ind:bp:#{$1}"
-  when /^-?\d+$/         then arg.to_i
-  else                        arg
+  when /^\[(.+?):(.+?):(.+?)\]$/
+    "ind:#{$1}:#{$2}:#{$3}"
+  when /^\[(.+?):(.+?)\]$/
+    "ind:#{$1}:#{$2}:0"
+  when /^\[(reg_a)\]$/
+    "ind:#{$1}:0:0"
+  when /^-?\d+$/
+    arg.to_i
+  else
+    arg
   end
 end
 
@@ -54,7 +62,7 @@ alines.each do |aline|
   case head
   when "label"
     insn << rest[0]
-  when "jump", "jump_eq", "call"
+  when "jump", "jump_eq", "jump_g", "call"
     label_name = rest[0]
     insn << label_addr_map[label_name]
   else

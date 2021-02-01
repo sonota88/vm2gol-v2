@@ -6,36 +6,46 @@ def tokenize(src)
   tokens = []
 
   pos = 0
+  lineno = 1
 
   while pos < src.size
     rest = src[pos .. -1]
 
     case rest
-    when /\A([ \n]+)/
+    when /\A( +)/
       str = $1
       pos += str.size
-    when %r{\A(//.*)$}
+    when /\A(\n)/
+      str = $1
+      pos += str.size
+      lineno += 1
+    when %r{\A(#.*)$}
       str = $1
       pos += str.size
     when /\A"(.*)"/
       str = $1
-      tokens << Token.new(:str, str)
+      tokens << Token.new(:str, str, lineno)
       pos += str.size + 2
-    when /\A(func|set|var|call_set|call|return|case|while|_cmt)[^a-z_]/
+    when /\A(def|end|var|return|case|when|while|_cmt)[^a-z_]/
       str = $1
-      tokens << Token.new(:kw, str)
+      tokens << Token.new(:kw, str, lineno)
+      pos += str.size
+    when /\A(if)[^a-z_]/
+      str = $1
+      tokens << Token.new(:kw, "case", lineno)
+      tokens << Token.new(:kw, "when", lineno)
       pos += str.size
     when /\A(-?[0-9]+)/
       str = $1
-      tokens << Token.new(:int, str.to_i)
+      tokens << Token.new(:int, str.to_i, lineno)
       pos += str.size
-    when /\A(==|!=|[(){}=;+*,])/
+    when /\A(==|!=|[<(){}\[\]=;+*\/%,&])/
       str = $1
-      tokens << Token.new(:sym, str)
+      tokens << Token.new(:sym, str, lineno)
       pos += str.size
-    when /\A([a-z_][a-z0-9_\[\]]*)/
+    when /\A([A-Za-z_][A-Za-z0-9_]*)/
       str = $1
-      tokens << Token.new(:ident, str)
+      tokens << Token.new(:ident, str, lineno)
       pos += str.size
     else
       p_e rest[0...100]

@@ -114,8 +114,45 @@ def parse_args
   args
 end
 
+# --------------------------------
+
+def _parse_exprs_rest
+  return nil if peek().value == ")"
+
+  consume(",")
+  parse_expr()
+end
+
+def parse_exprs
+  exprs = []
+
+  if peek().value == ")"
+    return exprs
+  end
+
+  first_arg = parse_expr()
+  if first_arg.nil?
+    return exprs
+  else
+    exprs << first_arg
+  end
+
+  loop do
+    rest_arg = _parse_exprs_rest()
+    if rest_arg.nil?
+      break
+    else
+      exprs << rest_arg
+    end
+  end
+
+  exprs
+end
+
+# --------------------------------
+
 def parse_func
-  consume "func"
+  consume "def"
 
   t = peek()
   $pos += 1
@@ -125,12 +162,10 @@ def parse_func
   args = parse_args()
   consume ")"
 
-  consume "{"
-
   stmts = []
   loop do
     t = peek()
-    break if t.value == "}"
+    break if t.value == "end"
 
     stmts <<
       if t.value == "var"
@@ -140,7 +175,7 @@ def parse_func
       end
   end
 
-  consume "}"
+  consume "end"
 
   [:func, func_name, args, stmts]
 end
@@ -169,24 +204,44 @@ def parse_var_init
   [:var, var_name, expr]
 end
 
+def parse_var_array
+  consume "["
+  t = peek()
+  $pos += 1
+  size = t.value.to_i
+  consume "]"
+
+  var_name = peek().value
+  $pos += 1
+
+  consume ";"
+
+  [:var_array, var_name, size]
+end
+
 def parse_var
   consume "var"
 
-  t = peek(1)
-
-  if t.value == ";"
-    parse_var_declare()
-  elsif t.value == "="
-    parse_var_init()
+  if peek().value == "["
+    parse_var_array()
   else
-    raise ParseError
+    t = peek(1)
+
+    if t.value == ";"
+      parse_var_declare()
+    elsif t.value == "="
+      parse_var_init()
+    else
+      raise ParseError, t
+    end
   end
+
 end
 
 def parse_expr_right(expr_l)
   t = peek()
 
-  if t.value == ";" || t.value == ")"
+  if t.value == ";" || t.value == ")" || t.value == "]" || t.value == ","
     return expr_l
   end
 
@@ -211,46 +266,82 @@ def parse_expr_right(expr_l)
     expr_r = parse_expr()
     [:neq, expr_l, expr_r]
 
+  when "<"
+    consume "<"
+    expr_r = parse_expr()
+    [:lt, expr_l, expr_r]
+
   else
-    raise ParseError
+    raise ParseError, t
   end
+end
+
+def parse_expr_addr
+  consume "&"
+  var_name = peek().value
+  $pos += 1
+
+  ["addr", var_name]
+end
+
+def parse_deref
+  consume "*"
+  consume "("
+  expr = parse_expr()
+  consume ")"
+
+  ["deref", expr]
 end
 
 def parse_expr
   t_left = peek()
 
-  if t_left.value == "("
+  case t_left.value
+  when "("
     consume "("
     expr_l = parse_expr()
     consume ")"
 
     return parse_expr_right(expr_l)
+  when "&"
+    expr_l = parse_expr_addr()
+    return parse_expr_right(expr_l)
+  when "*"
+    expr_l = parse_deref()
+    return parse_expr_right(expr_l)
   end
 
-  if t_left.type == :int || t_left.type == :ident
+  if t_left.type == :int
     $pos += 1
 
-    expr_l =
-      case t_left.type
-      when :int
-        t_left.value.to_i
-      else
-        t_left.value
-      end
+    expr_l = t_left.value.to_i
 
     parse_expr_right(expr_l)
 
+  elsif t_left.type == :ident
+
+    if peek(1).value == "("
+      fn_name, *args = parse_funcall()
+      expr_l = [:funcall, fn_name, *args]
+      parse_expr_right(expr_l)
+    else
+      $pos += 1
+      expr_l = t_left.value
+      parse_expr_right(expr_l)
+    end
   else
-    raise ParseError
+    raise ParseError, t_left
   end
 end
 
 def parse_set
-  consume "set"
-
-  t = peek()
-  $pos += 1
-  var_name = t.value
+  if peek().value == "*"
+    var_name = parse_deref()
+  else
+    t = peek()
+    $pos += 1
+    var_name = t.value
+  end
 
   consume "="
 
@@ -261,42 +352,24 @@ def parse_set
   [:set, var_name, expr]
 end
 
-def parse_call
-  consume "call"
-
-  func_name, *args = parse_funcall()
-
-  consume ";"
-
-  [:call, func_name, *args]
-end
-
 def parse_funcall
   t = peek()
   $pos += 1
   func_name = t.value
 
   consume "("
-  args = parse_args()
+  args = parse_exprs()
   consume ")"
 
   [func_name, *args]
 end
 
-def parse_call_set
-  consume "call_set"
-
-  t = peek()
-  $pos += 1
-  var_name = t.value
-
-  consume "="
-
-  expr = parse_funcall()
+def parse_call
+  func_name, *args = parse_funcall()
 
   consume ";"
 
-  [:call_set, var_name, expr]
+  [:call, func_name, *args]
 end
 
 def parse_return
@@ -316,23 +389,28 @@ end
 
 def _parse_when_clause
   t = peek()
-  return nil if t.value == "}"
+  return nil if t.value == "end"
 
-  consume "("
-  expr = parse_expr()
-  consume ")"
+  case t.value
+  when "when"
+    consume "when"
+    consume "("
+    expr = parse_expr()
+    consume ")"
+  when "else"
+    consume "else"
+    expr = [:eq, 0, 0]
+  else
+    raise not_yet_impl("t", t)
+  end
 
-  consume "{"
   stmts = parse_stmts()
-  consume "}"
 
   [expr, *stmts]
 end
 
 def parse_case
   consume "case"
-
-  consume "{"
 
   when_clauses = []
 
@@ -349,7 +427,7 @@ def parse_case
     raise ParseError, "At least one when clause is required"
   end
 
-  consume "}"
+  consume "end"
 
   [:case, *when_clauses]
 end
@@ -361,9 +439,8 @@ def parse_while
   expr = parse_expr()
   consume ")"
 
-  consume "{"
   stmts = parse_stmts()
-  consume "}"
+  consume "end"
 
   [:while, expr, stmts]
 end
@@ -382,19 +459,40 @@ def parse_vm_comment
   [:_cmt, comment]
 end
 
+def parse_vm_debug
+  consume "_debug"
+  consume "("
+  consume ")"
+  consume ";"
+
+  [:call, "_debug"]
+end
+
+def parse_vm_panic
+  consume "_panic"
+  consume "("
+  consume ")"
+  consume ";"
+
+  [:call, "_panic"]
+end
+
 def parse_stmt
   t = peek()
 
   case t.value
-  when "set"      then parse_set()
-  when "call"     then parse_call()
-  when "call_set" then parse_call_set()
   when "return"   then parse_return()
   when "while"    then parse_while()
   when "case"     then parse_case()
   when "_cmt"     then parse_vm_comment()
+  when "_debug"   then parse_vm_debug()
+  when "_panic"   then parse_vm_panic()
   else
-    raise ParseError, "Unexpected token (#{t.inspect})"
+    if t.type == :ident && peek(1).is(:sym, "(")
+      parse_call()
+    else
+      parse_set()
+    end
   end
 end
 
@@ -402,7 +500,13 @@ def parse_stmts
   stmts = []
 
   loop do
-    break if peek().value == "}"
+    if (
+      peek().value == "end" ||
+      peek().value == "when" ||
+      peek().value == "else"
+    )
+      break
+    end
 
     stmts << parse_stmt()
   end
@@ -414,7 +518,7 @@ def parse_top_stmt
   t = peek()
 
   case t.value
-  when "func" then parse_func()
+  when "def" then parse_func()
   else
     raise ParseError, "Unexpected token (#{t.inspect})"
   end
