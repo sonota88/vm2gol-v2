@@ -1,0 +1,179 @@
+# -*- mode: ruby -*-
+
+#include lib/std.pric
+#include lib/types.pric
+#include lib/json.pric
+
+def INPUT_MAX() return 80; end
+
+def get_line_size(input_, pos_from)
+  var pos_to;
+  var lf_pos = char_index(input_, C_LF(), pos_from);
+
+  if (lf_pos != -1)
+    pos_to = lf_pos + 1;
+  else
+    # LF not found
+    pos_to = char_index(input_, 0, pos_from);
+  end
+
+  return __sub(pos_to, pos_from);
+end
+
+def set_token(g_, ti, t_)
+  if (__le(NUM_TOKENS_MAX(), ti))
+    p_int(NUM_TOKENS_MAX());
+    p_int(ti);
+    panic(27);
+  end
+  aset(g_ + GO_TOKENS(), ti, t_);
+end
+
+def read_tokens(g_, input_)
+  var do_break = FALSE();
+  var [20]line;
+  var size;
+  var pos = 0;
+  var sep_i;
+  var [6]kind_str;
+  var [64]value_str;
+  var t_;
+  var ti;
+  check_heap_stack_overlap(g_);
+
+  while (__not(do_break))
+    size = get_line_size(input_, pos);
+    if (size == 0)
+      do_break = TRUE();
+    else
+      substr(&line, input_, pos, pos + size);
+      chomp(&line);
+
+      sep_i = char_index(&line, 58, 0); # :
+      substr(&kind_str, &line, 0, sep_i);
+      substr(&value_str, &line, sep_i + 1, str_size(&line));
+
+      t_ = Token_new(g_, &kind_str, &value_str);
+      set_token(g_, ti, t_);
+      ti = ti + 1;
+
+      pos = pos + size;
+    end
+  end
+
+  assert(6, ti, 64);
+  # p_int(ti); # ... num_tokens == ti
+end
+
+# --------------------------------
+
+def set_token_index(g_, ti)
+  *(g_ + GO_TOKEN_INDEX()) = ti;
+end
+
+def get_token_index(g_)
+  return *(g_ + GO_TOKEN_INDEX());
+end
+
+def inc_token_index(g_)
+  set_token_index(
+    g_,
+    get_token_index(g_) + 1
+  );
+end
+
+def peek(g_, i)
+  var ti = get_token_index(g_);
+  return *(g_ + GO_TOKENS() + ti);
+end
+
+# --------------------------------
+
+def parse_func(g_)
+  var func_main_;
+  var [10]temp_str;
+  var t_;
+
+  # TODO consume_kw に置き換え
+  inc_token_index(g_);
+  assert(1, get_token_index(g_), 113);
+
+  func_main_ = NodeList_new(g_);
+
+  aset(&temp_str, 0, 102); # f
+  aset(&temp_str, 1, 117); # u
+  aset(&temp_str, 2, 110); # n
+  aset(&temp_str, 3,  99); # c
+  aset(&temp_str, 4,   0);
+  NodeList_add_str(g_, func_main_, &temp_str);
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+  NodeList_add_str(g_, func_main_, Token_get_val(t_));
+
+  inc_token_index(g_);
+  inc_token_index(g_);
+  assert(4, get_token_index(g_), 131);
+  NodeList_add_list(g_, func_main_, NodeList_new(g_));
+
+  inc_token_index(g_);
+  inc_token_index(g_);
+  assert(6, get_token_index(g_), 135);
+  NodeList_add_list(g_, func_main_, NodeList_new(g_));
+
+  return func_main_;
+end
+
+def parse_top_stmts(g_)
+  var top_stmts_;
+  var [10]temp_str;
+
+  top_stmts_ = NodeList_new(g_);
+
+  aset(&temp_str, 0, 116); # t
+  aset(&temp_str, 1, 111); # o
+  aset(&temp_str, 2, 112); # p
+  aset(&temp_str, 3,  95); # _
+  aset(&temp_str, 4, 115); # s
+  aset(&temp_str, 5, 116); # t
+  aset(&temp_str, 6, 109); # m
+  aset(&temp_str, 7, 116); # t
+  aset(&temp_str, 8, 115); # s
+  aset(&temp_str, 9,   0);
+  NodeList_add_str(g_, top_stmts_, &temp_str);
+
+  NodeList_add_list(g_, top_stmts_, parse_func(g_));
+
+  return top_stmts_;
+end
+
+def parse(g_)
+  return parse_top_stmts(g_);
+end
+
+def GO_TOKENS() return GO_ALLOC_CURSOR() + GS_ALLOC_CURSOR(); end
+def GS_TOKENS() return 6; end
+
+def GO_TOKEN_INDEX() return GO_TOKENS() + GS_TOKENS(); end
+def GS_TOKEN_INDEX() return 1; end
+
+def NUM_TOKENS_MAX()
+  return GS_TOKENS();
+end
+
+def main()
+  var [8]g;
+  var [80]input; # INPUT_MAX
+
+  # init globals
+  *(&g + GO_ALLOC_CURSOR()) = 0;
+  set_token_index(&g, 0);
+  assert(0, get_token_index(&g), 183);
+
+  read_stdin_all(&input, INPUT_MAX());
+  read_tokens(&g, &input);
+
+  var ast_ = parse(&g);
+
+  Json_print(ast_);
+end

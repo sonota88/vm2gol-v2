@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+
+#include lib/std.pric
+
+def fib(n)
+  case
+  when (n < 0)
+    _panic();
+  when (n < 3)
+    return n;
+  else
+    return fib(__sub(n, 2)) + fib(__sub(n, 1));
+  end
+end
+
+def main()
+  var n = 0;
+
+  while (n < 21)
+    print_i(n);
+    putchar(C_SPC());
+    print_i(fib(n));
+    putchar(C_LF());
+
+    n = n + 1;
+  end
+end

@@ -1,0 +1,198 @@
+# -*- mode: ruby -*-
+
+def NODE_KIND__LIST() return 0; end
+def NODE_KIND__INT () return 1; end
+def NODE_KIND__STR () return 2; end
+
+# --------------------------------
+
+def NODE__TYPE_SIZE() return 13; end
+
+def NODE__KIND() return 0; end
+def NODE__LIST() return 1; end
+def NODE__INT () return 2; end
+def NODE__STR () return 3; end
+
+def NODE__STR_SIZE() return 10; end
+
+def Node_new(g_)
+  var self_ = allocate(g_, NODE__TYPE_SIZE());
+  return self_;
+end
+
+def Node_new_int(g_, n)
+  var self_ = Node_new(g_);
+
+  *(self_ + NODE__KIND()) = NODE_KIND__INT();
+  *(self_ + NODE__INT()) = n;
+
+  return self_;
+end
+
+def Node_new_str(g_, str_)
+  var self_ = Node_new(g_);
+
+  if (__le(NODE__STR_SIZE(), str_size(str_)))
+    panic(38);
+  end
+
+  *(self_ + NODE__KIND()) = NODE_KIND__STR();
+  str_cp(self_ + NODE__STR(), str_);
+
+  return self_;
+end
+
+def Node_new_list(g_, list_)
+  var self_ = Node_new(g_);
+
+  *(self_ + NODE__KIND()) = NODE_KIND__LIST();
+  *(self_ + NODE__LIST()) = list_;
+
+  return self_;
+end
+
+def Node_get_kind(self_)
+  var kind = *(self_ + NODE__KIND());
+  return kind;
+end
+
+def Node_get_int(self_)
+  assert(NODE_KIND__INT(), Node_get_kind(self_), 62);
+
+  var n = *(self_ + NODE__INT());
+  return n;
+end
+
+def Node_get_str(self_)
+  assert(NODE_KIND__STR(), Node_get_kind(self_), 69);
+
+  var first_char_addr_ = self_ + NODE__STR();
+  return first_char_addr_;
+end
+
+def Node_get_list(self_)
+  assert(NODE_KIND__LIST(), Node_get_kind(self_), 77);
+
+  var nl_ = *(self_ + NODE__LIST());
+  return nl_;
+end
+
+# --------------------------------
+
+def NODE_LIST__TYPE_SIZE () return 6; end
+
+def NODE_LIST__SIZE () return 0; end
+def NODE_LIST__ITEMS() return 1; end
+
+def NodeList_new(g_)
+  var nl_ = allocate(g_, NODE_LIST__TYPE_SIZE());
+
+  *(nl_ + NODE_LIST__SIZE()) = 0;
+
+  return nl_;
+end
+
+def NodeList_size(nl_)
+  var size = *(nl_ + NODE_LIST__SIZE());
+  return size;
+end
+
+def NodeList_add(self_, node_)
+  var size = *(self_ + NODE_LIST__SIZE());
+
+  if ((NODE_LIST__TYPE_SIZE() + -1) == size)
+    putchar( 99); # c
+    putchar( 97); # a
+    putchar(112); # p
+    putchar( 32); #  
+    putchar(111); # o
+    putchar(118); # v
+    putchar(101); # e
+    putchar(114); # r
+    putchar( 10); # LF
+    _panic();
+  end
+
+  *(self_ + NODE_LIST__ITEMS() + size) = node_;
+  *(self_ + NODE_LIST__SIZE()) = size + 1;
+end
+
+def NodeList_add_int(g_, self_, n)
+  var node_ = Node_new_int(g_, n);
+  NodeList_add(self_, node_);
+end
+
+def NodeList_add_str(g_, self_, str_)
+  var node_ = Node_new_str(g_, str_);
+  NodeList_add(self_, node_);
+end
+
+def NodeList_add_list(g_, self_, list_)
+  var node_ = Node_new_list(g_, list_);
+  NodeList_add(self_, node_);
+end
+
+def NodeList_get(self_, i)
+  var node_ = *(self_ + NODE_LIST__ITEMS() + i);
+  return node_;
+end
+
+def NodeList_get_as_list(self_, i)
+  var node_ = NodeList_get(self_, i);
+  return Node_get_list(node_);
+end
+
+# --------------------------------
+
+def TOKEN_KIND__KW   () return 0; end
+def TOKEN_KIND__SYM  () return 1; end
+def TOKEN_KIND__INT  () return 2; end
+def TOKEN_KIND__STR  () return 3; end
+def TOKEN_KIND__IDENT() return 4; end
+
+def TokenKind_from_str(str_)
+  var c0 = *(str_ + 0);
+  var c1 = *(str_ + 1);
+
+  case
+  when (c0 == 107) # k
+    return TOKEN_KIND__KW();
+  when (__and(c0 == 115, c1 == 121)) # sy
+    return TOKEN_KIND__SYM();
+  when (__and(c0 == 105, c1 == 110)) # in
+    return TOKEN_KIND__INT();
+  when (__and(c0 == 115, c1 == 116)) # st
+    return TOKEN_KIND__STR();
+  when (__and(c0 == 105, c1 == 100)) # id
+    return TOKEN_KIND__IDENT();
+  else
+    panic(175);
+  end
+end
+
+# --------------------------------
+
+def TOKEN__TYPE_SIZE () return 6; end
+
+def TOKEN__KIND() return 0; end
+def TOKEN__VAL () return 1; end
+
+def TOKEN__VAL_SIZE() return 5; end
+
+def Token_new(g_, kind_str_, str_)
+  var self_ = allocate(g_, TOKEN__TYPE_SIZE());
+
+  *(self_ + TOKEN__KIND()) = TokenKind_from_str(kind_str_);
+
+  if (TOKEN__VAL_SIZE() < (str_size(str_) + 1))
+    panic(180);
+  else
+    str_cp(self_ + TOKEN__VAL(), str_);
+  end
+
+  return self_;
+end
+
+def Token_get_val(self_)
+  return self_ + TOKEN__VAL();
+end

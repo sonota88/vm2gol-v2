@@ -1,0 +1,411 @@
+# -*- mode: ruby -*-
+
+# G: global
+# O: offset
+# S: size
+
+def GO_ALLOC_CURSOR() return 0; end
+def GS_ALLOC_CURSOR() return 1; end
+
+def TRUE () return 1; end
+def FALSE() return 0; end
+
+def C_LF   () return 10; end # 0x0a
+def C_SPC  () return 32; end # 0x20
+def C_DQ   () return 34; end # 0x22
+def C_COMMA() return 44; end # 0x2c
+
+# --------------------------------
+
+def check_heap_stack_overlap(g_)
+  var heap_max = *(g_ + GO_ALLOC_CURSOR());
+  var sp = get_sp();
+
+  case when (__le(sp, heap_max))
+    putchar( 97); # a
+    putchar(108); # l
+    putchar(108); # l
+    putchar(111); # o
+    putchar( 99); # c
+    putchar( 32); #  
+    putchar( 78); # N
+    putchar( 71); # G
+    putchar( 10); # LF
+    _panic();
+  end
+end
+
+def allocate(g_, size)
+  var head_addr = *(g_ + GO_ALLOC_CURSOR());
+  var next_addr = *(g_ + GO_ALLOC_CURSOR()) + size;
+
+  *(g_ + GO_ALLOC_CURSOR()) = next_addr;
+  check_heap_stack_overlap(g_);
+
+  return head_addr;
+end
+
+# --------------------------------
+
+def print_s(str_)
+  var i = 0;
+  var c = char_at(str_, i);
+
+  while (c != 0)
+    putchar(c);
+    i = i + 1;
+    c = char_at(str_, i);
+  end
+end
+
+def println(str_)
+  print_s(str_);
+  putchar(C_LF());
+end
+
+def print_i(arg_n)
+  var n = arg_n;
+  var div;
+  var mod;
+  var [4]buf;
+  var digit = 0;
+  var done = 0;
+
+  case when (n < 0)
+    putchar(45); # -
+    n = n * -1;
+  end
+
+  while (done != 1)
+    case when (n < 10)
+      aset(&buf, digit, n);
+      done = 1;
+    else
+      div = __div(n, 10);
+      mod = __mod(n, 10);
+      aset(&buf, digit, mod);
+
+      n = div;
+      digit = digit + 1;
+    end
+  end
+
+  while (__le(0, digit))
+    putchar(48 + aget(&buf, digit));
+    digit = digit + -1;
+  end
+end
+
+def panic(errno)
+  putchar(C_LF());
+  putchar( 69); # E
+  putchar( 61); # =
+  print_i(errno);
+  putchar( 10); # LF
+  _panic();
+end
+
+def read_stdin_all(dest_, limit)
+  var i = 0;
+  var c;
+  var do_break = 0;
+
+  while (do_break == 0)
+    case when (i == limit)
+      # too large input
+      panic(146);
+    end
+
+    c = getchar();
+    case when (c == -1)
+      *(dest_ + i) = 0;
+      do_break = 1;
+    else
+      *(dest_ + i) = c;
+      i = i + 1;
+    end
+  end
+end
+
+# debug print
+def p_char(c)
+  putchar( 47); # /
+  putchar( 99); # c
+  putchar( 61); # =
+  print_i(c);
+  putchar( 40); # (
+  putchar(c);
+  putchar( 41); # )
+  putchar(C_LF());
+end
+
+# debug print
+def p_int(n)
+  putchar( 47); # /
+  putchar(110); # n
+  putchar( 61); # =
+  print_i(n);
+  putchar(C_LF());
+end
+
+def pow10(e)
+  var i = 0;
+  var n = 1;
+  while (i < e)
+    n = n * 10;
+    i = i + 1;
+  end
+  return n;
+end
+
+def assert(exp, act, errno)
+  if (exp != act)
+    putchar(101); # e (expected)
+
+    putchar(C_SPC());
+    print_i(exp);
+    putchar(C_COMMA());
+    putchar(C_SPC());
+
+    putchar( 97); # a (actual)
+    putchar(C_SPC());
+    print_i(act);
+    putchar(C_LF());
+    
+    panic(errno);
+  end
+end
+
+def aset(array_, i, val)
+  *(array_ + i) = val;
+end
+
+def aget(array_, i)
+  return *(array_ + i);
+end
+
+# --------------------------------
+
+def str_cp(dest_, src_)
+  var i = 0;
+  var c = *(src_ + i);
+
+  while (c != 0)
+    *(dest_ + i) = c;
+    i = i + 1;
+    c = *(src_ + i);
+  end
+end
+
+def str_size(str_)
+  var i = 0;
+  var c = *(str_ + i);
+
+  while (c != 0)
+    i = i + 1;
+    c = *(str_ + i);
+  end
+
+  return i;
+end
+
+def chomp(str_)
+  var i = __sub(str_size(str_), 1);
+  if (*(str_ + i) == C_LF())
+    *(str_ + i) = 0;
+  end
+end
+
+def substr(dest_, src_, from, to)
+  var i = from;
+  var dest_i = 0;
+  var do_break = FALSE();
+
+  while (do_break == FALSE())
+    case when (__or(
+      i == to,
+      *(src_ + i) == 0
+    ))
+      do_break = TRUE();
+    else
+      *(dest_ + dest_i) = *(src_ + i);
+      i = i + 1;
+      dest_i = dest_i + 1;
+    end
+  end
+
+  *(dest_ + dest_i) = 0;
+end
+
+def str_eq(s1_, s2_)
+  var do_break = FALSE();
+  var result = TRUE();
+  var i = 0;
+
+  case when (str_size(s1_) == str_size(s2_))
+    while (do_break == FALSE())
+      case when (*(s1_ + i) == *(s2_ + i))
+        case when (*(s1_ + i) == 0)
+          do_break = TRUE();
+        else
+          # continue
+        end
+      else
+        result = FALSE();
+        do_break = TRUE();
+      end
+      i = i + 1;
+    end
+  else
+    result = FALSE();
+  end
+
+  return result;
+end
+
+def char_at(str_, i)
+  return *(str_ + i);
+end
+
+def char_index(str_, target_c, pos_from)
+  var pos = pos_from;
+  var do_break = FALSE();
+  var c;
+  var idx = -1;
+
+  c = char_at(str_, pos);
+  while (__not(do_break))
+    case
+    when (c == target_c)
+      idx = pos;
+      do_break = TRUE();
+    when (c == 0)
+      do_break = TRUE();
+    else
+      pos = pos + 1;
+      c = *(str_ + pos);
+    end
+  end
+
+  return idx;
+end
+
+def parse_int(s_)
+  var i = str_size(s_) + -1;
+  var c;
+  var factor = 1;
+  var e = 0;
+  var n = 0;
+
+  while (__le(0, i))
+    c = *(s_ + i);
+    case when (c == 45) # -
+      factor = -1;
+    else
+      n = n + (__sub(c, 48) * pow10(e));
+    end
+
+    e = e + 1;
+    i = i + -1;
+  end
+
+  return n * factor;
+end
+
+def is_digit_char(c)
+  return __and(
+    __le(48, c),
+    __le(c, 57)
+  );
+end
+
+def non_digit_index(str_, from)
+  var do_break = FALSE();
+  var c;
+  var pos = from;
+
+  while (do_break == FALSE())
+    c = *(str_ + pos);
+    case when (is_digit_char(c) != TRUE())
+      do_break = TRUE();
+    else
+      pos = pos + 1;
+    end
+  end
+
+  return pos;
+end
+
+# --------------------------------
+
+# TODO - 演算子を用意するまでの代替
+def __sub(a, b)
+  return a + (b * -1);
+end
+
+# TODO && 演算子を用意するまでの代替
+def __and(a, b)
+  case when (a == TRUE())
+    case when (b == TRUE())
+      return TRUE();
+    else
+      return FALSE();
+    end
+  else
+    return FALSE();
+  end
+end
+
+# TODO || 演算子を用意するまでの代替
+def __or(a, b)
+  case
+  when (a == TRUE()) return TRUE();
+  when (b == TRUE()) return TRUE();
+  else               return FALSE();
+  end
+end
+
+# TODO ! 演算子を用意するまでの代替
+def __not(a)
+  if (a)
+    return FALSE();
+  else
+    return TRUE();
+  end
+end
+
+# TODO <= 演算子を用意するまでの代替
+def __le(a, b)
+  case
+  when (a == b)
+    return TRUE();
+  when (a < b)
+    return TRUE();
+  else
+    return FALSE();
+  end
+end
+
+# TODO / 演算子を用意するまでの代替
+def __div(a, b)
+  var temp = a;
+  var count = 0;
+
+  while (__le(b, temp))
+    temp = __sub(temp, b);
+    count = count + 1;
+  end
+
+  return count;
+end
+
+# TODO % 演算子を用意するまでの代替
+def __mod(a, b)
+  var temp = a;
+
+  while (__le(b, temp))
+    temp = __sub(temp, b);
+  end
+
+  return temp;
+end

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -o errexit
+
+print_this_dir() {
+  (
+    cd "$(dirname $0)"
+    pwd
+  )
+}
+
+__DIR__="$(print_this_dir)"
+
+TMP_DIR=${__DIR__}/tmp/
+
+mkdir -p ${TMP_DIR}
+
+file="$1"
+bname=pricc-rb
+
+src_temp=${TMP_DIR}/${bname}.pric.rb
+
+ruby preproc.rb $file > $src_temp
+
+tokensfile=${TMP_DIR}/${bname}.vgtok.txt
+treefile=${TMP_DIR}/${bname}.vgt.json
+asmfile=${TMP_DIR}/${bname}.vga.txt
+exefile=${TMP_DIR}/${bname}.vge.txt
+
+ruby ${__DIR__}/vglexer.rb $src_temp > $tokensfile
+ruby ${__DIR__}/vgparser.rb $tokensfile > $treefile
+ruby ${__DIR__}/vgcg.rb $treefile > $asmfile
+ruby ${__DIR__}/vgasm.rb $asmfile

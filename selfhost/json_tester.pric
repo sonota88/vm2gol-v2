@@ -1,0 +1,146 @@
+# -*- mode: ruby -*-
+
+#include lib/std.pric
+#include lib/types.pric
+#include lib/json.pric
+
+def INPUT_MAX() return 80; end
+
+def test_01(g_)
+  var nl_ = NodeList_new(g_);
+
+  Json_print(nl_);
+end
+
+def test_02(g_)
+  var nl_ = NodeList_new(g_);
+  var int_node_ = Node_new_int(g_, 1);
+
+  NodeList_add(nl_, int_node_);
+
+  Json_print(nl_);
+end
+
+def test_03(g_)
+  var nl_ = NodeList_new(g_);
+  var [5]str;
+
+  aset(&str, 0, 102); # 0x66 f
+  aset(&str, 1, 100); # 0x63 d
+  aset(&str, 2, 115); # 0x73 s
+  aset(&str, 3,  97); # 0x61 a
+  aset(&str, 4,   0);
+
+  var str_node_ = Node_new_str(g_, &str);
+
+  NodeList_add(nl_, str_node_);
+
+  Json_print(nl_);
+end
+
+def test_04(g_)
+  var nl_;
+  var int_node_;
+  var [5]str;
+  var str_node_;
+
+  nl_ = NodeList_new(g_);
+
+  int_node_ = Node_new_int(g_, -123);
+  NodeList_add(nl_, int_node_);
+
+  aset(&str, 0, 102); # 0x66 f
+  aset(&str, 1, 100); # 0x63 d
+  aset(&str, 2, 115); # 0x73 s
+  aset(&str, 3,  97); # 0x61 a
+  aset(&str, 4,   0);
+  str_node_ = Node_new_str(g_, &str);
+  NodeList_add(nl_, str_node_);
+
+  Json_print(nl_);
+end
+
+def test_05(g_)
+  var nl_;
+  var nl_inner_;
+  var list_node_;
+
+  nl_ = NodeList_new(g_);
+
+  nl_inner_ = NodeList_new(g_);
+  list_node_ = Node_new_list(g_, nl_inner_);
+
+  NodeList_add(nl_, list_node_);
+
+  Json_print(nl_);
+end
+
+def test_06(g_)
+  var nl_;
+  var nl_inner_;
+  var list_node_;
+  var [2]str_a;
+  var [2]str_b;
+  var [2]str_c;
+
+  aset(&str_a, 0, 97); aset(&str_a, 1, 0);
+  aset(&str_b, 0, 98); aset(&str_b, 1, 0);
+  aset(&str_c, 0, 99); aset(&str_c, 1, 0);
+
+  # ----
+
+  nl_ = NodeList_new(g_);
+
+  # 1
+  NodeList_add_int(g_, nl_, 1);
+  # "a"
+  NodeList_add_str(g_, nl_, &str_a);
+
+  # ----
+
+  nl_inner_ = NodeList_new(g_);
+
+  # 2
+  NodeList_add_int(g_, nl_inner_, 2);
+  # "b"
+  NodeList_add_str(g_, nl_inner_, &str_b);
+
+  list_node_ = Node_new_list(g_, nl_inner_);
+  NodeList_add(nl_, list_node_);
+
+  # ----
+
+  # 3
+  NodeList_add_int(g_, nl_, 3);
+  # "c"
+  NodeList_add_str(g_, nl_, &str_c);
+
+  Json_print(nl_);
+end
+
+def test_parse(g_)
+  var [80]input; # INPUT_MAX
+  var list_;
+
+  read_stdin_all(&input, INPUT_MAX());
+
+  list_ = Json_parse(g_, &input);
+  Json_print(list_);
+end
+
+def main()
+  var [1]g;
+
+  # init globals
+  *(&g + GO_ALLOC_CURSOR()) = 0;
+
+  # call test_01(&g);
+  # call test_02(&g);
+  # call test_03(&g);
+  # call test_04(&g);
+  # call test_05(&g);
+  # test_06(&g);
+
+  test_parse(&g);
+  # __test(&g);
+end
