@@ -383,7 +383,7 @@ def codegen(tree)
   puts "  exit"
 
   head, *rest = tree
-  # assert head == "stmts"
+  # assert head == "top_stmts"
   codegen_top_stmts(rest)
 end
 
