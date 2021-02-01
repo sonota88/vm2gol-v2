@@ -126,14 +126,12 @@ class Vm
     @reg_a = 0
     @reg_b = 0
 
-    # flag
+    # zero flag
     @zf = FLAG_FALSE
 
     @mem = mem
-    # スタックポインタ
-    @sp = stack_size - 1
-    # ベースポインタ
-    @bp = stack_size - 1
+    @sp = stack_size - 1 # stack pointer
+    @bp = stack_size - 1 # base pointer
 
     @step = 0
   end
