@@ -159,28 +159,26 @@ class Vm
     insn = @mem.main[@pc]
     opcode = insn[0]
 
-    pc_delta = 1
-
     case opcode
     when "exit"      then return true
-    when "set_reg_a" then set_reg_a() ; @pc += pc_delta
-    when "set_reg_b" then set_reg_b() ; @pc += pc_delta
-    when "cp"        then copy()      ; @pc += pc_delta
-    when "add_ab"    then add_ab()    ; @pc += pc_delta
-    when "mult_ab"   then mult_ab()   ; @pc += pc_delta
-    when "add_sp"    then add_sp()    ; @pc += pc_delta
-    when "sub_sp"    then sub_sp()    ; @pc += pc_delta
-    when "compare"   then compare()   ; @pc += pc_delta
-    when "label"     then               @pc += pc_delta
+    when "set_reg_a" then set_reg_a() ; @pc += 1
+    when "set_reg_b" then set_reg_b() ; @pc += 1
+    when "cp"        then copy()      ; @pc += 1
+    when "add_ab"    then add_ab()    ; @pc += 1
+    when "mult_ab"   then mult_ab()   ; @pc += 1
+    when "add_sp"    then add_sp()    ; @pc += 1
+    when "sub_sp"    then sub_sp()    ; @pc += 1
+    when "compare"   then compare()   ; @pc += 1
+    when "label"     then               @pc += 1
     when "jump"      then jump()
     when "jump_eq"   then jump_eq()
     when "call"      then call()
     when "ret"       then ret()
-    when "push"      then push()      ; @pc += pc_delta
-    when "pop"       then pop()       ; @pc += pc_delta
-    when "set_vram"  then set_vram()  ; @pc += pc_delta
-    when "get_vram"  then get_vram()  ; @pc += pc_delta
-    when "_cmt"      then               @pc += pc_delta
+    when "push"      then push()      ; @pc += 1
+    when "pop"       then pop()       ; @pc += 1
+    when "set_vram"  then set_vram()  ; @pc += 1
+    when "get_vram"  then get_vram()  ; @pc += 1
+    when "_cmt"      then               @pc += 1
     else
       raise "Unknown opcode (#{opcode})"
     end
