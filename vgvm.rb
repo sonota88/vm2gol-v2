@@ -108,9 +108,11 @@ class Memory
     main = rows[0..4]
     buf = rows[5..9]
 
-    (0..4).map {|li| # line index
-      format_cols(main[li]) + " " + format_cols(buf[li])
-    }.join("\n")
+    (0..4)
+      .map do |li| # line index
+        format_cols(main[li]) + " " + format_cols(buf[li])
+      end
+      .join("\n")
   end
 end
 
