@@ -47,7 +47,7 @@ label vram_set
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~to_vi
+  _cmt call~~to_vi
   call to_vi
   add_sp 4
   cp reg_a [bp:-1]
@@ -72,7 +72,7 @@ label vram_set_buf
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~to_vi
+  _cmt call~~to_vi
   call to_vi
   add_sp 4
   cp reg_a [bp:-1]
@@ -97,7 +97,7 @@ label vram_get
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~to_vi
+  _cmt call~~to_vi
   call to_vi
   add_sp 4
   cp reg_a [bp:-1]
@@ -407,7 +407,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~adjust_index
+  _cmt call~~adjust_index
   call adjust_index
   add_sp 2
   cp reg_a [bp:-2]
@@ -417,7 +417,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~adjust_index
+  _cmt call~~adjust_index
   call adjust_index
   add_sp 2
   cp reg_a [bp:-3]
@@ -427,7 +427,7 @@ label count_alive
   push reg_a
   cp [bp:3] reg_a
   push reg_a
-  _cmt call_set~~adjust_index
+  _cmt call~~adjust_index
   call adjust_index
   add_sp 2
   cp reg_a [bp:-4]
@@ -437,7 +437,7 @@ label count_alive
   push reg_a
   cp [bp:3] reg_a
   push reg_a
-  _cmt call_set~~adjust_index
+  _cmt call~~adjust_index
   call adjust_index
   add_sp 2
   cp reg_a [bp:-5]
@@ -451,7 +451,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~vram_get
+  _cmt call~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-6]
@@ -470,7 +470,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~vram_get
+  _cmt call~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-6]
@@ -489,7 +489,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~vram_get
+  _cmt call~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-6]
@@ -508,7 +508,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~vram_get
+  _cmt call~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-6]
@@ -527,7 +527,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~vram_get
+  _cmt call~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-6]
@@ -546,7 +546,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~vram_get
+  _cmt call~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-6]
@@ -565,7 +565,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~vram_get
+  _cmt call~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-6]
@@ -584,7 +584,7 @@ label count_alive
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~vram_get
+  _cmt call~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-6]
@@ -667,7 +667,7 @@ label true_15
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~count_alive
+  _cmt call~~count_alive
   call count_alive
   add_sp 4
   cp reg_a [bp:-3]
@@ -679,7 +679,7 @@ label true_15
   push reg_a
   cp [bp:2] reg_a
   push reg_a
-  _cmt call_set~~vram_get
+  _cmt call~~vram_get
   call vram_get
   add_sp 3
   cp reg_a [bp:-4]
@@ -687,7 +687,7 @@ label true_15
   push reg_a
   cp [bp:-4] reg_a
   push reg_a
-  _cmt call_set~~calc_next_gen
+  _cmt call~~calc_next_gen
   call calc_next_gen
   add_sp 2
   cp reg_a [bp:-5]
