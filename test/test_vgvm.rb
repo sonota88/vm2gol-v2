@@ -27,22 +27,6 @@ class VmTest < Minitest::Test
 
   # --------------------------------
 
-  def test_set_reg_a
-    execute(["set_reg_a", 42])
-
-    assert_equal(42, @vm.reg_a)
-  end
-
-  # --------------------------------
-
-  def test_set_reg_b
-    execute(["set_reg_b", 42])
-
-    assert_equal(42, @vm.reg_b)
-  end
-
-  # --------------------------------
-
   def test_cp_to_reg_a
     execute(["cp", 42, "reg_a"])
 

@@ -125,13 +125,13 @@ label adjust_index
   pop reg_a
   compare
   jump_eq then_2
-  set_reg_a 0
+  cp 0 reg_a
   jump end_eq_2
 label then_2
-  set_reg_a 1
+  cp 1 reg_a
 label end_eq_2
   # <<-- expr
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq when_1_0
   jump end_when_1_0
@@ -157,13 +157,13 @@ label end_when_1_0
   pop reg_a
   compare
   jump_eq then_3
-  set_reg_a 0
+  cp 0 reg_a
   jump end_eq_3
 label then_3
-  set_reg_a 1
+  cp 1 reg_a
 label end_eq_3
   # <<-- expr
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq when_1_1
   jump end_when_1_1
@@ -183,13 +183,13 @@ label end_when_1_1
   pop reg_a
   compare
   jump_eq then_4
-  set_reg_a 0
+  cp 0 reg_a
   jump end_eq_4
 label then_4
-  set_reg_a 1
+  cp 1 reg_a
 label end_eq_4
   # <<-- expr
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq when_1_2
   jump end_when_1_2
@@ -228,13 +228,13 @@ label calc_next_gen
   pop reg_a
   compare
   jump_eq then_6
-  set_reg_a 0
+  cp 0 reg_a
   jump end_eq_6
 label then_6
-  set_reg_a 1
+  cp 1 reg_a
 label end_eq_6
   # <<-- expr
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq when_5_0
   jump end_when_5_0
@@ -251,13 +251,13 @@ label when_5_0
   pop reg_a
   compare
   jump_eq then_8
-  set_reg_a 0
+  cp 0 reg_a
   jump end_eq_8
 label then_8
-  set_reg_a 1
+  cp 1 reg_a
 label end_eq_8
   # <<-- expr
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq when_7_0
   jump end_when_7_0
@@ -281,13 +281,13 @@ label end_when_5_0
   pop reg_a
   compare
   jump_eq then_9
-  set_reg_a 0
+  cp 0 reg_a
   jump end_eq_9
 label then_9
-  set_reg_a 1
+  cp 1 reg_a
 label end_eq_9
   # <<-- expr
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq when_5_1
   jump end_when_5_1
@@ -304,13 +304,13 @@ label when_5_1
   pop reg_a
   compare
   jump_eq then_11
-  set_reg_a 0
+  cp 0 reg_a
   jump end_eq_11
 label then_11
-  set_reg_a 1
+  cp 1 reg_a
 label end_eq_11
   # <<-- expr
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq when_10_0
   jump end_when_10_0
@@ -329,13 +329,13 @@ label end_when_10_0
   pop reg_a
   compare
   jump_eq then_12
-  set_reg_a 0
+  cp 0 reg_a
   jump end_eq_12
 label then_12
-  set_reg_a 1
+  cp 1 reg_a
 label end_eq_12
   # <<-- expr
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq when_10_1
   jump end_when_10_1
@@ -627,12 +627,12 @@ label while_13
   pop reg_a
   compare
   jump_eq then_14
-  set_reg_a 1
+  cp 1 reg_a
   jump end_neq_14
 label then_14
-  set_reg_a 0
+  cp 0 reg_a
 label end_neq_14
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq true_13
   jump end_while_13
@@ -649,12 +649,12 @@ label while_15
   pop reg_a
   compare
   jump_eq then_16
-  set_reg_a 1
+  cp 1 reg_a
   jump end_neq_16
 label then_16
-  set_reg_a 0
+  cp 0 reg_a
 label end_neq_16
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq true_15
   jump end_while_15
@@ -751,12 +751,12 @@ label while_17
   pop reg_a
   compare
   jump_eq then_18
-  set_reg_a 1
+  cp 1 reg_a
   jump end_neq_18
 label then_18
-  set_reg_a 0
+  cp 0 reg_a
 label end_neq_18
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq true_17
   jump end_while_17
@@ -871,12 +871,12 @@ label while_19
   pop reg_a
   compare
   jump_eq then_20
-  set_reg_a 1
+  cp 1 reg_a
   jump end_neq_20
 label then_20
-  set_reg_a 0
+  cp 0 reg_a
 label end_neq_20
-  set_reg_b 1
+  cp 1 reg_b
   compare
   jump_eq true_19
   jump end_while_19

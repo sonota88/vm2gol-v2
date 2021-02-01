@@ -161,8 +161,6 @@ class Vm
 
     case opcode
     when "exit"      then return true
-    when "set_reg_a" then set_reg_a() ; @pc += 1
-    when "set_reg_b" then set_reg_b() ; @pc += 1
     when "cp"        then copy()      ; @pc += 1
     when "add_ab"    then add_ab()    ; @pc += 1
     when "mult_ab"   then mult_ab()   ; @pc += 1
@@ -253,36 +251,6 @@ class Vm
 
   def mult_ab
     @reg_a = @reg_a * @reg_b
-  end
-
-  def set_reg_a
-    val = @mem.main[@pc][1]
-
-    @reg_a =
-      case val
-      when Integer
-        val
-      when /^ind:/
-        stack_addr = calc_indirect_addr(val)
-        @mem.stack[stack_addr]
-      else
-        raise not_yet_impl("val", val)
-      end
-  end
-
-  def set_reg_b
-    val = @mem.main[@pc][1]
-
-    @reg_b =
-      case val
-      when Integer
-        val
-      when /^ind:/
-        stack_addr = calc_indirect_addr(val)
-        @mem.stack[stack_addr]
-      else
-        raise not_yet_impl("val", val)
-      end
   end
 
   def copy
