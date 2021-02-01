@@ -12,9 +12,23 @@ class VgcgGolTest < Minitest::Test
   def test_vgcg_gol
     system %( ruby #{PROJECT_DIR}/vgcg.rb #{PROJECT_DIR}/test/gol.vgt.json > #{ASM_FILE} )
 
-    assert_equal(
-      File.read(project_path("test/gol.vga.txt")),
-      File.read(ASM_FILE)
-    )
+    act = File.read(ASM_FILE)
+    exp = File.read(project_path("test/gol.vga.txt"))
+
+    if act == exp
+      pass
+    else
+      ts = Time.now.strftime("%Y%m%d_%H%M%S")
+      act_file = project_path("tmp/test_result_vga_#{ts}.txt")
+      FileUtils.cp(ASM_FILE, act_file)
+
+      $stderr.print "\n"
+      $stderr.puts <<~MSG
+        [FAILED] #{self.class.name}##{__method__}
+          For detail, run
+          diff -u "test/gol.vga.txt" "#{act_file}"
+      MSG
+      flunk
+    end
   end
 end
