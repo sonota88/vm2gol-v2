@@ -35,6 +35,9 @@ Layout/SpaceAroundMethodCallOperator:
 Layout/HashAlignment:
   Enabled: false
 
+Layout/SpaceBeforeSemicolon:
+  Enabled: false
+
 # --------------------------------
 
 Lint/UselessAssignment:
