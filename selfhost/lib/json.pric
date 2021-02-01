@@ -1,0 +1,159 @@
+# -*- mode: ruby -*-
+
+def Json_print_indent(lv)
+  var i = lv;
+  while (0 < i)
+    putchar(C_SPC());
+    putchar(C_SPC());
+    i = i + -1;
+  end
+end
+
+def Json_print_node(node_, lv)
+  var kind;
+  var int_val;
+  var str_;
+  var list_;
+
+  kind = Node_get_kind(node_);
+
+  case
+  when (kind == NODE_KIND__INT())
+    int_val = Node_get_int(node_);
+    Json_print_indent(lv);
+    print_i(int_val);
+  when (kind == NODE_KIND__STR())
+    str_ = Node_get_str(node_);
+    Json_print_indent(lv);
+    putchar(C_DQ());
+    print_s(str_);
+    putchar(C_DQ());
+  when (kind == NODE_KIND__LIST())
+    list_ = Node_get_list(node_);
+    Json_print_list(list_, lv);
+  else
+    panic(35);
+  end
+end
+
+def Json_print_list(list_, lv)
+  var size = NodeList_size(list_);
+  var i;
+  var node_;
+
+  Json_print_indent(lv);
+  putchar(91); # [
+  putchar(C_LF());
+
+  i = 0;
+  while (i < size)
+    node_ = NodeList_get(list_, i);
+    Json_print_node(node_, lv + 1);
+
+    if (i < (size + -1))
+      putchar(C_COMMA());
+    end
+    putchar(C_LF());
+
+    i = i + 1;
+  end
+
+  Json_print_indent(lv);
+  putchar(93); # ]
+end
+
+def Json_print(list_)
+  Json_print_list(list_, 0);
+  putchar(C_LF());
+end
+
+def Json_parse_int(rest_, pos, size_)
+  var pos_start;
+  var pos_end;
+  var n;
+  var [8]temp_str;
+
+  if (char_at(rest_, pos) == 45) # -
+    pos_start = pos + 1;
+  else
+    pos_start = pos;
+  end
+
+  pos_end = non_digit_index(rest_, pos_start);
+  substr(&temp_str, rest_, pos, pos_end);
+  n = parse_int(&temp_str);
+
+  if (char_at(rest_, 0) == 45) # -
+    n = n * -1;
+  end
+
+  *(size_) = str_size(&temp_str);
+  return n;
+end
+
+def Json_parse_list(g_, rest_, pos_start, size_)
+  var pos = pos_start + 1;
+  var size = 0;
+  var list_;
+  var c;
+  var pos_end;
+  var [8]temp_str;
+  var n;
+  var do_break = FALSE();
+  var child_list_;
+
+  list_ = NodeList_new(g_);
+
+  while (do_break == FALSE())
+    c = char_at(rest_, pos);
+
+    case
+    when (c == 93) # ]
+      pos = pos + 1;
+      do_break = TRUE();
+
+    when (c == 91) # [
+      child_list_ = Json_parse_list(g_, rest_, pos, &size);
+      NodeList_add_list(g_, list_, child_list_);
+      pos = pos + size;
+
+    when (c == C_LF()   ) pos = pos + 1;
+    when (c == C_SPC()  ) pos = pos + 1;
+    when (c == C_COMMA()) pos = pos + 1;
+
+    when (__or(
+            is_digit_char(c) == TRUE(),
+            c == 45 # -
+          ))
+      n = Json_parse_int(rest_, pos, &size);
+      NodeList_add_int(g_, list_, n);
+      pos = pos + size;
+
+    when (c == C_DQ())
+      pos_end = char_index(rest_, C_DQ(), pos + 1);
+      substr(&temp_str, rest_, pos + 1, pos_end);
+      NodeList_add_str(g_, list_, &temp_str);
+      pos = pos + str_size(&temp_str) + 2;
+
+    else
+      p_char(c);
+      panic(93);
+    end
+
+    if (char_at(rest_, pos) == 0)
+      do_break = TRUE();
+    end
+  end
+
+  *(size_) = __sub(pos, pos_start);
+  return list_;
+end
+
+def Json_parse(g_, json_)
+  var list_;
+  var size;
+
+  list_ = Json_parse_list(g_, json_, 0, &size);
+
+  return list_;
+end

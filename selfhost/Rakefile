@@ -1,0 +1,59 @@
+require "rake/testtask"
+
+task :default => :"build-all"
+
+# --------------------------------
+
+LIB_STD   = "lib/std.pric"
+LIB_TYPES = "lib/types.pric"
+LIB_JSON  = "lib/json.pric"
+
+JSON_TESTER_EXE = "exe/json_tester.exe.txt"
+LEXER_EXE       = "exe/lexer.exe.txt"
+PARSER_EXE      = "exe/parser.exe.txt"
+CODEGEN_EXE     = "exe/codegen.exe.txt"
+
+dep_map = {
+  "json_tester" => [
+    LIB_STD,
+    LIB_TYPES,
+    LIB_JSON,
+    "json_tester.pric"
+  ],
+  "lexer" => [
+    LIB_STD,
+    "lexer.pric"
+  ],
+  "parser" => [
+    LIB_STD,
+    LIB_TYPES,
+    LIB_JSON,
+    "parser.pric"
+  ],
+  "codegen" => [
+    LIB_STD,
+    LIB_TYPES,
+    LIB_JSON,
+    "codegen.pric"
+  ]
+}
+
+%w(json_tester lexer parser codegen).each do |name|
+  file "exe/#{name}.exe.txt" => dep_map[name] do |t|
+    exe_file = t.name
+    sh %( ../pricc #{name}.pric > #{exe_file} )
+  end
+end
+
+task :"build-all" => [
+  JSON_TESTER_EXE,
+  LEXER_EXE,
+  PARSER_EXE,
+  CODEGEN_EXE
+]
+
+# --------------------------------
+
+Rake::TestTask.new(:test_v3) do |t|
+  t.test_files = FileList["../test_v3/**/test_*.rb"]
+end

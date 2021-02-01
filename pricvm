@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -o errexit
+
+print_this_dir() {
+  (
+    cd "$(dirname $0)"
+    pwd
+  )
+}
+
+__DIR__="$(print_this_dir)"
+TMP_DIR=${__DIR__}/tmp/
+
+mkdir -p ${TMP_DIR}
+
+file="$1"
+
+ruby ${__DIR__}/vgvm.rb $file
