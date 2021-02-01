@@ -99,6 +99,9 @@ Style/EmptyCaseCondition:
 Style/Encoding:
   Enabled: false
 
+Style/GlobalVars:
+  Enabled: false
+
 Style/HashSyntax:
   Exclude:
     - 'Rakefile'

@@ -69,13 +69,6 @@ Style/BlockDelimiters:
 Style/FormatStringToken:
   EnforcedStyle: unannotated
 
-# Offense count: 51
-# Configuration parameters: AllowedVariables.
-Style/GlobalVars:
-  Exclude:
-    - 'gol.rb'
-    - 'vgcg.rb' # $label_id
-
 # Offense count: 1
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
