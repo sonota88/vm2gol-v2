@@ -223,7 +223,7 @@ class Vm
 
   def start
     unless test?
-      dump_v2() # 初期状態
+      dump() # 初期状態
       puts "Press enter key to start"
       $stdin.gets
     end
@@ -236,11 +236,11 @@ class Vm
 
       unless test?
         if ENV.key?("STEP")
-          dump_v2()
+          dump()
           $stdin.gets
           # $stdin.gets if @step >= 600
         else
-          dump_v2() if @step % 10 == 0
+          dump() if @step % 10 == 0
         end
 
         # sleep 0.01
@@ -255,7 +255,7 @@ class Vm
     ].join(" ")
   end
 
-  def dump_v2
+  def dump
     puts <<~DUMP
       ================================
       #{ @step }: #{ dump_reg() } zf(#{ @zf })
@@ -509,6 +509,6 @@ if $PROGRAM_NAME == __FILE__
   vm.load_program_file(exe_file)
 
   vm.start
-  vm.dump_v2()
+  vm.dump()
   $stderr.puts "exit"
 end
