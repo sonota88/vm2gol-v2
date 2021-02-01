@@ -52,7 +52,7 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
       puts "  # <<-- expr"
 
       # 式の結果と比較するための値を reg_b に入れる
-      puts "  set_reg_b 1"
+      puts "  cp 1 reg_b"
 
       puts "  compare"
       puts "  jump_eq #{label_when_head}_#{when_idx}"  # 真の場合
@@ -96,7 +96,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   # 条件の評価 ... 結果が reg_a に入る
   codegen_expr(fn_arg_names, lvar_names, cond_expr)
   # 比較対象の値（真）をセット
-  puts "  set_reg_b 1"
+  puts "  cp 1 reg_b"
   puts "  compare"
 
   # true の場合ループの本体を実行
@@ -144,12 +144,12 @@ def _codegen_expr_eq
   puts "  jump_eq #{label_then}"
 
   # else
-  puts "  set_reg_a 0"
+  puts "  cp 0 reg_a"
   puts "  jump #{label_end}"
 
   # then
   puts "label #{label_then}"
-  puts "  set_reg_a 1"
+  puts "  cp 1 reg_a"
 
   puts "label #{label_end}"
 end
@@ -168,12 +168,12 @@ def _codegen_expr_neq
   puts "  jump_eq #{label_then}"
 
   # else
-  puts "  set_reg_a 1"
+  puts "  cp 1 reg_a"
   puts "  jump #{label_end}"
 
   # then
   puts "label #{label_then}"
-  puts "  set_reg_a 0"
+  puts "  cp 0 reg_a"
 
   puts "label #{label_end}"
 end
