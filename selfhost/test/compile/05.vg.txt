@@ -1,0 +1,5 @@
+// -*- mode: javascript -*-
+
+func main() {
+  var a = 42;
+}

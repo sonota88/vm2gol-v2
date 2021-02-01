@@ -1,0 +1,13 @@
+  call main
+  exit
+
+label main
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  _cmt vm~comment
+
+  cp bp sp
+  pop bp
+  ret

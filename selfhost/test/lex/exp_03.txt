@@ -1,0 +1,6 @@
+kw:func
+ident:main
+sym:(
+sym:)
+sym:{
+sym:}

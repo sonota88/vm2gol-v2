@@ -1,0 +1,4 @@
+// -*- mode: javascript -*-
+func main() {
+  // comment in func
+}

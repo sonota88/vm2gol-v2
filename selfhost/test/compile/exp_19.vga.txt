@@ -1,0 +1,63 @@
+  call main
+  exit
+
+label main
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp 0 [bp-1]
+
+  # -->> case_1
+  # when_1_0: ["eq", "a", 1]
+  # -->> expr
+  push [bp-1]
+  push 1
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_2
+  set_reg_a 0
+  jump end_eq_2
+label then_2
+  set_reg_a 1
+label end_eq_2
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_1_0
+  jump end_when_1_0
+label when_1_0
+  cp 0 [bp-1]
+  jump end_case_1
+label end_when_1_0
+  # when_1_1: ["eq", "a", 0]
+  # -->> expr
+  push [bp-1]
+  push 0
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_3
+  set_reg_a 0
+  jump end_eq_3
+label then_3
+  set_reg_a 1
+label end_eq_3
+  # <<-- expr
+  set_reg_b 1
+  compare
+  jump_eq when_1_1
+  jump end_when_1_1
+label when_1_1
+  cp 1 [bp-1]
+  jump end_case_1
+label end_when_1_1
+label end_case_1
+  # <<-- case_1
+
+
+  cp bp sp
+  pop bp
+  ret
