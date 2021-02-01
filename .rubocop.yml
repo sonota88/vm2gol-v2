@@ -139,6 +139,9 @@ Style/RedundantRegexpCharacterClass:
 Style/RedundantRegexpEscape:
   Enabled: true
 
+Style/Semicolon:
+  Enabled: false
+
 Style/SlicingWithRange:
   Enabled: false
 
