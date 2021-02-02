@@ -190,14 +190,10 @@ def _codegen_expr_binary(fn_arg_names, lvar_names, expr)
   puts "  push reg_a"
 
   case operator
-  when "+"
-    _codegen_expr_add()
-  when "*"
-    _codegen_expr_mult()
-  when "eq"
-    _codegen_expr_eq()
-  when "neq"
-    _codegen_expr_neq()
+  when "+"   then _codegen_expr_add()
+  when "*"   then _codegen_expr_mult()
+  when "eq"  then _codegen_expr_eq()
+  when "neq" then _codegen_expr_neq()
   else
     raise not_yet_impl("operator", operator)
   end
