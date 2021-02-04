@@ -240,29 +240,9 @@ end
 # TODO parse_case
 # TODO parse_while
 # TODO parse_vm_comment
+
 def parse_stmt(g_)
-  var stmt_;
-  var [4]str_set;
-  var [8]var_name;
-
-  inc_token_index(g_); # set
-  inc_token_index(g_); # a
-  inc_token_index(g_); # =
-  inc_token_index(g_); # 42
-  inc_token_index(g_); # ;
-
-  stmt_ = NodeList_new(g_);
-
-  str_set_set(&str_set);
-  NodeList_add_str(g_, stmt_, &str_set);
-
-  aset(&var_name, 0, 97); # a / TODO dummy
-  aset(&var_name, 1,  0);
-  NodeList_add_str(g_, stmt_, &var_name);
-
-  NodeList_add_int(g_, stmt_, 42); # TODO dummy
-
-  return stmt_;
+  return parse_set(g_);
 end
 
 # TODO parse_stmts
