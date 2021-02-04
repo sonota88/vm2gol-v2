@@ -206,7 +206,32 @@ end
 
 # TODO _parse_expr_right
 # TODO parse_expr
-# TODO parse_set
+
+def parse_set(g_)
+  var stmt_;
+  var [4]str_set;
+  var [8]var_name;
+
+  inc_token_index(g_); # set
+  inc_token_index(g_); # a
+  inc_token_index(g_); # =
+  inc_token_index(g_); # 42
+  inc_token_index(g_); # ;
+
+  stmt_ = NodeList_new(g_);
+
+  str_set_set(&str_set);
+  NodeList_add_str(g_, stmt_, &str_set);
+
+  aset(&var_name, 0, 97); # a / TODO dummy
+  aset(&var_name, 1,  0);
+  NodeList_add_str(g_, stmt_, &var_name);
+
+  NodeList_add_int(g_, stmt_, 42); # TODO dummy
+
+  return stmt_;
+end
+
 # TODO parse_funcall
 # TODO parse_call
 # TODO parse_call_set
