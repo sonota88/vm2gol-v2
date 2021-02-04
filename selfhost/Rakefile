@@ -1,4 +1,8 @@
 require "rake/testtask"
+require "rake/clean"
+
+CLEAN.include "./tmp/*"
+CLEAN.include "./exe/*"
 
 task :default => :"build-all"
 
