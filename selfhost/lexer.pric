@@ -45,6 +45,24 @@ def _match_kw_var(input_, pos)
   end
 end
 
+def _match_kw_set(input_, pos)
+  var [4]temp_str;
+  var [4]pattern;
+
+  str_set_set(&pattern);
+
+  substr(&temp_str, input_, pos, pos + 3);
+
+  if (__and(
+        str_eq(&pattern, &temp_str),
+        is_ident_char(*(input_ + pos + 3)) == FALSE()
+      ))
+    return 3;
+  else
+    return 0;
+  end
+end
+
 def match_kw(input_, pos)
   return _match_kw_func(input_, pos);
 end
