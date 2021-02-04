@@ -98,6 +98,7 @@ def parse_func(g_)
   var func_main_;
   var [10]temp_str;
   var t_;
+  var stmts_;
 
   # TODO consume_kw に置き換え
   inc_token_index(g_);
@@ -122,9 +123,12 @@ def parse_func(g_)
   NodeList_add_list(g_, func_main_, NodeList_new(g_));
 
   inc_token_index(g_); # { TODO Use consume_sym
+
+  stmts_ = NodeList_new(g_);
+
   inc_token_index(g_); # } TODO Use consume_sym
   assert(6, get_token_index(g_), 135);
-  NodeList_add_list(g_, func_main_, NodeList_new(g_));
+  NodeList_add_list(g_, func_main_, stmts_);
 
   return func_main_;
 end
