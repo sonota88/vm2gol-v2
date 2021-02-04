@@ -32,6 +32,7 @@ dep_map = {
   ],
   "parser" => [
     LIB_STD,
+    LIB_WORDS,
     LIB_TYPES,
     LIB_JSON,
     "parser.pric"

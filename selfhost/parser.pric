@@ -1,6 +1,7 @@
 # -*- mode: ruby -*-
 
 #include lib/std.pric
+#include lib/words.pric
 #include lib/types.pric
 #include lib/json.pric
 
