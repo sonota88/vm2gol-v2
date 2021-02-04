@@ -87,6 +87,21 @@ def peek(g_, i)
   return *(g_ + GO_TOKENS() + ti);
 end
 
+def consume_kw(g_, str_)
+  var t_ = peek(g_, 0);
+  if (__and(
+        Token_kind_eq(t_, TOKEN_KIND__KW()),
+        Token_value_eq(t_, str_)
+  ))
+    inc_token_index(g_);
+  else
+    p_int(Token_get_kind(t_));
+    print_s(Token_get_val(t_));
+    print_s(str_);
+    panic(98);
+  end
+end
+
 # --------------------------------
 
 # TODO _parse_arg
