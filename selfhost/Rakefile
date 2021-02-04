@@ -5,6 +5,7 @@ task :default => :"build-all"
 # --------------------------------
 
 LIB_STD   = "lib/std.pric"
+LIB_WORDS = "lib/words.pric"
 LIB_TYPES = "lib/types.pric"
 LIB_JSON  = "lib/json.pric"
 
@@ -32,6 +33,7 @@ dep_map = {
   ],
   "codegen" => [
     LIB_STD,
+    LIB_WORDS,
     LIB_TYPES,
     LIB_JSON,
     "codegen.pric"
