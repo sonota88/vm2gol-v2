@@ -227,7 +227,9 @@ def parse_set(g_)
   var [4]str_set;
   var [2]str_eq;
   var [2]str_semicolon;
-  var [8]var_name;
+  var t_;
+  var var_name_;
+  var expr;
 
   str_set_set(&str_set);
 
@@ -239,20 +241,25 @@ def parse_set(g_)
 
   consume_kw(g_, &str_set);
 
-  inc_token_index(g_); # a
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+  var_name_ = Token_get_val(t_);
+
   consume_sym(g_, &str_eq);
-  inc_token_index(g_); # 42
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+  expr = parse_int(Token_get_val(t_));
+
   consume_sym(g_, &str_semicolon);
 
   stmt_ = NodeList_new(g_);
 
   NodeList_add_str(g_, stmt_, &str_set);
 
-  aset(&var_name, 0, 97); # a / TODO dummy
-  aset(&var_name, 1,  0);
-  NodeList_add_str(g_, stmt_, &var_name);
+  NodeList_add_str(g_, stmt_, var_name_);
 
-  NodeList_add_int(g_, stmt_, 42); # TODO dummy
+  NodeList_add_int(g_, stmt_, expr);
 
   return stmt_;
 end
