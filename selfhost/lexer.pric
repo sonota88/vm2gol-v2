@@ -137,10 +137,7 @@ def main()
       print_kw(&temp_str);
       pos = pos + size;
 
-    when (__or(
-            c == C_SPC(),
-            c == C_LF()
-          ))
+    when (__or(c == C_SPC(), c == C_LF()))
       pos = pos + 1;
 
     when (0 < match_ident(&input, pos))
