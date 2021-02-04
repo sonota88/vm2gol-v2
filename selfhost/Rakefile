@@ -27,6 +27,7 @@ dep_map = {
   ],
   "lexer" => [
     LIB_STD,
+    LIB_WORDS,
     "lexer.pric"
   ],
   "parser" => [
