@@ -217,13 +217,33 @@ end
 
 def gen_func(func_)
   var fn_name_;
+  var stmts_;
+  var stmt_;
+  var i;
 
+  assert(4, NodeList_size(func_), 243);
   fn_name_ = Node_get_str(NodeList_get(func_, 1));
+  # TODO args
+  stmts_ = Node_get_list(NodeList_get(func_, 3));
+
   asm_label(fn_name_);
 
   asm_fn_prologue();
 
-  # TODO 関数の処理本体
+  # lvar_names = []
+
+  i = 0;
+  while (i < NodeList_size(stmts_))
+    stmt_ = NodeList_get_as_list(stmts_, i);
+
+    if (str_eq_var(NodeList_get_as_str(stmt_, 0)))
+      gen_var();
+    else
+      gen_stmt(stmt_);
+    end
+
+    i = i + 1;
+  end
 
   asm_fn_epilogue();
 
@@ -268,18 +288,17 @@ def codegen(ast_)
   gen_top_stmts(ast_);
 end
 
-def INPUT_MAX() return 77; end
+def INPUT_MAX() return 180; end
 
 def main()
   var [1]g;
-  var [77]input; # INPUT_MAX
+  var [180]input; # INPUT_MAX
   var ast_;
 
   # init globals
   *(&g + GO_ALLOC_CURSOR()) = 0;
 
   read_stdin_all(&input, INPUT_MAX());
-  assert(76, str_size(&input), 38);
 
   ast_ = Json_parse(&g, &input);
 
