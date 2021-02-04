@@ -225,16 +225,24 @@ end
 def parse_set(g_)
   var stmt_;
   var [4]str_set;
+  var [2]str_eq;
+  var [2]str_semicolon;
   var [8]var_name;
 
   str_set_set(&str_set);
 
+  aset(&str_eq, 0, 61); # =
+  aset(&str_eq, 1,  0);
+
+  aset(&str_semicolon, 0, 59); # ;
+  aset(&str_semicolon, 1,  0);
+
   consume_kw(g_, &str_set);
 
   inc_token_index(g_); # a
-  inc_token_index(g_); # =
+  consume_sym(g_, &str_eq);
   inc_token_index(g_); # 42
-  inc_token_index(g_); # ;
+  consume_sym(g_, &str_semicolon);
 
   stmt_ = NodeList_new(g_);
 
