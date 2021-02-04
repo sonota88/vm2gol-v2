@@ -227,7 +227,10 @@ def parse_set(g_)
   var [4]str_set;
   var [8]var_name;
 
-  inc_token_index(g_); # set
+  str_set_set(&str_set);
+
+  consume_kw(g_, &str_set);
+
   inc_token_index(g_); # a
   inc_token_index(g_); # =
   inc_token_index(g_); # 42
@@ -235,7 +238,6 @@ def parse_set(g_)
 
   stmt_ = NodeList_new(g_);
 
-  str_set_set(&str_set);
   NodeList_add_str(g_, stmt_, &str_set);
 
   aset(&var_name, 0, 97); # a / TODO dummy
