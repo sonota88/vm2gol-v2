@@ -4,7 +4,7 @@
 
 def INPUT_MAX() return 80; end
 
-def match_kw(input_, pos)
+def _match_kw_func(input_, pos)
   var [5]temp_str;
   var [5]pattern;
 
@@ -24,6 +24,10 @@ def match_kw(input_, pos)
   else
     return 0;
   end
+end
+
+def match_kw(input_, pos)
+  return _match_kw_func(input_, pos);
 end
 
 def is_ident_char(c)
