@@ -32,8 +32,16 @@ MAX_ID_STEP=1 # 29
 ERRS=""
 
 build() {
+  local st=
+
+  ruby test/test_gvar.rb >&2
+  st=$?
+  if [ $st -ne 0 ]; then
+    exit $st
+  fi
+
   rake build-all
-  local st=$?
+  st=$?
   if [ $st -ne 0 ]; then
     exit $st
   fi
