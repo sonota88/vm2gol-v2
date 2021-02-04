@@ -213,3 +213,60 @@ end
 def Token_value_eq(self_, value_)
   return str_eq(Token_get_val(self_), value_);
 end
+
+# --------------------------------
+
+def NAMES__TYPE_SIZE() return 25; end
+
+def NAMES__STR_SIZE_MAX () return 8; end
+def NAMES__NUM_STRS_MAX () return 3; end
+
+def NAMES__SIZE () return 0; end
+def NAMES__STRS() return 1; end # 1..24(= 8 * 3)
+
+def Names_new(g_)
+  var self_ = allocate(g_, NAMES__TYPE_SIZE());
+
+  *(self_ + NAMES__SIZE()) = 0;
+
+  return self_;
+end
+
+def Names_size(self_)
+  return *(self_ + NAMES__SIZE());
+end
+
+def Names_str_offset(self_, i)
+  return (
+    self_
+    + NAMES__STRS()
+    + (NAMES__STR_SIZE_MAX() * i)
+  );
+end
+
+def Names_add(self_, name_)
+  var size = Names_size(self_);
+
+  if (__le(NAMES__NUM_STRS_MAX(), size))
+    panic(243);
+  end
+
+  str_cp(
+    Names_str_offset(self_, size),
+    name_
+  );
+
+  *(self_ + NAMES__SIZE()) = size + 1;
+end
+
+def Names_get(self_, i)
+  return Names_str_offset(self_, i);
+end
+
+def Names_index(self_, name_)
+  # TODO
+end
+
+def Names_includes(self_, name_)
+  # TODO
+end
