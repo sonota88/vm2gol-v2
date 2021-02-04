@@ -5,7 +5,7 @@
 #include lib/types.pric
 #include lib/json.pric
 
-def INPUT_MAX() return 80; end
+def INPUT_MAX() return 110; end
 
 def get_line_size(input_, pos_from)
   var pos_to;
@@ -62,7 +62,7 @@ def read_tokens(g_, input_)
     end
   end
 
-  assert(6, ti, 64);
+  # assert(6, ti, 64);
   # p_int(ti); # ... num_tokens == ti
 end
 
@@ -115,6 +115,15 @@ def parse_func(g_)
   var [10]temp_str;
   var t_;
   var stmts_;
+  var stmt_;
+  var do_break = FALSE();
+  var [4]str_var;
+  check_heap_stack_overlap(g_);
+
+  aset(&str_var, 0, 118); # v
+  aset(&str_var, 1, 097); # a
+  aset(&str_var, 2, 114); # r
+  aset(&str_var, 3, 0);
 
   # TODO consume_kw に置き換え
   inc_token_index(g_);
@@ -142,8 +151,24 @@ def parse_func(g_)
 
   stmts_ = NodeList_new(g_);
 
+  while(__not(do_break))
+    t_ = peek(g_, 0);
+    if (char_at(Token_get_val(t_), 0) == 125) # }
+      do_break = TRUE();
+    else
+
+      if (str_eq(Token_get_val(t_), &str_var))
+        stmt_ = parse_var(g_);
+      else
+        stmt_ = parse_stmt(g_);
+      end
+      NodeList_add_list(g_, stmts_, stmt_);
+
+    end
+  end
+
   inc_token_index(g_); # } TODO Use consume_sym
-  assert(6, get_token_index(g_), 135);
+
   NodeList_add_list(g_, func_main_, stmts_);
 
   return func_main_;
@@ -246,7 +271,7 @@ def parse(g_)
 end
 
 def GO_TOKENS() return GO_ALLOC_CURSOR() + GS_ALLOC_CURSOR(); end
-def GS_TOKENS() return 6; end
+def GS_TOKENS() return 15; end
 
 def GO_TOKEN_INDEX() return GO_TOKENS() + GS_TOKENS(); end
 def GS_TOKEN_INDEX() return 1; end
@@ -256,8 +281,8 @@ def NUM_TOKENS_MAX()
 end
 
 def main()
-  var [8]g;
-  var [80]input; # INPUT_MAX
+  var [17]g;
+  var [110]input; # INPUT_MAX
 
   # init globals
   *(&g + GO_ALLOC_CURSOR()) = 0;

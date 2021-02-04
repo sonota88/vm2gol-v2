@@ -64,7 +64,16 @@ def _match_kw_set(input_, pos)
 end
 
 def match_kw(input_, pos)
-  return _match_kw_func(input_, pos);
+  case
+  when (0 < _match_kw_func(input_, pos))
+    return _match_kw_func(input_, pos);
+  when (0 < _match_kw_set(input_, pos))
+    return _match_kw_set(input_, pos);
+  when (0 < _match_kw_var(input_, pos))
+    return _match_kw_var(input_, pos);
+  else
+    return 0;
+  end
 end
 
 def is_ident_char(c)
@@ -112,6 +121,10 @@ def match_symbol(input_, pos_from)
   when (c == 40) # (
     return 1;
   when (c == 41) # )
+    return 1;
+  when (c == 59) # ;
+    return 1;
+  when (c == 61) # =
     return 1;
   when (c == 123) # {
     return 1;
@@ -201,6 +214,10 @@ def main()
       size = match_symbol(&input, pos);
       substr(&temp_str, &input, pos, pos + size);
       print_symbol(&temp_str);
+      pos = pos + size;
+
+    when (0 < match_comment(&input, pos))
+      size = match_comment(&input, pos);
       pos = pos + size;
 
     else
