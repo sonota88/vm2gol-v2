@@ -103,6 +103,21 @@ def consume_kw(g_, str_)
   end
 end
 
+def consume_sym(g_, str_)
+  var t_ = peek(g_, 0);
+  if (__and(
+        Token_kind_eq(t_, TOKEN_KIND__SYM()),
+        Token_value_eq(t_, str_)
+  ))
+    inc_token_index(g_);
+  else
+    p_int(Token_get_kind(t_));
+    print_s(Token_get_val(t_));
+    print_s(str_);
+    panic(117);
+  end
+end
+
 # --------------------------------
 
 # TODO _parse_arg
