@@ -150,7 +150,34 @@ end
 
 # TODO _parse_var_declare
 # TODO _parse_var_init
-# TODO parse_var
+
+def parse_var(g_)
+  var stmt_;
+  var [4]str_var;
+  var t_;
+  var var_name_;
+  check_heap_stack_overlap(g_);
+
+  aset(&str_var, 0, 118); # v
+  aset(&str_var, 1, 097); # a
+  aset(&str_var, 2, 114); # r
+  aset(&str_var, 3, 0);
+
+  stmt_ = NodeList_new(g_);
+
+  consume_kw(g_, &str_var);
+  NodeList_add_str(g_, stmt_, &str_var);
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+  var_name_ = Token_get_val(t_);
+  NodeList_add_str(g_, stmt_, var_name_);
+
+  inc_token_index(g_); # ; TODO Use consume_sym
+
+  return stmt_;
+end
+
 # TODO _parse_expr_right
 # TODO parse_expr
 # TODO parse_set
