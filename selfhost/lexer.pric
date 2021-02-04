@@ -204,7 +204,7 @@ def main()
       pos = pos + size;
 
     else
-      panic(160);
+      panic(163);
     end
 
     c = *(&input + pos);
