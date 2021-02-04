@@ -20,6 +20,19 @@ def str_eq_func(str_)
   return str_eq(str_, &pattern);
 end
 
+def str_set_set(dest_)
+  aset(dest_, 0, 115); # s
+  aset(dest_, 1, 101); # e
+  aset(dest_, 2, 116); # t
+  aset(dest_, 3,   0);
+end
+
+def str_eq_set(str_)
+  var [4]pattern;
+  str_set_set(&pattern);
+  return str_eq(str_, &pattern);
+end
+
 def str_set_sp(str_)
   aset(str_, 0, 115); # s
   aset(str_, 1, 112); # p
