@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 
-#include lib/std.pric
+#include selfhost/lib/std.pric
 
 def fib(n)
   case

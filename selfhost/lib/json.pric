@@ -92,7 +92,7 @@ def Json_parse_int(rest_, pos, size_)
 end
 
 def Json_parse_list(g_, rest_, pos_start, size_)
-  var pos = pos_start + 1;
+  var pos = pos_start;
   var size = 0;
   var list_;
   var c;
@@ -101,6 +101,13 @@ def Json_parse_list(g_, rest_, pos_start, size_)
   var n;
   var do_break = FALSE();
   var child_list_;
+
+  assert(
+    91, # [
+    char_at(rest_, pos),
+    108
+  );
+  pos = pos + 1;
 
   list_ = NodeList_new(g_);
 
