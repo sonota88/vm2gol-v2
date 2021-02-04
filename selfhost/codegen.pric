@@ -1,6 +1,7 @@
 # -*- mode: ruby -*-
 
 #include lib/std.pric
+#include lib/words.pric
 #include lib/types.pric
 #include lib/json.pric
 
@@ -157,20 +158,6 @@ def asm_fn_epilogue()
   aset(&temp_str, 2,   0);
 
   asm_pop(&temp_str);
-end
-
-# --------------------------------
-
-def str_eq_func(str_)
-  var [5]temp_str;
-
-  aset(&temp_str, 0, 102); # f
-  aset(&temp_str, 1, 117); # u
-  aset(&temp_str, 2, 110); # n
-  aset(&temp_str, 3,  99); # c
-  aset(&temp_str, 4,   0);
-
-  return str_eq(str_, &temp_str);
 end
 
 # --------------------------------
