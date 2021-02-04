@@ -110,7 +110,7 @@ def read_stdin_all(dest_, limit)
   var c;
   var do_break = 0;
 
-  while (do_break == 0)
+  while (__not(do_break))
     case when (i == limit)
       # too large input
       panic(146);
