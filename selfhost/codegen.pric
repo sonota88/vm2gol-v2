@@ -118,6 +118,24 @@ def asm_pop(dest_)
   putchar(C_LF());
 end
 
+def asm_sub_sp(n)
+  var [7]temp_str;
+
+  aset(&temp_str, 0, 115); # s
+  aset(&temp_str, 1, 117); # u
+  aset(&temp_str, 2,  98); # b
+  aset(&temp_str, 3,  95); # _
+  aset(&temp_str, 4, 115); # s
+  aset(&temp_str, 5, 112); # p
+  aset(&temp_str, 6,   0);
+
+  asm_indent();
+  print_s(&temp_str);
+  putchar(C_SPC());
+  print_i(n);
+  putchar(C_LF());
+end
+
 def asm_fn_prologue()
   var [10]temp_str;
   var [10]temp_str2;
