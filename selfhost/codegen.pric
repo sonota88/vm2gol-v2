@@ -162,6 +162,16 @@ end
 
 # --------------------------------
 
+def fn_arg_to_asm(names_, name_)
+  # TODO
+end
+
+def lvar_to_asm(names_, name_)
+  # TODO
+end
+
+# --------------------------------
+
 def gen_var(
       # fn_arg_names, lvar_names, list_
     )
