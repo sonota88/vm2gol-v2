@@ -230,6 +230,8 @@ def gen_func(g_, func_)
   var stmts_;
   var stmt_;
   var i;
+  var lvar_names_;
+  var lvar_name_;
 
   assert(4, NodeList_size(func_), 243);
   fn_name_ = Node_get_str(NodeList_get(func_, 1));
@@ -240,13 +242,15 @@ def gen_func(g_, func_)
 
   asm_fn_prologue();
 
-  # lvar_names = []
+  lvar_names_ = Names_new(g_);
 
   i = 0;
   while (i < NodeList_size(stmts_))
     stmt_ = NodeList_get_as_list(stmts_, i);
 
     if (str_eq_var(NodeList_get_as_str(stmt_, 0)))
+      lvar_name_ = NodeList_get_as_str(stmt_, 1);
+      Names_add(lvar_names_, lvar_name_);
       gen_var();
     else
       gen_stmt(stmt_);
