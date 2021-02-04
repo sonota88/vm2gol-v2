@@ -218,7 +218,19 @@ end
 
 # TODO gen_return
 # TODO gen_vm_comment
-# TODO gen_stmt
+
+def gen_stmt(
+      # fn_arg_names, lvar_names,
+      list_
+    )
+  case
+  when (str_eq_set(NodeList_get_as_str(list_, 0)))
+    gen_set();
+  else
+    panic(257);
+  end
+end
+
 # TODO gen_stmts
 
 def gen_func(func_)
