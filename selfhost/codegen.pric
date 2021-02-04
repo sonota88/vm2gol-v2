@@ -180,7 +180,12 @@ end
 
 # --------------------------------
 
-# TODO gen_var
+def gen_var(
+      # fn_arg_names, lvar_names, list_
+    )
+  asm_sub_sp(1);
+end
+
 # TODO gen_case
 # TODO gen_while
 # TODO _gen_expr_add
