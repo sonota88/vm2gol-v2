@@ -96,6 +96,47 @@ def print_i(arg_n)
   end
 end
 
+def unparse_int(dest_, arg_n)
+  var n = arg_n;
+  var div;
+  var mod;
+  var [8]buf;
+  var digit = 0;
+  var done = 0;
+  var i;
+
+  case when (n < 0)
+    putchar(45); # -
+    n = n * -1;
+  end
+
+  while (done != 1)
+    case when (n < 10)
+      aset(&buf, digit, n);
+      done = 1;
+    else
+      div = __div(n, 10);
+      mod = __mod(n, 10);
+      aset(&buf, digit, mod);
+
+      n = div;
+      digit = digit + 1;
+    end
+  end
+
+  i = digit;
+  while (__le(0, i))
+    aset(
+      dest_,
+      __sub(digit, i),
+      48 + aget(&buf, i)
+    );
+    i = __sub(i, 1);
+  end
+
+  aset(dest_, digit + 1, 0);
+end
+
 def panic(errno)
   putchar(C_LF());
   putchar( 69); # E
