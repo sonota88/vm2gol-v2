@@ -279,7 +279,7 @@ def gen_top_stmts(top_stmts_)
   while (i < NodeList_size(top_stmts_))
     top_stmt_ = NodeList_get_as_list(top_stmts_, i);
     gen_top_stmt(top_stmt_);
-    i = i +1;
+    i = i + 1;
   end
 end
 
