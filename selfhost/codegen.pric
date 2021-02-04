@@ -196,7 +196,26 @@ end
 # TODO gen_expr
 # TODO gen_call
 # TODO gen_call_set
-# TODO gen_set
+
+def gen_set(
+      # fn_arg_names, lvar_names, list_
+    )
+  var [3]src;
+  var [7]dest;
+
+  unparse_int(&src, 42);
+
+  aset(&dest, 0,  91); # [
+  aset(&dest, 1,  98); # b
+  aset(&dest, 2, 112); # p
+  aset(&dest, 3,  45); # -
+  aset(&dest, 4,  49); # 1
+  aset(&dest, 5,  93); # ]
+  aset(&dest, 6,   0);
+
+  asm_cp(&src, &dest);
+end
+
 # TODO gen_return
 # TODO gen_vm_comment
 # TODO gen_stmt
