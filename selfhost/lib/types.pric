@@ -110,7 +110,7 @@ def NodeList_add(self_, node_)
     putchar(101); # e
     putchar(114); # r
     putchar( 10); # LF
-    _panic();
+    panic(114);
   end
 
   *(self_ + NODE_LIST__ITEMS() + size) = node_;
@@ -135,6 +135,11 @@ end
 def NodeList_get(self_, i)
   var node_ = *(self_ + NODE_LIST__ITEMS() + i);
   return node_;
+end
+
+def NodeList_get_as_str(self_, i)
+  var node_ = NodeList_get(self_, i);
+  return Node_get_str(node_);
 end
 
 def NodeList_get_as_list(self_, i)
@@ -193,6 +198,18 @@ def Token_new(g_, kind_str_, str_)
   return self_;
 end
 
+def Token_get_kind(self_)
+  return *(self_ + TOKEN__KIND());
+end
+
 def Token_get_val(self_)
   return self_ + TOKEN__VAL();
+end
+
+def Token_kind_eq(self_, kind)
+  return Token_get_kind(self_) == kind;
+end
+
+def Token_value_eq(self_, value_)
+  return str_eq(Token_get_val(self_), value_);
 end

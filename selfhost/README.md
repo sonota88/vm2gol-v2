@@ -1,13 +1,22 @@
-```sh
-# v2 コンパイラ（Pric版）のテストを実行
-./test.sh all
+Ruby版 v3 コンパイラ
 
-# v3 コンパイラ（Ruby版）を使ってコンパイル
-../pricc example.pric > example.exe.txt
+```sh
+# テスト
+rake test_v3
+
+# コンパイル
+../pricc ../example.pric > example.exe.txt
 
 # 実行ファイルを VM で実行
 ../pricvm example.exe.txt
 
 # コンパイル＋実行
-../pricrun example.pric
+../pricrun ../example.pric
+```
+
+Pric版 v2 コンパイラ
+
+```sh
+# テスト
+./test.sh all
 ```

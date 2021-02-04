@@ -89,6 +89,11 @@ end
 
 # --------------------------------
 
+# TODO _parse_arg
+# TODO _parse_args_first
+# TODO _parse_args_rest
+# TODO parse_args
+
 def parse_func(g_)
   var func_main_;
   var [10]temp_str;
@@ -123,6 +128,24 @@ def parse_func(g_)
 
   return func_main_;
 end
+
+# TODO _parse_var_declare
+# TODO _parse_var_init
+# TODO parse_var
+# TODO _parse_expr_right
+# TODO parse_expr
+# TODO parse_set
+# TODO parse_funcall
+# TODO parse_call
+# TODO parse_call_set
+# TODO parse_return
+# TODO _parse_when_clause
+# TODO parse_case
+# TODO parse_while
+# TODO parse_vm_comment
+# TODO parse_stmt
+# TODO parse_stmts
+# TODO parse_top_stmt
 
 def parse_top_stmts(g_)
   var top_stmts_;

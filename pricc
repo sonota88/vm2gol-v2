@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -o errexit
+set -o nounset
 
 print_this_dir() {
   (
@@ -20,7 +21,7 @@ bname=pricc-rb
 
 src_temp=${TMP_DIR}/${bname}.pric.rb
 
-ruby preproc.rb $file > $src_temp
+ruby ${__DIR__}/preproc.rb $file > $src_temp
 
 tokensfile=${TMP_DIR}/${bname}.vgtok.txt
 treefile=${TMP_DIR}/${bname}.vgt.json

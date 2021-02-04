@@ -175,6 +175,23 @@ end
 
 # --------------------------------
 
+# TODO gen_var
+# TODO gen_case
+# TODO gen_while
+# TODO _gen_expr_add
+# TODO _gen_expr_mult
+# TODO _gen_expr_eq
+# TODO _gen_expr_neq
+# TODO _gen_expr_binary
+# TODO gen_expr
+# TODO gen_call
+# TODO gen_call_set
+# TODO gen_set
+# TODO gen_return
+# TODO gen_vm_comment
+# TODO gen_stmt
+# TODO gen_stmts
+
 def gen_func(func_)
   var fn_name_;
 
@@ -206,7 +223,7 @@ def gen_top_stmts(top_stmts_)
   var top_stmt_;
 
   i = 1;
-  while (i < NodeList_size(top_stmts_) )
+  while (i < NodeList_size(top_stmts_))
     top_stmt_ = NodeList_get_as_list(top_stmts_, i);
     gen_top_stmt(top_stmt_);
     i = i +1;

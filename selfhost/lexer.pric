@@ -27,18 +27,18 @@ def match_kw(input_, pos)
 end
 
 def is_ident_char(c)
-  return (
-    __or(
-      __or(
-        __or(
-          __and(__le(48, c), __le(c, 57)), # 0..9
-          __and(__le(65, c), __le(c, 90)) # A..Z
-        ),
-        __and(__le(97, c), __le(c, 122)) # a..z
-      ),
-      c == 95
-    )
-  );
+  case
+  when (__and(__le(48, c), __le(c, 57))) # 0..9
+    return TRUE();
+  when (__and(__le(65, c), __le(c, 90))) # A..Z
+    return TRUE();
+  when (__and(__le(97, c), __le(c, 122))) # a..z
+    return TRUE();
+  when (c == 95) # _
+    return TRUE();
+  else
+    return FALSE();
+  end
 end
 
 def find_non_ident_char(input_, pos_from)
@@ -126,43 +126,33 @@ def main()
   c = *(&input + pos);
 
   while (do_break == FALSE())
-
-    size = match_kw(&input, pos);
-    if (0 < size)
+    case
+    when (0 < match_kw(&input, pos))
+      size = match_kw(&input, pos);
       substr(&temp_str, &input, pos, pos + size);
       print_kw(&temp_str);
       pos = pos + size;
-    else
 
-      if (__or(
+    when (__or(
             c == C_SPC(),
             c == C_LF()
           ))
-        pos = pos + 1;
-      else
+      pos = pos + 1;
 
-        size = match_ident(&input, pos);
-        if (0 < size)
-          substr(&temp_str, &input, pos, pos + size);
-          print_ident(&temp_str);
-          pos = pos + size;
+    when (0 < match_ident(&input, pos))
+      size = match_ident(&input, pos);
+      substr(&temp_str, &input, pos, pos + size);
+      print_ident(&temp_str);
+      pos = pos + size;
 
-        else
+    when (0 < match_symbol(&input, pos))
+      size = match_symbol(&input, pos);
+      substr(&temp_str, &input, pos, pos + size);
+      print_symbol(&temp_str);
+      pos = pos + size;
 
-          size = match_symbol(&input, pos);
-          if (0 < size)
-            substr(&temp_str, &input, pos, pos + size);
-            print_symbol(&temp_str);
-            pos = pos + size;
-
-          else
-
-            panic(160);
-          end
-        end
-
-      end
-
+    else
+      panic(160);
     end
 
     c = *(&input + pos);

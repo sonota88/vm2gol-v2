@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -o nounset
 # set -o xtrace
 
 print_this_dir() {
@@ -314,6 +315,12 @@ case $cmd in
     postproc "all"
     ;;
 
+  run)
+    # 各ステップ単独での動作確認用
+    name="$1"; shift
+    stdin_file="$1"; shift
+    run_exe $name $stdin_file
+    ;;
   *)
     echo "Tasks:"
     grep '#task: ' $0 | grep -v grep

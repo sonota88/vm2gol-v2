@@ -1,8 +1,19 @@
 #!/bin/bash
 
 set -o errexit
+set -o nounset
 
-mkdir -p ./tmp/
+print_this_dir() {
+  (
+    cd "$(dirname $0)"
+    pwd
+  )
+}
+
+__DIR__="$(print_this_dir)"
+TEMP_DIR=${__DIR__}/tmp/
+
+mkdir -p $TEMP_DIR
 
 file="$1"
 # bname=$(basename $file .vg.txt)
@@ -10,12 +21,12 @@ bname=run
 
 src_temp=tmp/${bname}.pric.rb
 
-ruby preproc.rb $file > $src_temp
+ruby ${__DIR__}/preproc.rb $file > $src_temp
 
-tokensfile=tmp/${bname}.vgtokens.txt
-treefile=tmp/${bname}.vgt.json
-asmfile=tmp/${bname}.vga.txt
-exefile=tmp/${bname}.vge.txt
+tokensfile=${TEMP_DIR}/${bname}.vgtokens.txt
+treefile=${TEMP_DIR}/${bname}.vgt.json
+asmfile=${TEMP_DIR}/${bname}.vga.txt
+exefile=${TEMP_DIR}/${bname}.vge.txt
 
 ruby vglexer.rb $src_temp > $tokensfile
 ruby vgparser.rb $tokensfile > $treefile
