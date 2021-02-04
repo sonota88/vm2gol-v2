@@ -116,13 +116,13 @@ def parse_func(g_)
   inc_token_index(g_);
   NodeList_add_str(g_, func_main_, Token_get_val(t_));
 
-  inc_token_index(g_);
-  inc_token_index(g_);
+  inc_token_index(g_); # ( TODO Use consume_sym
+  inc_token_index(g_); # ) TODO Use consume_sym
   assert(4, get_token_index(g_), 131);
   NodeList_add_list(g_, func_main_, NodeList_new(g_));
 
-  inc_token_index(g_);
-  inc_token_index(g_);
+  inc_token_index(g_); # { TODO Use consume_sym
+  inc_token_index(g_); # } TODO Use consume_sym
   assert(6, get_token_index(g_), 135);
   NodeList_add_list(g_, func_main_, NodeList_new(g_));
 
