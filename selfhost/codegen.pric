@@ -140,20 +140,11 @@ def asm_fn_prologue()
   var [10]temp_str;
   var [10]temp_str2;
 
-  aset(&temp_str, 0,  98); # b
-  aset(&temp_str, 1, 112); # p
-  aset(&temp_str, 2,   0);
-
+  str_set_bp(&temp_str);
   asm_push(&temp_str);
 
-  aset(&temp_str, 0, 115); # s
-  aset(&temp_str, 1, 112); # p
-  aset(&temp_str, 2,   0);
-
-  aset(&temp_str2, 0,  98); # b
-  aset(&temp_str2, 1, 112); # p
-  aset(&temp_str2, 2,   0);
-
+  str_set_sp(&temp_str);
+  str_set_bp(&temp_str2);
   asm_cp(&temp_str, &temp_str2);
 end
 
@@ -161,20 +152,11 @@ def asm_fn_epilogue()
   var [10]temp_str;
   var [10]temp_str2;
 
-  aset(&temp_str, 0,  98); # b
-  aset(&temp_str, 1, 112); # p
-  aset(&temp_str, 2,   0);
-
-  aset(&temp_str2, 0, 115); # s
-  aset(&temp_str2, 1, 112); # p
-  aset(&temp_str2, 2,   0);
-
+  str_set_bp(&temp_str);
+  str_set_sp(&temp_str2);
   asm_cp(&temp_str, &temp_str2);
 
-  aset(&temp_str, 0,  98); # b
-  aset(&temp_str, 1, 112); # p
-  aset(&temp_str, 2,   0);
-
+  str_set_bp(&temp_str);
   asm_pop(&temp_str);
 end
 
