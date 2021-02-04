@@ -44,7 +44,7 @@ dep_map = {
   ]
 }
 
-%w(json_tester lexer parser codegen).each do |name|
+dep_map.keys.each do |name|
   file "exe/#{name}.exe.txt" => dep_map[name] do |t|
     exe_file = t.name
     sh %( ../pricc #{name}.pric > #{exe_file} )
