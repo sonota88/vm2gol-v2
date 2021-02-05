@@ -17,7 +17,6 @@ end
 def create_label_addr_map(alines)
   map = {}
 
-  addr = 0
   alines.each_with_index do |aline, addr|
     head, *rest = aline
 
