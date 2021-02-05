@@ -33,8 +33,7 @@ end
 
 def to_machine_code_operand(arg)
   case arg
-  when /^\[bp\-(\d+)\]$/ then "ind:bp:-#{$1}"
-  when /^\[bp\+(\d+)\]$/ then "ind:bp:#{$1}"
+  when /^\[(.+)\]$/      then "ind:#{$1}"
   when /^-?\d+$/         then arg.to_i
   else                        arg
   end

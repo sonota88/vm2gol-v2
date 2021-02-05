@@ -8,12 +8,12 @@ $label_id = 0
 
 def to_fn_arg_addr(fn_arg_names, fn_arg_name)
   index = fn_arg_names.index(fn_arg_name)
-  "[bp+#{index + 2}]"
+  "[bp:#{index + 2}]"
 end
 
 def to_lvar_addr(lvar_names, lvar_name)
   index = lvar_names.index(lvar_name)
-  "[bp-#{index + 1}]"
+  "[bp:-#{index + 1}]"
 end
 
 def codegen_var(fn_arg_names, lvar_names, stmt_rest)
