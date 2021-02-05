@@ -202,7 +202,31 @@ end
 # TODO _gen_expr_eq
 # TODO _gen_expr_neq
 # TODO _gen_expr_binary
-# TODO gen_expr
+
+def gen_expr(
+      # fn_arg_names_,
+      # lvar_names_,
+      expr_
+    )
+  var [8]cp_src;
+  var [6]str_reg_a;
+  var expr;
+
+  str_set_reg_a(&str_reg_a);
+
+  case
+  when (Node_kind_eq(expr_, NODE_KIND__INT()))
+    expr = Node_get_int(expr_);
+    assert(42, expr, 220); # test-compile-4
+    unparse_int(&cp_src, expr);
+  else
+    # not yet implemented
+    panic(224);
+  end
+
+  asm_cp(&cp_src, &str_reg_a);
+end
+
 # TODO gen_call
 # TODO gen_call_set
 
