@@ -77,6 +77,10 @@ def Node_get_list(self_)
   return nl_;
 end
 
+def Node_kind_eq(self_, kind)
+  return Node_get_kind(self_) == kind;
+end
+
 # --------------------------------
 
 def NODE_LIST__TYPE_SIZE () return 6; end
