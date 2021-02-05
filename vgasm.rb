@@ -33,9 +33,9 @@ end
 
 def to_machine_code_operand(arg)
   case arg
-  when /^\[(.+)\]$/      then "ind:#{$1}"
-  when /^-?\d+$/         then arg.to_i
-  else                        arg
+  when /^\[(.+)\]$/ then "ind:#{$1}"
+  when /^-?\d+$/    then arg.to_i
+  else                   arg
   end
 end
 
