@@ -162,11 +162,11 @@ end
 
 # --------------------------------
 
-def fn_arg_to_asm(names_, name_)
+def to_fn_arg_addr(names_, name_)
   panic(166); # TODO
 end
 
-def lvar_to_asm(names_, name_)
+def to_lvar_addr(names_, name_)
   # TODO
 end
 
