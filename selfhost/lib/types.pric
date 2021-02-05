@@ -272,5 +272,5 @@ def Names_index(self_, name_)
 end
 
 def Names_includes(self_, name_)
-  # TODO
+  panic(281); # TODO
 end

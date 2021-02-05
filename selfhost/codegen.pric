@@ -163,7 +163,7 @@ end
 # --------------------------------
 
 def fn_arg_to_asm(names_, name_)
-  # TODO
+  panic(166); # TODO
 end
 
 def lvar_to_asm(names_, name_)
