@@ -207,12 +207,25 @@ end
 # TODO gen_call_set
 
 def gen_set(
-      # fn_arg_names, lvar_names, list_
+      # fn_arg_names_,
+      lvar_names_, list_
     )
-  var [3]src;
+  var [8]src;
   var [7]dest;
+  var expr_node_;
+  var expr;
 
-  unparse_int(&src, 42);
+  expr_node_ = NodeList_get(list_, 2);
+
+  case
+  when (Node_kind_eq(expr_node_, NODE_KIND__INT()))
+    expr = Node_get_int(expr_node_);
+    assert(42, expr, 222); # test-compile-4
+    unparse_int(&src, expr);
+  else
+    # not yet implemented
+    panic(226);
+  end
 
   aset(&dest, 0,  91); # [
   aset(&dest, 1,  98); # b
@@ -229,12 +242,13 @@ end
 # TODO gen_vm_comment
 
 def gen_stmt(
-      # fn_arg_names, lvar_names,
+      # fn_arg_names,
+      lvar_names_,
       list_
     )
   case
   when (str_eq_set(NodeList_get_as_str(list_, 0)))
-    gen_set();
+    gen_set(lvar_names_, list_);
   else
     panic(257);
   end
@@ -270,7 +284,7 @@ def gen_func(g_, func_)
       Names_add(lvar_names_, lvar_name_);
       gen_var();
     else
-      gen_stmt(stmt_);
+      gen_stmt(lvar_names_, stmt_);
     end
 
     i = i + 1;
