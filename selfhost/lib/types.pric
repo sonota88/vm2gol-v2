@@ -272,8 +272,27 @@ def Names_get(self_, i)
   return Names_str_offset(self_, i);
 end
 
-def Names_index(self_, name_)
-  # TODO
+def Names_index(self_, target_name_)
+  var i;
+  var result = -1;
+  var size = Names_size(self_);
+  var name_;
+  var do_break = FALSE();
+
+  i = 0;
+  while (__not(do_break))
+    name_ = Names_get(self_, i);
+    case
+    when (__le(size, i))
+      do_break = TRUE();
+    when (str_eq(name_, target_name_))
+      do_break = TRUE();
+      result = i;
+    end
+    i = i + 1;
+  end
+
+  return result;
 end
 
 def Names_includes(self_, name_)
