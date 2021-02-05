@@ -234,24 +234,17 @@ def gen_set(
       # fn_arg_names_,
       lvar_names_, list_
     )
-  var [8]src;
   var [8]dest;
   var [8]lvar_name_;
+  var [6]str_reg_a;
   var expr_node_;
-  var expr;
+
+  str_set_reg_a(&str_reg_a);
 
   lvar_name_ = NodeList_get_as_str(list_, 1);
   expr_node_ = NodeList_get(list_, 2);
 
-  case
-  when (Node_kind_eq(expr_node_, NODE_KIND__INT()))
-    expr = Node_get_int(expr_node_);
-    assert(42, expr, 222); # test-compile-4
-    unparse_int(&src, expr);
-  else
-    # not yet implemented
-    panic(226);
-  end
+  gen_expr(expr_node_);
 
   to_lvar_addr(
     &dest,
@@ -259,7 +252,7 @@ def gen_set(
     lvar_name_
   );
 
-  asm_cp(&src, &dest);
+  asm_cp(&str_reg_a, &dest);
 end
 
 # TODO gen_return
