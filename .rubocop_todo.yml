@@ -97,6 +97,9 @@ Style/MultilineBlockChain:
 # Cop supports --auto-correct.
 Style/PerlBackrefs:
   Exclude:
+    - 'common.rb'
+    - 'vgasm.rb'
     - 'vgcg.rb'
+    - 'vglexer.rb'
     - 'vgparser.rb'
     - 'vgvm.rb'
