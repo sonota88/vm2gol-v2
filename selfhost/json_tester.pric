@@ -132,7 +132,7 @@ def main()
   var [1]g;
 
   # init globals
-  *(&g + GO_ALLOC_CURSOR()) = 0;
+  init_alloc_cursor(&g);
 
   # call test_01(&g);
   # call test_02(&g);
