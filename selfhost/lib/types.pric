@@ -141,6 +141,11 @@ def NodeList_get(self_, i)
   return node_;
 end
 
+def NodeList_get_as_int(self_, i)
+  var node_ = NodeList_get(self_, i);
+  return Node_get_int(node_);
+end
+
 def NodeList_get_as_str(self_, i)
   var node_ = NodeList_get(self_, i);
   return Node_get_str(node_);
