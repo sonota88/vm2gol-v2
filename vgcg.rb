@@ -308,8 +308,6 @@ def codegen_stmt(fn_arg_names, lvar_names, stmt)
     codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
   when "set"
     codegen_set(fn_arg_names, lvar_names, stmt_rest)
-  # when "eq"
-  #   codegen_expr(fn_arg_names, lvar_names, stmt)
   when "return"
     codegen_return(lvar_names, stmt_rest)
   when "case"
