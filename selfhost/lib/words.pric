@@ -20,6 +20,15 @@ def str_eq_func(str_)
   return str_eq(str_, &pattern);
 end
 
+def str_set_reg_a(dest_)
+  aset(dest_, 0, 114); # r
+  aset(dest_, 1, 101); # e
+  aset(dest_, 2, 103); # g
+  aset(dest_, 3,  95); # _
+  aset(dest_, 4,  97); # a
+  aset(dest_, 5,   0);
+end
+
 def str_set_set(dest_)
   aset(dest_, 0, 115); # s
   aset(dest_, 1, 101); # e
