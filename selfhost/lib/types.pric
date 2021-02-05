@@ -89,15 +89,15 @@ def NODE_LIST__SIZE () return 0; end
 def NODE_LIST__ITEMS() return 1; end
 
 def NodeList_new(g_)
-  var nl_ = allocate(g_, NODE_LIST__TYPE_SIZE());
+  var self_ = allocate(g_, NODE_LIST__TYPE_SIZE());
 
-  *(nl_ + NODE_LIST__SIZE()) = 0;
+  *(self_ + NODE_LIST__SIZE()) = 0;
 
-  return nl_;
+  return self_;
 end
 
-def NodeList_size(nl_)
-  var size = *(nl_ + NODE_LIST__SIZE());
+def NodeList_size(self_)
+  var size = *(self_ + NODE_LIST__SIZE());
   return size;
 end
 
