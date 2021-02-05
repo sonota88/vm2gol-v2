@@ -211,10 +211,12 @@ def gen_set(
       lvar_names_, list_
     )
   var [8]src;
-  var [7]dest;
+  var [8]dest;
+  var [8]lvar_name_;
   var expr_node_;
   var expr;
 
+  lvar_name_ = NodeList_get_as_str(list_, 1);
   expr_node_ = NodeList_get(list_, 2);
 
   case
@@ -227,13 +229,11 @@ def gen_set(
     panic(226);
   end
 
-  aset(&dest, 0,  91); # [
-  aset(&dest, 1,  98); # b
-  aset(&dest, 2, 112); # p
-  aset(&dest, 3,  45); # -
-  aset(&dest, 4,  49); # 1
-  aset(&dest, 5,  93); # ]
-  aset(&dest, 6,   0);
+  to_lvar_addr(
+    &dest,
+    lvar_names_,
+    lvar_name_
+  );
 
   asm_cp(&src, &dest);
 end
