@@ -381,6 +381,16 @@ def non_digit_index(str_, from)
   return pos;
 end
 
+def i_to_c(n)
+  if (__and(__le(0, n), __le(n, 9)))
+    # ok
+  else
+    panic(389);
+  end
+
+  return 48 + n;
+end
+
 # --------------------------------
 
 # TODO - 演算子を用意するまでの代替
