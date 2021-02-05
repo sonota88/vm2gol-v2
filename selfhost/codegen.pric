@@ -310,7 +310,7 @@ def main()
   var ast_;
 
   # init globals
-  *(&g + GO_ALLOC_CURSOR()) = 0;
+  init_alloc_cursor(&g);
 
   read_stdin_all(&input, INPUT_MAX());
 

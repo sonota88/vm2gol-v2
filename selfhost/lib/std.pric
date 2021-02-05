@@ -45,6 +45,10 @@ def allocate(g_, size)
   return head_addr;
 end
 
+def init_alloc_cursor(g_)
+  *(g_ + GO_ALLOC_CURSOR()) = 0;
+end
+
 # --------------------------------
 
 def print_s(str_)

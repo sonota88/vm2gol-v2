@@ -322,7 +322,7 @@ def main()
   var [110]input; # INPUT_MAX
 
   # init globals
-  *(&g + GO_ALLOC_CURSOR()) = 0;
+  init_alloc_cursor(&g);
   set_token_index(&g, 0);
   assert(0, get_token_index(&g), 183);
 
