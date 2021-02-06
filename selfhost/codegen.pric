@@ -287,9 +287,26 @@ end
 # TODO gen_return
 
 def gen_vm_comment(list_)
-  asm_vm_comment(
-    NodeList_get_as_str(list_, 1)
+  var vm_comment_size = 11; var [11]vm_comment;
+  var i;
+  var c;
+
+  str_cp_with_check(
+    &vm_comment, NodeList_get_as_str(list_, 1),
+    vm_comment_size
   );
+
+  i = 0;
+  while (i < str_size(&vm_comment))
+    c = char_at(&vm_comment, i);
+    if (c == C_SPC())
+      c = 126; # ~
+      aset(&vm_comment, i, c);
+    end
+    i = i + 1;
+  end
+
+  asm_vm_comment(&vm_comment);
 end
 
 def gen_stmt(
