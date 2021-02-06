@@ -235,7 +235,6 @@ def parse_var
       raise ParseError, t
     end
   end
-
 end
 
 def parse_expr_right(expr_l)
