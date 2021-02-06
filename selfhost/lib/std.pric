@@ -266,6 +266,8 @@ def str_cp(dest_, src_)
     i = i + 1;
     c = *(src_ + i);
   end
+
+  aset(dest_, str_size(src_), 0);
 end
 
 def str_size(str_)
