@@ -144,8 +144,7 @@ def parse_func(g_)
   aset(&str_func, 3,  99); # c
   aset(&str_func, 4,   0);
 
-  # TODO consume_kw に置き換え
-  inc_token_index(g_);
+  consume_kw(g_, &str_func);
   assert(1, get_token_index(g_), 113);
 
   func_main_ = NodeList_new(g_);
