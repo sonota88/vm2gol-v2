@@ -61,9 +61,6 @@ def read_tokens(g_, input_)
       pos = pos + size;
     end
   end
-
-  # assert(6, ti, 64);
-  # p_int(ti); # ... num_tokens == ti
 end
 
 # --------------------------------
@@ -227,7 +224,7 @@ def _parse_var_init(g_)
 
   str_set_var(&str_var);
 
-  aset(&str_semicolon, 0, 59);
+  aset(&str_semicolon, 0, 59); # ;
   aset(&str_semicolon, 1,  0);
 
   stmt_ = NodeList_new(g_);

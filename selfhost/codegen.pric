@@ -295,7 +295,7 @@ end
 # TODO gen_vm_comment
 
 def gen_stmt(
-      # fn_arg_names,
+      # fn_arg_names_,
       lvar_names_,
       list_
     )
