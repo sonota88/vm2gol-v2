@@ -196,10 +196,7 @@ def _parse_var_declare(g_)
   var var_name_;
   check_heap_stack_overlap(g_);
 
-  aset(&str_var, 0, 118); # v
-  aset(&str_var, 1, 097); # a
-  aset(&str_var, 2, 114); # r
-  aset(&str_var, 3, 0);
+  str_set_var(&str_var);
 
   stmt_ = NodeList_new(g_);
 
