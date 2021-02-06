@@ -190,9 +190,45 @@ end
 # --------------------------------
 
 def gen_var(
-      # fn_arg_names, lvar_names, list_
+      # fn_arg_names_, lvar_names_,
+      list_
     )
   asm_sub_sp(1);
+
+  if (NodeList_size(list_) == 3)
+    asm_indent();
+    putchar( 99); # c
+    putchar(112); # p
+    putchar(C_SPC()); #  
+    putchar( 52); # 4
+    putchar( 50); # 2
+    putchar(C_SPC()); #  
+    putchar(114); # r
+    putchar(101); # e
+    putchar(103); # g
+    putchar( 95); # _
+    putchar( 97); # a
+    putchar(C_LF());
+
+    asm_indent();
+    putchar( 99); # c
+    putchar(112); # p
+    putchar(C_SPC()); #  
+    putchar(114); # r
+    putchar(101); # e
+    putchar(103); # g
+    putchar( 95); # _
+    putchar( 97); # a
+    putchar(C_SPC()); #  
+    putchar( 91); # [
+    putchar( 98); # b
+    putchar(112); # p
+    putchar( 58); # :
+    putchar( 45); # -
+    putchar( 49); # 1
+    putchar( 93); # ]
+    putchar(C_LF());
+  end
 end
 
 # TODO gen_case
@@ -299,7 +335,7 @@ def gen_func(g_, func_)
     if (str_eq_var(NodeList_get_as_str(stmt_, 0)))
       lvar_name_ = NodeList_get_as_str(stmt_, 1);
       Names_add(lvar_names_, lvar_name_);
-      gen_var();
+      gen_var(stmt_);
     else
       gen_stmt(lvar_names_, stmt_);
     end
