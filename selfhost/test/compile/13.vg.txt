@@ -1,5 +1,0 @@
-// -*- mode: javascript -*-
-
-func main() {
-  return 42;
-}
