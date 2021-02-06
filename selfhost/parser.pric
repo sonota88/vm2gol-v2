@@ -131,6 +131,10 @@ def parse_func(g_)
   var do_break = FALSE();
   var [4]str_var;
   var [5]str_func;
+  var [2]str_paren_l;
+  var [2]str_paren_r;
+  var [2]str_cbracket_l;
+  var [2]str_cbracket_r;
   check_heap_stack_overlap(g_);
 
   str_set_var(&str_var);
@@ -140,6 +144,18 @@ def parse_func(g_)
   aset(&str_func, 2, 110); # n
   aset(&str_func, 3,  99); # c
   aset(&str_func, 4,   0);
+
+  aset(&str_paren_l, 0, 40); # (
+  aset(&str_paren_l, 1,  0);
+
+  aset(&str_paren_r, 0, 41); # )
+  aset(&str_paren_r, 1,  0);
+
+  aset(&str_cbracket_l, 0, 123); # {
+  aset(&str_cbracket_l, 1,   0);
+
+  aset(&str_cbracket_r, 0, 125); # }
+  aset(&str_cbracket_r, 1,   0);
 
   consume_kw(g_, &str_func);
   assert(1, get_token_index(g_), 113);
@@ -152,12 +168,12 @@ def parse_func(g_)
   inc_token_index(g_);
   NodeList_add_str(g_, func_main_, Token_get_val(t_));
 
-  inc_token_index(g_); # ( TODO Use consume_sym
-  inc_token_index(g_); # ) TODO Use consume_sym
+  consume_sym(g_, &str_paren_l);
+  consume_sym(g_, &str_paren_r);
   assert(4, get_token_index(g_), 131);
   NodeList_add_list(g_, func_main_, NodeList_new(g_));
 
-  inc_token_index(g_); # { TODO Use consume_sym
+  consume_sym(g_, &str_cbracket_l);
 
   stmts_ = NodeList_new(g_);
 
@@ -177,7 +193,7 @@ def parse_func(g_)
     end
   end
 
-  inc_token_index(g_); # } TODO Use consume_sym
+  consume_sym(g_, &str_cbracket_r);
 
   NodeList_add_list(g_, func_main_, stmts_);
 
