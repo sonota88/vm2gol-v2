@@ -1,6 +1,6 @@
 require_relative "common"
 
-module Helper
+module Checker
 
   class FuncallChecker
     def initialize
@@ -94,10 +94,10 @@ when "fn-sig"
   require "json"
   file = ARGV[0]
   tree = JSON.parse(File.read(file))
-  Helper::FuncallChecker.run(tree)
+  Checker::FuncallChecker.run(tree)
 when "gvar-width"
   file = ARGV[0]
-  Helper.check_gvar_width(file)
+  Checker.check_gvar_width(file)
 else
   raise "invalid command"
 end
