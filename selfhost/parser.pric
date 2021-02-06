@@ -130,6 +130,7 @@ def parse_func(g_)
   var stmt_;
   var do_break = FALSE();
   var [4]str_var;
+  var [5]str_func;
   check_heap_stack_overlap(g_);
 
   aset(&str_var, 0, 118); # v
@@ -137,18 +138,19 @@ def parse_func(g_)
   aset(&str_var, 2, 114); # r
   aset(&str_var, 3, 0);
 
+  aset(&str_func, 0, 102); # f
+  aset(&str_func, 1, 117); # u
+  aset(&str_func, 2, 110); # n
+  aset(&str_func, 3,  99); # c
+  aset(&str_func, 4,   0);
+
   # TODO consume_kw に置き換え
   inc_token_index(g_);
   assert(1, get_token_index(g_), 113);
 
   func_main_ = NodeList_new(g_);
 
-  aset(&temp_str, 0, 102); # f
-  aset(&temp_str, 1, 117); # u
-  aset(&temp_str, 2, 110); # n
-  aset(&temp_str, 3,  99); # c
-  aset(&temp_str, 4,   0);
-  NodeList_add_str(g_, func_main_, &temp_str);
+  NodeList_add_str(g_, func_main_, &str_func);
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
