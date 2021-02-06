@@ -250,7 +250,27 @@ def _parse_var_init(g_)
 end
 
 def parse_var(g_)
-  _parse_var_declare(g_);
+  var [2]str_semicolon;
+  var [2]str_equal;
+  var t_;
+
+  aset(&str_semicolon, 0, 59); #;
+  aset(&str_semicolon, 1,  0);
+
+  aset(&str_equal, 0, 61); # =
+  aset(&str_equal, 1,  0);
+
+  t_ = peek(g_, 2);
+  case
+  when (Token_value_eq(t_, &str_semicolon))
+    _parse_var_declare(g_);
+  when (Token_value_eq(t_, &str_equal))
+    _parse_var_init(g_);
+  else
+    print_s(Token_get_val(t_));
+    panic(240); # must not happen
+  end
+
 end
 
 # TODO _parse_expr_right
