@@ -1,5 +1,19 @@
 # -*- mode: ruby -*-
 
+def str_set__cmt(str_)
+  aset(str_, 0,  95); # _
+  aset(str_, 1,  99); # c
+  aset(str_, 2, 109); # m
+  aset(str_, 3, 116); # t
+  aset(str_, 4,   0);
+end
+
+def str_eq__cmt(str_)
+  var [5]pattern;
+  str_set__cmt(&pattern);
+  return str_eq(str_, &pattern);
+end
+
 def str_set_bp(str_)
   aset(str_, 0,  98); # b
   aset(str_, 1, 112); # p
