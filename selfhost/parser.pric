@@ -221,7 +221,7 @@ def _parse_var_init(g_)
   var [2]str_equal;
   var t_;
   var var_name_;
-  var n;
+  var expr_node_;
   check_heap_stack_overlap(g_);
 
   str_set_var(&str_var);
@@ -244,15 +244,8 @@ def _parse_var_init(g_)
 
   consume_sym(g_, &str_equal);
 
-  t_ = peek(g_, 0);
-  inc_token_index(g_);
-  case
-  when (Token_kind_eq(t_, TOKEN_KIND__INT()))
-    n = parse_int(Token_get_val(t_));
-    NodeList_add_int(g_, stmt_, n);
-  else
-    panic(254);
-  end
+  expr_node_ = parse_expr(g_);
+  NodeList_add(stmt_, expr_node_);
 
   consume_sym(g_, &str_semicolon);
 
@@ -284,7 +277,25 @@ def parse_var(g_)
 end
 
 # TODO _parse_expr_right
-# TODO parse_expr
+
+def parse_expr(g_)
+  var t_;
+  var n;
+  var expr_node_;
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+
+  case
+  when (Token_kind_eq(t_, TOKEN_KIND__INT()))
+    n = parse_int(Token_get_val(t_));
+    expr_node_ = Node_new_int(g_, n);
+  else
+    panic(254); # not yet impl
+  end
+
+  return expr_node_;
+end
 
 def parse_set(g_)
   var stmt_;
