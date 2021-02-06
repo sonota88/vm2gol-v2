@@ -136,6 +136,18 @@ def asm_sub_sp(n)
   putchar(C_LF());
 end
 
+def asm_vm_comment(vm_comment_)
+  var [5] str__cmt;
+
+  str_set__cmt(&str__cmt);
+
+  asm_indent();
+  print_s(&str__cmt);
+  putchar(C_SPC());
+  print_s(vm_comment_);
+  putchar(C_LF());
+end
+
 def asm_fn_prologue()
   var [10]temp_str;
   var [10]temp_str2;
@@ -275,24 +287,9 @@ end
 # TODO gen_return
 
 def gen_vm_comment(list_)
-  asm_indent();
-
-  putchar( 95); # _
-  putchar( 99); # c
-  putchar(109); # m
-  putchar(116); # t
-  putchar(C_SPC()); #  
-  putchar(118); # v
-  putchar(109); # m
-  putchar( 95); # _
-  putchar( 99); # c
-  putchar(111); # o
-  putchar(109); # m
-  putchar(109); # m
-  putchar(101); # e
-  putchar(110); # n
-  putchar(116); # t
-  putchar(C_LF());
+  asm_vm_comment(
+    NodeList_get_as_str(list_, 1)
+  );
 end
 
 def gen_stmt(
