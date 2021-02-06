@@ -30,5 +30,8 @@ exefile=${TMP_DIR}/${bname}.vge.txt
 
 ruby ${__DIR__}/vglexer.rb $src_temp > $tokensfile
 ruby ${__DIR__}/vgparser.rb $tokensfile > $treefile
+
+ruby ${__DIR__}/helper.rb fn-sig $treefile
 ruby ${__DIR__}/vgcg.rb $treefile > $asmfile
+
 ruby ${__DIR__}/vgasm.rb $asmfile
