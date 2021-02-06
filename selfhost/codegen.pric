@@ -190,44 +190,25 @@ end
 # --------------------------------
 
 def gen_var(
-      # fn_arg_names_, lvar_names_,
+      g_,
+      # fn_arg_names_,
+      lvar_names_,
       list_
     )
+  var set_stmt_;
+  var [4]str_set;
+
   asm_sub_sp(1);
 
   if (NodeList_size(list_) == 3)
-    asm_indent();
-    putchar( 99); # c
-    putchar(112); # p
-    putchar(C_SPC()); #  
-    putchar( 52); # 4
-    putchar( 50); # 2
-    putchar(C_SPC()); #  
-    putchar(114); # r
-    putchar(101); # e
-    putchar(103); # g
-    putchar( 95); # _
-    putchar( 97); # a
-    putchar(C_LF());
+    str_set_set(&str_set);
 
-    asm_indent();
-    putchar( 99); # c
-    putchar(112); # p
-    putchar(C_SPC()); #  
-    putchar(114); # r
-    putchar(101); # e
-    putchar(103); # g
-    putchar( 95); # _
-    putchar( 97); # a
-    putchar(C_SPC()); #  
-    putchar( 91); # [
-    putchar( 98); # b
-    putchar(112); # p
-    putchar( 58); # :
-    putchar( 45); # -
-    putchar( 49); # 1
-    putchar( 93); # ]
-    putchar(C_LF());
+    set_stmt_ = NodeList_new(g_);
+    NodeList_add_str(g_, set_stmt_, &str_set);
+    NodeList_add(set_stmt_, NodeList_get(list_, 1));
+    NodeList_add(set_stmt_, NodeList_get(list_, 2));
+
+    gen_set(lvar_names_, set_stmt_);
   end
 end
 
@@ -335,7 +316,7 @@ def gen_func(g_, func_)
     if (str_eq_var(NodeList_get_as_str(stmt_, 0)))
       lvar_name_ = NodeList_get_as_str(stmt_, 1);
       Names_add(lvar_names_, lvar_name_);
-      gen_var(stmt_);
+      gen_var(g_, lvar_names_, stmt_);
     else
       gen_stmt(lvar_names_, stmt_);
     end
