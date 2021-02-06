@@ -56,6 +56,24 @@ def _match_kw_set(input_, pos)
   end
 end
 
+def _match_kw_vm_comment(input_, pos)
+  var [5]temp_str;
+
+  substr_with_check(
+    &temp_str, input_, pos, pos + 4,
+    5
+  );
+
+  if (__and(
+        str_eq__cmt(&temp_str),
+        is_ident_char(*(input_ + pos + 4)) == FALSE()
+      ))
+    return 4;
+  else
+    return 0;
+  end
+end
+
 def match_kw(input_, pos)
   case
   when (0 < _match_kw_func(input_, pos))
@@ -64,6 +82,8 @@ def match_kw(input_, pos)
     return _match_kw_set(input_, pos);
   when (0 < _match_kw_var(input_, pos))
     return _match_kw_var(input_, pos);
+  when (0 < _match_kw_vm_comment(input_, pos))
+    return _match_kw_vm_comment(input_, pos);
   else
     return 0;
   end
@@ -155,6 +175,17 @@ def match_int(input_, pos_from)
   return __sub(pos, pos_from);
 end
 
+def match_str(input_, pos_from)
+  var pos;
+
+  if (char_at(input_, pos_from) == C_DQ())
+    pos = char_index(input_, C_DQ(), pos_from + 1);
+    return __sub(pos, pos_from + 1);
+  else
+    return 0;
+  end
+end
+
 def print_kw(str_)
   putchar(107); # k
   putchar(119); # w
@@ -192,13 +223,22 @@ def print_int(str_)
   putchar(C_LF());
 end
 
+def print_str(str_)
+  putchar(115); # s
+  putchar(116); # t
+  putchar(114); # r
+  putchar( 58); # :
+  print_s(str_);
+  putchar(C_LF());
+end
+
 def main()
   var [1]g;
   var [80]input; # INPUT_MAX
   var pos = 0;
   var do_break = FALSE();
   var size;
-  var [8]temp_str;
+  var temp_str_size = 11; var [11]temp_str;
   var c;
 
   # init globals
@@ -240,6 +280,17 @@ def main()
     when (0 < match_comment(&input, pos))
       size = match_comment(&input, pos);
       pos = pos + size;
+
+    when (0 < match_str(&input, pos))
+      size = match_str(&input, pos);
+
+      substr_with_check(
+        &temp_str, &input, pos + 1, pos + 1 + size,
+        temp_str_size
+      );
+
+      print_str(&temp_str);
+      pos = pos + size + 2;
 
     else
       panic(163);
