@@ -68,10 +68,13 @@ module Helper
 
 end
 
-if $0 == __FILE__
+cmd = ARGV.shift
+case cmd
+when "fn-sig"
   require "json"
-
   file = ARGV[0]
   tree = JSON.parse(File.read(file))
-  FuncallChecker.run(tree)
+  Helper::FuncallChecker.run(tree)
+else
+  raise "invalid command"
 end

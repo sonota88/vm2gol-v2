@@ -3,7 +3,6 @@
 require "json"
 
 require_relative "common"
-require_relative "helper"
 
 $label_id = 0
 
@@ -560,7 +559,5 @@ end
 src = File.read(ARGV[0])
 
 tree = JSON.parse(src)
-
-Helper::FuncallChecker.run(tree)
 
 codegen(tree)
