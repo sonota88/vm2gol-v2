@@ -190,6 +190,15 @@ def print_symbol(str_)
   putchar( 10); # LF
 end
 
+def print_int(str_)
+  putchar(105); # i
+  putchar(110); # n
+  putchar(116); # t
+  putchar( 58); # :
+  print_s(str_);
+  putchar( 10); # LF
+end
+
 def main()
   var [1]g;
   var [80]input; # INPUT_MAX
