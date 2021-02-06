@@ -377,10 +377,49 @@ end
 # TODO _parse_when_clause
 # TODO parse_case
 # TODO parse_while
-# TODO parse_vm_comment
+
+def parse_vm_comment(g_)
+  var t_;
+  var [2]str_semicolon;
+  var [5]str__cmt;
+  var stmt_;
+
+  str_set__cmt(&str__cmt);
+
+  aset(&str_semicolon, 0, 59); # ;
+  aset(&str_semicolon, 1,  0);
+
+  stmt_ = NodeList_new(g_);
+
+  consume_kw(g_, &str__cmt);
+  consume_sym_paren_l(g_); # (
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+
+  NodeList_add_str(g_, stmt_, &str__cmt);
+  NodeList_add_str(g_, stmt_, Token_get_val(t_));
+
+  consume_sym_paren_r(g_); # )
+  consume_sym(g_, &str_semicolon); # ;
+
+  return stmt_;
+end
 
 def parse_stmt(g_)
-  return parse_set(g_);
+  var t_;
+
+  t_ = peek(g_, 0);
+
+  case
+  when (str_eq_set(Token_get_val(t_)))
+    return parse_set(g_);
+  when (str_eq__cmt(Token_get_val(t_)))
+    return parse_vm_comment(g_);
+  else
+    p_str(Token_get_val(t_));
+    panic(421);
+  end
 end
 
 # TODO parse_stmts
