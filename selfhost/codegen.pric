@@ -273,7 +273,27 @@ def gen_set(
 end
 
 # TODO gen_return
-# TODO gen_vm_comment
+
+def gen_vm_comment(list_)
+  asm_indent();
+
+  putchar( 95); # _
+  putchar( 99); # c
+  putchar(109); # m
+  putchar(116); # t
+  putchar(C_SPC()); #  
+  putchar(118); # v
+  putchar(109); # m
+  putchar( 95); # _
+  putchar( 99); # c
+  putchar(111); # o
+  putchar(109); # m
+  putchar(109); # m
+  putchar(101); # e
+  putchar(110); # n
+  putchar(116); # t
+  putchar(C_LF());
+end
 
 def gen_stmt(
       # fn_arg_names_,
@@ -283,6 +303,8 @@ def gen_stmt(
   case
   when (str_eq_set(NodeList_get_as_str(list_, 0)))
     gen_set(lvar_names_, list_);
+  when (str_eq__cmt(NodeList_get_as_str(list_, 0)))
+    gen_vm_comment(list_);
   else
     panic(257);
   end
