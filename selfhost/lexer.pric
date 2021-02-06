@@ -226,6 +226,12 @@ def main()
     when (__or(c == C_SPC(), c == C_LF()))
       pos = pos + 1;
 
+    when (0 < match_int(&input, pos))
+      size = match_int(&input, pos);
+      substr(&temp_str, &input, pos, pos + size);
+      print_int(&temp_str);
+      pos = pos + size;
+
     when (0 < match_ident(&input, pos))
       size = match_ident(&input, pos);
       substr(&temp_str, &input, pos, pos + size);
