@@ -149,6 +149,19 @@ def match_comment(input_, pos_from)
   end
 end
 
+def match_int(input_, pos_from)
+  var c = char_at(input_, 0);
+  var pos;
+
+  if (c == 45) # -
+    pos = non_digit_index(input_, pos_from + 1);
+  else
+    pos = non_digit_index(input_, pos_from);
+  end
+
+  return __sub(pos, pos_from);
+end
+
 def print_kw(str_)
   putchar(107); # k
   putchar(119); # w
