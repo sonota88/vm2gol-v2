@@ -97,7 +97,7 @@ def Json_parse_list(g_, rest_, pos_start, size_)
   var list_;
   var c;
   var pos_end;
-  var [8]temp_str;
+  var temp_str_size = 10; var [10]temp_str;
   var n;
   var do_break = FALSE();
   var child_list_;
@@ -138,7 +138,7 @@ def Json_parse_list(g_, rest_, pos_start, size_)
 
     when (c == C_DQ())
       pos_end = char_index(rest_, C_DQ(), pos + 1);
-      substr(&temp_str, rest_, pos + 1, pos_end);
+      substr_with_check(&temp_str, rest_, pos + 1, pos_end, temp_str_size);
       NodeList_add_str(g_, list_, &temp_str);
       pos = pos + str_size(&temp_str) + 2;
 
