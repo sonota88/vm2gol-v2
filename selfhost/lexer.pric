@@ -167,7 +167,7 @@ def print_kw(str_)
   putchar(119); # w
   putchar( 58); # :
   print_s(str_);
-  putchar( 10); # LF
+  putchar(C_LF());
 end
 
 def print_ident(str_)
@@ -178,7 +178,7 @@ def print_ident(str_)
   putchar(116); # t
   putchar( 58); # :
   print_s(str_);
-  putchar( 10); # LF
+  putchar(C_LF());
 end
 
 def print_symbol(str_)
@@ -187,7 +187,7 @@ def print_symbol(str_)
   putchar(109); # m
   putchar( 58); # :
   print_s(str_);
-  putchar( 10); # LF
+  putchar(C_LF());
 end
 
 def print_int(str_)
@@ -196,7 +196,7 @@ def print_int(str_)
   putchar(116); # t
   putchar( 58); # :
   print_s(str_);
-  putchar( 10); # LF
+  putchar(C_LF());
 end
 
 def main()
