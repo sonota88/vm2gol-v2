@@ -219,7 +219,7 @@ def Token_kind_eq(self_, kind)
   return Token_get_kind(self_) == kind;
 end
 
-def Token_value_eq(self_, value_)
+def Token_val_eq(self_, value_)
   return str_eq(Token_get_val(self_), value_);
 end
 

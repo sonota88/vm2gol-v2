@@ -89,7 +89,7 @@ def consume_kw(g_, str_)
   var t_ = peek(g_, 0);
   if (__and(
         Token_kind_eq(t_, TOKEN_KIND__KW()),
-        Token_value_eq(t_, str_)
+        Token_val_eq(t_, str_)
   ))
     inc_token_index(g_);
   else
@@ -104,7 +104,7 @@ def consume_sym(g_, str_)
   var t_ = peek(g_, 0);
   if (__and(
         Token_kind_eq(t_, TOKEN_KIND__SYM()),
-        Token_value_eq(t_, str_)
+        Token_val_eq(t_, str_)
   ))
     inc_token_index(g_);
   else
@@ -296,9 +296,9 @@ def parse_var(g_)
 
   t_ = peek(g_, 2);
   case
-  when (Token_value_eq(t_, &str_semicolon))
+  when (Token_val_eq(t_, &str_semicolon))
     _parse_var_declare(g_);
-  when (Token_value_eq(t_, &str_equal))
+  when (Token_val_eq(t_, &str_equal))
     _parse_var_init(g_);
   else
     print_s(Token_get_val(t_));
