@@ -218,7 +218,35 @@ def _parse_var_declare(g_)
 end
 
 def _parse_var_init(g_)
-  panic(197); # TODO
+  var stmt_;
+  var [4]str_var;
+  var [2]str_semicolon;
+  var t_;
+  var var_name_;
+  check_heap_stack_overlap(g_);
+
+  str_set_var(&str_var);
+
+  aset(&str_semicolon, 0, 59);
+  aset(&str_semicolon, 1,  0);
+
+  stmt_ = NodeList_new(g_);
+
+  consume_kw(g_, &str_var);
+  NodeList_add_str(g_, stmt_, &str_var);
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+  var_name_ = Token_get_val(t_);
+  NodeList_add_str(g_, stmt_, var_name_);
+
+  inc_token_index(g_); # =    TODO
+  inc_token_index(g_); # expr TODO
+  NodeList_add_int(g_, stmt_, 42); # TODO
+
+  consume_sym(g_, &str_semicolon);
+
+  return stmt_;
 end
 
 def parse_var(g_)
