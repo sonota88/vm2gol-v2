@@ -270,6 +270,18 @@ def str_cp(dest_, src_)
   aset(dest_, str_size(src_), 0);
 end
 
+# dest_size: size with sentinel
+def str_cp_with_check(dest_, src_, dest_size)
+  if (str_size(src_) < dest_size)
+    str_cp(dest_, src_);
+  else
+    p_int_kv(276, dest_size);
+    p_str(src_);
+    print_s(src_);
+    panic(279); # str_cp_with_check: src string is longer than dest
+  end
+end
+
 def str_size(str_)
   var i = 0;
   var c = *(str_ + i);
