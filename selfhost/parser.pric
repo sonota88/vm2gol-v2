@@ -189,8 +189,13 @@ def parse_func(g_)
   return func_main_;
 end
 
-# TODO _parse_var_declare
-# TODO _parse_var_init
+def _parse_var_declare(g_)
+  panic(193); # TODO
+end
+
+def _parse_var_init(g_)
+  panic(197); # TODO
+end
 
 def parse_var(g_)
   var stmt_;
