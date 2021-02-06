@@ -193,6 +193,32 @@ def p_int(n)
   putchar(C_LF());
 end
 
+# debug print
+def p_int_kv(k, n)
+  putchar(47); # /
+  print_i(k);
+  p_int(n);
+end
+
+# debug print
+def p_str(str_)
+  var i;
+
+  putchar(C_LF());
+  putchar(C_LF());
+
+  i = 0;
+  while (i < str_size(str_))
+    print_i(i);
+    putchar(58); # :
+    p_char(char_at(str_, i));
+    i = i + 1;
+  end
+
+  putchar(C_LF());
+  putchar(C_LF());
+end
+
 def pow10(e)
   var i = 0;
   var n = 1;
