@@ -7,18 +7,11 @@ def INPUT_MAX() return 80; end
 
 def _match_kw_func(input_, pos)
   var [5]temp_str;
-  var [5]pattern;
-
-  aset(&pattern, 0, 102); # f
-  aset(&pattern, 1, 117); # u
-  aset(&pattern, 2, 110); # n
-  aset(&pattern, 3,  99); # c
-  aset(&pattern, 4,   0);
 
   substr(&temp_str, input_, pos, pos + 4);
 
   if (__and(
-        str_eq(&pattern, &temp_str),
+        str_eq_func(&temp_str),
         is_ident_char(*(input_ + pos + 4)) == FALSE()
       ))
     return 4;
