@@ -6,7 +6,7 @@ label main
   cp sp bp
 
   # 関数の処理本体
-  _cmt vm_comment
+  _cmt ab~cd~~ef
 
   cp bp sp
   pop bp
