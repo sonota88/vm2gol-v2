@@ -66,6 +66,26 @@ module Helper
     end
   end
 
+  def self.check_gvar_width(file)
+    gs_total = 0
+    gs_total += 1 # alloc cursor
+
+    declared_size = 0
+
+    File.read(file).each_line { |line|
+      case line
+      when /^def GS_.+ return (\d+);/
+        gs_total += $1.to_i
+      when /var \[(\d+)\]g;/
+        declared_size = $1.to_i
+      end
+    }
+
+    if declared_size != gs_total
+      raise "ERROR: #{file}: total (#{gs_total}) declared (#{declared_size})"
+    end
+  end
+
 end
 
 cmd = ARGV.shift
@@ -75,6 +95,9 @@ when "fn-sig"
   file = ARGV[0]
   tree = JSON.parse(File.read(file))
   Helper::FuncallChecker.run(tree)
+when "gvar-width"
+  file = ARGV[0]
+  Helper.check_gvar_width(file)
 else
   raise "invalid command"
 end

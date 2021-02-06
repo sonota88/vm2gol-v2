@@ -21,6 +21,8 @@ bname=pricc-rb
 
 src_temp=${TMP_DIR}/${bname}.pric.rb
 
+# TODO check input_max
+ruby ${__DIR__}/helper.rb gvar-width $file
 ruby ${__DIR__}/preproc.rb $file > $src_temp
 
 tokensfile=${TMP_DIR}/${bname}.vgtok.txt
