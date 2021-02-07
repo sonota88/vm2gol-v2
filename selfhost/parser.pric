@@ -192,7 +192,6 @@ def parse_func(g_)
   str_set_func(&str_func);
 
   consume_kw(g_, &str_func);
-  assert(1, get_token_index(g_), 113);
 
   func_main_ = NodeList_new(g_);
 
@@ -204,7 +203,6 @@ def parse_func(g_)
 
   consume_sym_paren_l(g_); # (
   consume_sym_paren_r(g_); # )
-  assert(4, get_token_index(g_), 131);
   NodeList_add_list(g_, func_main_, NodeList_new(g_));
 
   consume_sym_cbracket_l(g_); # {
@@ -388,7 +386,33 @@ def parse_set(g_)
 end
 
 # TODO parse_funcall
-# TODO parse_call
+
+def parse_call(g_)
+  var stmt_;
+  var [5]str_call;
+  var fn_name_size = 4; var [4]fn_name;
+
+  str_set_call(&str_call);
+
+  stmt_ = NodeList_new(g_);
+
+  inc_token_index(g_); # call TODO
+  NodeList_add_str(g_, stmt_, &str_call);
+
+  inc_token_index(g_); # TODO func_name
+  aset(&fn_name, 0, 115); # s
+  aset(&fn_name, 1, 117); # u
+  aset(&fn_name, 2,  98); # b
+  aset(&fn_name, 3,   0);
+  NodeList_add_str(g_, stmt_, &fn_name);
+
+  inc_token_index(g_); # ( TODO
+  inc_token_index(g_); # ) TODO
+  inc_token_index(g_); # ; TODO
+
+  return stmt_;
+end
+
 # TODO parse_call_set
 # TODO parse_return
 # TODO _parse_when_clause
@@ -433,6 +457,8 @@ def parse_stmt(g_)
     return parse_set(g_);
   when (str_eq__cmt(Token_get_val(t_)))
     return parse_vm_comment(g_);
+  when (str_eq_call(Token_get_val(t_)))
+    return parse_call(g_);
   else
     p_str(Token_get_val(t_));
     panic(421); # parse_stmt
