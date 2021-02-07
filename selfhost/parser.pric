@@ -397,7 +397,7 @@ def parse_call(g_)
 
   stmt_ = NodeList_new(g_);
 
-  inc_token_index(g_); # call TODO
+  consume_kw(g_, &str_call);
   NodeList_add_str(g_, stmt_, &str_call);
 
   t_ = peek(g_, 0);
@@ -405,8 +405,8 @@ def parse_call(g_)
   fn_name_ = Token_get_val(t_);
   NodeList_add_str(g_, stmt_, fn_name_);
 
-  inc_token_index(g_); # ( TODO
-  inc_token_index(g_); # ) TODO
+  consume_sym_paren_l(g_); # (
+  consume_sym_paren_r(g_); # )
   inc_token_index(g_); # ; TODO
 
   return stmt_;
