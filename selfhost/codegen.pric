@@ -350,12 +350,14 @@ def gen_stmt(
       lvar_names_,
       stmt_
     )
+  var head_str_ = NodeList_get_as_str(stmt_, 0);
+
   case
-  when (str_eq_set(NodeList_get_as_str(stmt_, 0)))
+  when (str_eq_set(head_str_))
     gen_set(lvar_names_, stmt_);
-  when (str_eq__cmt(NodeList_get_as_str(stmt_, 0)))
+  when (str_eq__cmt(head_str_))
     gen_vm_comment(stmt_);
-  when (str_eq_call(NodeList_get_as_str(stmt_, 0)))
+  when (str_eq_call(head_str_))
     gen_call(stmt_);
   else
     panic(365); # gen_stmt
