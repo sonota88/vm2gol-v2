@@ -5,7 +5,7 @@
 #include lib/types.pric
 #include lib/json.pric
 
-def INPUT_MAX() return 150; end
+def INPUT_MAX() return 200; end
 
 def get_line_size(input_, pos_from)
   var pos_to;
@@ -557,7 +557,7 @@ end
 
 def main()
   var [22]g;
-  var [150]input; # INPUT_MAX
+  var [200]input; # INPUT_MAX
   var num_tokens;
 
   # init globals
