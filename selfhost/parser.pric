@@ -61,6 +61,8 @@ def read_tokens(g_, input_)
       pos = pos + size;
     end
   end
+
+  return ti;
 end
 
 def set_num_tokens(g_, num_tokens)
@@ -476,6 +478,7 @@ end
 def main()
   var [20]g;
   var [150]input; # INPUT_MAX
+  var num_tokens;
 
   # init globals
   init_alloc_cursor(&g);
@@ -483,7 +486,8 @@ def main()
   assert(0, get_token_index(&g), 183);
 
   read_stdin_all(&input, INPUT_MAX());
-  read_tokens(&g, &input);
+  num_tokens = read_tokens(&g, &input);
+  set_num_tokens(&g, num_tokens);
 
   var ast_ = parse(&g);
 
