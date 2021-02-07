@@ -178,10 +178,24 @@ end
 
 def parse_args(g_)
   var args_;
+  var t_;
 
   args_ = NodeList_new(g_);
 
-  return args_;
+  t_ = peek(g_, 0);
+
+  if (char_at(Token_get_val(t_), 0) == 41) # )
+    return args_;
+  else
+    inc_token_index(g_);
+
+    if (Token_kind_eq(t_, TOKEN_KIND__IDENT()))
+      NodeList_add_str(g_, args_, Token_get_val(t_));
+      return args_;
+    else
+      panic(193); # TODO
+    end
+  end
 end
 
 def parse_func(g_)
