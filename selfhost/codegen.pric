@@ -262,11 +262,50 @@ end
 
 # TODO gen_case
 # TODO gen_while
-# TODO _gen_expr_add
+
+def _gen_expr_add()
+  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
+  var [6]str_reg_b; str_set_reg_b(&str_reg_b);
+
+  asm_pop(&str_reg_b);
+  asm_pop(&str_reg_a);
+
+  asm_indent();
+  putchar( 97); # a
+  putchar(100); # d
+  putchar(100); # d
+  putchar( 95); # _
+  putchar( 97); # a
+  putchar( 98); # b
+  putchar(C_LF());
+end
+
 # TODO _gen_expr_mult
 # TODO _gen_expr_eq
 # TODO _gen_expr_neq
-# TODO _gen_expr_binary
+
+def _gen_expr_binary(expr_)
+  var expr_els_ = Node_get_list(expr_);
+  var op_str_ = NodeList_get_as_str(expr_els_, 0);
+  var arg_l_ = NodeList_get(expr_els_, 1);
+  var arg_r_ = NodeList_get(expr_els_, 2);
+  var [6]str_reg_a;
+
+  str_set_reg_a(&str_reg_a);
+
+  gen_expr(arg_l_);
+  asm_push(&str_reg_a);
+
+  gen_expr(arg_r_);
+  asm_push(&str_reg_a);
+
+  case
+  when (char_at(op_str_, 0) == 43) # +
+    _gen_expr_add();
+  else
+    panic(284); # _gen_expr_binary: not yet impl
+  end
+end
 
 def gen_expr(
       # fn_arg_names_,
@@ -283,12 +322,14 @@ def gen_expr(
   when (Node_kind_eq(expr_, NODE_KIND__INT()))
     expr = Node_get_int(expr_);
     unparse_int(&cp_src, expr);
-  else
-    # not yet implemented
-    panic(224);
-  end
+    asm_cp(&cp_src, &str_reg_a);
 
-  asm_cp(&cp_src, &str_reg_a);
+  when (Node_kind_eq(expr_, NODE_KIND__LIST()))
+    _gen_expr_binary(expr_);
+
+  else
+    panic(224); # gen_expr: not yet implemented
+  end
 end
 
 def gen_call(g_, stmt_)
