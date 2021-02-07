@@ -1,0 +1,8 @@
+// -*- mode: javascript -*-
+
+func sub() {
+}
+
+func main() {
+  call sub();
+}
