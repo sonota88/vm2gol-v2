@@ -25,7 +25,7 @@ def set_token(g_, ti, t_)
   if (__le(NUM_TOKENS_MAX(), ti))
     p_int(NUM_TOKENS_MAX());
     p_int(ti);
-    panic(27);
+    panic(27); # set_token: cap over
   end
   aset(g_ + GO_TOKENS(), ti, t_);
 end
@@ -418,7 +418,7 @@ def parse_stmt(g_)
     return parse_vm_comment(g_);
   else
     p_str(Token_get_val(t_));
-    panic(421);
+    panic(421); # parse_stmt
   end
 end
 

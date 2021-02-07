@@ -157,8 +157,7 @@ def read_stdin_all(dest_, limit)
 
   while (__not(do_break))
     case when (i == limit)
-      # too large input
-      panic(146);
+      panic(146); # read_stdin_all: too large input
     end
 
     c = getchar();

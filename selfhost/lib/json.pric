@@ -105,7 +105,7 @@ def Json_parse_list(g_, rest_, pos_start, size_)
   assert(
     91, # [
     char_at(rest_, pos),
-    108
+    108 # Json_parse_list: first char should be [
   );
   pos = pos + 1;
 

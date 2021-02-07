@@ -320,7 +320,7 @@ def gen_stmt(
   when (str_eq__cmt(NodeList_get_as_str(list_, 0)))
     gen_vm_comment(list_);
   else
-    panic(257);
+    panic(323); # gen_stmt
   end
 end
 
