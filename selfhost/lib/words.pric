@@ -20,6 +20,20 @@ def str_set_bp(str_)
   aset(str_, 2,   0);
 end
 
+def str_set_call(str_)
+  aset(str_, 0,  99); # c
+  aset(str_, 1,  97); # a
+  aset(str_, 2, 108); # l
+  aset(str_, 3, 108); # l
+  aset(str_, 4,   0);
+end
+
+def str_eq_call(str_)
+  var [5]pattern;
+  str_set_call(&pattern);
+  return str_eq(str_, &pattern);
+end
+
 def str_set_func(str_)
   aset(str_, 0, 102); # f
   aset(str_, 1, 117); # u
