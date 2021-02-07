@@ -63,6 +63,14 @@ def read_tokens(g_, input_)
   end
 end
 
+def set_num_tokens(g_, num_tokens)
+  *(g_ + GO_NUM_TOKENS()) = num_tokens;
+end
+
+def get_num_tokens(g_)
+  return *(g_ + GO_NUM_TOKENS());
+end
+
 # --------------------------------
 
 def set_token_index(g_, ti)
@@ -458,12 +466,15 @@ def GS_TOKENS() return 17; end
 def GO_TOKEN_INDEX() return GO_TOKENS() + GS_TOKENS(); end
 def GS_TOKEN_INDEX() return 1; end
 
+def GO_NUM_TOKENS() return GO_TOKEN_INDEX() + GS_TOKEN_INDEX(); end
+def GS_NUM_TOKENS() return 1; end
+
 def NUM_TOKENS_MAX()
   return GS_TOKENS();
 end
 
 def main()
-  var [19]g;
+  var [20]g;
   var [150]input; # INPUT_MAX
 
   # init globals
