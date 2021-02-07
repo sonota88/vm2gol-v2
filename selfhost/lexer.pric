@@ -315,7 +315,7 @@ def main()
       pos = pos + size + 2;
 
     else
-      panic(163);
+      panic(163); # not yet impl
     end
 
     c = char_at(&input, pos);
