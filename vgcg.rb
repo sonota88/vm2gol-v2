@@ -40,12 +40,9 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
   when_blocks.each do |when_block|
     when_idx += 1
     cond, *rest = when_block
-    cond_head, *cond_rest = cond
 
     puts "  # when_#{label_id}_#{when_idx}: #{cond.inspect}"
 
-    case cond_head
-    when "eq"
       # 式の結果が reg_a に入る
       puts "  # -->> expr"
       codegen_expr(fn_arg_names, lvar_names, cond)
@@ -67,10 +64,6 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
 
       # 偽の場合ここにジャンプ
       puts "label #{label_end_when_head}_#{when_idx}"
-
-    else
-      raise not_yet_impl("cond_head", cond_head)
-    end
   end
 
   puts "label #{label_end}"
