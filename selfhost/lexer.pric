@@ -266,7 +266,7 @@ def main()
 
   read_stdin_all(&input, INPUT_MAX());
 
-  c = *(&input + pos);
+  c = char_at(&input, pos);
 
   while (do_break == FALSE())
     case
@@ -316,7 +316,7 @@ def main()
       panic(163);
     end
 
-    c = *(&input + pos);
+    c = char_at(&input, pos);
     if (__or(
           c == 0,
           __le(INPUT_MAX(), pos)
