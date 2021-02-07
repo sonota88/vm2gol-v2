@@ -136,6 +136,24 @@ def asm_sub_sp(n)
   putchar(C_LF());
 end
 
+def asm_add_sp(n)
+  var [7]temp_str;
+
+  aset(&temp_str, 0,  97); # a
+  aset(&temp_str, 1, 100); # d
+  aset(&temp_str, 2, 100); # d
+  aset(&temp_str, 3,  95); # _
+  aset(&temp_str, 4, 115); # s
+  aset(&temp_str, 5, 112); # p
+  aset(&temp_str, 6,   0);
+
+  asm_indent();
+  print_s(&temp_str);
+  putchar(C_SPC());
+  print_i(n);
+  putchar(C_LF());
+end
+
 def asm_vm_comment(vm_comment_)
   var [5] str__cmt;
   var vm_comment_size = 11; var [11]vm_comment;
