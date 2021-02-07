@@ -374,16 +374,16 @@ end
 # TODO _parse_expr_right
 
 def parse_expr(g_)
-  var t_;
+  var t_left_;
   var n;
   var expr_node_;
 
-  t_ = peek(g_, 0);
+  t_left_ = peek(g_, 0);
   inc_token_index(g_);
 
   case
-  when (Token_kind_eq(t_, TOKEN_KIND__INT()))
-    n = parse_int(Token_get_val(t_));
+  when (Token_kind_eq(t_left_, TOKEN_KIND__INT()))
+    n = parse_int(Token_get_val(t_left_));
     expr_node_ = Node_new_int(g_, n);
   else
     panic(254); # not yet impl
