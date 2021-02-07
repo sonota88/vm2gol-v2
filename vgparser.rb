@@ -71,7 +71,7 @@ def _parse_arg
     $pos += 1
     t.value
   else
-    raise ParseError
+    raise ParseError, t
   end
 end
 
