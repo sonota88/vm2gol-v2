@@ -184,12 +184,9 @@ def _parse_arg(g_)
     n = parse_int(Token_get_val(t_));
     return Node_new_int(g_, n);
   else
-    panic(202); # _parse_arg: not yet impl
+    panic(202); # _parse_arg: unsupported
   end
 end
-
-# TODO _parse_args_first
-# TODO _parse_args_rest
 
 def parse_args(g_)
   var args_;
