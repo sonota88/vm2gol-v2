@@ -256,7 +256,47 @@ def gen_expr(
   asm_cp(&cp_src, &str_reg_a);
 end
 
-# TODO gen_call
+def gen_call(stmt_)
+  asm_indent();
+  putchar( 95); # _
+  putchar( 99); # c
+  putchar(109); # m
+  putchar(116); # t
+  putchar(C_SPC());
+  putchar( 99); # c
+  putchar( 97); # a
+  putchar(108); # l
+  putchar(108); # l
+  putchar(126); # ~
+  putchar(126); # ~
+  putchar(115); # s
+  putchar(117); # u
+  putchar( 98); # b
+  putchar(C_LF());
+
+  asm_indent();
+  putchar( 99); # c
+  putchar( 97); # a
+  putchar(108); # l
+  putchar(108); # l
+  putchar(C_SPC());
+  putchar(115); # s
+  putchar(117); # u
+  putchar( 98); # b
+  putchar(C_LF());
+
+  asm_indent();
+  putchar( 97); # a
+  putchar(100); # d
+  putchar(100); # d
+  putchar( 95); # _
+  putchar(115); # s
+  putchar(112); # p
+  putchar(C_SPC());
+  putchar( 48); # 0
+  putchar(C_LF());
+end
+
 # TODO gen_call_set
 
 def gen_set(
@@ -319,8 +359,10 @@ def gen_stmt(
     gen_set(lvar_names_, list_);
   when (str_eq__cmt(NodeList_get_as_str(list_, 0)))
     gen_vm_comment(list_);
+  when (str_eq_call(NodeList_get_as_str(list_, 0)))
+    gen_call(list_);
   else
-    panic(323); # gen_stmt
+    panic(365); # gen_stmt
   end
 end
 
