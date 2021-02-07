@@ -175,7 +175,14 @@ end
 # TODO _parse_arg
 # TODO _parse_args_first
 # TODO _parse_args_rest
-# TODO parse_args
+
+def parse_args(g_)
+  var args_;
+
+  args_ = NodeList_new(g_);
+
+  return args_;
+end
 
 def parse_func(g_)
   var func_main_;
@@ -186,6 +193,7 @@ def parse_func(g_)
   var do_break = FALSE();
   var [4]str_var;
   var [5]str_func;
+  var args_;
   check_heap_stack_overlap(g_);
 
   str_set_var(&str_var);
@@ -202,8 +210,11 @@ def parse_func(g_)
   NodeList_add_str(g_, func_main_, Token_get_val(t_));
 
   consume_sym_paren_l(g_); # (
+
+  args_ = parse_args(g_);
+  NodeList_add_list(g_, func_main_, args_);
+
   consume_sym_paren_r(g_); # )
-  NodeList_add_list(g_, func_main_, NodeList_new(g_));
 
   consume_sym_cbracket_l(g_); # {
 
