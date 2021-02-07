@@ -371,7 +371,38 @@ def parse_var(g_)
 
 end
 
-# TODO _parse_expr_right
+def _parse_expr_right(g_, expr_node_l_)
+  var t_ = peek(g_, 0);
+  var expr_node_r_;
+  var expr_els_;
+  var [2]str_plus;
+
+  aset(&str_plus, 0, 43); # +
+  aset(&str_plus, 1,  0);
+
+  if (char_at(Token_get_val(t_), 0) == 59) #;
+    return expr_node_l_;
+  else
+
+    if (char_at(Token_get_val(t_), 0) == 43) # +
+      inc_token_index(g_); # TODO
+      expr_node_r_ = parse_expr(g_);
+
+      expr_els_ = NodeList_new(g_);
+
+      NodeList_add_str(g_, expr_els_, &str_plus);
+      NodeList_add(expr_els_, expr_node_l_);
+      NodeList_add(expr_els_, expr_node_r_);
+
+      return Node_new_list(g_, expr_els_);
+    else
+
+      p_str(Token_get_val(t_));
+      panic(380);
+    end
+
+  end
+end
 
 def parse_expr(g_)
   var t_left_;
@@ -379,17 +410,22 @@ def parse_expr(g_)
   var expr_node_l_;
 
   t_left_ = peek(g_, 0);
-  inc_token_index(g_);
 
   case
   when (Token_kind_eq(t_left_, TOKEN_KIND__INT()))
-    n = parse_int(Token_get_val(t_left_));
-    expr_node_l_ = Node_new_int(g_, n);
+    inc_token_index(g_);
+
+    if (Token_kind_eq(t_left_, TOKEN_KIND__INT()))
+      n = parse_int(Token_get_val(t_left_));
+      expr_node_l_ = Node_new_int(g_, n);
+    else
+      panic(390); # not yet impl
+    end
+
+    return _parse_expr_right(g_, expr_node_l_);
   else
     panic(254); # not yet impl
   end
-
-  return expr_node_l_;
 end
 
 def parse_set(g_)
