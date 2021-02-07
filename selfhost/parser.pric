@@ -5,7 +5,7 @@
 #include lib/types.pric
 #include lib/json.pric
 
-def INPUT_MAX() return 110; end
+def INPUT_MAX() return 150; end
 
 def get_line_size(input_, pos_from)
   var pos_to;
@@ -464,7 +464,7 @@ end
 
 def main()
   var [17]g;
-  var [110]input; # INPUT_MAX
+  var [150]input; # INPUT_MAX
 
   # init globals
   init_alloc_cursor(&g);
