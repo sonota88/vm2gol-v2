@@ -385,13 +385,28 @@ def parse_set(g_)
   return stmt_;
 end
 
-# TODO parse_funcall
+def parse_funcall(g_)
+  var t_;
+  var fn_name_;
+  var funcall_;
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+  fn_name_ = Token_get_val(t_);
+
+  consume_sym_paren_l(g_); # (
+  consume_sym_paren_r(g_); # )
+
+  funcall_ = NodeList_new(g_);
+  NodeList_add_str(g_, funcall_, fn_name_);
+
+  return funcall_;
+end
 
 def parse_call(g_)
   var stmt_;
   var [5]str_call;
-  var fn_name_;
-  var t_;
+  var funcall_;
 
   str_set_call(&str_call);
 
@@ -400,13 +415,9 @@ def parse_call(g_)
   consume_kw(g_, &str_call);
   NodeList_add_str(g_, stmt_, &str_call);
 
-  t_ = peek(g_, 0);
-  inc_token_index(g_);
-  fn_name_ = Token_get_val(t_);
-  NodeList_add_str(g_, stmt_, fn_name_);
+  funcall_ = parse_funcall(g_);
+  NodeList_add_all(stmt_, funcall_);
 
-  consume_sym_paren_l(g_); # (
-  consume_sym_paren_r(g_); # )
   inc_token_index(g_); # ; TODO
 
   return stmt_;
