@@ -303,11 +303,11 @@ end
 
 def str_size(str_)
   var i = 0;
-  var c = *(str_ + i);
+  var c = char_at(str_, i);
 
   while (c != 0)
     i = i + 1;
-    c = *(str_ + i);
+    c = char_at(str_, i);
   end
 
   return i;
