@@ -363,8 +363,8 @@ def str_eq(s1_, s2_)
 
   case when (str_size(s1_) == str_size(s2_))
     while (do_break == FALSE())
-      case when (*(s1_ + i) == *(s2_ + i))
-        case when (*(s1_ + i) == 0)
+      case when (char_at(s1_, i) == char_at(s2_, i))
+        case when (char_at(s1_, i) == 0)
           do_break = TRUE();
         else
           # continue
