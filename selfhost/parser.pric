@@ -453,7 +453,7 @@ def parse(g_)
 end
 
 def GO_TOKENS() return GO_ALLOC_CURSOR() + GS_ALLOC_CURSOR(); end
-def GS_TOKENS() return 15; end
+def GS_TOKENS() return 17; end
 
 def GO_TOKEN_INDEX() return GO_TOKENS() + GS_TOKENS(); end
 def GS_TOKEN_INDEX() return 1; end
@@ -463,7 +463,7 @@ def NUM_TOKENS_MAX()
 end
 
 def main()
-  var [17]g;
+  var [19]g;
   var [150]input; # INPUT_MAX
 
   # init globals
