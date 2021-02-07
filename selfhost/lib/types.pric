@@ -166,6 +166,18 @@ def NodeList_get_as_list(self_, i)
   return Node_get_list(node_);
 end
 
+def NodeList_rest(g_, list_, n)
+  var newlist_ = NodeList_new(g_);
+  var i = 0;
+
+  while ((n + i) < NodeList_size(list_))
+    NodeList_add(newlist_, NodeList_get(list_, n + i));
+    i = i + 1;
+  end
+
+  return newlist_;
+end
+
 # --------------------------------
 
 def TOKEN_KIND__KW   () return 0; end
