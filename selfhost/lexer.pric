@@ -155,6 +155,8 @@ def match_symbol(input_, pos_from)
     return 1;
   when (c == 41) # )
     return 1;
+  when (c == 44) # ,
+    return 1;
   when (c == 59) # ;
     return 1;
   when (c == 61) # =
