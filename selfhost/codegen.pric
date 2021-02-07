@@ -308,28 +308,8 @@ def gen_call(stmt_)
   );
 
   asm_vm_comment(&vm_comment);
-
-  asm_indent();
-  putchar( 99); # c
-  putchar( 97); # a
-  putchar(108); # l
-  putchar(108); # l
-  putchar(C_SPC());
-  putchar(115); # s
-  putchar(117); # u
-  putchar( 98); # b
-  putchar(C_LF());
-
-  asm_indent();
-  putchar( 97); # a
-  putchar(100); # d
-  putchar(100); # d
-  putchar( 95); # _
-  putchar(115); # s
-  putchar(112); # p
-  putchar(C_SPC());
-  putchar( 48); # 0
-  putchar(C_LF());
+  asm_call(fn_name_);
+  asm_add_sp(0); # TODO num args
 end
 
 # TODO gen_call_set
