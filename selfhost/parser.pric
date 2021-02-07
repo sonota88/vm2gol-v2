@@ -417,9 +417,7 @@ def parse_set(g_)
 
   consume_sym(g_, &str_eq);
 
-  t_ = peek(g_, 0);
-  inc_token_index(g_);
-  expr = parse_int(Token_get_val(t_));
+  expr = parse_expr(g_);
 
   consume_sym(g_, &str_semicolon);
 
@@ -429,7 +427,7 @@ def parse_set(g_)
 
   NodeList_add_str(g_, stmt_, var_name_);
 
-  NodeList_add_int(g_, stmt_, expr);
+  NodeList_add(stmt_, expr);
 
   return stmt_;
 end
