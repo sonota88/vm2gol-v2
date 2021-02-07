@@ -71,7 +71,7 @@ def print_i(arg_n)
   var n = arg_n;
   var div;
   var mod;
-  var [4]buf;
+  var [8]buf;
   var digit = 0;
   var done = 0;
 
