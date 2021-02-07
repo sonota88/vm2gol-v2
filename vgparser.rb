@@ -70,9 +70,6 @@ def _parse_arg
   if t.type == :ident
     $pos += 1
     t.value
-  elsif t.type == :int
-    $pos += 1
-    t.value.to_i
   else
     raise ParseError
   end
