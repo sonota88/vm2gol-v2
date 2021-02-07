@@ -458,11 +458,11 @@ def codegen(g_, ast_)
   gen_top_stmts(g_, ast_);
 end
 
-def INPUT_MAX() return 210; end
+def INPUT_MAX() return 250; end
 
 def main()
   var [1]g;
-  var [210]input; # INPUT_MAX
+  var [250]input; # INPUT_MAX
   var ast_;
 
   # init globals
