@@ -57,6 +57,15 @@ def str_set_reg_a(dest_)
   aset(dest_, 5,   0);
 end
 
+def str_set_reg_b(dest_)
+  aset(dest_, 0, 114); # r
+  aset(dest_, 1, 101); # e
+  aset(dest_, 2, 103); # g
+  aset(dest_, 3,  95); # _
+  aset(dest_, 4,  98); # b
+  aset(dest_, 5,   0);
+end
+
 def str_set_set(dest_)
   aset(dest_, 0, 115); # s
   aset(dest_, 1, 101); # e
