@@ -376,7 +376,7 @@ end
 def parse_expr(g_)
   var t_left_;
   var n;
-  var expr_node_;
+  var expr_node_l_;
 
   t_left_ = peek(g_, 0);
   inc_token_index(g_);
@@ -384,12 +384,12 @@ def parse_expr(g_)
   case
   when (Token_kind_eq(t_left_, TOKEN_KIND__INT()))
     n = parse_int(Token_get_val(t_left_));
-    expr_node_ = Node_new_int(g_, n);
+    expr_node_l_ = Node_new_int(g_, n);
   else
     panic(254); # not yet impl
   end
 
-  return expr_node_;
+  return expr_node_l_;
 end
 
 def parse_set(g_)
