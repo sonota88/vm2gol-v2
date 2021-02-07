@@ -172,14 +172,29 @@ end
 
 # --------------------------------
 
-# TODO _parse_arg
+def _parse_arg(g_)
+  var n;
+  var t_ = peek(g_, 0);
+  inc_token_index(g_);
+
+  case
+  when (Token_kind_eq(t_, TOKEN_KIND__IDENT()))
+    return Node_new_str(g_, Token_get_val(t_));
+  when (Token_kind_eq(t_, TOKEN_KIND__INT()))
+    n = parse_int(Token_get_val(t_));
+    return Node_new_int(g_, n);
+  else
+    panic(202); # _parse_arg: not yet impl
+  end
+end
+
 # TODO _parse_args_first
 # TODO _parse_args_rest
 
 def parse_args(g_)
   var args_;
   var t_;
-  var n;
+  var arg_node_;
 
   args_ = NodeList_new(g_);
 
@@ -188,19 +203,9 @@ def parse_args(g_)
   if (char_at(Token_get_val(t_), 0) == 41) # )
     return args_;
   else
-    inc_token_index(g_);
-
-    case
-    when (Token_kind_eq(t_, TOKEN_KIND__IDENT()))
-      NodeList_add_str(g_, args_, Token_get_val(t_));
-      return args_;
-    when (Token_kind_eq(t_, TOKEN_KIND__INT()))
-      n = parse_int(Token_get_val(t_));
-      NodeList_add_int(g_, args_, n);
-      return args_;
-    else
-      panic(202); # parse_args: not yet impl
-    end
+    arg_node_ = _parse_arg(g_);
+    NodeList_add(args_, arg_node_);
+    return args_;
   end
 end
 
