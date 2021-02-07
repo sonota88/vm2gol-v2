@@ -275,22 +275,21 @@ def gen_expr(
 end
 
 def gen_call(stmt_)
-  asm_indent();
-  putchar( 95); # _
-  putchar( 99); # c
-  putchar(109); # m
-  putchar(116); # t
-  putchar(C_SPC());
-  putchar( 99); # c
-  putchar( 97); # a
-  putchar(108); # l
-  putchar(108); # l
-  putchar(126); # ~
-  putchar(126); # ~
-  putchar(115); # s
-  putchar(117); # u
-  putchar( 98); # b
-  putchar(C_LF());
+  var vm_comment_size = 10; var [10]vm_comment;
+  var fn_name_;
+
+  fn_name_ = NodeList_get_as_str(stmt_, 1);
+
+  str_set_call(&vm_comment);
+  aset(&vm_comment, 4, C_SPC());
+  aset(&vm_comment, 5, C_SPC());
+  aset(&vm_comment, 6, 0);
+  str_append_with_check(
+    &vm_comment, fn_name_,
+    vm_comment_size
+  );
+
+  asm_vm_comment(&vm_comment);
 
   asm_indent();
   putchar( 99); # c
