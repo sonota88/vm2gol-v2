@@ -73,6 +73,13 @@ def get_num_tokens(g_)
   return *(g_ + GO_NUM_TOKENS());
 end
 
+def is_end(g_)
+  var num_tokens = get_num_tokens(g_);
+  var ti = get_token_index(g_);
+
+  return __le(num_tokens, ti);
+end
+
 # --------------------------------
 
 def set_token_index(g_, ti)
