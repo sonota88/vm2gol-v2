@@ -281,6 +281,26 @@ def str_cp_with_check(dest_, src_, dest_size)
   end
 end
 
+# dest_size: size with sentinel
+def str_append_with_check(dest_, str_, dest_size)
+  var i;
+  var c;
+  var dest_offset = str_size(dest_);
+  var append_size = str_size(str_);
+
+  if ((dest_offset + append_size) < dest_size)
+    i = 0;
+    while (i < append_size)
+      c = char_at(str_, i);
+      aset(dest_, dest_offset + i, c);
+      i = i + 1;
+    end
+    aset(dest_, dest_offset + append_size, 0);
+  else
+    panic(281); # str_append_with_check: failed to append
+  end
+end
+
 def str_size(str_)
   var i = 0;
   var c = *(str_ + i);
