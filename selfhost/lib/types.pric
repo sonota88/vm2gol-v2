@@ -122,6 +122,15 @@ def NodeList_add(self_, node_)
   *(self_ + NODE_LIST__SIZE()) = size + 1;
 end
 
+def NodeList_add_all(self_, list_)
+  var i = 0;
+
+  while (i < NodeList_size(list_))
+    NodeList_add(self_, NodeList_get(list_, i));
+    i = i + 1;
+  end
+end
+
 def NodeList_add_int(g_, self_, n)
   var node_ = Node_new_int(g_, n);
   NodeList_add(self_, node_);
