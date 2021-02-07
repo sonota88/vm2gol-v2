@@ -205,20 +205,20 @@ def gen_var(
       g_,
       # fn_arg_names_,
       lvar_names_,
-      list_
+      stmt_
     )
   var set_stmt_;
   var [4]str_set;
 
   asm_sub_sp(1);
 
-  if (NodeList_size(list_) == 3)
+  if (NodeList_size(stmt_) == 3)
     str_set_set(&str_set);
 
     set_stmt_ = NodeList_new(g_);
     NodeList_add_str(g_, set_stmt_, &str_set);
-    NodeList_add(set_stmt_, NodeList_get(list_, 1));
-    NodeList_add(set_stmt_, NodeList_get(list_, 2));
+    NodeList_add(set_stmt_, NodeList_get(stmt_, 1));
+    NodeList_add(set_stmt_, NodeList_get(stmt_, 2));
 
     gen_set(lvar_names_, set_stmt_);
   end
@@ -301,7 +301,7 @@ end
 
 def gen_set(
       # fn_arg_names_,
-      lvar_names_, list_
+      lvar_names_, stmt_
     )
   var [8]dest;
   var [8]lvar_name_;
@@ -310,8 +310,8 @@ def gen_set(
 
   str_set_reg_a(&str_reg_a);
 
-  lvar_name_ = NodeList_get_as_str(list_, 1);
-  expr_node_ = NodeList_get(list_, 2);
+  lvar_name_ = NodeList_get_as_str(stmt_, 1);
+  expr_node_ = NodeList_get(stmt_, 2);
 
   gen_expr(expr_node_);
 
@@ -326,13 +326,13 @@ end
 
 # TODO gen_return
 
-def gen_vm_comment(list_)
+def gen_vm_comment(stmt_)
   var vm_comment_size = 11; var [11]vm_comment;
   var i;
   var c;
 
   str_cp_with_check(
-    &vm_comment, NodeList_get_as_str(list_, 1),
+    &vm_comment, NodeList_get_as_str(stmt_, 1),
     vm_comment_size
   );
 
@@ -352,15 +352,15 @@ end
 def gen_stmt(
       # fn_arg_names_,
       lvar_names_,
-      list_
+      stmt_
     )
   case
-  when (str_eq_set(NodeList_get_as_str(list_, 0)))
-    gen_set(lvar_names_, list_);
-  when (str_eq__cmt(NodeList_get_as_str(list_, 0)))
-    gen_vm_comment(list_);
-  when (str_eq_call(NodeList_get_as_str(list_, 0)))
-    gen_call(list_);
+  when (str_eq_set(NodeList_get_as_str(stmt_, 0)))
+    gen_set(lvar_names_, stmt_);
+  when (str_eq__cmt(NodeList_get_as_str(stmt_, 0)))
+    gen_vm_comment(stmt_);
+  when (str_eq_call(NodeList_get_as_str(stmt_, 0)))
+    gen_call(stmt_);
   else
     panic(365); # gen_stmt
   end
