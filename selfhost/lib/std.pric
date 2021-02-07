@@ -315,7 +315,7 @@ end
 
 def chomp(str_)
   var i = __sub(str_size(str_), 1);
-  if (*(str_ + i) == C_LF())
+  if (char_at(str_, i) == C_LF())
     *(str_ + i) = 0;
   end
 end
@@ -328,11 +328,11 @@ def substr(dest_, src_, from, to)
   while (do_break == FALSE())
     case when (__or(
       i == to,
-      *(src_ + i) == 0
+      char_at(src_, i) == 0
     ))
       do_break = TRUE();
     else
-      *(dest_ + dest_i) = *(src_ + i);
+      *(dest_ + dest_i) = char_at(src_, i);
       i = i + 1;
       dest_i = dest_i + 1;
     end
