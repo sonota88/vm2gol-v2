@@ -282,7 +282,6 @@ def gen_expr(
   case
   when (Node_kind_eq(expr_, NODE_KIND__INT()))
     expr = Node_get_int(expr_);
-    assert(42, expr, 220); # test-compile-4
     unparse_int(&cp_src, expr);
   else
     # not yet implemented
@@ -292,11 +291,18 @@ def gen_expr(
   asm_cp(&cp_src, &str_reg_a);
 end
 
-def gen_call(stmt_)
+def gen_call(g_, stmt_)
   var vm_comment_size = 10; var [10]vm_comment;
   var fn_name_;
+  var args_;
+  var i;
+  var node_;
+  var [6]str_reg_a;
+
+  str_set_reg_a(&str_reg_a);
 
   fn_name_ = NodeList_get_as_str(stmt_, 1);
+  args_ = NodeList_rest(g_, stmt_, 2);
 
   str_set_call(&vm_comment);
   aset(&vm_comment, 4, C_SPC());
@@ -307,9 +313,17 @@ def gen_call(stmt_)
     vm_comment_size
   );
 
+  i = __sub(NodeList_size(args_), 1);
+  while (__le(0, i))
+    node_ = NodeList_get(args_, i);
+    gen_expr(node_);
+    asm_push(&str_reg_a);
+    i = __sub(i, 1);
+  end
+
   asm_vm_comment(&vm_comment);
   asm_call(fn_name_);
-  asm_add_sp(0); # TODO num args
+  asm_add_sp(NodeList_size(args_));
 end
 
 # TODO gen_call_set
@@ -346,6 +360,7 @@ def gen_vm_comment(stmt_)
 end
 
 def gen_stmt(
+      g_,
       # fn_arg_names_,
       lvar_names_,
       stmt_
@@ -358,7 +373,7 @@ def gen_stmt(
   when (str_eq__cmt(head_str_))
     gen_vm_comment(stmt_);
   when (str_eq_call(head_str_))
-    gen_call(stmt_);
+    gen_call(g_, stmt_);
   else
     panic(365); # gen_stmt
   end
@@ -394,7 +409,7 @@ def gen_func(g_, func_)
       Names_add(lvar_names_, lvar_name_);
       gen_var(g_, lvar_names_, stmt_);
     else
-      gen_stmt(lvar_names_, stmt_);
+      gen_stmt(g_, lvar_names_, stmt_);
     end
 
     i = i + 1;
@@ -443,11 +458,11 @@ def codegen(g_, ast_)
   gen_top_stmts(g_, ast_);
 end
 
-def INPUT_MAX() return 180; end
+def INPUT_MAX() return 210; end
 
 def main()
   var [1]g;
-  var [180]input; # INPUT_MAX
+  var [210]input; # INPUT_MAX
   var ast_;
 
   # init globals
