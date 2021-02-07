@@ -67,12 +67,12 @@ end
 def _parse_arg
   t = peek()
 
-  if t.type == :ident
-    $pos += 1
-    t.value
-  else
+  unless t.type == :ident
     raise ParseError, t
   end
+
+  $pos += 1
+  t.value
 end
 
 def _parse_args_first
