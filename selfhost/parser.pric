@@ -399,7 +399,7 @@ def parse_set(g_)
   var [2]str_semicolon;
   var t_;
   var var_name_;
-  var expr;
+  var expr_node_;
 
   str_set_set(&str_set);
 
@@ -417,7 +417,7 @@ def parse_set(g_)
 
   consume_sym(g_, &str_eq);
 
-  expr = parse_expr(g_);
+  expr_node_ = parse_expr(g_);
 
   consume_sym(g_, &str_semicolon);
 
@@ -427,7 +427,7 @@ def parse_set(g_)
 
   NodeList_add_str(g_, stmt_, var_name_);
 
-  NodeList_add(stmt_, expr);
+  NodeList_add(stmt_, expr_node_);
 
   return stmt_;
 end
