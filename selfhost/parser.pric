@@ -195,6 +195,7 @@ def parse_args(g_)
   var args_;
   var t_;
   var arg_node_;
+  var do_break = FALSE();
 
   args_ = NodeList_new(g_);
 
@@ -203,9 +204,24 @@ def parse_args(g_)
   if (char_at(Token_get_val(t_), 0) == 41) # )
     return args_;
   else
+
     arg_node_ = _parse_arg(g_);
     NodeList_add(args_, arg_node_);
+
+    while (__not(do_break))
+      t_ = peek(g_, 0);
+
+      if (char_at(Token_get_val(t_), 0) == 44) # ,
+        inc_token_index(g_); # , TODO
+        arg_node_ = _parse_arg(g_);
+        NodeList_add(args_, arg_node_);
+      else
+        do_break = TRUE();
+      end
+    end
+
     return args_;
+
   end
 end
 
