@@ -12,7 +12,7 @@ def _match_kw_func(input_, pos)
 
   if (__and(
         str_eq_func(&temp_str),
-        is_ident_char(*(input_ + pos + 4)) == FALSE()
+        is_ident_char(char_at(input_, pos + 4)) == FALSE()
       ))
     return 4;
   else
@@ -30,7 +30,7 @@ def _match_kw_var(input_, pos)
 
   if (__and(
         str_eq(&pattern, &temp_str),
-        is_ident_char(*(input_ + pos + 3)) == FALSE()
+        is_ident_char(char_at(input_, pos + 3)) == FALSE()
       ))
     return 3;
   else
@@ -48,7 +48,7 @@ def _match_kw_set(input_, pos)
 
   if (__and(
         str_eq(&pattern, &temp_str),
-        is_ident_char(*(input_ + pos + 3)) == FALSE()
+        is_ident_char(char_at(input_, pos + 3)) == FALSE()
       ))
     return 3;
   else
@@ -66,7 +66,7 @@ def _match_kw_vm_comment(input_, pos)
 
   if (__and(
         str_eq__cmt(&temp_str),
-        is_ident_char(*(input_ + pos + 4)) == FALSE()
+        is_ident_char(char_at(input_, pos + 4)) == FALSE()
       ))
     return 4;
   else
@@ -84,7 +84,7 @@ def _match_kw_call(input_, pos)
 
   if (__and(
         str_eq_call(&temp_str),
-        is_ident_char(*(input_ + pos + 4)) == FALSE()
+        is_ident_char(char_at(input_, pos + 4)) == FALSE()
       ))
     return 4;
   else
