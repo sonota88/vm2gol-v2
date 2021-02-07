@@ -460,7 +460,9 @@ def parse_top_stmts(g_)
   aset(&temp_str, 9,   0);
   NodeList_add_str(g_, top_stmts_, &temp_str);
 
-  NodeList_add_list(g_, top_stmts_, parse_func(g_));
+  while (__not(is_end(g_)))
+    NodeList_add_list(g_, top_stmts_, parse_func(g_));
+  end
 
   return top_stmts_;
 end
