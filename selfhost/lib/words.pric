@@ -34,6 +34,24 @@ def str_eq_call(str_)
   return str_eq(str_, &pattern);
 end
 
+def str_set_call_set(str_)
+  aset(str_, 0,  99); # c
+  aset(str_, 1,  97); # a
+  aset(str_, 2, 108); # l
+  aset(str_, 3, 108); # l
+  aset(str_, 4,  95); # _
+  aset(str_, 5, 115); # s
+  aset(str_, 6, 101); # e
+  aset(str_, 7, 116); # t
+  aset(str_, 8,   0);
+end
+
+def str_eq_call_set(str_)
+  var [9]pattern;
+  str_set_call_set(&pattern);
+  return str_eq(str_, &pattern);
+end
+
 def str_set_func(str_)
   aset(str_, 0, 102); # f
   aset(str_, 1, 117); # u
