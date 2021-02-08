@@ -512,7 +512,32 @@ def parse_call(g_)
   return stmt_;
 end
 
-# TODO parse_call_set
+def parse_call_set(g_)
+  var [9]str_call_set; str_set_call_set(&str_call_set);
+  var funcall_;
+  var t_;
+  var var_name_;
+  var stmt_;
+
+  consume_kw(g_, &str_call_set);
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+  var_name_ = Token_get_val(t_);
+
+  inc_token_index(g_); # = TODO
+
+  funcall_ = parse_funcall(g_);
+
+  consume_sym_semicolon(g_);
+
+  stmt_ = NodeList_new(g_);
+  NodeList_add_str(g_, stmt_, &str_call_set);
+  NodeList_add_str(g_, stmt_, var_name_);
+  NodeList_add_list(g_, stmt_, funcall_);
+
+  return stmt_;
+end
 
 def parse_return(g_)
   var expr_;
@@ -576,6 +601,8 @@ def parse_stmt(g_)
     return parse_call(g_);
   when (str_eq_return(Token_get_val(t_)))
     return parse_return(g_);
+  when (str_eq_call_set(Token_get_val(t_)))
+    return parse_call_set(g_);
   else
     p_str(Token_get_val(t_));
     panic(421); # parse_stmt
