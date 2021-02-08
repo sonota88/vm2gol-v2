@@ -179,6 +179,15 @@ def consume_sym_semicolon(g_)
   consume_sym(g_, &str);
 end
 
+def consume_sym_equal(g_)
+  var [2]str;
+
+  aset(&str, 0, 61); # =
+  aset(&str, 1,  0);
+
+  consume_sym(g_, &str);
+end
+
 # --------------------------------
 
 def _parse_arg(g_)
@@ -317,16 +326,12 @@ end
 def _parse_var_init(g_)
   var stmt_;
   var [4]str_var;
-  var [2]str_equal;
   var t_;
   var var_name_;
   var expr_node_;
   check_heap_stack_overlap(g_);
 
   str_set_var(&str_var);
-
-  aset(&str_equal, 0, 61); # =
-  aset(&str_equal, 1,  0);
 
   stmt_ = NodeList_new(g_);
 
@@ -338,7 +343,7 @@ def _parse_var_init(g_)
   var_name_ = Token_get_val(t_);
   NodeList_add_str(g_, stmt_, var_name_);
 
-  consume_sym(g_, &str_equal);
+  consume_sym_equal(g_); # =
 
   expr_node_ = parse_expr(g_);
   NodeList_add(stmt_, expr_node_);
@@ -437,15 +442,11 @@ end
 def parse_set(g_)
   var stmt_;
   var [4]str_set;
-  var [2]str_eq;
   var t_;
   var var_name_;
   var expr_node_;
 
   str_set_set(&str_set);
-
-  aset(&str_eq, 0, 61); # =
-  aset(&str_eq, 1,  0);
 
   consume_kw(g_, &str_set);
 
@@ -453,7 +454,7 @@ def parse_set(g_)
   inc_token_index(g_);
   var_name_ = Token_get_val(t_);
 
-  consume_sym(g_, &str_eq);
+  consume_sym_equal(g_); # =
 
   expr_node_ = parse_expr(g_);
 
@@ -525,7 +526,7 @@ def parse_call_set(g_)
   inc_token_index(g_);
   var_name_ = Token_get_val(t_);
 
-  inc_token_index(g_); # = TODO
+  consume_sym_equal(g_); # =
 
   funcall_ = parse_funcall(g_);
 
