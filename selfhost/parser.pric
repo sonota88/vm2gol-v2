@@ -516,7 +516,31 @@ def parse_call(g_)
 end
 
 # TODO parse_call_set
-# TODO parse_return
+
+def parse_return(g_)
+  var expr_;
+  var stmt_;
+  var [7]str_return;
+  var [2]str_semicolon;
+
+  str_set_return(&str_return);
+
+  aset(&str_semicolon, 0, 59);
+  aset(&str_semicolon, 1,  0);
+
+  consume_kw(g_, &str_return);
+
+  var expr_ = parse_expr(g_);
+
+  consume_sym(g_, &str_semicolon); # TODO extract to consume_sym_semicolon()
+
+  stmt_ = NodeList_new(g_);
+  NodeList_add_str(g_, stmt_, &str_return);
+  NodeList_add(stmt_, expr_);
+
+  return stmt_;
+end
+
 # TODO _parse_when_clause
 # TODO parse_case
 # TODO parse_while
@@ -561,6 +585,8 @@ def parse_stmt(g_)
     return parse_vm_comment(g_);
   when (str_eq_call(Token_get_val(t_)))
     return parse_call(g_);
+  when (str_eq_return(Token_get_val(t_)))
+    return parse_return(g_);
   else
     p_str(Token_get_val(t_));
     panic(421); # parse_stmt
