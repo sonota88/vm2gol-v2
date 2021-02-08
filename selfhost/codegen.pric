@@ -284,7 +284,7 @@ end
 # TODO _gen_expr_eq
 # TODO _gen_expr_neq
 
-def _gen_expr_binary(expr_)
+def _gen_expr_binary(lvar_names_, expr_)
   var expr_els_ = Node_get_list(expr_);
   var op_str_ = NodeList_get_as_str(expr_els_, 0);
   var arg_l_ = NodeList_get(expr_els_, 1);
@@ -293,10 +293,10 @@ def _gen_expr_binary(expr_)
 
   str_set_reg_a(&str_reg_a);
 
-  gen_expr(arg_l_);
+  gen_expr(lvar_names_, arg_l_);
   asm_push(&str_reg_a);
 
-  gen_expr(arg_r_);
+  gen_expr(lvar_names_, arg_r_);
   asm_push(&str_reg_a);
 
   case
@@ -309,7 +309,7 @@ end
 
 def gen_expr(
       # fn_arg_names_,
-      # lvar_names_,
+      lvar_names_,
       expr_
     )
   var [8]cp_src;
@@ -325,14 +325,14 @@ def gen_expr(
     asm_cp(&cp_src, &str_reg_a);
 
   when (Node_kind_eq(expr_, NODE_KIND__LIST()))
-    _gen_expr_binary(expr_);
+    _gen_expr_binary(lvar_names_, expr_);
 
   else
     panic(224); # gen_expr: not yet implemented
   end
 end
 
-def gen_call(g_, stmt_)
+def gen_call(g_, lvar_names_, stmt_)
   var vm_comment_size = 10; var [10]vm_comment;
   var fn_name_;
   var args_;
@@ -357,7 +357,7 @@ def gen_call(g_, stmt_)
   i = __sub(NodeList_size(args_), 1);
   while (__le(0, i))
     node_ = NodeList_get(args_, i);
-    gen_expr(node_);
+    gen_expr(lvar_names_, node_);
     asm_push(&str_reg_a);
     i = __sub(i, 1);
   end
@@ -383,7 +383,7 @@ def gen_set(
   lvar_name_ = NodeList_get_as_str(stmt_, 1);
   expr_node_ = NodeList_get(stmt_, 2);
 
-  gen_expr(expr_node_);
+  gen_expr(lvar_names_, expr_node_);
 
   to_lvar_addr(
     &dest,
@@ -414,7 +414,7 @@ def gen_stmt(
   when (str_eq__cmt(head_str_))
     gen_vm_comment(stmt_);
   when (str_eq_call(head_str_))
-    gen_call(g_, stmt_);
+    gen_call(g_, lvar_names_, stmt_);
   else
     panic(365); # gen_stmt
   end
