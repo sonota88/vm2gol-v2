@@ -210,8 +210,23 @@ end
 
 # --------------------------------
 
-def to_fn_arg_addr(names_, name_)
-  panic(166); # TODO
+def to_fn_arg_addr(dest_, names_, name_)
+  var idx = Names_index(names_, name_);
+  # assert(0, idx, 219);
+
+  aset(dest_, 0,  91); # [
+  aset(dest_, 1,  98); # b
+  aset(dest_, 2, 112); # p
+  aset(dest_, 3,  58); # :
+
+  if ((idx + 1) < 10)
+    aset(dest_, 4, i_to_c(idx + 2));
+  else
+    panic(230); # to_fn_arg_addr: not yet supported
+  end
+
+  aset(dest_, 5,  93); # ]
+  aset(dest_, 6,   0);
 end
 
 def to_lvar_addr(dest_, names_, name_)
