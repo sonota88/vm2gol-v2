@@ -341,7 +341,7 @@ def gen_expr(
     _gen_expr_binary(lvar_names_, expr_);
 
   else
-    Json_print_node(expr_, 0);
+    _Json_print_node(expr_, 0);
     panic(344); # gen_expr: not yet implemented
   end
 end

@@ -9,7 +9,7 @@ def Json_print_indent(lv)
   end
 end
 
-def Json_print_node(node_, lv)
+def _Json_print_node(node_, lv)
   var kind;
   var int_val;
   var str_;
@@ -48,7 +48,7 @@ def Json_print_list(list_, lv)
   i = 0;
   while (i < size)
     node_ = NodeList_get(list_, i);
-    Json_print_node(node_, lv + 1);
+    _Json_print_node(node_, lv + 1);
 
     if (i < (size + -1))
       putchar(C_COMMA());
