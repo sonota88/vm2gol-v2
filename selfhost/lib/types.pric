@@ -206,6 +206,32 @@ def TokenKind_from_str(str_)
   end
 end
 
+def TokenKind_to_str(str_, kind)
+  case
+  when (kind == TOKEN_KIND__KW())
+    aset(str_, 0, 107); # k
+    aset(str_, 1,   0);
+  when (kind == TOKEN_KIND__SYM())
+    aset(str_, 0, 115); # s
+    aset(str_, 1, 121); # y
+    aset(str_, 2,   0);
+  when (kind == TOKEN_KIND__INT())
+    aset(str_, 0, 105); # i
+    aset(str_, 1, 110); # n
+    aset(str_, 2,   0);
+  when (kind == TOKEN_KIND__STR())
+    aset(str_, 0, 115); # s
+    aset(str_, 1, 116); # t
+    aset(str_, 2,   0);
+  when (kind == TOKEN_KIND__IDENT())
+    aset(str_, 0, 105); # i
+    aset(str_, 1, 100); # d
+    aset(str_, 2,   0);
+  else
+    panic(175);
+  end
+end
+
 # --------------------------------
 
 def TOKEN__TYPE_SIZE () return 12; end
