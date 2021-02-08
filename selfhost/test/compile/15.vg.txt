@@ -1,0 +1,10 @@
+// -*- mode: javascript -*-
+
+func f1() {
+  return 42;
+}
+
+func main() {
+  var c;
+  call_set c = f1();
+}
