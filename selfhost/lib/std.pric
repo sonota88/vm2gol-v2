@@ -432,10 +432,7 @@ def parse_int(s_)
 end
 
 def is_digit_char(c)
-  return __and(
-    __le(48, c),
-    __le(c, 57)
-  );
+  return range_include(48, 57, c);
 end
 
 def non_digit_index(str_, from)
@@ -456,7 +453,7 @@ def non_digit_index(str_, from)
 end
 
 def i_to_c(n)
-  if (__and(__le(0, n), __le(n, 9)))
+  if (range_include(0, 9, n))
     # ok
   else
     panic(389);

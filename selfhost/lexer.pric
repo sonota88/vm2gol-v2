@@ -131,11 +131,11 @@ end
 
 def is_ident_char(c)
   case
-  when (__and(__le(48, c), __le(c, 57))) # 0..9
+  when (range_include(48, 57, c)) # 0..9
     return TRUE();
-  when (__and(__le(65, c), __le(c, 90))) # A..Z
+  when (range_include(65, 90, c)) # A..Z
     return TRUE();
-  when (__and(__le(97, c), __le(c, 122))) # a..z
+  when (range_include(97, 122, c)) # a..z
     return TRUE();
   when (c == 95) # _
     return TRUE();
