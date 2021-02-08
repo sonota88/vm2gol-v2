@@ -170,6 +170,15 @@ def consume_sym_cbracket_r(g_)
   consume_sym(g_, &str);
 end
 
+def consume_sym_semicolon(g_)
+  var [2]str;
+
+  aset(&str, 0, 59); # ;
+  aset(&str, 1,  0);
+
+  consume_sym(g_, &str);
+end
+
 # --------------------------------
 
 def _parse_arg(g_)
@@ -284,15 +293,11 @@ end
 def _parse_var_declare(g_)
   var stmt_;
   var [4]str_var;
-  var [2]str_semicolon;
   var t_;
   var var_name_;
   check_heap_stack_overlap(g_);
 
   str_set_var(&str_var);
-
-  aset(&str_semicolon, 0, 59);
-  aset(&str_semicolon, 1,  0);
 
   stmt_ = NodeList_new(g_);
 
@@ -304,7 +309,7 @@ def _parse_var_declare(g_)
   var_name_ = Token_get_val(t_);
   NodeList_add_str(g_, stmt_, var_name_);
 
-  consume_sym(g_, &str_semicolon);
+  consume_sym_semicolon(g_); # ;
 
   return stmt_;
 end
@@ -312,7 +317,6 @@ end
 def _parse_var_init(g_)
   var stmt_;
   var [4]str_var;
-  var [2]str_semicolon;
   var [2]str_equal;
   var t_;
   var var_name_;
@@ -320,9 +324,6 @@ def _parse_var_init(g_)
   check_heap_stack_overlap(g_);
 
   str_set_var(&str_var);
-
-  aset(&str_semicolon, 0, 59); # ;
-  aset(&str_semicolon, 1,  0);
 
   aset(&str_equal, 0, 61); # =
   aset(&str_equal, 1,  0);
@@ -342,7 +343,7 @@ def _parse_var_init(g_)
   expr_node_ = parse_expr(g_);
   NodeList_add(stmt_, expr_node_);
 
-  consume_sym(g_, &str_semicolon);
+  consume_sym_semicolon(g_); # ;
 
   return stmt_;
 end
@@ -437,7 +438,6 @@ def parse_set(g_)
   var stmt_;
   var [4]str_set;
   var [2]str_eq;
-  var [2]str_semicolon;
   var t_;
   var var_name_;
   var expr_node_;
@@ -446,9 +446,6 @@ def parse_set(g_)
 
   aset(&str_eq, 0, 61); # =
   aset(&str_eq, 1,  0);
-
-  aset(&str_semicolon, 0, 59); # ;
-  aset(&str_semicolon, 1,  0);
 
   consume_kw(g_, &str_set);
 
@@ -460,7 +457,7 @@ def parse_set(g_)
 
   expr_node_ = parse_expr(g_);
 
-  consume_sym(g_, &str_semicolon);
+  consume_sym_semicolon(g_); # ;
 
   stmt_ = NodeList_new(g_);
 
@@ -521,18 +518,14 @@ def parse_return(g_)
   var expr_;
   var stmt_;
   var [7]str_return;
-  var [2]str_semicolon;
 
   str_set_return(&str_return);
-
-  aset(&str_semicolon, 0, 59);
-  aset(&str_semicolon, 1,  0);
 
   consume_kw(g_, &str_return);
 
   var expr_ = parse_expr(g_);
 
-  consume_sym(g_, &str_semicolon); # TODO extract to consume_sym_semicolon()
+  consume_sym_semicolon(g_); # ;
 
   stmt_ = NodeList_new(g_);
   NodeList_add_str(g_, stmt_, &str_return);
@@ -547,14 +540,10 @@ end
 
 def parse_vm_comment(g_)
   var t_;
-  var [2]str_semicolon;
   var [5]str__cmt;
   var stmt_;
 
   str_set__cmt(&str__cmt);
-
-  aset(&str_semicolon, 0, 59); # ;
-  aset(&str_semicolon, 1,  0);
 
   stmt_ = NodeList_new(g_);
 
@@ -568,7 +557,7 @@ def parse_vm_comment(g_)
   NodeList_add_str(g_, stmt_, Token_get_val(t_));
 
   consume_sym_paren_r(g_); # )
-  consume_sym(g_, &str_semicolon); # ;
+  consume_sym_semicolon(g_); # ;
 
   return stmt_;
 end
