@@ -36,6 +36,10 @@ def _Json_print_node(node_, lv)
   end
 end
 
+def Json_print_node(node_)
+  _Json_print_node(node_, 0);
+end
+
 def Json_print_list(list_, lv)
   var size = NodeList_size(list_);
   var i;
