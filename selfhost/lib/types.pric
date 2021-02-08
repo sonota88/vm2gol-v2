@@ -358,6 +358,8 @@ def Names_index(self_, target_name_)
   return result;
 end
 
-def Names_includes(self_, name_)
-  panic(281); # TODO
+def Names_includes(self_, target_name_)
+  var i = Names_index(self_, target_name_);
+
+  return __le(0, i);
 end
