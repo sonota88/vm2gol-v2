@@ -22,14 +22,11 @@ end
 
 def _match_kw_var(input_, pos)
   var [4]temp_str;
-  var [4]pattern;
-
-  str_set_var(&pattern);
 
   substr(&temp_str, input_, pos, pos + 3);
 
   if (__and(
-        str_eq(&pattern, &temp_str),
+        str_eq_var(&temp_str),
         is_ident_char(char_at(input_, pos + 3)) == FALSE()
       ))
     return 3;
@@ -40,14 +37,11 @@ end
 
 def _match_kw_set(input_, pos)
   var [4]temp_str;
-  var [4]pattern;
-
-  str_set_set(&pattern);
 
   substr(&temp_str, input_, pos, pos + 3);
 
   if (__and(
-        str_eq(&pattern, &temp_str),
+        str_eq_set(&temp_str),
         is_ident_char(char_at(input_, pos + 3)) == FALSE()
       ))
     return 3;
