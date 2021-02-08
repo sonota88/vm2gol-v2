@@ -66,6 +66,22 @@ def str_set_reg_b(dest_)
   aset(dest_, 5,   0);
 end
 
+def str_set_return(dest_)
+  aset(dest_, 0, 114); # r
+  aset(dest_, 1, 101); # e
+  aset(dest_, 2, 116); # t
+  aset(dest_, 3, 117); # u
+  aset(dest_, 4, 114); # r
+  aset(dest_, 5, 110); # n
+  aset(dest_, 6,   0);
+end
+
+def str_eq_return(str_)
+  var [7]pattern;
+  str_set_return(&pattern);
+  return str_eq(str_, &pattern);
+end
+
 def str_set_set(dest_)
   aset(dest_, 0, 115); # s
   aset(dest_, 1, 101); # e
