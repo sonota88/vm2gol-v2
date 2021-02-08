@@ -415,12 +415,8 @@ def parse_expr(g_)
   when (Token_kind_eq(t_left_, TOKEN_KIND__INT()))
     inc_token_index(g_);
 
-    if (Token_kind_eq(t_left_, TOKEN_KIND__INT()))
       n = parse_int(Token_get_val(t_left_));
       expr_node_l_ = Node_new_int(g_, n);
-    else
-      panic(390); # not yet impl
-    end
 
     return _parse_expr_right(g_, expr_node_l_);
   else
