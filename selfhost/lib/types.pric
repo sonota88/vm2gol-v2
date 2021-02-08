@@ -272,6 +272,20 @@ def Token_val_eq(self_, value_)
   return str_eq(Token_get_val(self_), value_);
 end
 
+def Token_to_plain(g_, self_)
+  var list_ = NodeList_new(g_);
+  var kind = Token_get_kind(self_);
+  var kind_str_ = allocate(g_, 3);
+
+  TokenKind_to_str(kind_str_, kind);
+
+  NodeList_add_int(g_, list_, kind);
+  NodeList_add_str(g_, list_, kind_str_);
+  NodeList_add_str(g_, list_, Token_get_val(self_));
+
+  return list_;
+end
+
 # --------------------------------
 
 def NAMES__TYPE_SIZE() return 25; end
