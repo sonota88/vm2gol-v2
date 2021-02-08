@@ -1,0 +1,41 @@
+  call main
+  exit
+
+label add
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp [bp:2] reg_a
+  push reg_a
+  cp [bp:3] reg_a
+  push reg_a
+  pop reg_b
+  pop reg_a
+  add_ab
+  cp reg_a [bp:-1]
+  cp [bp:-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
+
+label main
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp 2 reg_a
+  push reg_a
+  cp 1 reg_a
+  push reg_a
+  _cmt call~~add
+  call add
+  add_sp 2
+  cp reg_a [bp:-1]
+
+  cp bp sp
+  pop bp
+  ret
