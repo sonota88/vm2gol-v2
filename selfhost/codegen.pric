@@ -312,9 +312,10 @@ def gen_expr(
       lvar_names_,
       expr_
     )
-  var [8]cp_src;
+  var [10]cp_src;
   var [6]str_reg_a;
   var expr;
+  var str_;
 
   str_set_reg_a(&str_reg_a);
 
@@ -324,11 +325,24 @@ def gen_expr(
     unparse_int(&cp_src, expr);
     asm_cp(&cp_src, &str_reg_a);
 
+  when (Node_kind_eq(expr_, NODE_KIND__STR()))
+    str_ = Node_get_str(expr_);
+
+    case
+    when (Names_includes(lvar_names_, str_))
+      to_lvar_addr(&cp_src, lvar_names_, str_);
+      asm_cp(&cp_src, &str_reg_a);
+
+    else
+      panic(336); # gen_expr: not yet implemented
+    end
+
   when (Node_kind_eq(expr_, NODE_KIND__LIST()))
     _gen_expr_binary(lvar_names_, expr_);
 
   else
-    panic(224); # gen_expr: not yet implemented
+    Json_print_node(expr_, 0);
+    panic(344); # gen_expr: not yet implemented
   end
 end
 
