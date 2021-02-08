@@ -363,3 +363,20 @@ def Names_includes(self_, target_name_)
 
   return __le(0, i);
 end
+
+def Names_from_node_list(g_, list_)
+  var names_ = Names_new(g_);
+  var i;
+  var size = NodeList_size(list_);
+
+  i = 0;
+  while (i < size)
+    Names_add(
+      names_,
+      NodeList_get_as_str(list_, i)
+    );
+    i = i + 1;
+  end
+
+  return names_;
+end
