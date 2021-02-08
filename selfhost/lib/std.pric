@@ -465,6 +465,15 @@ def i_to_c(n)
   return 48 + n;
 end
 
+def range_include(from, to, target)
+  case
+  when (target < from) return FALSE();
+  when (to < target  ) return FALSE();
+  else
+    return TRUE();
+  end
+end
+
 # --------------------------------
 
 # TODO - 演算子を用意するまでの代替
