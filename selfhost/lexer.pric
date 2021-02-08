@@ -3,7 +3,7 @@
 #include lib/std.pric
 #include lib/words.pric
 
-def INPUT_MAX() return 100; end
+def INPUT_MAX() return 200; end
 
 def _match_kw_func(input_, pos)
   var size = 4;
@@ -91,6 +91,25 @@ def _match_kw_call(input_, pos)
   end
 end
 
+def _match_kw_call_set(input_, pos)
+  var size = 8;
+  var [9]temp_str;
+
+  substr_with_check(
+    &temp_str, input_, pos, pos + size,
+    size + 1
+  );
+
+  if (__and(
+        str_eq_call_set(&temp_str),
+        is_ident_char(char_at(input_, pos + size)) == FALSE()
+      ))
+    return size;
+  else
+    return 0;
+  end
+end
+
 def _match_kw_return(input_, pos)
   var size = 6;
   var [7]temp_str;
@@ -122,6 +141,8 @@ def match_kw(input_, pos)
     return _match_kw_vm_comment(input_, pos);
   when (0 < _match_kw_call(input_, pos))
     return _match_kw_call(input_, pos);
+  when (0 < _match_kw_call_set(input_, pos))
+    return _match_kw_call_set(input_, pos);
   when (0 < _match_kw_return(input_, pos))
     return _match_kw_return(input_, pos);
   else
@@ -278,7 +299,7 @@ end
 
 def main()
   var [1]g;
-  var [100]input; # INPUT_MAX
+  var [200]input; # INPUT_MAX
   var pos = 0;
   var do_break = FALSE();
   var size;
