@@ -13,7 +13,7 @@ module Checker
 
     def collect_fn_sigs(top_stmts)
       top_stmts
-        .map { |fn| [fn[1], fn[2].size] }
+        .map { |fn| [fn[1], fn[2]] }
         .to_h
     end
 
@@ -21,7 +21,7 @@ module Checker
       if nodes[0] == "funcall" || nodes[0] == "call"
         fn_name = nodes[1]
         if fn_sigs.key?(fn_name)
-          num_args_exp = fn_sigs[fn_name]
+          num_args_exp = fn_sigs[fn_name].size
           num_args_act = nodes.size - 2
           if num_args_act != num_args_exp
             $stderr.puts(
@@ -32,6 +32,7 @@ module Checker
                 num_args_exp
               )
             )
+            $stderr.puts "  expected arguments: " + fn_sigs[fn_name].join(", ")
             @exit_status = 1
           end
         else
@@ -52,11 +53,11 @@ module Checker
       fn_sigs = collect_fn_sigs(top_stmts)
 
       # builtin functions
-      fn_sigs["getchar"] = 0
-      fn_sigs["putchar"] = 1
-      fn_sigs["get_sp"] = 0
-      fn_sigs["_panic"] = 0
-      fn_sigs["_debug"] = 0
+      fn_sigs["getchar"] = []
+      fn_sigs["putchar"] = ["char"]
+      fn_sigs["get_sp" ] = []
+      fn_sigs["_panic" ] = []
+      fn_sigs["_debug" ] = []
 
       _check(fn_sigs, tree)
 
