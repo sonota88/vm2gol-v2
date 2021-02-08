@@ -6,81 +6,86 @@
 def INPUT_MAX() return 100; end
 
 def _match_kw_func(input_, pos)
+  var size = 4;
   var [5]temp_str;
 
-  substr(&temp_str, input_, pos, pos + 4);
+  substr(&temp_str, input_, pos, pos + size);
 
   if (__and(
         str_eq_func(&temp_str),
-        is_ident_char(char_at(input_, pos + 4)) == FALSE()
+        is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
-    return 4;
+    return size;
   else
     return 0;
   end
 end
 
 def _match_kw_var(input_, pos)
+  var size = 3;
   var [4]temp_str;
 
-  substr(&temp_str, input_, pos, pos + 3);
+  substr(&temp_str, input_, pos, pos + size);
 
   if (__and(
         str_eq_var(&temp_str),
-        is_ident_char(char_at(input_, pos + 3)) == FALSE()
+        is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
-    return 3;
+    return size;
   else
     return 0;
   end
 end
 
 def _match_kw_set(input_, pos)
+  var size = 3;
   var [4]temp_str;
 
-  substr(&temp_str, input_, pos, pos + 3);
+  substr(&temp_str, input_, pos, pos + size);
 
   if (__and(
         str_eq_set(&temp_str),
-        is_ident_char(char_at(input_, pos + 3)) == FALSE()
+        is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
-    return 3;
+    return size;
   else
     return 0;
   end
 end
 
 def _match_kw_vm_comment(input_, pos)
+  var size = 4;
   var [5]temp_str;
 
   substr_with_check(
-    &temp_str, input_, pos, pos + 4,
-    5
+    &temp_str, input_, pos, pos + size,
+    size + 1
   );
 
   if (__and(
         str_eq__cmt(&temp_str),
-        is_ident_char(char_at(input_, pos + 4)) == FALSE()
+        is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
-    return 4;
+    return size;
   else
     return 0;
   end
 end
 
 def _match_kw_call(input_, pos)
+  var size = 4;
   var [5]temp_str;
 
   substr_with_check(
-    &temp_str, input_, pos, pos + 4,
-    5
+    &temp_str, input_, pos, pos + size,
+    size + 1
   );
 
   if (__and(
         str_eq_call(&temp_str),
-        is_ident_char(char_at(input_, pos + 4)) == FALSE()
+        is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
-    return 4;
+    return size;
   else
     return 0;
   end
