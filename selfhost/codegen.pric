@@ -408,7 +408,10 @@ def gen_set(
   asm_cp(&str_reg_a, &dest);
 end
 
-# TODO gen_return
+def gen_return(g_, lvar_names_, stmt_)
+  var expr_ = NodeList_get(stmt_, 1);
+  gen_expr(lvar_names_, expr_);
+end
 
 def gen_vm_comment(stmt_)
   asm_vm_comment(NodeList_get_as_str(stmt_, 1));
@@ -429,6 +432,8 @@ def gen_stmt(
     gen_vm_comment(stmt_);
   when (str_eq_call(head_str_))
     gen_call(g_, lvar_names_, stmt_);
+  when (str_eq_return(head_str_))
+    gen_return(g_, lvar_names_, stmt_);
   else
     panic(365); # gen_stmt
   end
