@@ -507,7 +507,7 @@ def parse_call(g_)
   funcall_ = parse_funcall(g_);
   NodeList_add_all(stmt_, funcall_);
 
-  inc_token_index(g_); # ; TODO
+  consume_sym_semicolon(g_); # ;
 
   return stmt_;
 end
