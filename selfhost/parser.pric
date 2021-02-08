@@ -5,7 +5,7 @@
 #include lib/types.pric
 #include lib/json.pric
 
-def INPUT_MAX() return 200; end
+def INPUT_MAX() return 300; end
 
 def get_line_size(input_, pos_from)
   var pos_to;
@@ -643,7 +643,7 @@ def parse(g_)
 end
 
 def GO_TOKENS() return GO_ALLOC_CURSOR() + GS_ALLOC_CURSOR(); end
-def GS_TOKENS() return 27; end
+def GS_TOKENS() return 50; end
 
 def GO_TOKEN_INDEX() return GO_TOKENS() + GS_TOKENS(); end
 def GS_TOKEN_INDEX() return 1; end
@@ -656,8 +656,8 @@ def NUM_TOKENS_MAX()
 end
 
 def main()
-  var [30]g;
-  var [200]input; # INPUT_MAX
+  var [53]g;
+  var [300]input; # INPUT_MAX
   var num_tokens;
 
   # init globals
