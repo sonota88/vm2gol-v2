@@ -365,6 +365,10 @@ def _parse_expr_right(g_, expr_node_l_)
   aset(&str_plus, 0, 43); # +
   aset(&str_plus, 1,  0);
 
+  if (char_at(Token_get_val(t_), 0) == 41) # )
+    return expr_node_l_;
+  else
+
   if (char_at(Token_get_val(t_), 0) == 59) #;
     return expr_node_l_;
   else
@@ -387,6 +391,8 @@ def _parse_expr_right(g_, expr_node_l_)
     end
 
   end
+
+  end
 end
 
 def parse_expr(g_)
@@ -395,6 +401,14 @@ def parse_expr(g_)
   var expr_node_l_;
 
   t_left_ = peek(g_, 0);
+
+  if (char_at(Token_get_val(t_left_), 0) == 40) # (
+    consume_sym_paren_l(g_); # (
+    expr_node_l_ = parse_expr(g_);
+    consume_sym_paren_r(g_); # )
+
+    return _parse_expr_right(g_, expr_node_l_);
+  else
 
   case
   when (Token_kind_eq(t_left_, TOKEN_KIND__INT()))
@@ -416,6 +430,9 @@ def parse_expr(g_)
     Json_print(Token_to_plain(g_, t_left_));
     panic(433); # not yet impl
   end
+
+  end
+
 end
 
 def parse_set(g_)
