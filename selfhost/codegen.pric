@@ -339,6 +339,8 @@ def _gen_expr_eq()
   var [6]str_reg_b; str_set_reg_b(&str_reg_b);
   var [2]str_0;
   var [2]str_1;
+  var [9]label_end;
+  var [7]label_then;
 
   aset(&str_0, 0, 48); # 0
   aset(&str_0, 1,  0);
@@ -346,85 +348,39 @@ def _gen_expr_eq()
   aset(&str_1, 0, 49); # 1
   aset(&str_1, 1,  0);
 
+  aset(&label_end, 0, 101); # e
+  aset(&label_end, 1, 110); # n
+  aset(&label_end, 2, 100); # d
+  aset(&label_end, 3,  95); # _
+  aset(&label_end, 4, 101); # e
+  aset(&label_end, 5, 113); # q
+  aset(&label_end, 6,  95); # _
+  aset(&label_end, 7,  49); # 1
+  aset(&label_end, 8,   0);
+
+  aset(&label_then, 0, 116); # t
+  aset(&label_then, 1, 104); # h
+  aset(&label_then, 2, 101); # e
+  aset(&label_then, 3, 110); # n
+  aset(&label_then, 4,  95); # _
+  aset(&label_then, 5,  49); # 1
+  aset(&label_then, 6,   0);
+
   asm_pop(&str_reg_b);
   asm_pop(&str_reg_a);
 
-  asm_indent();
-  putchar( 99); # c
-  putchar(111); # o
-  putchar(109); # m
-  putchar(112); # p
-  putchar( 97); # a
-  putchar(114); # r
-  putchar(101); # e
-  putchar(C_LF());
+  asm_compare();
 
-  asm_indent();
-  putchar(106); # j
-  putchar(117); # u
-  putchar(109); # m
-  putchar(112); # p
-  putchar( 95); # _
-  putchar(101); # e
-  putchar(113); # q
-  putchar(C_SPC()); #  
-  putchar(116); # t
-  putchar(104); # h
-  putchar(101); # e
-  putchar(110); # n
-  putchar( 95); # _
-  putchar( 49); # 1
-  putchar(C_LF());
+  asm_jump_eq(&label_then);
 
   asm_cp(&str_0, &str_reg_a);
 
-  asm_indent();
-  putchar(106); # j
-  putchar(117); # u
-  putchar(109); # m
-  putchar(112); # p
-  putchar(C_SPC()); #  
-  putchar(101); # e
-  putchar(110); # n
-  putchar(100); # d
-  putchar( 95); # _
-  putchar(101); # e
-  putchar(113); # q
-  putchar( 95); # _
-  putchar( 49); # 1
-  putchar(C_LF());
+  asm_jump(&label_end);
 
-  putchar(108); # l
-  putchar( 97); # a
-  putchar( 98); # b
-  putchar(101); # e
-  putchar(108); # l
-  putchar(C_SPC()); #  
-  putchar(116); # t
-  putchar(104); # h
-  putchar(101); # e
-  putchar(110); # n
-  putchar( 95); # _
-  putchar( 49); # 1
-  putchar(C_LF());
-
+  asm_label(&label_then);
   asm_cp(&str_1, &str_reg_a);
 
-  putchar(108); # l
-  putchar( 97); # a
-  putchar( 98); # b
-  putchar(101); # e
-  putchar(108); # l
-  putchar(C_SPC()); #  
-  putchar(101); # e
-  putchar(110); # n
-  putchar(100); # d
-  putchar( 95); # _
-  putchar(101); # e
-  putchar(113); # q
-  putchar( 95); # _
-  putchar( 49); # 1
-  putchar(C_LF());
+  asm_label(&label_end);
 end
 
 # TODO _gen_expr_neq
