@@ -287,6 +287,18 @@ def to_lvar_addr(dest_, names_, name_)
   aset(dest_, 7,   0);
 end
 
+def render_label_id(label_, id, dest_size)
+  var [2]underscore;
+  var [8]id_str;
+
+  aset(&underscore, 0, 95); # _
+  aset(&underscore, 1,  0);
+  str_append_with_check(label_, &underscore, dest_size);
+
+  unparse_int(&id_str, id);
+  str_append_with_check(label_, &id_str, dest_size);
+end
+
 # --------------------------------
 
 def gen_var(
