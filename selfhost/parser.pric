@@ -369,28 +369,28 @@ def _parse_expr_right(g_, expr_node_l_)
     return expr_node_l_;
   else
 
-  if (char_at(Token_get_val(t_), 0) == 59) #;
-    return expr_node_l_;
-  else
-
-    if (char_at(Token_get_val(t_), 0) == 43) # +
-      inc_token_index(g_); # TODO
-      expr_node_r_ = parse_expr(g_);
-
-      expr_els_ = NodeList_new(g_);
-
-      NodeList_add_str(g_, expr_els_, &str_plus);
-      NodeList_add(expr_els_, expr_node_l_);
-      NodeList_add(expr_els_, expr_node_r_);
-
-      return Node_new_list(g_, expr_els_);
+    if (char_at(Token_get_val(t_), 0) == 59) #;
+      return expr_node_l_;
     else
 
-      p_str(Token_get_val(t_));
-      panic(380); # _parse_expr_right
-    end
+      if (char_at(Token_get_val(t_), 0) == 43) # +
+        inc_token_index(g_); # TODO
+        expr_node_r_ = parse_expr(g_);
 
-  end
+        expr_els_ = NodeList_new(g_);
+
+        NodeList_add_str(g_, expr_els_, &str_plus);
+        NodeList_add(expr_els_, expr_node_l_);
+        NodeList_add(expr_els_, expr_node_r_);
+
+        return Node_new_list(g_, expr_els_);
+      else
+
+        p_str(Token_get_val(t_));
+        panic(380); # _parse_expr_right
+      end
+
+    end
 
   end
 end
@@ -410,26 +410,26 @@ def parse_expr(g_)
     return _parse_expr_right(g_, expr_node_l_);
   else
 
-  case
-  when (Token_kind_eq(t_left_, TOKEN_KIND__INT()))
-    inc_token_index(g_);
+    case
+    when (Token_kind_eq(t_left_, TOKEN_KIND__INT()))
+      inc_token_index(g_);
 
-    n = parse_int(Token_get_val(t_left_));
-    expr_node_l_ = Node_new_int(g_, n);
+      n = parse_int(Token_get_val(t_left_));
+      expr_node_l_ = Node_new_int(g_, n);
 
-    return _parse_expr_right(g_, expr_node_l_);
+      return _parse_expr_right(g_, expr_node_l_);
 
-  when (Token_kind_eq(t_left_, TOKEN_KIND__IDENT()))
-    inc_token_index(g_);
+    when (Token_kind_eq(t_left_, TOKEN_KIND__IDENT()))
+      inc_token_index(g_);
 
-    expr_node_l_ = Node_new_str(g_, Token_get_val(t_left_));
+      expr_node_l_ = Node_new_str(g_, Token_get_val(t_left_));
 
-    return _parse_expr_right(g_, expr_node_l_);
+      return _parse_expr_right(g_, expr_node_l_);
 
-  else
-    Json_print(Token_to_plain(g_, t_left_));
-    panic(433); # not yet impl
-  end
+    else
+      Json_print(Token_to_plain(g_, t_left_));
+      panic(433); # not yet impl
+    end
 
   end
 
