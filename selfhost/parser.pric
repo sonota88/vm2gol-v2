@@ -144,57 +144,27 @@ def consume_sym_one_char(g_, c)
 end
 
 def consume_sym_paren_l(g_)
-  var [2]str;
-
-  aset(&str, 0, 40); # (
-  aset(&str, 1,  0);
-
-  consume_sym(g_, &str);
+  consume_sym_one_char(g_, 40); # (
 end
 
 def consume_sym_paren_r(g_)
-  var [2]str;
-
-  aset(&str, 0, 41); # )
-  aset(&str, 1,  0);
-
-  consume_sym(g_, &str);
+  consume_sym_one_char(g_, 41); # )
 end
 
 def consume_sym_cbracket_l(g_)
-  var [2]str;
-
-  aset(&str, 0, 123); # {
-  aset(&str, 1,   0);
-
-  consume_sym(g_, &str);
+  consume_sym_one_char(g_, 123); # {
 end
 
 def consume_sym_cbracket_r(g_)
-  var [2]str;
-
-  aset(&str, 0, 125); # }
-  aset(&str, 1,   0);
-
-  consume_sym(g_, &str);
+  consume_sym_one_char(g_, 125); # }
 end
 
 def consume_sym_semicolon(g_)
-  var [2]str;
-
-  aset(&str, 0, 59); # ;
-  aset(&str, 1,  0);
-
-  consume_sym(g_, &str);
+  consume_sym_one_char(g_, 59); # ;
 end
 
 def consume_sym_equal(g_)
-  var [2]str;
-
-  aset(&str, 0, 61); # =
-  aset(&str, 1,  0);
-
-  consume_sym(g_, &str);
+  consume_sym_one_char(g_, 61); # =
 end
 
 # --------------------------------
