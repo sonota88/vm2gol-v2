@@ -387,7 +387,7 @@ def _parse_expr_right(g_, expr_node_l_)
     else
 
       p_str(Token_get_val(t_));
-      panic(380);
+      panic(380); # _parse_expr_right
     end
 
   end
