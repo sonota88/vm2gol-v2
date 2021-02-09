@@ -351,8 +351,8 @@ def _gen_expr_eq()
   var [6]str_reg_b; str_set_reg_b(&str_reg_b);
   var [2]str_0;
   var [2]str_1;
-  var [9]label_end;
-  var [7]label_then;
+  var label_end_size = 9; var [9]label_end;
+  var label_then_size = 7; var [7]label_then;
 
   aset(&str_0, 0, 48); # 0
   aset(&str_0, 1,  0);
@@ -366,17 +366,15 @@ def _gen_expr_eq()
   aset(&label_end, 3,  95); # _
   aset(&label_end, 4, 101); # e
   aset(&label_end, 5, 113); # q
-  aset(&label_end, 6,  95); # _
-  aset(&label_end, 7,  49); # 1
-  aset(&label_end, 8,   0);
+  aset(&label_end, 6,   0);
+  render_label_id(&label_end, 1, label_end_size);
 
   aset(&label_then, 0, 116); # t
   aset(&label_then, 1, 104); # h
   aset(&label_then, 2, 101); # e
   aset(&label_then, 3, 110); # n
-  aset(&label_then, 4,  95); # _
-  aset(&label_then, 5,  49); # 1
-  aset(&label_then, 6,   0);
+  aset(&label_then, 4,   0);
+  render_label_id(&label_then, 1, label_then_size);
 
   asm_pop(&str_reg_b);
   asm_pop(&str_reg_a);
