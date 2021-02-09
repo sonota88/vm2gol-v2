@@ -298,29 +298,19 @@ end
 # TODO _gen_expr_mult
 
 def _gen_expr_eq()
-  asm_indent();
-  putchar(112); # p
-  putchar(111); # o
-  putchar(112); # p
-  putchar(C_SPC()); #  
-  putchar(114); # r
-  putchar(101); # e
-  putchar(103); # g
-  putchar( 95); # _
-  putchar( 98); # b
-  putchar(C_LF());
+  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
+  var [6]str_reg_b; str_set_reg_b(&str_reg_b);
+  var [2]str_0;
+  var [2]str_1;
 
-  asm_indent();
-  putchar(112); # p
-  putchar(111); # o
-  putchar(112); # p
-  putchar(C_SPC()); #  
-  putchar(114); # r
-  putchar(101); # e
-  putchar(103); # g
-  putchar( 95); # _
-  putchar( 97); # a
-  putchar(C_LF());
+  aset(&str_0, 0, 48); # 0
+  aset(&str_0, 1,  0);
+
+  aset(&str_1, 0, 49); # 1
+  aset(&str_1, 1,  0);
+
+  asm_pop(&str_reg_b);
+  asm_pop(&str_reg_a);
 
   asm_indent();
   putchar( 99); # c
@@ -349,18 +339,7 @@ def _gen_expr_eq()
   putchar( 49); # 1
   putchar(C_LF());
 
-  asm_indent();
-  putchar( 99); # c
-  putchar(112); # p
-  putchar(C_SPC()); #  
-  putchar( 48); # 0
-  putchar(C_SPC()); #  
-  putchar(114); # r
-  putchar(101); # e
-  putchar(103); # g
-  putchar( 95); # _
-  putchar( 97); # a
-  putchar(C_LF());
+  asm_cp(&str_0, &str_reg_a);
 
   asm_indent();
   putchar(106); # j
@@ -392,18 +371,7 @@ def _gen_expr_eq()
   putchar( 49); # 1
   putchar(C_LF());
 
-  asm_indent();
-  putchar( 99); # c
-  putchar(112); # p
-  putchar(C_SPC()); #  
-  putchar( 49); # 1
-  putchar(C_SPC()); #  
-  putchar(114); # r
-  putchar(101); # e
-  putchar(103); # g
-  putchar( 95); # _
-  putchar( 97); # a
-  putchar(C_LF());
+  asm_cp(&str_1, &str_reg_a);
 
   putchar(108); # l
   putchar( 97); # a
