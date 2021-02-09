@@ -296,7 +296,132 @@ def _gen_expr_add()
 end
 
 # TODO _gen_expr_mult
-# TODO _gen_expr_eq
+
+def _gen_expr_eq()
+  asm_indent();
+  putchar(112); # p
+  putchar(111); # o
+  putchar(112); # p
+  putchar(C_SPC()); #  
+  putchar(114); # r
+  putchar(101); # e
+  putchar(103); # g
+  putchar( 95); # _
+  putchar( 98); # b
+  putchar(C_LF());
+
+  asm_indent();
+  putchar(112); # p
+  putchar(111); # o
+  putchar(112); # p
+  putchar(C_SPC()); #  
+  putchar(114); # r
+  putchar(101); # e
+  putchar(103); # g
+  putchar( 95); # _
+  putchar( 97); # a
+  putchar(C_LF());
+
+  asm_indent();
+  putchar( 99); # c
+  putchar(111); # o
+  putchar(109); # m
+  putchar(112); # p
+  putchar( 97); # a
+  putchar(114); # r
+  putchar(101); # e
+  putchar(C_LF());
+
+  asm_indent();
+  putchar(106); # j
+  putchar(117); # u
+  putchar(109); # m
+  putchar(112); # p
+  putchar( 95); # _
+  putchar(101); # e
+  putchar(113); # q
+  putchar(C_SPC()); #  
+  putchar(116); # t
+  putchar(104); # h
+  putchar(101); # e
+  putchar(110); # n
+  putchar( 95); # _
+  putchar( 49); # 1
+  putchar(C_LF());
+
+  asm_indent();
+  putchar( 99); # c
+  putchar(112); # p
+  putchar(C_SPC()); #  
+  putchar( 48); # 0
+  putchar(C_SPC()); #  
+  putchar(114); # r
+  putchar(101); # e
+  putchar(103); # g
+  putchar( 95); # _
+  putchar( 97); # a
+  putchar(C_LF());
+
+  asm_indent();
+  putchar(106); # j
+  putchar(117); # u
+  putchar(109); # m
+  putchar(112); # p
+  putchar(C_SPC()); #  
+  putchar(101); # e
+  putchar(110); # n
+  putchar(100); # d
+  putchar( 95); # _
+  putchar(101); # e
+  putchar(113); # q
+  putchar( 95); # _
+  putchar( 49); # 1
+  putchar(C_LF());
+
+  putchar(108); # l
+  putchar( 97); # a
+  putchar( 98); # b
+  putchar(101); # e
+  putchar(108); # l
+  putchar(C_SPC()); #  
+  putchar(116); # t
+  putchar(104); # h
+  putchar(101); # e
+  putchar(110); # n
+  putchar( 95); # _
+  putchar( 49); # 1
+  putchar(C_LF());
+
+  asm_indent();
+  putchar( 99); # c
+  putchar(112); # p
+  putchar(C_SPC()); #  
+  putchar( 49); # 1
+  putchar(C_SPC()); #  
+  putchar(114); # r
+  putchar(101); # e
+  putchar(103); # g
+  putchar( 95); # _
+  putchar( 97); # a
+  putchar(C_LF());
+
+  putchar(108); # l
+  putchar( 97); # a
+  putchar( 98); # b
+  putchar(101); # e
+  putchar(108); # l
+  putchar(C_SPC()); #  
+  putchar(101); # e
+  putchar(110); # n
+  putchar(100); # d
+  putchar( 95); # _
+  putchar(101); # e
+  putchar(113); # q
+  putchar( 95); # _
+  putchar( 49); # 1
+  putchar(C_LF());
+end
+
 # TODO _gen_expr_neq
 
 def _gen_expr_binary(fn_arg_names_, lvar_names_, expr_)
@@ -305,6 +430,11 @@ def _gen_expr_binary(fn_arg_names_, lvar_names_, expr_)
   var arg_l_ = NodeList_get(expr_els_, 1);
   var arg_r_ = NodeList_get(expr_els_, 2);
   var [6]str_reg_a;
+  var [3]str_eq_op;
+
+  aset(&str_eq_op, 0, 101); # e
+  aset(&str_eq_op, 1, 113); # q
+  aset(&str_eq_op, 2,   0);
 
   str_set_reg_a(&str_reg_a);
 
@@ -317,6 +447,8 @@ def _gen_expr_binary(fn_arg_names_, lvar_names_, expr_)
   case
   when (char_at(op_str_, 0) == 43) # +
     _gen_expr_add();
+  when (str_eq(op_str_, &str_eq_op)) # eq
+    _gen_expr_eq();
   else
     panic(284); # _gen_expr_binary: not yet impl
   end
