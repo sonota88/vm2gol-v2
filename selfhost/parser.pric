@@ -134,6 +134,15 @@ end
 
 # --------------------------------
 
+def consume_sym_one_char(g_, c)
+  var [2]str;
+
+  aset(&str, 0, c);
+  aset(&str, 1, 0);
+
+  consume_sym(g_, &str);
+end
+
 def consume_sym_paren_l(g_)
   var [2]str;
 
