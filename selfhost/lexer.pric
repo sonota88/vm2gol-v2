@@ -190,8 +190,11 @@ end
 
 def match_symbol(input_, pos_from)
   var c = char_at(input_, pos_from);
+  var c1 = char_at(input_, pos_from + 1);
 
   case
+  when (__and(c == 61, c1 == 61)) # ==
+    return 2;
   when (c == 40) # (
     return 1;
   when (c == 41) # )
