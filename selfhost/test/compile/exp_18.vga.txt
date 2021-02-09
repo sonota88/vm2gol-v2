@@ -1,0 +1,27 @@
+  call main
+  exit
+
+label main
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+  sub_sp 1
+  cp 2 reg_a
+  push reg_a
+  cp 3 reg_a
+  push reg_a
+  pop reg_b
+  pop reg_a
+  compare
+  jump_eq then_1
+  cp 0 reg_a
+  jump end_eq_1
+label then_1
+  cp 1 reg_a
+label end_eq_1
+  cp reg_a [bp:-1]
+
+  cp bp sp
+  pop bp
+  ret
