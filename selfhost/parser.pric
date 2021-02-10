@@ -654,15 +654,24 @@ def parse_stmt(g_)
   end
 end
 
-# TODO parse multi stmts
 def parse_stmts(g_)
   var stmt_;
   var stmts_;
+  var do_break = FALSE();
+  var t_;
 
   stmts_ = NodeList_new(g_);
 
-  stmt_ = parse_stmt(g_);
-  NodeList_add_list(g_, stmts_, stmt_);
+  while (__not(do_break))
+    t_ = peek(g_, 0);
+
+    if (char_at(Token_get_val(t_), 0) == 125) # }
+      do_break = TRUE();
+    else
+      stmt_ = parse_stmt(g_);
+      NodeList_add_list(g_, stmts_, stmt_);
+    end
+  end
 
   return stmts_;
 end
