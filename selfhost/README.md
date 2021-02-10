@@ -1,4 +1,4 @@
-Ruby版 v3 コンパイラ
+第1世代: Ruby版 v3 コンパイラ
 
 ```sh
 # テスト
@@ -14,7 +14,7 @@ rake test_v3
 ../pricrun ../example.pric
 ```
 
-Pric版 v2 コンパイラ
+第2世代: Pric版 v2 コンパイラ
 
 ```sh
 # テスト
