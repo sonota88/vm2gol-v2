@@ -189,27 +189,27 @@ def match_ident(input_, pos_from)
 end
 
 def match_symbol(input_, pos_from)
-  var c = char_at(input_, pos_from);
+  var c0 = char_at(input_, pos_from);
   var c1 = char_at(input_, pos_from + 1);
 
   case
-  when (__and(c == 61, c1 == 61)) # ==
+  when (__and(c0 == 61, c1 == 61)) # ==
     return 2;
-  when (c == 40) # (
+  when (c0 == 40) # (
     return 1;
-  when (c == 41) # )
+  when (c0 == 41) # )
     return 1;
-  when (c == 43) # +
+  when (c0 == 43) # +
     return 1;
-  when (c == 44) # ,
+  when (c0 == 44) # ,
     return 1;
-  when (c == 59) # ;
+  when (c0 == 59) # ;
     return 1;
-  when (c == 61) # =
+  when (c0 == 61) # =
     return 1;
-  when (c == 123) # {
+  when (c0 == 123) # {
     return 1;
-  when (c == 125) # }
+  when (c0 == 125) # }
     return 1;
   else
     return 0;
