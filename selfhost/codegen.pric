@@ -320,6 +320,7 @@ def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
 
   var label_id;
   var cond_expr_node_ = NodeList_get(stmt_, 1);
+  var stmts_ = NodeList_get_as_list(stmt_, 2);
 
   aset(&s_0, 0, 48); # 0
   aset(&s_0, 1,  0);
@@ -371,27 +372,7 @@ def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
 
 
   asm_label(&label_true);
-
-  asm_cp(&s_1, &s_reg_a);
-
-  asm_indent();
-  putchar( 99); # c
-  putchar(112); # p
-  putchar(C_SPC()); #  
-  putchar(114); # r
-  putchar(101); # e
-  putchar(103); # g
-  putchar( 95); # _
-  putchar( 97); # a
-  putchar(C_SPC()); #  
-  putchar( 91); # [
-  putchar( 98); # b
-  putchar(112); # p
-  putchar( 58); # :
-  putchar( 45); # -
-  putchar( 49); # 1
-  putchar( 93); # ]
-  putchar(C_LF());
+  gen_stmts(g_, fn_arg_names_, lvar_names_, stmts_);
 
   asm_jump(&label_begin);
 
@@ -641,7 +622,16 @@ def gen_stmt(g_, fn_arg_names_, lvar_names_, stmt_)
   end
 end
 
-# TODO gen_stmts
+def gen_stmts(g_, fn_arg_names_, lvar_names_, stmts_)
+  var i = 0;
+  var stmt_;
+
+  while (i < NodeList_size(stmts_))
+    stmt_ = NodeList_get_as_list(stmts_, i);
+    gen_stmt(g_, fn_arg_names_, lvar_names_, stmt_);
+    i = i + 1;
+  end
+end
 
 def gen_func(g_, func_)
   var fn_name_;
