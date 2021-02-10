@@ -301,12 +301,7 @@ end
 
 # --------------------------------
 
-def gen_var(
-      g_,
-      fn_arg_names_,
-      lvar_names_,
-      stmt_
-    )
+def gen_var(g_, fn_arg_names_, lvar_names_, stmt_)
   var set_stmt_;
   var [4]str_set;
 
@@ -429,12 +424,7 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   end
 end
 
-def gen_expr(
-      g_,
-      fn_arg_names_,
-      lvar_names_,
-      expr_
-    )
+def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
   var [10]cp_src;
   var [6]str_reg_a;
   var expr;
@@ -530,11 +520,7 @@ def gen_call_set(g_, fn_arg_names_, lvar_names_, stmt_)
   asm_cp(&str_reg_a, &lvar_addr);
 end
 
-def gen_set(
-      g_,
-      fn_arg_names_,
-      lvar_names_, stmt_
-    )
+def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var [8]dest;
   var [8]lvar_name_;
   var [6]str_reg_a;
@@ -565,12 +551,7 @@ def gen_vm_comment(stmt_)
   asm_vm_comment(NodeList_get_as_str(stmt_, 1));
 end
 
-def gen_stmt(
-      g_,
-      fn_arg_names_,
-      lvar_names_,
-      stmt_
-    )
+def gen_stmt(g_, fn_arg_names_, lvar_names_, stmt_)
   var head_str_ = NodeList_get_as_str(stmt_, 0);
 
   case
