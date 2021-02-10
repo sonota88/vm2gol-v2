@@ -297,6 +297,9 @@ def str_append_with_check(dest_, str_, dest_size)
     end
     aset(dest_, dest_offset + append_size, 0);
   else
+    p_int(dest_offset);
+    p_int(append_size);
+    p_int(dest_size);
     panic(281); # str_append_with_check: failed to append
   end
 end
