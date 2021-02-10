@@ -113,7 +113,7 @@ def consume_kw(g_, str_)
     p_int(Token_get_kind(t_));
     print_s(Token_get_val(t_));
     print_s(str_);
-    panic(98);
+    panic(98); # consume_kw
   end
 end
 
