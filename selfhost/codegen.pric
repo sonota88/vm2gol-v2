@@ -306,7 +306,98 @@ def gen_var(g_, fn_arg_names_, lvar_names_, stmt_)
 end
 
 # TODO gen_case
-# TODO gen_while
+
+def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [6]s_reg_b; str_set_reg_b(&s_reg_b);
+
+  var [2]s_0;
+  var [2]s_1;
+
+  var label_begin_size = 11; var [11]label_begin; # while_xxxx
+  var label_end_size = 15; var [15]label_end; # end_while_xxxx
+  var label_true_size = 10; var [10]label_true; # true_xxxx
+
+  var label_id;
+  var cond_expr_node_ = NodeList_get(stmt_, 1);
+
+  aset(&s_0, 0, 48); # 0
+  aset(&s_0, 1,  0);
+
+  aset(&s_1, 0, 49); # 1
+  aset(&s_1, 1,  0);
+
+  inc_label_id(g_);
+  label_id = get_label_id(g_);
+
+  aset(&label_begin, 0, 119); # w
+  aset(&label_begin, 1, 104); # h
+  aset(&label_begin, 2, 105); # i
+  aset(&label_begin, 3, 108); # l
+  aset(&label_begin, 4, 101); # e
+  aset(&label_begin, 5,   0);
+  render_label_id(&label_begin, label_id, label_begin_size);
+
+  aset(&label_end,  0, 101); # e
+  aset(&label_end,  1, 110); # n
+  aset(&label_end,  2, 100); # d
+  aset(&label_end,  3,  95); # _
+  aset(&label_end,  4, 119); # w
+  aset(&label_end,  5, 104); # h
+  aset(&label_end,  6, 105); # i
+  aset(&label_end,  7, 108); # l
+  aset(&label_end,  8, 101); # e
+  aset(&label_end, 9,   0);
+  render_label_id(&label_end, label_id, label_end_size);
+
+  aset(&label_true, 0, 116); # t
+  aset(&label_true, 1, 114); # r
+  aset(&label_true, 2, 117); # u
+  aset(&label_true, 3, 101); # e
+  aset(&label_true, 4,   0);
+  render_label_id(&label_true, label_id, label_true_size);
+
+  asm_label(&label_begin);
+
+  gen_expr(g_, fn_arg_names_, lvar_names_, cond_expr_node_);
+
+  asm_cp(&s_1, &s_reg_b);
+
+  asm_compare();
+
+  asm_jump_eq(&label_true);
+
+  asm_jump(&label_end);
+
+
+  asm_label(&label_true);
+
+  asm_cp(&s_1, &s_reg_a);
+
+  asm_indent();
+  putchar( 99); # c
+  putchar(112); # p
+  putchar(C_SPC()); #  
+  putchar(114); # r
+  putchar(101); # e
+  putchar(103); # g
+  putchar( 95); # _
+  putchar( 97); # a
+  putchar(C_SPC()); #  
+  putchar( 91); # [
+  putchar( 98); # b
+  putchar(112); # p
+  putchar( 58); # :
+  putchar( 45); # -
+  putchar( 49); # 1
+  putchar( 93); # ]
+  putchar(C_LF());
+
+  asm_jump(&label_begin);
+
+
+  asm_label(&label_end);
+end
 
 def _gen_expr_add()
   var [6]str_reg_a; str_set_reg_a(&str_reg_a);
@@ -543,6 +634,8 @@ def gen_stmt(g_, fn_arg_names_, lvar_names_, stmt_)
     gen_call_set(g_, fn_arg_names_, lvar_names_, stmt_);
   when (str_eq_return(head_str_))
     gen_return(g_, fn_arg_names_, lvar_names_, stmt_);
+  when (str_eq_while(head_str_))
+    gen_while(g_, fn_arg_names_, lvar_names_, stmt_);
   else
     panic(365); # gen_stmt
   end
