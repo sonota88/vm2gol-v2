@@ -220,27 +220,19 @@ def asm_vm_comment(vm_comment_)
 end
 
 def asm_fn_prologue()
-  var [10]temp_str;
-  var [10]temp_str2;
+  var [3]s_bp; str_set_bp(&s_bp);
+  var [3]s_sp; str_set_sp(&s_sp);
 
-  str_set_bp(&temp_str);
-  asm_push(&temp_str);
-
-  str_set_sp(&temp_str);
-  str_set_bp(&temp_str2);
-  asm_cp(&temp_str, &temp_str2);
+  asm_push(&s_bp);
+  asm_cp(&s_sp, &s_bp);
 end
 
 def asm_fn_epilogue()
-  var [10]temp_str;
-  var [10]temp_str2;
+  var [3]s_bp; str_set_bp(&s_bp);
+  var [3]s_sp; str_set_sp(&s_sp);
 
-  str_set_bp(&temp_str);
-  str_set_sp(&temp_str2);
-  asm_cp(&temp_str, &temp_str2);
-
-  str_set_bp(&temp_str);
-  asm_pop(&temp_str);
+  asm_cp(&s_bp, &s_sp);
+  asm_pop(&s_bp);
 end
 
 # --------------------------------
