@@ -239,7 +239,6 @@ end
 
 def to_fn_arg_addr(dest_, names_, name_)
   var idx = Names_index(names_, name_);
-  # assert(0, idx, 219);
 
   aset(dest_, 0,  91); # [
   aset(dest_, 1,  98); # b
@@ -269,8 +268,7 @@ def to_lvar_addr(dest_, names_, name_)
   if ((idx + 1) < 10)
     aset(dest_, 5, i_to_c(idx + 1));
   else
-    # not yet supported
-    panic(181);
+    panic(181); # to_lvar_addr: not yet supported
   end
 
   aset(dest_, 6,  93); # ]
@@ -338,14 +336,14 @@ def _gen_expr_eq(g_)
   var label_then_size = 7; var [7]label_then;
   var label_id;
 
-  inc_label_id(g_);
-  label_id = get_label_id(g_);
-
   aset(&str_0, 0, 48); # 0
   aset(&str_0, 1,  0);
 
   aset(&str_1, 0, 49); # 1
   aset(&str_1, 1,  0);
+
+  inc_label_id(g_);
+  label_id = get_label_id(g_);
 
   aset(&label_end, 0, 101); # e
   aset(&label_end, 1, 110); # n
