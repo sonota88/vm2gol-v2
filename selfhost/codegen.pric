@@ -192,12 +192,10 @@ def asm_jump_eq(label_)
 end
 
 def asm_vm_comment(vm_comment_)
-  var [5] str__cmt;
+  var [5] str__cmt; str_set__cmt(&str__cmt);
   var vm_comment_size = 11; var [11]vm_comment;
   var i;
   var c;
-
-  str_set__cmt(&str__cmt);
 
   str_cp_with_check(
     &vm_comment, vm_comment_,
@@ -303,13 +301,11 @@ end
 
 def gen_var(g_, fn_arg_names_, lvar_names_, stmt_)
   var set_stmt_;
-  var [4]str_set;
+  var [4]str_set; str_set_set(&str_set);
 
   asm_sub_sp(1);
 
   if (NodeList_size(stmt_) == 3)
-    str_set_set(&str_set);
-
     set_stmt_ = NodeList_new(g_);
     NodeList_add_str(g_, set_stmt_, &str_set);
     NodeList_add(set_stmt_, NodeList_get(stmt_, 1));
@@ -399,14 +395,12 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   var op_str_ = NodeList_get_as_str(expr_els_, 0);
   var arg_l_ = NodeList_get(expr_els_, 1);
   var arg_r_ = NodeList_get(expr_els_, 2);
-  var [6]str_reg_a;
+  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var [3]str_eq_op;
 
   aset(&str_eq_op, 0, 101); # e
   aset(&str_eq_op, 1, 113); # q
   aset(&str_eq_op, 2,   0);
-
-  str_set_reg_a(&str_reg_a);
 
   gen_expr(g_, fn_arg_names_, lvar_names_, arg_l_);
   asm_push(&str_reg_a);
@@ -426,11 +420,9 @@ end
 
 def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
   var [10]cp_src;
-  var [6]str_reg_a;
+  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var expr;
   var str_;
-
-  str_set_reg_a(&str_reg_a);
 
   case
   when (Node_kind_eq(expr_, NODE_KIND__INT()))
@@ -470,9 +462,7 @@ def gen_call(g_, fn_arg_names_, lvar_names_, stmt_)
   var args_;
   var i;
   var node_;
-  var [6]str_reg_a;
-
-  str_set_reg_a(&str_reg_a);
+  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
 
   fn_name_ = NodeList_get_as_str(stmt_, 1);
   args_ = NodeList_rest(g_, stmt_, 2);
@@ -523,10 +513,8 @@ end
 def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var [8]dest;
   var [8]lvar_name_;
-  var [6]str_reg_a;
+  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var expr_node_;
-
-  str_set_reg_a(&str_reg_a);
 
   lvar_name_ = NodeList_get_as_str(stmt_, 1);
   expr_node_ = NodeList_get(stmt_, 2);
