@@ -581,7 +581,30 @@ end
 
 # TODO _parse_when_clause
 # TODO parse_case
-# TODO parse_while
+
+def parse_while(g_)
+  var [6]s_while; str_set_while(&s_while);
+  var stmt_;
+  var expr_node_;
+  var stmts_;
+
+  consume_kw(g_, &s_while);
+
+  consume_sym_paren_l(g_); # (
+  expr_node_ = parse_expr(g_);
+  consume_sym_paren_r(g_); # )
+
+  consume_sym_cbracket_l(g_); # {
+  stmts_ = parse_stmts(g_);
+  consume_sym_cbracket_r(g_); # }
+
+  stmt_ = NodeList_new(g_);
+  NodeList_add_str(g_, stmt_, &s_while);
+  NodeList_add(stmt_, expr_node_);
+  NodeList_add_list(g_, stmt_, stmts_);
+
+  return stmt_;
+end
 
 def parse_vm_comment(g_)
   var t_;
@@ -623,13 +646,27 @@ def parse_stmt(g_)
     return parse_return(g_);
   when (str_eq_call_set(Token_get_val(t_)))
     return parse_call_set(g_);
+  when (str_eq_while(Token_get_val(t_)))
+    return parse_while(g_);
   else
     p_str(Token_get_val(t_));
     panic(421); # parse_stmt
   end
 end
 
-# TODO parse_stmts
+# TODO parse multi stmts
+def parse_stmts(g_)
+  var stmt_;
+  var stmts_;
+
+  stmts_ = NodeList_new(g_);
+
+  stmt_ = parse_stmt(g_);
+  NodeList_add_list(g_, stmts_, stmt_);
+
+  return stmts_;
+end
+
 # TODO parse_top_stmt
 
 def parse_top_stmts(g_)
