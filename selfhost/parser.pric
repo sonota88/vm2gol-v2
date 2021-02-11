@@ -35,7 +35,7 @@ def read_tokens(g_, input_)
   var pos = 0;
   var sep_i;
   var [6]kind_str;
-  var [64]value_str;
+  var value_str_size = 64; var [64]value_str;
   var t_;
   var ti;
   check_heap_stack_overlap(g_);
@@ -50,7 +50,7 @@ def read_tokens(g_, input_)
 
       sep_i = char_index(&line, 58, 0); # :
       substr(&kind_str, &line, 0, sep_i);
-      substr(&value_str, &line, sep_i + 1, str_size(&line));
+      substr_with_check(&value_str, &line, sep_i + 1, str_size(&line), value_str_size);
 
       t_ = Token_new(g_, &kind_str, &value_str);
       set_token(g_, ti, t_);
