@@ -237,9 +237,13 @@ def match_symbol(input_, pos_from)
   case
   when (__and(c0 == 61, c1 == 61)) # ==
     return 2;
+  when (__and(c0 == 33, c1 == 61)) # !=
+    return 2;
   when (c0 == 40) # (
     return 1;
   when (c0 == 41) # )
+    return 1;
+  when (c0 == 42) # *
     return 1;
   when (c0 == 43) # +
     return 1;
