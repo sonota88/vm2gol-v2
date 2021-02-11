@@ -84,10 +84,10 @@ end
 
 # --------------------------------
 
-def NODE_LIST__TYPE_SIZE () return 6; end
+def NODE_LIST__TYPE_SIZE () return 12; end
 
 def NODE_LIST__SIZE () return 0; end
-def NODE_LIST__ITEMS() return 1; end
+def NODE_LIST__ITEMS() return 1; end # 1..11
 
 def NodeList_new(g_)
   var self_ = allocate(g_, NODE_LIST__TYPE_SIZE());
@@ -279,13 +279,13 @@ end
 
 # --------------------------------
 
-def NAMES__TYPE_SIZE() return 25; end
+def NAMES__TYPE_SIZE() return 33; end
 
 def NAMES__STR_SIZE_MAX () return 8; end
-def NAMES__NUM_STRS_MAX () return 3; end
+def NAMES__NUM_STRS_MAX () return 4; end
 
 def NAMES__SIZE () return 0; end
-def NAMES__STRS() return 1; end # 1..24(= 8 * 3)
+def NAMES__STRS() return 1; end # 1..32(= 8 * 4)
 
 def Names_new(g_)
   var self_ = allocate(g_, NAMES__TYPE_SIZE());

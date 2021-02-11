@@ -1003,11 +1003,11 @@ def inc_label_id(g_)
   *(g_ + GO_LABEL_ID()) = get_label_id(g_) + 1;
 end
 
-def INPUT_MAX() return 600; end
+def INPUT_MAX() return 1000; end
 
 def main()
   var [2]g;
-  var [600]input; # INPUT_MAX
+  var [1000]input; # INPUT_MAX
   var ast_;
 
   # init globals

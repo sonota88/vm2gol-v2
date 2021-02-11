@@ -3,7 +3,7 @@
 #include lib/std.pric
 #include lib/words.pric
 
-def INPUT_MAX() return 300; end
+def INPUT_MAX() return 5000; end
 
 def _match_kw_func(input_, pos)
   var size = 4;
@@ -352,7 +352,7 @@ end
 
 def main()
   var [1]g;
-  var [300]input; # INPUT_MAX
+  var [5000]input; # INPUT_MAX
   var pos = 0;
   var do_break = FALSE();
   var size;
