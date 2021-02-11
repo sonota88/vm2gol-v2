@@ -398,7 +398,8 @@ def _parse_expr_right(g_, expr_node_l_)
       return expr_node_l_;
     else
 
-      if (char_at(Token_get_val(t_), 0) == 43) # +
+      case
+      when (char_at(Token_get_val(t_), 0) == 43) # +
         inc_token_index(g_); # TODO
         expr_node_r_ = parse_expr(g_);
 
