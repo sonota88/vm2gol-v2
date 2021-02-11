@@ -219,6 +219,28 @@ def asm_vm_comment(vm_comment_)
   putchar(C_LF());
 end
 
+def asm_get_vram(vram_addr_, dest_)
+  var [9]temp_str;
+
+  aset(&temp_str, 0, 103); # g
+  aset(&temp_str, 1, 101); # e
+  aset(&temp_str, 2, 116); # t
+  aset(&temp_str, 3,  95); # _
+  aset(&temp_str, 4, 118); # v
+  aset(&temp_str, 5, 114); # r
+  aset(&temp_str, 6,  97); # a
+  aset(&temp_str, 7, 109); # m
+  aset(&temp_str, 8,   0);
+
+  asm_indent();
+  print_s(&temp_str);
+  putchar(C_SPC());
+  print_s(vram_addr_);
+  putchar(C_SPC());
+  print_s(dest_);
+  putchar(C_LF());
+end
+
 def asm_fn_prologue()
   var [3]s_bp; str_set_bp(&s_bp);
   var [3]s_sp; str_set_sp(&s_sp);
@@ -284,6 +306,28 @@ def render_label_id(label_, id, dest_size)
 
   unparse_int(&id_str, id);
   str_append_with_check(label_, &id_str, dest_size);
+end
+
+def match_vram(str_)
+  var [6]pattern;
+  var [6]temp_str;
+  var i;
+
+  aset(&pattern, 0, 118); # v
+  aset(&pattern, 1, 114); # r
+  aset(&pattern, 2,  97); # a
+  aset(&pattern, 3, 109); # m
+  aset(&pattern, 4,  91); # [
+  aset(&pattern, 5,   0);
+
+  substr_with_check(&temp_str, str_, 0, 5, 6);
+
+  if (str_eq(&temp_str, &pattern))
+    i = char_index(str_, 93, 0); # ]
+    return __sub(i, 5);
+  else
+    return 0;
+  end
 end
 
 # --------------------------------
@@ -654,6 +698,9 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
   var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var expr;
   var str_;
+  var [8]vram_param;
+  var size;
+  var [8]vram_addr;
 
   case
   when (Node_kind_eq(expr_, NODE_KIND__INT()))
@@ -672,6 +719,17 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
     when (Names_includes(lvar_names_, str_))
       to_lvar_addr(&cp_src, lvar_names_, str_);
       asm_cp(&cp_src, &str_reg_a);
+
+    when (0 < match_vram(str_))
+      size = match_vram(str_);
+      substr(&vram_param, str_, 5, 5 + size);
+
+      if (Names_includes(lvar_names_, &vram_param))
+        to_lvar_addr(&vram_addr, lvar_names_, &vram_param);
+        asm_get_vram(&vram_addr, &str_reg_a);
+      else
+        panic(703);
+      end
 
     else
       Json_print_node(expr_);
