@@ -353,8 +353,8 @@ def substr_with_check(dest_, src_, from, to, dest_size)
     p_int_kv(317, to);
     p_int_kv(318, __sub(to, from));
     p_int_kv(319, dest_size);
-    p_str(src_);
-    print_s(src_);
+    # p_str(src_);
+    # print_s(src_);
     panic(290); # src string is longer than dest
   end
 end

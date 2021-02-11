@@ -125,9 +125,9 @@ def consume_sym(g_, str_)
   ))
     inc_token_index(g_);
   else
+    p_str(str_); # expected
     p_int(Token_get_kind(t_));
-    p_str(Token_get_val(t_));
-    p_str(str_);
+    p_str(Token_get_val(t_)); # actual
     panic(117); # consume_sym: unexpected token
   end
 end

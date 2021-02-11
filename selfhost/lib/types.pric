@@ -239,7 +239,7 @@ def Token_new(g_, kind_str_, str_)
 
   if (TOKEN__VAL_SIZE() < (str_size(str_) + 1))
     p_str(str_);
-    panic(180);
+    panic(180); # Token_new: string is too long
   else
     str_cp(self_ + TOKEN__VAL(), str_);
   end
