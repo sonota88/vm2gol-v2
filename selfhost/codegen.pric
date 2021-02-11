@@ -241,6 +241,28 @@ def asm_get_vram(vram_addr_, dest_)
   putchar(C_LF());
 end
 
+def asm_set_vram(vram_addr_, val_)
+  var [9]temp_str;
+
+  aset(&temp_str, 0, 115); # s
+  aset(&temp_str, 1, 101); # e
+  aset(&temp_str, 2, 116); # t
+  aset(&temp_str, 3,  95); # _
+  aset(&temp_str, 4, 118); # v
+  aset(&temp_str, 5, 114); # r
+  aset(&temp_str, 6,  97); # a
+  aset(&temp_str, 7, 109); # m
+  aset(&temp_str, 8,   0);
+
+  asm_indent();
+  print_s(&temp_str);
+  putchar(C_SPC());
+  print_s(vram_addr_);
+  putchar(C_SPC());
+  print_s(val_);
+  putchar(C_LF());
+end
+
 def asm_fn_prologue()
   var [3]s_bp; str_set_bp(&s_bp);
   var [3]s_sp; str_set_sp(&s_sp);
@@ -801,14 +823,20 @@ end
 
 def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var [8]dest;
-  var [8]lvar_name_;
+  var [8]lvar_name_; # TODO rename
   var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var expr_node_;
+  var size;
+  var [8]vram_param;
+  var [8]vram_addr;
 
   lvar_name_ = NodeList_get_as_str(stmt_, 1);
   expr_node_ = NodeList_get(stmt_, 2);
 
   gen_expr(g_, fn_arg_names_, lvar_names_, expr_node_);
+
+  case
+  when (Names_includes(lvar_names_, lvar_name_))
 
   to_lvar_addr(
     &dest,
@@ -817,6 +845,23 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   );
 
   asm_cp(&str_reg_a, &dest);
+
+  when (0 < match_vram(lvar_name_))
+    size = match_vram(lvar_name_);
+    substr(&vram_param, lvar_name_, 5, 5 + size);
+
+    if (Names_includes(lvar_names_, &vram_param))
+      to_lvar_addr(&vram_addr, lvar_names_, &vram_param);
+      asm_set_vram(&vram_addr, &str_reg_a);
+    else
+      panic(703);
+    end
+
+  else
+    Json_print(stmt_);
+    p_str(&dest);
+    panic(823);
+  end
 end
 
 def gen_return(g_, fn_arg_names_, lvar_names_, stmt_)
