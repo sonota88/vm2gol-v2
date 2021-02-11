@@ -281,7 +281,7 @@ def match_comment(input_, pos_from)
 end
 
 def match_int(input_, pos_from)
-  var c = char_at(input_, 0);
+  var c = char_at(input_, pos_from);
   var pos;
 
   if (c == 45) # -
