@@ -231,6 +231,7 @@ def parse_func(g_)
   var [4]str_var;
   var [5]str_func;
   var args_;
+  var fn_name_;
   check_heap_stack_overlap(g_);
 
   str_set_var(&str_var);
@@ -244,7 +245,8 @@ def parse_func(g_)
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
-  NodeList_add_str(g_, func_stmt_, Token_get_val(t_));
+  fn_name_ = Token_get_val(t_);
+  NodeList_add_str(g_, func_stmt_, fn_name_);
 
   consume_sym_paren_l(g_); # (
 
