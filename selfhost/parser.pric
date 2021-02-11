@@ -400,7 +400,7 @@ def _parse_expr_right(g_, expr_node_l_)
 
       case
       when (char_at(Token_get_val(t_), 0) == 43) # +
-        inc_token_index(g_); # TODO
+        consume_sym(g_, &str_plus);
         expr_node_r_ = parse_expr(g_);
 
         expr_els_ = NodeList_new(g_);
@@ -412,7 +412,7 @@ def _parse_expr_right(g_, expr_node_l_)
         return Node_new_list(g_, expr_els_);
 
       when (char_at(Token_get_val(t_), 0) == 42) # *
-        inc_token_index(g_); # TODO
+        consume_sym(g_, &str_star);
         expr_node_r_ = parse_expr(g_);
 
         expr_els_ = NodeList_new(g_);
@@ -424,7 +424,7 @@ def _parse_expr_right(g_, expr_node_l_)
         return Node_new_list(g_, expr_els_);
 
       when (Token_val_eq(t_, &str_double_equal))
-        inc_token_index(g_); # TODO
+        consume_sym(g_, &str_double_equal);
         expr_node_r_ = parse_expr(g_);
 
         expr_els_ = NodeList_new(g_);
@@ -436,7 +436,7 @@ def _parse_expr_right(g_, expr_node_l_)
         return Node_new_list(g_, expr_els_);
 
       when (Token_val_eq(t_, &str_not_equal))
-        inc_token_index(g_); # TODO
+        consume_sym(g_, &str_not_equal);
         expr_node_r_ = parse_expr(g_);
 
         expr_els_ = NodeList_new(g_);
