@@ -314,9 +314,10 @@ def Names_add(self_, name_)
     panic(243);
   end
 
-  str_cp(
+  str_cp_with_check(
     Names_str_offset(self_, size),
-    name_
+    name_,
+    NAMES__STR_SIZE_MAX()
   );
 
   *(self_ + NAMES__SIZE()) = size + 1;
