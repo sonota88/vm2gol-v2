@@ -838,13 +838,13 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   case
   when (Names_includes(lvar_names_, lvar_name_))
 
-  to_lvar_addr(
-    &dest,
-    lvar_names_,
-    lvar_name_
-  );
+    to_lvar_addr(
+      &dest,
+      lvar_names_,
+      lvar_name_
+    );
 
-  asm_cp(&str_reg_a, &dest);
+    asm_cp(&str_reg_a, &dest);
 
   when (0 < match_vram(lvar_name_))
     size = match_vram(lvar_name_);
