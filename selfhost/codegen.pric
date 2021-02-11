@@ -491,7 +491,23 @@ def _gen_expr_add()
   putchar(C_LF());
 end
 
-# TODO _gen_expr_mult
+def _gen_expr_mult()
+  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
+  var [6]str_reg_b; str_set_reg_b(&str_reg_b);
+
+  asm_pop(&str_reg_b);
+  asm_pop(&str_reg_a);
+
+  asm_indent();
+  putchar(109); # m
+  putchar(117); # u
+  putchar(108); # l
+  putchar(116); # t
+  putchar( 95); # _
+  putchar( 97); # a
+  putchar( 98); # b
+  putchar(C_LF());
+end
 
 def _gen_expr_eq(g_)
   var [6]str_reg_a; str_set_reg_a(&str_reg_a);
@@ -544,7 +560,57 @@ def _gen_expr_eq(g_)
   asm_label(&label_end);
 end
 
-# TODO _gen_expr_neq
+def _gen_expr_neq(g_)
+  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
+  var [6]str_reg_b; str_set_reg_b(&str_reg_b);
+  var [2]str_0;
+  var [2]str_1;
+  var label_end_size = 10; var [10]label_end;
+  var label_then_size = 7; var [7]label_then;
+  var label_id;
+
+  aset(&str_0, 0, 48); # 0
+  aset(&str_0, 1,  0);
+
+  aset(&str_1, 0, 49); # 1
+  aset(&str_1, 1,  0);
+
+  inc_label_id(g_);
+  label_id = get_label_id(g_);
+
+  aset(&label_end, 0, 101); # e
+  aset(&label_end, 1, 110); # n
+  aset(&label_end, 2, 100); # d
+  aset(&label_end, 3,  95); # _
+  aset(&label_end, 4, 110); # n
+  aset(&label_end, 5, 101); # e
+  aset(&label_end, 6, 113); # q
+  aset(&label_end, 7,   0);
+  render_label_id(&label_end, label_id, label_end_size);
+
+  aset(&label_then, 0, 116); # t
+  aset(&label_then, 1, 104); # h
+  aset(&label_then, 2, 101); # e
+  aset(&label_then, 3, 110); # n
+  aset(&label_then, 4,   0);
+  render_label_id(&label_then, label_id, label_then_size);
+
+  asm_pop(&str_reg_b);
+  asm_pop(&str_reg_a);
+
+  asm_compare();
+
+  asm_jump_eq(&label_then);
+
+  asm_cp(&str_1, &str_reg_a);
+
+  asm_jump(&label_end);
+
+  asm_label(&label_then);
+  asm_cp(&str_0, &str_reg_a);
+
+  asm_label(&label_end);
+end
 
 def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   var expr_els_ = Node_get_list(expr_);
@@ -553,10 +619,16 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   var arg_r_ = NodeList_get(expr_els_, 2);
   var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var [3]str_eq_op;
+  var [4]str_neq_op;
 
   aset(&str_eq_op, 0, 101); # e
   aset(&str_eq_op, 1, 113); # q
   aset(&str_eq_op, 2,   0);
+
+  aset(&str_neq_op, 0, 110); # n
+  aset(&str_neq_op, 1, 101); # e
+  aset(&str_neq_op, 2, 113); # q
+  aset(&str_neq_op, 3,   0);
 
   gen_expr(g_, fn_arg_names_, lvar_names_, arg_l_);
   asm_push(&str_reg_a);
@@ -567,8 +639,12 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   case
   when (char_at(op_str_, 0) == 43) # +
     _gen_expr_add();
+  when (char_at(op_str_, 0) == 42) # *
+    _gen_expr_mult();
   when (str_eq(op_str_, &str_eq_op)) # eq
     _gen_expr_eq(g_);
+  when (str_eq(op_str_, &str_neq_op)) # neq
+    _gen_expr_neq(g_);
   else
     panic(284); # _gen_expr_binary: not yet impl
   end
