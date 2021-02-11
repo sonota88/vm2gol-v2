@@ -1,0 +1,14 @@
+// -*- mode: javascript -*-
+
+func f2(a, b) {
+}
+
+func f1(a) {
+  // ローカル変数、関数の引数を関数に渡す
+  var b = 1;
+  call f2(a, b);
+}
+
+func main() {
+  call f1();
+}
