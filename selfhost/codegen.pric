@@ -305,7 +305,101 @@ def gen_var(g_, fn_arg_names_, lvar_names_, stmt_)
   end
 end
 
-# TODO gen_case
+def gen_case(g_, fn_arg_names_, lvar_names_, stmt_)
+  var i;
+  var when_clauses_;
+  var when_clause_;
+  var cond_expr_node_;
+  var stmts_;
+  var label_id;
+
+  var label_size = 19; # end_when_xxxx_xxxx
+  var [19]label_end;
+  var [19]label_when_head;
+  var [19]label_end_when_head;
+  var [19]label_temp;
+
+  var [2]s_1;
+  var [6]s_reg_b; str_set_reg_b(&s_reg_b);
+  var when_index = -1;
+
+  aset(&s_1, 0, 49); # 1
+  aset(&s_1, 1,  0);
+
+  inc_label_id(g_);
+  label_id = get_label_id(g_);
+
+  aset(&label_end, 0, 101); # e
+  aset(&label_end, 1, 110); # n
+  aset(&label_end, 2, 100); # d
+  aset(&label_end, 3,  95); # _
+  aset(&label_end, 4,  99); # c
+  aset(&label_end, 5,  97); # a
+  aset(&label_end, 6, 115); # s
+  aset(&label_end, 7, 101); # e
+  aset(&label_end, 8,   0);
+  render_label_id(&label_end, label_id, label_size);
+
+  aset(&label_when_head, 0, 119); # w
+  aset(&label_when_head, 1, 104); # h
+  aset(&label_when_head, 2, 101); # e
+  aset(&label_when_head, 3, 110); # n
+  aset(&label_when_head, 4,   0);
+  render_label_id(&label_when_head, label_id, label_size);
+
+  aset(&label_end_when_head, 0, 101); # e
+  aset(&label_end_when_head, 1, 110); # n
+  aset(&label_end_when_head, 2, 100); # d
+  aset(&label_end_when_head, 3,  95); # _
+  aset(&label_end_when_head, 4, 119); # w
+  aset(&label_end_when_head, 5, 104); # h
+  aset(&label_end_when_head, 6, 101); # e
+  aset(&label_end_when_head, 7, 110); # n
+  aset(&label_end_when_head, 8,   0);
+  render_label_id(&label_end_when_head, label_id, label_size);
+
+  when_clauses_ = NodeList_rest(g_, stmt_, 1);
+
+  i = 0;
+  while (i < NodeList_size(when_clauses_))
+    when_index = when_index + 1;
+    when_clause_ = NodeList_get_as_list(when_clauses_, i);
+    cond_expr_node_ = NodeList_get(when_clause_, 0);
+    stmts_ = NodeList_rest(g_, when_clause_, 1);
+
+    gen_expr(g_, fn_arg_names_, lvar_names_, cond_expr_node_);
+    asm_cp(&s_1, &s_reg_b);
+    asm_compare();
+
+    # {label_when_head}_{when_index}
+    str_cp(&label_temp, &label_when_head);
+    render_label_id(&label_temp, when_index, label_size);
+    asm_jump_eq(&label_temp);
+
+    # {label_end_when_head}_{when_index}
+    str_cp(&label_temp, &label_end_when_head);
+    render_label_id(&label_temp, when_index, label_size);
+    asm_jump(&label_temp);
+
+    # {label_when_head}_{when_index}
+    str_cp(&label_temp, &label_when_head);
+    render_label_id(&label_temp, when_index, label_size);
+    asm_label(&label_temp);
+
+    gen_stmts(g_, fn_arg_names_, lvar_names_, stmts_);
+
+    asm_jump(&label_end);
+
+    # {label_end_when_head}_{when_index}
+    str_cp(&label_temp, &label_end_when_head);
+    render_label_id(&label_temp, when_index, label_size);
+    asm_label(&label_temp);
+
+    i = i + 1;
+  end
+
+  asm_label(&label_end);
+end
 
 def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
@@ -617,6 +711,8 @@ def gen_stmt(g_, fn_arg_names_, lvar_names_, stmt_)
     gen_return(g_, fn_arg_names_, lvar_names_, stmt_);
   when (str_eq_while(head_str_))
     gen_while(g_, fn_arg_names_, lvar_names_, stmt_);
+  when (str_eq_case(head_str_))
+    gen_case(g_, fn_arg_names_, lvar_names_, stmt_);
   else
     panic(365); # gen_stmt
   end
