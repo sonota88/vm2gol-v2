@@ -371,3 +371,15 @@ def Names_from_node_list(g_, list_)
 
   return names_;
 end
+
+def Names_to_plain(g_, self_)
+  var list_ = NodeList_new(g_);
+  var i = 0;
+
+  while (i < Names_size(self_))
+    NodeList_add_str(g_, list_, Names_get(self_, i));
+    i = i + 1;
+  end
+
+  return list_;
+end
