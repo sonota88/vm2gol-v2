@@ -193,7 +193,7 @@ def TokenKind_from_str(str_)
   when (__and(c0 == 105, c1 == 100)) # id
     return TOKEN_KIND__IDENT();
   else
-    panic(175);
+    panic(196);
   end
 end
 
@@ -219,7 +219,7 @@ def TokenKind_to_str(str_, kind)
     aset(str_, 1, 100); # d
     aset(str_, 2,   0);
   else
-    panic(175);
+    panic(222);
   end
 end
 
