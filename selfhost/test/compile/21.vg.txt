@@ -1,0 +1,7 @@
+// -*- mode: javascript -*-
+
+func main() {
+  // 式の左項が (...)
+  var a;
+  set a = (1 + 2) + 3;
+}
