@@ -6,14 +6,14 @@ def NODE_KIND__STR () return 2; end
 
 # --------------------------------
 
-def NODE__TYPE_SIZE() return 14; end
+def NODE__TYPE_SIZE() return 35; end
 
 def NODE__KIND() return 0; end
 def NODE__LIST() return 1; end
 def NODE__INT () return 2; end
 def NODE__STR () return 3; end
 
-def NODE__STR_SIZE() return 11; end
+def NODE__STR_SIZE() return 32; end
 
 def Node_new(g_)
   var self_ = allocate(g_, NODE__TYPE_SIZE());
@@ -225,12 +225,12 @@ end
 
 # --------------------------------
 
-def TOKEN__TYPE_SIZE () return 12; end
+def TOKEN__TYPE_SIZE () return 33; end
 
 def TOKEN__KIND() return 0; end
 def TOKEN__VAL () return 1; end
 
-def TOKEN__VAL_SIZE() return 11; end
+def TOKEN__VAL_SIZE() return 32; end
 
 def Token_new(g_, kind_str_, str_)
   var self_ = allocate(g_, TOKEN__TYPE_SIZE());

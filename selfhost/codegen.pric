@@ -193,7 +193,7 @@ end
 
 def asm_vm_comment(vm_comment_)
   var [5] str__cmt; str_set__cmt(&str__cmt);
-  var vm_comment_size = 11; var [11]vm_comment;
+  var vm_comment_size = 32; var [32]vm_comment;
   var i;
   var c;
 
@@ -768,7 +768,7 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
 end
 
 def gen_call(g_, fn_arg_names_, lvar_names_, stmt_)
-  var vm_comment_size = 10; var [10]vm_comment;
+  var vm_comment_size = 32; var [32]vm_comment;
   var fn_name_;
   var args_;
   var i;
