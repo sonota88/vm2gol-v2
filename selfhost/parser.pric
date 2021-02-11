@@ -5,8 +5,6 @@
 #include lib/types.pric
 #include lib/json.pric
 
-def INPUT_MAX() return 400; end
-
 def get_line_size(input_, pos_from)
   var pos_to;
   var lf_pos = char_index(input_, C_LF(), pos_from);
@@ -814,6 +812,8 @@ def GS_NUM_TOKENS() return 1; end
 def NUM_TOKENS_MAX()
   return GS_TOKENS();
 end
+
+def INPUT_MAX() return 500; end
 
 def main()
   var [53]g;
