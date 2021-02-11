@@ -106,16 +106,7 @@ def NodeList_add(self_, node_)
   var size = *(self_ + NODE_LIST__SIZE());
 
   if ((NODE_LIST__TYPE_SIZE() + -1) == size)
-    putchar( 99); # c
-    putchar( 97); # a
-    putchar(112); # p
-    putchar( 32); #  
-    putchar(111); # o
-    putchar(118); # v
-    putchar(101); # e
-    putchar(114); # r
-    putchar( 10); # LF
-    panic(114);
+    panic(114); # NodeList_add: capacity over
   end
 
   *(self_ + NODE_LIST__ITEMS() + size) = node_;
