@@ -30,7 +30,7 @@ end
 
 def read_tokens(g_, input_)
   var do_break = FALSE();
-  var [20]line;
+  var line_size = 20; var [20]line;
   var size;
   var pos = 0;
   var sep_i;
@@ -45,7 +45,7 @@ def read_tokens(g_, input_)
     if (size == 0)
       do_break = TRUE();
     else
-      substr(&line, input_, pos, pos + size);
+      substr_with_check(&line, input_, pos, pos + size, line_size);
       chomp(&line);
 
       sep_i = char_index(&line, 58, 0); # :
