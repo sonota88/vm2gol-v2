@@ -220,7 +220,7 @@ def parse_args(g_)
 end
 
 def parse_func(g_)
-  var func_main_;
+  var func_stmt_;
   var [10]temp_str;
   var t_;
   var stmts_;
@@ -236,18 +236,18 @@ def parse_func(g_)
 
   consume_kw(g_, &str_func);
 
-  func_main_ = NodeList_new(g_);
+  func_stmt_ = NodeList_new(g_);
 
-  NodeList_add_str(g_, func_main_, &str_func);
+  NodeList_add_str(g_, func_stmt_, &str_func);
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
-  NodeList_add_str(g_, func_main_, Token_get_val(t_));
+  NodeList_add_str(g_, func_stmt_, Token_get_val(t_));
 
   consume_sym_paren_l(g_); # (
 
   args_ = parse_args(g_);
-  NodeList_add_list(g_, func_main_, args_);
+  NodeList_add_list(g_, func_stmt_, args_);
 
   consume_sym_paren_r(g_); # )
 
@@ -273,9 +273,9 @@ def parse_func(g_)
 
   consume_sym_cbracket_r(g_); # }
 
-  NodeList_add_list(g_, func_main_, stmts_);
+  NodeList_add_list(g_, func_stmt_, stmts_);
 
-  return func_main_;
+  return func_stmt_;
 end
 
 def _parse_var_declare(g_)
