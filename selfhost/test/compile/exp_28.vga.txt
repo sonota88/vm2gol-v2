@@ -1,0 +1,102 @@
+  call main
+  exit
+
+label to_vi
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label vram_set
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label vram_set_buf
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label vram_get
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label adjust_index
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label calc_next_gen
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label count_alive
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label make_next_gen
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label replace_with_buf
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
+
+label main
+  push bp
+  cp sp bp
+
+  # 関数の処理本体
+
+  cp bp sp
+  pop bp
+  ret
