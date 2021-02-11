@@ -257,7 +257,6 @@ end
 
 def to_lvar_addr(dest_, names_, name_)
   var idx = Names_index(names_, name_);
-  assert(0, idx, 175);
 
   aset(dest_, 0,  91); # [
   aset(dest_, 1,  98); # b
