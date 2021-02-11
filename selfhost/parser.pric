@@ -761,10 +761,19 @@ def parse_stmts(g_)
   return stmts_;
 end
 
-# TODO parse_top_stmt
+def parse_top_stmt(g_)
+  var t_ = peek(g_, 0);
+
+  if (str_eq_func(Token_get_val(t_)))
+    return parse_func(g_);
+  else
+    panic(770); # parse_top_stmt
+  end
+end
 
 def parse_top_stmts(g_)
   var top_stmts_;
+  var top_stmt_;
   var [10]temp_str;
 
   top_stmts_ = NodeList_new(g_);
@@ -782,7 +791,8 @@ def parse_top_stmts(g_)
   NodeList_add_str(g_, top_stmts_, &temp_str);
 
   while (__not(is_end(g_)))
-    NodeList_add_list(g_, top_stmts_, parse_func(g_));
+    top_stmt_ = parse_top_stmt(g_);
+    NodeList_add_list(g_, top_stmts_, top_stmt_);
   end
 
   return top_stmts_;
