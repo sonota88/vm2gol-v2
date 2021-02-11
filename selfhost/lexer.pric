@@ -385,7 +385,7 @@ def main()
 
     when (0 < match_ident(&input, pos))
       size = match_ident(&input, pos);
-      substr(&temp_str, &input, pos, pos + size);
+      substr_with_check(&temp_str, &input, pos, pos + size, temp_str_size);
       print_ident(&temp_str);
       pos = pos + size;
 
