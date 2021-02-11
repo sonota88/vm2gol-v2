@@ -684,16 +684,16 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   var arg_r_ = NodeList_get(expr_els_, 2);
   var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var [3]s_eq;
-  var [4]str_neq_op;
+  var [4]s_neq;
 
   aset(&s_eq, 0, 101); # e
   aset(&s_eq, 1, 113); # q
   aset(&s_eq, 2,   0);
 
-  aset(&str_neq_op, 0, 110); # n
-  aset(&str_neq_op, 1, 101); # e
-  aset(&str_neq_op, 2, 113); # q
-  aset(&str_neq_op, 3,   0);
+  aset(&s_neq, 0, 110); # n
+  aset(&s_neq, 1, 101); # e
+  aset(&s_neq, 2, 113); # q
+  aset(&s_neq, 3,   0);
 
   gen_expr(g_, fn_arg_names_, lvar_names_, arg_l_);
   asm_push(&str_reg_a);
@@ -708,7 +708,7 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
     _gen_expr_mult();
   when (str_eq(op_str_, &s_eq)) # eq
     _gen_expr_eq(g_);
-  when (str_eq(op_str_, &str_neq_op)) # neq
+  when (str_eq(op_str_, &s_neq)) # neq
     _gen_expr_neq(g_);
   else
     panic(284); # _gen_expr_binary: not yet impl
