@@ -318,7 +318,7 @@ def to_lvar_addr(dest_, names_, name_)
   aset(dest_, 7,   0);
 end
 
-def render_label_id(label_, id, dest_size)
+def append_label_id(label_, id, dest_size)
   var [2]underscore;
   var [8]id_str;
 
@@ -403,14 +403,14 @@ def gen_case(g_, fn_arg_names_, lvar_names_, stmt_)
   aset(&label_end, 6, 115); # s
   aset(&label_end, 7, 101); # e
   aset(&label_end, 8,   0);
-  render_label_id(&label_end, label_id, label_size);
+  append_label_id(&label_end, label_id, label_size);
 
   aset(&label_when_head, 0, 119); # w
   aset(&label_when_head, 1, 104); # h
   aset(&label_when_head, 2, 101); # e
   aset(&label_when_head, 3, 110); # n
   aset(&label_when_head, 4,   0);
-  render_label_id(&label_when_head, label_id, label_size);
+  append_label_id(&label_when_head, label_id, label_size);
 
   aset(&label_end_when_head, 0, 101); # e
   aset(&label_end_when_head, 1, 110); # n
@@ -421,7 +421,7 @@ def gen_case(g_, fn_arg_names_, lvar_names_, stmt_)
   aset(&label_end_when_head, 6, 101); # e
   aset(&label_end_when_head, 7, 110); # n
   aset(&label_end_when_head, 8,   0);
-  render_label_id(&label_end_when_head, label_id, label_size);
+  append_label_id(&label_end_when_head, label_id, label_size);
 
   when_clauses_ = NodeList_rest(g_, stmt_, 1);
 
@@ -438,17 +438,17 @@ def gen_case(g_, fn_arg_names_, lvar_names_, stmt_)
 
     # {label_when_head}_{when_index}
     str_cp(&label_temp, &label_when_head);
-    render_label_id(&label_temp, when_index, label_size);
+    append_label_id(&label_temp, when_index, label_size);
     asm_jump_eq(&label_temp);
 
     # {label_end_when_head}_{when_index}
     str_cp(&label_temp, &label_end_when_head);
-    render_label_id(&label_temp, when_index, label_size);
+    append_label_id(&label_temp, when_index, label_size);
     asm_jump(&label_temp);
 
     # {label_when_head}_{when_index}
     str_cp(&label_temp, &label_when_head);
-    render_label_id(&label_temp, when_index, label_size);
+    append_label_id(&label_temp, when_index, label_size);
     asm_label(&label_temp);
 
     gen_stmts(g_, fn_arg_names_, lvar_names_, stmts_);
@@ -457,7 +457,7 @@ def gen_case(g_, fn_arg_names_, lvar_names_, stmt_)
 
     # {label_end_when_head}_{when_index}
     str_cp(&label_temp, &label_end_when_head);
-    render_label_id(&label_temp, when_index, label_size);
+    append_label_id(&label_temp, when_index, label_size);
     asm_label(&label_temp);
 
     i = i + 1;
@@ -496,7 +496,7 @@ def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
   aset(&label_begin, 3, 108); # l
   aset(&label_begin, 4, 101); # e
   aset(&label_begin, 5,   0);
-  render_label_id(&label_begin, label_id, label_begin_size);
+  append_label_id(&label_begin, label_id, label_begin_size);
 
   aset(&label_end,  0, 101); # e
   aset(&label_end,  1, 110); # n
@@ -508,14 +508,14 @@ def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
   aset(&label_end,  7, 108); # l
   aset(&label_end,  8, 101); # e
   aset(&label_end, 9,   0);
-  render_label_id(&label_end, label_id, label_end_size);
+  append_label_id(&label_end, label_id, label_end_size);
 
   aset(&label_true, 0, 116); # t
   aset(&label_true, 1, 114); # r
   aset(&label_true, 2, 117); # u
   aset(&label_true, 3, 101); # e
   aset(&label_true, 4,   0);
-  render_label_id(&label_true, label_id, label_true_size);
+  append_label_id(&label_true, label_id, label_true_size);
 
   asm_label(&label_begin);
 
@@ -599,14 +599,14 @@ def _gen_expr_eq(g_)
   aset(&label_end, 4, 101); # e
   aset(&label_end, 5, 113); # q
   aset(&label_end, 6,   0);
-  render_label_id(&label_end, label_id, label_end_size);
+  append_label_id(&label_end, label_id, label_end_size);
 
   aset(&label_then, 0, 116); # t
   aset(&label_then, 1, 104); # h
   aset(&label_then, 2, 101); # e
   aset(&label_then, 3, 110); # n
   aset(&label_then, 4,   0);
-  render_label_id(&label_then, label_id, label_then_size);
+  append_label_id(&label_then, label_id, label_then_size);
 
   asm_pop(&str_reg_b);
   asm_pop(&str_reg_a);
@@ -651,14 +651,14 @@ def _gen_expr_neq(g_)
   aset(&label_end, 5, 101); # e
   aset(&label_end, 6, 113); # q
   aset(&label_end, 7,   0);
-  render_label_id(&label_end, label_id, label_end_size);
+  append_label_id(&label_end, label_id, label_end_size);
 
   aset(&label_then, 0, 116); # t
   aset(&label_then, 1, 104); # h
   aset(&label_then, 2, 101); # e
   aset(&label_then, 3, 110); # n
   aset(&label_then, 4,   0);
-  render_label_id(&label_then, label_id, label_then_size);
+  append_label_id(&label_then, label_id, label_then_size);
 
   asm_pop(&str_reg_b);
   asm_pop(&str_reg_a);
