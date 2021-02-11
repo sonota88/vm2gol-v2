@@ -411,6 +411,8 @@ def main()
       pos = pos + size + 2;
 
     else
+      p_int(pos);
+      p_char(c);
       panic(163); # not yet impl
     end
 
