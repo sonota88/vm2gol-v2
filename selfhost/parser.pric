@@ -579,8 +579,47 @@ def parse_return(g_)
   return stmt_;
 end
 
-# TODO _parse_when_clause
-# TODO parse_case
+def _parse_when_clause(g_)
+  var when_clause_;
+  var cond_expr_node_;
+  var stmts_;
+
+  consume_sym_paren_l(g_); # (
+  cond_expr_node_ = parse_expr(g_);
+  consume_sym_paren_r(g_); # )
+
+  consume_sym_cbracket_l(g_); # {
+  stmts_ = parse_stmts(g_);
+  consume_sym_cbracket_r(g_); # }
+
+  when_clause_ = NodeList_new(g_);
+  NodeList_add(when_clause_, cond_expr_node_);
+  NodeList_add_all(when_clause_, stmts_);
+
+  return when_clause_;
+end
+
+def parse_case(g_)
+  var stmt_;
+  var [5]s_case; str_set_case(&s_case);
+  var t_;
+  var when_clause_;
+
+  consume_kw(g_, &s_case);
+  consume_sym_cbracket_l(g_); # {
+
+  stmt_ = NodeList_new(g_);
+  NodeList_add_str(g_, stmt_, &s_case);
+
+  while (char_at(Token_get_val(peek(g_, 0)), 0) != 125) # }
+    when_clause_ = _parse_when_clause(g_);
+    NodeList_add_list(g_, stmt_, when_clause_);
+  end
+
+  consume_sym_cbracket_r(g_); # }
+
+  return stmt_;
+end
 
 def parse_while(g_)
   var [6]s_while; str_set_while(&s_while);
@@ -648,6 +687,8 @@ def parse_stmt(g_)
     return parse_call_set(g_);
   when (str_eq_while(Token_get_val(t_)))
     return parse_while(g_);
+  when (str_eq_case(Token_get_val(t_)))
+    return parse_case(g_);
   else
     p_str(Token_get_val(t_));
     panic(421); # parse_stmt
