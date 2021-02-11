@@ -823,32 +823,32 @@ end
 
 def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var [8]dest;
-  var [8]lvar_name_; # TODO rename
+  var [8]dest_str_;
   var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var expr_node_;
   var size;
   var [8]vram_param;
   var [8]vram_addr;
 
-  lvar_name_ = NodeList_get_as_str(stmt_, 1);
+  dest_str_ = NodeList_get_as_str(stmt_, 1);
   expr_node_ = NodeList_get(stmt_, 2);
 
   gen_expr(g_, fn_arg_names_, lvar_names_, expr_node_);
 
   case
-  when (Names_includes(lvar_names_, lvar_name_))
+  when (Names_includes(lvar_names_, dest_str_))
 
     to_lvar_addr(
       &dest,
       lvar_names_,
-      lvar_name_
+      dest_str_
     );
 
     asm_cp(&str_reg_a, &dest);
 
-  when (0 < match_vram(lvar_name_))
-    size = match_vram(lvar_name_);
-    substr(&vram_param, lvar_name_, 5, 5 + size);
+  when (0 < match_vram(dest_str_))
+    size = match_vram(dest_str_);
+    substr(&vram_param, dest_str_, 5, 5 + size);
 
     if (Names_includes(lvar_names_, &vram_param))
       to_lvar_addr(&vram_addr, lvar_names_, &vram_param);
