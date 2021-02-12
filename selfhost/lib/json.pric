@@ -101,7 +101,7 @@ def Json_parse_list(g_, rest_, pos_start, size_)
   var list_;
   var c;
   var pos_end;
-  var temp_str_size = 32; var [32]temp_str;
+  var temp_str_size = 40; var [40]temp_str;
   var n;
   var do_break = FALSE();
   var child_list_;

@@ -193,7 +193,7 @@ end
 
 def asm_vm_comment(vm_comment_)
   var [5] str__cmt; str_set__cmt(&str__cmt);
-  var vm_comment_size = 32; var [32]vm_comment;
+  var vm_comment_size = 40; var [40]vm_comment;
   var i;
   var c;
 
@@ -579,8 +579,8 @@ def _gen_expr_eq(g_)
   var [6]str_reg_b; str_set_reg_b(&str_reg_b);
   var [2]str_0;
   var [2]str_1;
-  var label_end_size = 9; var [9]label_end;
-  var label_then_size = 7; var [7]label_then;
+  var label_end_size = 12; var [12]label_end; # end_eq_xxxx ... 11 chars + 1
+  var label_then_size = 10; var [10]label_then; # then_xxxx ... 9 chars + 1
   var label_id;
 
   aset(&str_0, 0, 48); # 0
@@ -630,8 +630,8 @@ def _gen_expr_neq(g_)
   var [6]str_reg_b; str_set_reg_b(&str_reg_b);
   var [2]str_0;
   var [2]str_1;
-  var label_end_size = 10; var [10]label_end;
-  var label_then_size = 7; var [7]label_then;
+  var label_end_size = 13; var [13]label_end; # end_neq_xxxx ... 12 chars + 1
+  var label_then_size = 10; var [10]label_then; # then_xxxx ... 9 chars + 1
   var label_id;
 
   aset(&str_0, 0, 48); # 0
@@ -716,11 +716,11 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
 end
 
 def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
-  var [10]cp_src;
+  var [20]cp_src;
   var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var expr;
   var str_;
-  var vram_param_size = 8; var [8]vram_param;
+  var vram_param_size = 20; var [20]vram_param;
   var size;
   var [8]vram_addr;
 
@@ -1005,11 +1005,11 @@ def inc_label_id(g_)
   *(g_ + GO_LABEL_ID()) = get_label_id(g_) + 1;
 end
 
-def INPUT_MAX() return 1000; end
+def INPUT_MAX() return 13000; end
 
 def main()
   var [2]g;
-  var [1000]input; # INPUT_MAX
+  var [13000]input; # INPUT_MAX
   var ast_;
 
   # init globals

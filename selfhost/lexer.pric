@@ -356,7 +356,7 @@ def main()
   var pos = 0;
   var do_break = FALSE();
   var size;
-  var temp_str_size = 32; var [32]temp_str;
+  var temp_str_size = 40; var [40]temp_str;
   var c;
 
   # init globals

@@ -30,7 +30,7 @@ end
 
 def read_tokens(g_, input_)
   var do_break = FALSE();
-  var line_size = 30; var [30]line;
+  var line_size = 80; var [80]line;
   var size;
   var pos = 0;
   var sep_i;
@@ -803,7 +803,7 @@ def parse(g_)
 end
 
 def GO_TOKENS() return GO_ALLOC_CURSOR() + GS_ALLOC_CURSOR(); end
-def GS_TOKENS() return 200; end
+def GS_TOKENS() return 1000; end
 
 def GO_TOKEN_INDEX() return GO_TOKENS() + GS_TOKENS(); end
 def GS_TOKEN_INDEX() return 1; end
@@ -815,11 +815,11 @@ def NUM_TOKENS_MAX()
   return GS_TOKENS();
 end
 
-def INPUT_MAX() return 1000; end
+def INPUT_MAX() return 8000; end
 
 def main()
-  var [203]g;
-  var [1000]input; # INPUT_MAX
+  var [1003]g;
+  var [8000]input; # INPUT_MAX
   var num_tokens;
 
   # init globals
