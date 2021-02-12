@@ -754,6 +754,8 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
       end
 
     else
+      Json_print(Names_to_plain(g_, fn_arg_names_));
+      Json_print(Names_to_plain(g_, lvar_names_));
       Json_print_node(expr_);
       panic(336); # gen_expr: not yet implemented
     end
