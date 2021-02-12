@@ -557,6 +557,14 @@ def env_to_bool(key, default = false)
   end
 end
 
+def env_to_int(key, default = 1)
+  if ENV.key?(key)
+    ENV[key].to_i
+  else
+    default
+  end
+end
+
 $stdin_ = nil
 
 if $PROGRAM_NAME == __FILE__
