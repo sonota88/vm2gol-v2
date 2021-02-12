@@ -720,7 +720,7 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
   var [6]str_reg_a; str_set_reg_a(&str_reg_a);
   var expr;
   var str_;
-  var [8]vram_param;
+  var vram_param_size = 8; var [8]vram_param;
   var size;
   var [8]vram_addr;
 
@@ -744,7 +744,7 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
 
     when (0 < match_vram(str_))
       size = match_vram(str_);
-      substr(&vram_param, str_, 5, 5 + size);
+      substr_with_check(&vram_param, str_, 5, 5 + size, vram_param_size);
 
       if (Names_includes(lvar_names_, &vram_param))
         to_lvar_addr(&vram_addr, lvar_names_, &vram_param);
