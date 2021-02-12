@@ -1,0 +1,12 @@
+// -*- mode: javascript -*-
+
+func add(a, b) {
+  var result = a + b;
+  return result;
+}
+
+func main() {
+  var a = 1;
+  var result;
+  call_set result = add(a, 2);
+}
