@@ -145,7 +145,7 @@ class Vm
   FLAG_TRUE = 1
   FLAG_FALSE = 0
 
-  def initialize(mem, stack_size, debug, verbose)
+  def initialize(mem, stack_size, debug, verbose, skip)
     @debug = debug
 
     @verbose =
@@ -154,6 +154,8 @@ class Vm
       else
         verbose
       end
+
+    @skip = skip
 
     # program counter
     @pc = 0
@@ -244,7 +246,7 @@ class Vm
         return
       end
 
-      dump()
+      dump() if @step % @skip == 0
       $stdin.gets if @debug
     end
   end
@@ -588,7 +590,8 @@ if $PROGRAM_NAME == __FILE__
     mem,
     stack_size,
     env_to_bool("DEBUG"),
-    env_to_bool("VERBOSE")
+    env_to_bool("VERBOSE"),
+    env_to_int("SKIP", 1)
   )
   vm.load_program_file(exe_file)
   vm.start
