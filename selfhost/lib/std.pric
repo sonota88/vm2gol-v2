@@ -108,10 +108,12 @@ def unparse_int(dest_, arg_n)
   var digit = 0;
   var done = 0;
   var i;
+  var dest_offset = 0;
 
   case when (n < 0)
-    putchar(45); # -
+    aset(dest_, 0, 45); # -
     n = n * -1;
+    dest_offset = 1;
   end
 
   while (done != 1)
@@ -132,13 +134,13 @@ def unparse_int(dest_, arg_n)
   while (__le(0, i))
     aset(
       dest_,
-      __sub(digit, i),
+      dest_offset + __sub(digit, i),
       48 + aget(&buf, i)
     );
     i = __sub(i, 1);
   end
 
-  aset(dest_, digit + 1, 0);
+  aset(dest_, dest_offset + digit + 1, 0);
 end
 
 def panic(errno)
