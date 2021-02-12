@@ -368,35 +368,17 @@ def main()
 
   while (do_break == FALSE())
     case
-    when (0 < match_kw(&input, pos))
-      size = match_kw(&input, pos);
-      substr(&temp_str, &input, pos, pos + size);
-      print_kw(&temp_str);
-      pos = pos + size;
-
     when (__or(c == C_SPC(), c == C_LF()))
       pos = pos + 1;
 
-    when (0 < match_int(&input, pos))
-      size = match_int(&input, pos);
-      substr(&temp_str, &input, pos, pos + size);
-      print_int(&temp_str);
-      pos = pos + size;
-
-    when (0 < match_ident(&input, pos))
-      size = match_ident(&input, pos);
-      substr_with_check(&temp_str, &input, pos, pos + size, temp_str_size);
-      print_ident(&temp_str);
+    when (0 < match_comment(&input, pos))
+      size = match_comment(&input, pos);
       pos = pos + size;
 
     when (0 < match_symbol(&input, pos))
       size = match_symbol(&input, pos);
       substr(&temp_str, &input, pos, pos + size);
       print_symbol(&temp_str);
-      pos = pos + size;
-
-    when (0 < match_comment(&input, pos))
-      size = match_comment(&input, pos);
       pos = pos + size;
 
     when (0 < match_str(&input, pos))
@@ -409,6 +391,24 @@ def main()
 
       print_str(&temp_str);
       pos = pos + size + 2;
+
+    when (0 < match_kw(&input, pos))
+      size = match_kw(&input, pos);
+      substr(&temp_str, &input, pos, pos + size);
+      print_kw(&temp_str);
+      pos = pos + size;
+
+    when (0 < match_int(&input, pos))
+      size = match_int(&input, pos);
+      substr(&temp_str, &input, pos, pos + size);
+      print_int(&temp_str);
+      pos = pos + size;
+
+    when (0 < match_ident(&input, pos))
+      size = match_ident(&input, pos);
+      substr_with_check(&temp_str, &input, pos, pos + size, temp_str_size);
+      print_ident(&temp_str);
+      pos = pos + size;
 
     else
       p_int(pos);
