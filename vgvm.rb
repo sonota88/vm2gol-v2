@@ -482,8 +482,8 @@ class Vm
   end
 
   def set_vram
-    arg1 = @mem.main[@pc][1]
-    arg2 = @mem.main[@pc][2]
+    arg1 = @mem.main[@pc][1] # dest (vram)
+    arg2 = @mem.main[@pc][2] # src
 
     src_val =
       case arg2
@@ -515,8 +515,8 @@ class Vm
   end
 
   def get_vram
-    arg1 = @mem.main[@pc][1]
-    arg2 = @mem.main[@pc][2]
+    arg1 = @mem.main[@pc][1] # src (vram)
+    arg2 = @mem.main[@pc][2] # dest
 
     vram_addr =
       case arg1
