@@ -1,0 +1,58 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+print_this_dir() {
+  (
+    cd "$(dirname $0)"
+    pwd
+  )
+}
+
+run() {
+  local name="$1"; shift
+  local infile="$1"; shift
+  local outfile="$1"; shift
+
+  # time (
+  #   printf "${name} ... "
+
+  cp $infile $STDINFILE
+  DEBUG=0 VERBOSE=0 $PRICVM ${__DIR__}/exe/${name}.exe.txt > $outfile
+
+  #   printf "done\n"
+  #   printf "\n"
+  # ) >&2
+}
+
+__DIR__="$(print_this_dir)"
+
+TMP_DIR=${__DIR__}/tmp/
+PRICVM=${__DIR__}/../pricvm
+STDINFILE=${TMP_DIR}/stdin
+
+mkdir -p ${TMP_DIR}
+
+file="$1"
+bname=pricc-pric
+
+src_temp=${TMP_DIR}/${bname}.pric.js
+tokensfile=${TMP_DIR}/${bname}.vgtok.txt
+treefile=${TMP_DIR}/${bname}.vgt.json
+asmfile=${TMP_DIR}/${bname}.vga.txt
+
+rake build-all
+
+# ruby ${__DIR__}/../check.rb gvar-width $file # TODO
+# ruby ${__DIR__}/preproc.rb $file > $src_temp # TODO
+cat $file > $src_temp # TODO preproc の代わり。暫定。
+
+run "lexer" $src_temp $tokensfile
+
+run "parser" $tokensfile $treefile
+
+ruby ${__DIR__}/../check.rb fn-sig $treefile
+run "codegen" $treefile $asmfile
+
+ruby ${__DIR__}/../vgasm.rb $asmfile
