@@ -3,7 +3,9 @@
 ```sh
 # テスト
 rake test_v3
+```
 
+```sh
 # コンパイル
 ../pricc ../example.pric > example.exe.txt
 
@@ -19,4 +21,17 @@ rake test_v3
 ```sh
 # テスト
 ./test.sh all
+```
+
+```sh
+mkdir -p exe
+
+# 第2世代コンパイラでライフゲームをコンパイル
+./pricc examples/gol.pric > exe/gol.exe.txt
+
+# VM で実行
+VERBOSE=1 SKIP=100 ../pricvm exe/gol.exe.txt
+
+# コンパイル＋実行
+VERBOSE=1 SKIP=100 ./pricrun examples/gol.pric
 ```
