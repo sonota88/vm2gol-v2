@@ -489,14 +489,8 @@ class Vm
       case arg2
       when Integer
         arg2
-      when /^\[bp\+(\d+)\]$/
-        raise "TODO [...] 記法をやめる"
-        stack_addr = @bp + $1.to_i
-        @mem.stack[stack_addr]
-      when /^\[bp-(\d+)\]$/
-        raise "TODO [...] 記法をやめる"
-        stack_addr = @bp - $1.to_i
-        @mem.stack[stack_addr]
+      when "reg_a"
+        @reg_a
       else
         raise not_yet_impl("set_vram", arg2)
       end
@@ -504,11 +498,14 @@ class Vm
     case arg1
     when Integer
       @mem.vram[arg1] = src_val
-    when /^\[bp-(\d+)\]$/
-      raise "TODO [...] 記法をやめる"
-      stack_addr = @bp - $1.to_i
-      vram_addr = @mem.stack[stack_addr]
-      @mem.vram[vram_addr] = src_val
+    when String
+      case arg1
+      when /^ind:/
+        vram_addr = @mem.stack[calc_indirect_addr(arg1)]
+        @mem.vram[vram_addr] = src_val
+      else
+        raise not_yet_impl("set_vram", arg1)
+      end
     else
       raise not_yet_impl("set_vram", arg1)
     end
@@ -524,10 +521,8 @@ class Vm
         arg1
       when String
         case arg1
-        when /^\[bp-(\d+)\]$/
-          raise "TODO [...] 記法をやめる"
-          stack_addr = @bp - $1.to_i
-          @mem.stack[stack_addr]
+        when /^ind:/
+          @mem.stack[calc_indirect_addr(arg1)]
         else
           raise not_yet_impl("arg1", arg1)
         end
