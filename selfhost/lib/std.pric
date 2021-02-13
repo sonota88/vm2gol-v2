@@ -386,7 +386,7 @@ def char_index(str_, target_c, pos_from)
       do_break = TRUE();
     else
       pos = pos + 1;
-      c = *(str_ + pos);
+      c = char_at(str_, pos);
     end
   end
 
@@ -401,7 +401,7 @@ def parse_int(s_)
   var n = 0;
 
   while (__le(0, i))
-    c = *(s_ + i);
+    c = char_at(s_, i);
     if (c == 45) # -
       factor = -1;
     else
@@ -425,7 +425,7 @@ def non_digit_index(str_, from)
   var pos = from;
 
   while (__not(do_break))
-    c = *(str_ + pos);
+    c = char_at(str_, pos);
     if (is_digit_char(c) != TRUE())
       do_break = TRUE();
     else

@@ -178,8 +178,8 @@ def TOKEN_KIND__STR  () return 3; end
 def TOKEN_KIND__IDENT() return 4; end
 
 def TokenKind_from_str(str_)
-  var c0 = *(str_ + 0);
-  var c1 = *(str_ + 1);
+  var c0 = char_at(str_, 0);
+  var c1 = char_at(str_, 1);
 
   case
   when (c0 == 107) # k
