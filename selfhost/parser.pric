@@ -28,7 +28,7 @@ def set_token(g_, ti, t_)
   aset(g_ + GO_TOKENS(), ti, t_);
 end
 
-def read_tokens(g_, input_)
+def read_tokens(g_)
   var do_break = FALSE();
   var line_size = 80; var [80]line;
   var size;
@@ -38,14 +38,17 @@ def read_tokens(g_, input_)
   var value_str_size = 64; var [64]value_str;
   var t_;
   var ti;
+  var input_size_max = 8000; var [8000]input;
   check_heap_stack_overlap(g_);
 
+  read_stdin_all(&input, input_size_max);
+
   while (__not(do_break))
-    size = get_line_size(input_, pos);
+    size = get_line_size(&input, pos);
     if (size == 0)
       do_break = TRUE();
     else
-      substr_with_check(&line, input_, pos, pos + size, line_size);
+      substr_with_check(&line, &input, pos, pos + size, line_size);
       chomp(&line);
 
       sep_i = char_index(&line, 58, 0); # :
@@ -60,7 +63,7 @@ def read_tokens(g_, input_)
     end
   end
 
-  return ti;
+  set_num_tokens(g_, ti); # ti == number of tokens
 end
 
 def set_num_tokens(g_, num_tokens)
@@ -800,21 +803,15 @@ def NUM_TOKENS_MAX()
   return GS_TOKENS();
 end
 
-def INPUT_MAX() return 8000; end
-
 def main()
   var [1003]g;
-  var [8000]input; # INPUT_MAX
-  var num_tokens;
 
   # init globals
   init_alloc_cursor(&g);
   set_token_index(&g, 0);
   assert(0, get_token_index(&g), 183);
 
-  read_stdin_all(&input, INPUT_MAX());
-  num_tokens = read_tokens(&g, &input);
-  set_num_tokens(&g, num_tokens);
+  read_tokens(&g);
 
   var ast_ = parse(&g);
 
