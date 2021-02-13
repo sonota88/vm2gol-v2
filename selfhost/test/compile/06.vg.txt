@@ -1,4 +1,4 @@
-// -*- mode: javascript -*-
+// -*- mode: ruby -*-
 
 func main() {
   _cmt("vm_comment");

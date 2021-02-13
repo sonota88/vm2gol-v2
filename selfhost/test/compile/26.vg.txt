@@ -1,4 +1,4 @@
-// -*- mode: javascript -*-
+// -*- mode: ruby -*-
 
 func main() {
   var vi = 0;

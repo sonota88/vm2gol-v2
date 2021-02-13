@@ -1,4 +1,4 @@
-// -*- mode: javascript -*-
+// -*- mode: ruby -*-
 
 func ret_vram_lvar() {
   var vi = 49;
