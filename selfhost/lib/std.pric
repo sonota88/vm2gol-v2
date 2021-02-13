@@ -22,16 +22,7 @@ def check_heap_stack_overlap(g_)
   var sp = get_sp();
 
   if (__le(sp, heap_max))
-    putchar( 97); # a
-    putchar(108); # l
-    putchar(108); # l
-    putchar(111); # o
-    putchar( 99); # c
-    putchar( 32); #  
-    putchar( 78); # N
-    putchar( 71); # G
-    putchar( 10); # LF
-    _panic();
+    panic(25); # check_heap_stack_overlap: out of memory
   end
 end
 
