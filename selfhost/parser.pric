@@ -234,6 +234,7 @@ def parse_func(g_)
   var [4]s_var; str_set_var(&s_var);
   var [5]s_func; str_set_func(&s_func);
   var [4]s_def; str_set_def(&s_def);
+  var [4]s_end; str_set_end(&s_end);
   var args_;
   var fn_name_;
   check_heap_stack_overlap(g_);
@@ -256,13 +257,14 @@ def parse_func(g_)
 
   consume_sym_paren_r(g_); # )
 
-  consume_sym_cbracket_l(g_); # {
-
   stmts_ = NodeList_new(g_);
 
   while (__not(do_break))
     t_ = peek(g_, 0);
-    if (char_at(Token_get_val(t_), 0) == 125) # }
+    case
+    when (Token_val_eq(t_, &s_end))
+      do_break = TRUE();
+    when (char_at(Token_get_val(t_), 0) == 125) # }
       do_break = TRUE();
     else
 
@@ -276,7 +278,7 @@ def parse_func(g_)
     end
   end
 
-  consume_sym_cbracket_r(g_); # }
+  consume_kw(g_, &s_end);
 
   NodeList_add_list(g_, func_stmt_, stmts_);
 

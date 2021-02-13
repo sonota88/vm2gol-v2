@@ -1,18 +1,18 @@
 # -*- mode: ruby -*-
 
-def ret_vram_lvar() {
+def ret_vram_lvar()
   var vi = 49;
   # vram[ローカル変数] を return
   return vram[vi];
-}
+end
 
-def ret_lvar() {
+def ret_lvar()
   var a;
   # ローカル変数 を return
   return a;
-}
+end
 
-def main() {
+def main()
   call ret_vram_lvar();
   call ret_lvar();
-}
+end

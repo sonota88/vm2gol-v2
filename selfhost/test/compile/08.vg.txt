@@ -1,8 +1,8 @@
 # -*- mode: ruby -*-
 
-def sub() {
-}
+def sub()
+end
 
-def main() {
+def main()
   call sub();
-}
+end

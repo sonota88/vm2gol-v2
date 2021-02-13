@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 
-def to_vi(w, x, y, offset) {
+def to_vi(w, x, y, offset)
   var vi; # vram index
 
   set vi = 
@@ -10,27 +10,27 @@ def to_vi(w, x, y, offset) {
   ;
 
   return vi;
-}
+end
 
-def vram_set(w, x, y, val) {
+def vram_set(w, x, y, val)
   var vi; # vram index
   call_set vi = to_vi(w, x, y, 0);
   set vram[vi] = val;
-}
+end
 
-def vram_set_buf(w, x, y, val) {
+def vram_set_buf(w, x, y, val)
   var vi; # vram index
   call_set  vi = to_vi(w, x, y, 25);
   set vram[vi] = val;
-}
+end
 
-def vram_get(w, x, y) {
+def vram_get(w, x, y)
   var vi; # vram index
   call_set vi = to_vi(w, x, y, 0);
   return vram[vi];
-}
+end
 
-def adjust_index(width, i) {
+def adjust_index(width, i)
   var adjusted;
 
   case {
@@ -49,9 +49,9 @@ def adjust_index(width, i) {
   }
 
   return adjusted;
-}
+end
 
-def calc_next_gen(current_val, count) {
+def calc_next_gen(current_val, count)
   # 注目しているセルの次世代の生死
   var next_val = 0;
 
@@ -76,9 +76,9 @@ def calc_next_gen(current_val, count) {
   }
   
   return next_val;
-}
+end
 
-def count_alive(w, h, x, y) {
+def count_alive(w, h, x, y)
   var count = 0;
 
   var xl = x + -1;
@@ -141,9 +141,9 @@ def count_alive(w, h, x, y) {
   _cmt("★count_aliveの最後");
 
   return count;
-}
+end
 
-def make_next_gen(w, h) {
+def make_next_gen(w, h)
   var x = 0;
   var y = 0;
 
@@ -174,9 +174,9 @@ def make_next_gen(w, h) {
     }
     set y = y + 1;
   }
-}
+end
 
-def replace_with_buf() {
+def replace_with_buf()
   var vi = 0;
 
   var vi_buf;
@@ -188,9 +188,9 @@ def replace_with_buf() {
     set vram[vi] = temp;
     set vi = vi + 1;
   }
-}
+end
 
-def main() {
+def main()
   var w = 5; # 盤面の幅
   var h = 5; # 盤面の高さ
 
@@ -208,4 +208,4 @@ def main() {
     call replace_with_buf();
     set gen = gen + 1;
   }
-}
+end

@@ -1,31 +1,31 @@
 # -*- mode: ruby -*-
 
-def to_vi(w, x, y, offset) {
-}
+def to_vi(w, x, y, offset)
+end
 
-def vram_set(w, x, y, val) {
-}
+def vram_set(w, x, y, val)
+end
 
-def vram_set_buf(w, x, y, val) {
-}
+def vram_set_buf(w, x, y, val)
+end
 
-def vram_get(w, x, y) {
-}
+def vram_get(w, x, y)
+end
 
-def adjust_index(width, i) {
-}
+def adjust_index(width, i)
+end
 
-def calc_next_gen(current_val, count) {
-}
+def calc_next_gen(current_val, count)
+end
 
-def count_alive(w, h, x, y) {
-}
+def count_alive(w, h, x, y)
+end
 
-def make_next_gen(w, h) {
-}
+def make_next_gen(w, h)
+end
 
-def replace_with_buf() {
-}
+def replace_with_buf()
+end
 
-def main() {
-}
+def main()
+end

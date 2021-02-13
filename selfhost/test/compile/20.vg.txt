@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 
-def main() {
+def main()
   var a = 0;
   case {
     (a == 1) {
@@ -10,4 +10,4 @@ def main() {
       set a = 1;
     }
   }
-}
+end

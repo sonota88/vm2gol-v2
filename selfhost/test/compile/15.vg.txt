@@ -1,10 +1,10 @@
 # -*- mode: ruby -*-
 
-def f1() {
+def f1()
   return 42;
-}
+end
 
-def main() {
+def main()
   var c;
   call_set c = f1();
-}
+end

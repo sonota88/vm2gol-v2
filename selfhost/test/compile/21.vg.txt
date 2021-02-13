@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 
-def main() {
+def main()
   # 式の左項が (...)
   var a;
   set a = (1 + 2) + 3;
-}
+end

@@ -1,5 +1,5 @@
 # -*- mode: ruby -*-
 
-def main() {
+def main()
   _cmt("vm_comment");
-}
+end

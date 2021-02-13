@@ -1,1 +1,1 @@
-def main() {}
+def main() end

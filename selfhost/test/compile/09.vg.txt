@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 
-def sub(a) {
-}
+def sub(a)
+end
 
-def main() {
-}
+def main()
+end
