@@ -650,6 +650,7 @@ end
 
 def parse_while(g_)
   var [6]s_while; str_set_while(&s_while);
+  var [4]s_end; str_set_end(&s_end);
   var stmt_;
   var expr_node_;
   var stmts_;
@@ -660,9 +661,9 @@ def parse_while(g_)
   expr_node_ = parse_expr(g_);
   consume_sym_paren_r(g_); # )
 
-  consume_sym_cbracket_l(g_); # {
   stmts_ = parse_stmts(g_);
-  consume_sym_cbracket_r(g_); # }
+
+  consume_kw(g_, &s_end);
 
   stmt_ = NodeList_new(g_);
   NodeList_add_str(g_, stmt_, &s_while);
@@ -731,7 +732,10 @@ def parse_stmts(g_)
   while (__not(do_break))
     t_ = peek(g_, 0);
 
-    if (char_at(Token_get_val(t_), 0) == 125) # }
+    case
+    when (char_at(Token_get_val(t_), 0) == 125) # }
+      do_break = TRUE();
+    when (str_eq_end(Token_get_val(t_)))
       do_break = TRUE();
     else
       stmt_ = parse_stmt(g_);

@@ -153,9 +153,9 @@ def make_next_gen(w, h)
   # 注目しているセルの次世代の生死
   var next_val;
 
-  while (y != h) {
+  while (y != h)
     set x = 0;
-    while (x != w) {
+    while (x != w)
       call_set count = count_alive(w, h, x, y);
       _cmt("★ count_alive から戻った直後");
 
@@ -171,9 +171,9 @@ def make_next_gen(w, h)
       _cmt("★ vram_set_buf から戻った直後");
 
       set x = x + 1;
-    }
+    end
     set y = y + 1;
-  }
+  end
 end
 
 def replace_with_buf()
@@ -182,12 +182,12 @@ def replace_with_buf()
   var vi_buf;
   var temp;
 
-  while (vi != 25) {
+  while (vi != 25)
     set vi_buf = vi + 25;
     set temp = vram[vi_buf];
     set vram[vi] = temp;
     set vi = vi + 1;
-  }
+  end
 end
 
 def main()
@@ -203,9 +203,9 @@ def main()
 
   var gen_limit = 0;
   var gen = 1;
-  while (gen != gen_limit) {
+  while (gen != gen_limit)
     call make_next_gen(w, h);
     call replace_with_buf();
     set gen = gen + 1;
-  }
+  end
 end

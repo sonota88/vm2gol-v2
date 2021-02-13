@@ -2,7 +2,7 @@
 
 def main()
   var a = 0;
-  while (a == 0) {
+  while (a == 0)
     set a = 1;
-  }
+  end
 end
