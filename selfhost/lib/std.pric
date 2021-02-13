@@ -21,7 +21,7 @@ def check_heap_stack_overlap(g_)
   var heap_max = *(g_ + GO_ALLOC_CURSOR());
   var sp = get_sp();
 
-  case when (__le(sp, heap_max))
+  if (__le(sp, heap_max))
     putchar( 97); # a
     putchar(108); # l
     putchar(108); # l
@@ -75,13 +75,13 @@ def print_i(arg_n)
   var digit = 0;
   var done = 0;
 
-  case when (n < 0)
+  if (n < 0)
     putchar(45); # -
     n = n * -1;
   end
 
   while (done != 1)
-    case when (n < 10)
+    if (n < 10)
       aset(&buf, digit, n);
       done = 1;
     else
@@ -110,14 +110,14 @@ def unparse_int(dest_, arg_n)
   var i;
   var dest_offset = 0;
 
-  case when (n < 0)
+  if (n < 0)
     aset(dest_, 0, 45); # -
     n = n * -1;
     dest_offset = 1;
   end
 
   while (done != 1)
-    case when (n < 10)
+    if (n < 10)
       aset(&buf, digit, n);
       done = 1;
     else
@@ -158,12 +158,12 @@ def read_stdin_all(dest_, limit)
   var do_break = 0;
 
   while (__not(do_break))
-    case when (i == limit)
+    if (i == limit)
       panic(146); # read_stdin_all: too large input
     end
 
     c = getchar();
-    case when (c == -1)
+    if (c == -1)
       *(dest_ + i) = 0;
       do_break = 1;
     else
@@ -319,7 +319,7 @@ def substr(dest_, src_, from, to)
   var do_break = FALSE();
 
   while (do_break == FALSE())
-    case when (__or(
+    if (__or(
       i == to,
       char_at(src_, i) == 0
     ))
@@ -354,10 +354,10 @@ def str_eq(s1_, s2_)
   var result = TRUE();
   var i = 0;
 
-  case when (str_size(s1_) == str_size(s2_))
+  if (str_size(s1_) == str_size(s2_))
     while (do_break == FALSE())
-      case when (char_at(s1_, i) == char_at(s2_, i))
-        case when (char_at(s1_, i) == 0)
+      if (char_at(s1_, i) == char_at(s2_, i))
+        if (char_at(s1_, i) == 0)
           do_break = TRUE();
         else
           # continue
@@ -411,7 +411,7 @@ def parse_int(s_)
 
   while (__le(0, i))
     c = *(s_ + i);
-    case when (c == 45) # -
+    if (c == 45) # -
       factor = -1;
     else
       n = n + (__sub(c, 48) * pow10(e));
@@ -435,7 +435,7 @@ def non_digit_index(str_, from)
 
   while (do_break == FALSE())
     c = *(str_ + pos);
-    case when (is_digit_char(c) != TRUE())
+    if (is_digit_char(c) != TRUE())
       do_break = TRUE();
     else
       pos = pos + 1;
@@ -473,8 +473,8 @@ end
 
 # TODO && 演算子を用意するまでの代替
 def __and(a, b)
-  case when (a == TRUE())
-    case when (b == TRUE())
+  if (a == TRUE())
+    if (b == TRUE())
       return TRUE();
     else
       return FALSE();
