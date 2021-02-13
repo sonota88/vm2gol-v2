@@ -1005,19 +1005,21 @@ def inc_label_id(g_)
   *(g_ + GO_LABEL_ID()) = get_label_id(g_) + 1;
 end
 
-def INPUT_MAX() return 13000; end
+def load_ast(g_)
+  var input_size_max = 13000; var [13000]input;
+
+  read_stdin_all(&input, input_size_max);
+  return Json_parse(g_, &input);
+end
 
 def main()
   var [2]g;
-  var [13000]input; # INPUT_MAX
   var ast_;
 
   # init globals
   init_alloc_cursor(&g);
 
-  read_stdin_all(&input, INPUT_MAX());
-
-  ast_ = Json_parse(&g, &input);
+  ast_ = load_ast(&g);
 
   codegen(&g, ast_);
 end
