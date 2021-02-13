@@ -233,11 +233,12 @@ def parse_func(g_)
   var do_break = FALSE();
   var [4]s_var; str_set_var(&s_var);
   var [5]s_func; str_set_func(&s_func);
+  var [4]s_def; str_set_def(&s_def);
   var args_;
   var fn_name_;
   check_heap_stack_overlap(g_);
 
-  consume_kw(g_, &s_func);
+  consume_kw(g_, &s_def);
 
   func_stmt_ = NodeList_new(g_);
 
@@ -742,7 +743,7 @@ end
 def parse_top_stmt(g_)
   var t_ = peek(g_, 0);
 
-  if (str_eq_func(Token_get_val(t_)))
+  if (str_eq_def(Token_get_val(t_)))
     return parse_func(g_);
   else
     panic(770); # parse_top_stmt

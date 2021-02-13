@@ -1,2 +1,2 @@
-kw:func
+kw:def
 ident:main

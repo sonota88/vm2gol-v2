@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 
-func main() {
+def main() {
   var a = 1;
   set a = a + 2;
 }

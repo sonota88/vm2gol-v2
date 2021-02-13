@@ -1,8 +1,8 @@
 # -*- mode: ruby -*-
 
-func sub(a, b, c) {
+def sub(a, b, c) {
 }
 
-func main() {
+def main() {
   call sub(1, 2, 3);
 }

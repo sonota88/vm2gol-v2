@@ -1,4 +1,4 @@
 # -*- mode: ruby -*-
-func main() {
+def main() {
   # comment in func
 }

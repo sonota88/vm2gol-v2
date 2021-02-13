@@ -1,4 +1,4 @@
-kw:func
+kw:def
 ident:main
 sym:(
 sym:)

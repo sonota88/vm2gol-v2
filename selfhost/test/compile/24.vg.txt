@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 
-func sub(a) {
+def sub(a) {
   # 関数の引数をローカル変数に代入
   var b;
   set b = a;
@@ -10,6 +10,6 @@ func sub(a) {
   set c = b;
 }
 
-func main() {
+def main() {
   call sub(1);
 }

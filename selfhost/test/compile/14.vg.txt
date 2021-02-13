@@ -1,5 +1,5 @@
 # -*- mode: ruby -*-
 
-func main() {
+def main() {
   return 42;
 }

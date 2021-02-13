@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 
-func main() {
+def main() {
   var vi = 0;
   set vram[vi] = 42;
 }

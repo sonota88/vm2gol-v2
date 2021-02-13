@@ -1,1 +1,1 @@
-func main
+def main

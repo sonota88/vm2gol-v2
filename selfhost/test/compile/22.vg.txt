@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 
-func main() {
+def main() {
   # *, neq
   var a;
   set a = 2 * 3;
