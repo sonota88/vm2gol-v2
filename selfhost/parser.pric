@@ -228,20 +228,20 @@ def parse_func(g_)
   var stmts_;
   var stmt_;
   var do_break = FALSE();
-  var [4]str_var;
-  var [5]str_func;
+  var [4]s_var;
+  var [5]s_func;
   var args_;
   var fn_name_;
   check_heap_stack_overlap(g_);
 
-  str_set_var(&str_var);
-  str_set_func(&str_func);
+  str_set_var(&s_var);
+  str_set_func(&s_func);
 
-  consume_kw(g_, &str_func);
+  consume_kw(g_, &s_func);
 
   func_stmt_ = NodeList_new(g_);
 
-  NodeList_add_str(g_, func_stmt_, &str_func);
+  NodeList_add_str(g_, func_stmt_, &s_func);
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
@@ -265,7 +265,7 @@ def parse_func(g_)
       do_break = TRUE();
     else
 
-      if (str_eq(Token_get_val(t_), &str_var))
+      if (str_eq(Token_get_val(t_), &s_var))
         stmt_ = parse_var(g_);
       else
         stmt_ = parse_stmt(g_);
@@ -284,17 +284,17 @@ end
 
 def _parse_var_declare(g_)
   var stmt_;
-  var [4]str_var;
+  var [4]s_var;
   var t_;
   var var_name_;
   check_heap_stack_overlap(g_);
 
-  str_set_var(&str_var);
+  str_set_var(&s_var);
 
   stmt_ = NodeList_new(g_);
 
-  consume_kw(g_, &str_var);
-  NodeList_add_str(g_, stmt_, &str_var);
+  consume_kw(g_, &s_var);
+  NodeList_add_str(g_, stmt_, &s_var);
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
@@ -308,18 +308,18 @@ end
 
 def _parse_var_init(g_)
   var stmt_;
-  var [4]str_var;
+  var [4]s_var;
   var t_;
   var var_name_;
   var expr_node_;
   check_heap_stack_overlap(g_);
 
-  str_set_var(&str_var);
+  str_set_var(&s_var);
 
   stmt_ = NodeList_new(g_);
 
-  consume_kw(g_, &str_var);
-  NodeList_add_str(g_, stmt_, &str_var);
+  consume_kw(g_, &s_var);
+  NodeList_add_str(g_, stmt_, &s_var);
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
@@ -337,21 +337,21 @@ def _parse_var_init(g_)
 end
 
 def parse_var(g_)
-  var [2]str_semicolon;
-  var [2]str_equal;
+  var [2]s_semicolon;
+  var [2]s_equal;
   var t_;
 
-  aset(&str_semicolon, 0, 59); #;
-  aset(&str_semicolon, 1,  0);
+  aset(&s_semicolon, 0, 59); #;
+  aset(&s_semicolon, 1,  0);
 
-  aset(&str_equal, 0, 61); # =
-  aset(&str_equal, 1,  0);
+  aset(&s_equal, 0, 61); # =
+  aset(&s_equal, 1,  0);
 
   t_ = peek(g_, 2);
   case
-  when (Token_val_eq(t_, &str_semicolon))
+  when (Token_val_eq(t_, &s_semicolon))
     _parse_var_declare(g_);
-  when (Token_val_eq(t_, &str_equal))
+  when (Token_val_eq(t_, &s_equal))
     _parse_var_init(g_);
   else
     print_s(Token_get_val(t_));
@@ -364,35 +364,35 @@ def _parse_expr_right(g_, expr_node_l_)
   var t_ = peek(g_, 0);
   var expr_node_r_;
   var expr_els_;
-  var [2]str_plus;
-  var [2]str_star;
-  var [3]str_double_equal;
-  var [3]str_not_equal;
-  var [3]str_eq_op;
-  var [4]str_neq_op;
+  var [2]s_plus;
+  var [2]s_star;
+  var [3]s_double_equal;
+  var [3]s_not_equal;
+  var [3]s_eq_op;
+  var [4]s_neq_op;
 
-  aset(&str_plus, 0, 43); # +
-  aset(&str_plus, 1,  0);
+  aset(&s_plus, 0, 43); # +
+  aset(&s_plus, 1,  0);
 
-  aset(&str_star, 0, 42); # *
-  aset(&str_star, 1,  0);
+  aset(&s_star, 0, 42); # *
+  aset(&s_star, 1,  0);
 
-  aset(&str_double_equal, 0, 61); # =
-  aset(&str_double_equal, 1, 61); # =
-  aset(&str_double_equal, 2,  0);
+  aset(&s_double_equal, 0, 61); # =
+  aset(&s_double_equal, 1, 61); # =
+  aset(&s_double_equal, 2,  0);
 
-  aset(&str_not_equal, 0, 33); # !
-  aset(&str_not_equal, 1, 61); # =
-  aset(&str_not_equal, 2,  0);
+  aset(&s_not_equal, 0, 33); # !
+  aset(&s_not_equal, 1, 61); # =
+  aset(&s_not_equal, 2,  0);
 
-  aset(&str_eq_op, 0, 101); # e
-  aset(&str_eq_op, 1, 113); # q
-  aset(&str_eq_op, 2,   0);
+  aset(&s_eq_op, 0, 101); # e
+  aset(&s_eq_op, 1, 113); # q
+  aset(&s_eq_op, 2,   0);
 
-  aset(&str_neq_op, 0, 110); # n
-  aset(&str_neq_op, 1, 101); # e
-  aset(&str_neq_op, 2, 113); # q
-  aset(&str_neq_op, 3,   0);
+  aset(&s_neq_op, 0, 110); # n
+  aset(&s_neq_op, 1, 101); # e
+  aset(&s_neq_op, 2, 113); # q
+  aset(&s_neq_op, 3,   0);
 
   if (char_at(Token_get_val(t_), 0) == 41) # )
     return expr_node_l_;
@@ -404,48 +404,48 @@ def _parse_expr_right(g_, expr_node_l_)
 
       case
       when (char_at(Token_get_val(t_), 0) == 43) # +
-        consume_sym(g_, &str_plus);
+        consume_sym(g_, &s_plus);
         expr_node_r_ = parse_expr(g_);
 
         expr_els_ = NodeList_new(g_);
 
-        NodeList_add_str(g_, expr_els_, &str_plus);
+        NodeList_add_str(g_, expr_els_, &s_plus);
         NodeList_add(expr_els_, expr_node_l_);
         NodeList_add(expr_els_, expr_node_r_);
 
         return Node_new_list(g_, expr_els_);
 
       when (char_at(Token_get_val(t_), 0) == 42) # *
-        consume_sym(g_, &str_star);
+        consume_sym(g_, &s_star);
         expr_node_r_ = parse_expr(g_);
 
         expr_els_ = NodeList_new(g_);
 
-        NodeList_add_str(g_, expr_els_, &str_star);
+        NodeList_add_str(g_, expr_els_, &s_star);
         NodeList_add(expr_els_, expr_node_l_);
         NodeList_add(expr_els_, expr_node_r_);
 
         return Node_new_list(g_, expr_els_);
 
-      when (Token_val_eq(t_, &str_double_equal))
-        consume_sym(g_, &str_double_equal);
+      when (Token_val_eq(t_, &s_double_equal))
+        consume_sym(g_, &s_double_equal);
         expr_node_r_ = parse_expr(g_);
 
         expr_els_ = NodeList_new(g_);
 
-        NodeList_add_str(g_, expr_els_, &str_eq_op);
+        NodeList_add_str(g_, expr_els_, &s_eq_op);
         NodeList_add(expr_els_, expr_node_l_);
         NodeList_add(expr_els_, expr_node_r_);
 
         return Node_new_list(g_, expr_els_);
 
-      when (Token_val_eq(t_, &str_not_equal))
-        consume_sym(g_, &str_not_equal);
+      when (Token_val_eq(t_, &s_not_equal))
+        consume_sym(g_, &s_not_equal);
         expr_node_r_ = parse_expr(g_);
 
         expr_els_ = NodeList_new(g_);
 
-        NodeList_add_str(g_, expr_els_, &str_neq_op);
+        NodeList_add_str(g_, expr_els_, &s_neq_op);
         NodeList_add(expr_els_, expr_node_l_);
         NodeList_add(expr_els_, expr_node_r_);
 
@@ -504,14 +504,14 @@ end
 
 def parse_set(g_)
   var stmt_;
-  var [4]str_set;
+  var [4]s_set;
   var t_;
   var var_name_;
   var expr_node_;
 
-  str_set_set(&str_set);
+  str_set_set(&s_set);
 
-  consume_kw(g_, &str_set);
+  consume_kw(g_, &s_set);
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
@@ -525,7 +525,7 @@ def parse_set(g_)
 
   stmt_ = NodeList_new(g_);
 
-  NodeList_add_str(g_, stmt_, &str_set);
+  NodeList_add_str(g_, stmt_, &s_set);
 
   NodeList_add_str(g_, stmt_, var_name_);
 
@@ -558,15 +558,15 @@ end
 
 def parse_call(g_)
   var stmt_;
-  var [5]str_call;
+  var [5]s_call;
   var funcall_;
 
-  str_set_call(&str_call);
+  str_set_call(&s_call);
 
   stmt_ = NodeList_new(g_);
 
-  consume_kw(g_, &str_call);
-  NodeList_add_str(g_, stmt_, &str_call);
+  consume_kw(g_, &s_call);
+  NodeList_add_str(g_, stmt_, &s_call);
 
   funcall_ = parse_funcall(g_);
   NodeList_add_all(stmt_, funcall_);
@@ -577,13 +577,13 @@ def parse_call(g_)
 end
 
 def parse_call_set(g_)
-  var [9]str_call_set; str_set_call_set(&str_call_set);
+  var [9]s_call_set; str_set_call_set(&s_call_set);
   var funcall_;
   var t_;
   var var_name_;
   var stmt_;
 
-  consume_kw(g_, &str_call_set);
+  consume_kw(g_, &s_call_set);
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
@@ -596,7 +596,7 @@ def parse_call_set(g_)
   consume_sym_semicolon(g_);
 
   stmt_ = NodeList_new(g_);
-  NodeList_add_str(g_, stmt_, &str_call_set);
+  NodeList_add_str(g_, stmt_, &s_call_set);
   NodeList_add_str(g_, stmt_, var_name_);
   NodeList_add_list(g_, stmt_, funcall_);
 
@@ -606,18 +606,18 @@ end
 def parse_return(g_)
   var expr_;
   var stmt_;
-  var [7]str_return;
+  var [7]s_return;
 
-  str_set_return(&str_return);
+  str_set_return(&s_return);
 
-  consume_kw(g_, &str_return);
+  consume_kw(g_, &s_return);
 
   var expr_ = parse_expr(g_);
 
   consume_sym_semicolon(g_); # ;
 
   stmt_ = NodeList_new(g_);
-  NodeList_add_str(g_, stmt_, &str_return);
+  NodeList_add_str(g_, stmt_, &s_return);
   NodeList_add(stmt_, expr_);
 
   return stmt_;
@@ -691,20 +691,20 @@ end
 
 def parse_vm_comment(g_)
   var t_;
-  var [5]str__cmt;
+  var [5]s__cmt;
   var stmt_;
 
-  str_set__cmt(&str__cmt);
+  str_set__cmt(&s__cmt);
 
   stmt_ = NodeList_new(g_);
 
-  consume_kw(g_, &str__cmt);
+  consume_kw(g_, &s__cmt);
   consume_sym_paren_l(g_); # (
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
 
-  NodeList_add_str(g_, stmt_, &str__cmt);
+  NodeList_add_str(g_, stmt_, &s__cmt);
   NodeList_add_str(g_, stmt_, Token_get_val(t_));
 
   consume_sym_paren_r(g_); # )
