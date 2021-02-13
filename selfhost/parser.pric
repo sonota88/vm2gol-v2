@@ -228,14 +228,11 @@ def parse_func(g_)
   var stmts_;
   var stmt_;
   var do_break = FALSE();
-  var [4]s_var;
-  var [5]s_func;
+  var [4]s_var; str_set_var(&s_var);
+  var [5]s_func; str_set_func(&s_func);
   var args_;
   var fn_name_;
   check_heap_stack_overlap(g_);
-
-  str_set_var(&s_var);
-  str_set_func(&s_func);
 
   consume_kw(g_, &s_func);
 
@@ -284,12 +281,10 @@ end
 
 def _parse_var_declare(g_)
   var stmt_;
-  var [4]s_var;
+  var [4]s_var; str_set_var(&s_var);
   var t_;
   var var_name_;
   check_heap_stack_overlap(g_);
-
-  str_set_var(&s_var);
 
   stmt_ = NodeList_new(g_);
 
@@ -308,13 +303,11 @@ end
 
 def _parse_var_init(g_)
   var stmt_;
-  var [4]s_var;
+  var [4]s_var; str_set_var(&s_var);
   var t_;
   var var_name_;
   var expr_node_;
   check_heap_stack_overlap(g_);
-
-  str_set_var(&s_var);
 
   stmt_ = NodeList_new(g_);
 
@@ -504,12 +497,10 @@ end
 
 def parse_set(g_)
   var stmt_;
-  var [4]s_set;
+  var [4]s_set; str_set_set(&s_set);
   var t_;
   var var_name_;
   var expr_node_;
-
-  str_set_set(&s_set);
 
   consume_kw(g_, &s_set);
 
@@ -558,10 +549,8 @@ end
 
 def parse_call(g_)
   var stmt_;
-  var [5]s_call;
+  var [5]s_call; str_set_call(&s_call);
   var funcall_;
-
-  str_set_call(&s_call);
 
   stmt_ = NodeList_new(g_);
 
@@ -606,9 +595,7 @@ end
 def parse_return(g_)
   var expr_;
   var stmt_;
-  var [7]s_return;
-
-  str_set_return(&s_return);
+  var [7]s_return; str_set_return(&s_return);
 
   consume_kw(g_, &s_return);
 
@@ -691,10 +678,8 @@ end
 
 def parse_vm_comment(g_)
   var t_;
-  var [5]s__cmt;
+  var [5]s__cmt; str_set__cmt(&s__cmt);
   var stmt_;
-
-  str_set__cmt(&s__cmt);
 
   stmt_ = NodeList_new(g_);
 
