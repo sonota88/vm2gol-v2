@@ -115,7 +115,7 @@ def Json_parse_list(g_, rest_, pos_start, size_)
 
   list_ = NodeList_new(g_);
 
-  while (do_break == FALSE())
+  while (__not(do_break))
     c = char_at(rest_, pos);
 
     case

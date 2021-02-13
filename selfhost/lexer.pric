@@ -366,7 +366,7 @@ def main()
 
   c = char_at(&input, pos);
 
-  while (do_break == FALSE())
+  while (__not(do_break))
     case
     when (__or(c == C_SPC(), c == C_LF()))
       pos = pos + 1;
