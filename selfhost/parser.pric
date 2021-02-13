@@ -636,7 +636,6 @@ def parse_case(g_)
   var when_clause_;
 
   consume_kw(g_, &s_case);
-  consume_sym_cbracket_l(g_); # {
 
   stmt_ = NodeList_new(g_);
   NodeList_add_str(g_, stmt_, &s_case);
@@ -647,8 +646,6 @@ def parse_case(g_)
   end
 
   consume_kw(g_, &s_end);
-
-  consume_sym_cbracket_r(g_); # }
 
   return stmt_;
 end

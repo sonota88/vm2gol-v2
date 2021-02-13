@@ -33,7 +33,7 @@ end
 def adjust_index(width, i)
   var adjusted;
 
-  case {
+  case
     when (i == -1)
       _cmt("下限を超えた場合");
       set adjusted = width + -1;
@@ -43,8 +43,7 @@ def adjust_index(width, i)
     when (1 == 1)
       _cmt("補正が不要な場合");
      set adjusted = i;
-    end
-  }
+  end
 
   return adjusted;
 end
@@ -53,23 +52,20 @@ def calc_next_gen(current_val, count)
   # 注目しているセルの次世代の生死
   var next_val = 0;
 
-  case {
+  case
     when (current_val == 0)
-      case {
+      case
         when (count == 3)
           set next_val = 1;
         end
-      }
     when (0 == 0)
-      case {
+      case
         when (count == 2)
           set next_val = 1;
         when (count == 3)
           set next_val = 1;
         end
-      }
-    end
-  }
+  end
   
   return next_val;
 end
