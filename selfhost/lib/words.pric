@@ -172,6 +172,20 @@ def str_eq_var(str_)
   return str_eq(str_, &pattern);
 end
 
+def str_set_when(str_)
+  aset(str_, 0, 119); # w
+  aset(str_, 1, 104); # h
+  aset(str_, 2, 101); # e
+  aset(str_, 3, 110); # n
+  aset(str_, 4,   0);
+end
+
+def str_eq_when(str_)
+  var [5]pattern;
+  str_set_when(&pattern);
+  return str_eq(str_, &pattern);
+end
+
 def str_set_while(str_)
   aset(str_, 0, 119); # w
   aset(str_, 1, 104); # h

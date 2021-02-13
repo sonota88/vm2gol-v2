@@ -611,6 +611,9 @@ def _parse_when_clause(g_)
   var when_clause_;
   var cond_expr_node_;
   var stmts_;
+  var [5]s_when; str_set_when(&s_when);
+
+  consume_kw(g_, &s_when);
 
   consume_sym_paren_l(g_); # (
   cond_expr_node_ = parse_expr(g_);
@@ -630,6 +633,7 @@ end
 def parse_case(g_)
   var stmt_;
   var [5]s_case; str_set_case(&s_case);
+  var [5]s_when; str_set_when(&s_when);
   var when_clause_;
 
   consume_kw(g_, &s_case);
@@ -638,7 +642,7 @@ def parse_case(g_)
   stmt_ = NodeList_new(g_);
   NodeList_add_str(g_, stmt_, &s_case);
 
-  while (char_at(Token_get_val(peek(g_, 0)), 0) != 125) # }
+  while (Token_val_eq(peek(g_, 0), &s_when))
     when_clause_ = _parse_when_clause(g_);
     NodeList_add_list(g_, stmt_, when_clause_);
   end
