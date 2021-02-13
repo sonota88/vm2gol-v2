@@ -636,7 +636,6 @@ end
 def parse_case(g_)
   var stmt_;
   var [5]s_case; str_set_case(&s_case);
-  var t_;
   var when_clause_;
 
   consume_kw(g_, &s_case);
