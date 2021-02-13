@@ -259,16 +259,9 @@ end
 # --------------------------------
 
 def str_cp(dest_, src_)
-  var i = 0;
-  var c = *(src_ + i);
+  var to = str_size(src_);
 
-  while (c != 0)
-    *(dest_ + i) = c;
-    i = i + 1;
-    c = *(src_ + i);
-  end
-
-  aset(dest_, str_size(src_), 0);
+  substr(dest_, src_, 0, to);
 end
 
 # dest_size: size with sentinel
