@@ -13,73 +13,73 @@ def asm_indent()
 end
 
 def asm_exit()
-  var [5]temp_str;
+  var [5]s_temp;
 
-  aset(&temp_str, 0, 101); # e
-  aset(&temp_str, 1, 120); # x
-  aset(&temp_str, 2, 105); # i
-  aset(&temp_str, 3, 116); # t
-  aset(&temp_str, 4,   0);
+  aset(&s_temp, 0, 101); # e
+  aset(&s_temp, 1, 120); # x
+  aset(&s_temp, 2, 105); # i
+  aset(&s_temp, 3, 116); # t
+  aset(&s_temp, 4,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_LF());
 end
 
 def asm_label(label_)
-  var [6]temp_str;
+  var [6]s_temp;
 
-  aset(&temp_str, 0, 108); # l
-  aset(&temp_str, 1,  97); # a
-  aset(&temp_str, 2,  98); # b
-  aset(&temp_str, 3, 101); # e
-  aset(&temp_str, 4, 108); # l
-  aset(&temp_str, 5,   0);
+  aset(&s_temp, 0, 108); # l
+  aset(&s_temp, 1,  97); # a
+  aset(&s_temp, 2,  98); # b
+  aset(&s_temp, 3, 101); # e
+  aset(&s_temp, 4, 108); # l
+  aset(&s_temp, 5,   0);
 
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_SPC());
   print_s(label_);
   putchar(C_LF());
 end
 
 def asm_call(label_)
-  var [5]temp_str;
+  var [5]s_temp;
 
-  aset(&temp_str, 0,  99); # c
-  aset(&temp_str, 1,  97); # a
-  aset(&temp_str, 2, 108); # l
-  aset(&temp_str, 3, 108); # l
-  aset(&temp_str, 4,   0);
+  aset(&s_temp, 0,  99); # c
+  aset(&s_temp, 1,  97); # a
+  aset(&s_temp, 2, 108); # l
+  aset(&s_temp, 3, 108); # l
+  aset(&s_temp, 4,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_SPC());
   print_s(label_);
   putchar(C_LF());
 end
 
 def asm_ret()
-  var [4]temp_str;
+  var [4]s_temp;
 
-  aset(&temp_str, 0, 114); # r
-  aset(&temp_str, 1, 101); # e
-  aset(&temp_str, 2, 116); # t
-  aset(&temp_str, 3,   0);
+  aset(&s_temp, 0, 114); # r
+  aset(&s_temp, 1, 101); # e
+  aset(&s_temp, 2, 116); # t
+  aset(&s_temp, 3,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_LF());
 end
 
 def asm_cp(src_, dest_)
-  var [3]temp_str;
+  var [3]s_temp;
 
-  aset(&temp_str, 0,  99); # c
-  aset(&temp_str, 1, 112); # p
-  aset(&temp_str, 2,   0);
+  aset(&s_temp, 0,  99); # c
+  aset(&s_temp, 1, 112); # p
+  aset(&s_temp, 2,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_SPC());
   print_s(src_);
   putchar(C_SPC());
@@ -88,67 +88,67 @@ def asm_cp(src_, dest_)
 end
 
 def asm_push(arg_)
-  var [5]temp_str;
+  var [5]s_temp;
 
-  aset(&temp_str, 0, 112); # p
-  aset(&temp_str, 1, 117); # u
-  aset(&temp_str, 2, 115); # s
-  aset(&temp_str, 3, 104); # h
-  aset(&temp_str, 4,   0);
+  aset(&s_temp, 0, 112); # p
+  aset(&s_temp, 1, 117); # u
+  aset(&s_temp, 2, 115); # s
+  aset(&s_temp, 3, 104); # h
+  aset(&s_temp, 4,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_SPC());
   print_s(arg_);
   putchar(C_LF());
 end
 
 def asm_pop(dest_)
-  var [4]temp_str;
+  var [4]s_temp;
 
-  aset(&temp_str, 0, 112); # p
-  aset(&temp_str, 1, 111); # o
-  aset(&temp_str, 2, 112); # p
-  aset(&temp_str, 3,   0);
+  aset(&s_temp, 0, 112); # p
+  aset(&s_temp, 1, 111); # o
+  aset(&s_temp, 2, 112); # p
+  aset(&s_temp, 3,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_SPC());
   print_s(dest_);
   putchar(C_LF());
 end
 
 def asm_sub_sp(n)
-  var [7]temp_str;
+  var [7]s_temp;
 
-  aset(&temp_str, 0, 115); # s
-  aset(&temp_str, 1, 117); # u
-  aset(&temp_str, 2,  98); # b
-  aset(&temp_str, 3,  95); # _
-  aset(&temp_str, 4, 115); # s
-  aset(&temp_str, 5, 112); # p
-  aset(&temp_str, 6,   0);
+  aset(&s_temp, 0, 115); # s
+  aset(&s_temp, 1, 117); # u
+  aset(&s_temp, 2,  98); # b
+  aset(&s_temp, 3,  95); # _
+  aset(&s_temp, 4, 115); # s
+  aset(&s_temp, 5, 112); # p
+  aset(&s_temp, 6,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_SPC());
   print_i(n);
   putchar(C_LF());
 end
 
 def asm_add_sp(n)
-  var [7]temp_str;
+  var [7]s_temp;
 
-  aset(&temp_str, 0,  97); # a
-  aset(&temp_str, 1, 100); # d
-  aset(&temp_str, 2, 100); # d
-  aset(&temp_str, 3,  95); # _
-  aset(&temp_str, 4, 115); # s
-  aset(&temp_str, 5, 112); # p
-  aset(&temp_str, 6,   0);
+  aset(&s_temp, 0,  97); # a
+  aset(&s_temp, 1, 100); # d
+  aset(&s_temp, 2, 100); # d
+  aset(&s_temp, 3,  95); # _
+  aset(&s_temp, 4, 115); # s
+  aset(&s_temp, 5, 112); # p
+  aset(&s_temp, 6,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_SPC());
   print_i(n);
   putchar(C_LF());
@@ -220,20 +220,20 @@ def asm_vm_comment(vm_comment_)
 end
 
 def asm_get_vram(vram_addr_, dest_)
-  var [9]temp_str;
+  var [9]s_temp;
 
-  aset(&temp_str, 0, 103); # g
-  aset(&temp_str, 1, 101); # e
-  aset(&temp_str, 2, 116); # t
-  aset(&temp_str, 3,  95); # _
-  aset(&temp_str, 4, 118); # v
-  aset(&temp_str, 5, 114); # r
-  aset(&temp_str, 6,  97); # a
-  aset(&temp_str, 7, 109); # m
-  aset(&temp_str, 8,   0);
+  aset(&s_temp, 0, 103); # g
+  aset(&s_temp, 1, 101); # e
+  aset(&s_temp, 2, 116); # t
+  aset(&s_temp, 3,  95); # _
+  aset(&s_temp, 4, 118); # v
+  aset(&s_temp, 5, 114); # r
+  aset(&s_temp, 6,  97); # a
+  aset(&s_temp, 7, 109); # m
+  aset(&s_temp, 8,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_SPC());
   print_s(vram_addr_);
   putchar(C_SPC());
@@ -242,20 +242,20 @@ def asm_get_vram(vram_addr_, dest_)
 end
 
 def asm_set_vram(vram_addr_, val_)
-  var [9]temp_str;
+  var [9]s_temp;
 
-  aset(&temp_str, 0, 115); # s
-  aset(&temp_str, 1, 101); # e
-  aset(&temp_str, 2, 116); # t
-  aset(&temp_str, 3,  95); # _
-  aset(&temp_str, 4, 118); # v
-  aset(&temp_str, 5, 114); # r
-  aset(&temp_str, 6,  97); # a
-  aset(&temp_str, 7, 109); # m
-  aset(&temp_str, 8,   0);
+  aset(&s_temp, 0, 115); # s
+  aset(&s_temp, 1, 101); # e
+  aset(&s_temp, 2, 116); # t
+  aset(&s_temp, 3,  95); # _
+  aset(&s_temp, 4, 118); # v
+  aset(&s_temp, 5, 114); # r
+  aset(&s_temp, 6,  97); # a
+  aset(&s_temp, 7, 109); # m
+  aset(&s_temp, 8,   0);
 
   asm_indent();
-  print_s(&temp_str);
+  print_s(&s_temp);
   putchar(C_SPC());
   print_s(vram_addr_);
   putchar(C_SPC());
@@ -332,7 +332,7 @@ end
 
 def match_vram(str_)
   var [6]pattern;
-  var [6]temp_str;
+  var [6]s_temp;
   var i;
 
   aset(&pattern, 0, 118); # v
@@ -342,9 +342,9 @@ def match_vram(str_)
   aset(&pattern, 4,  91); # [
   aset(&pattern, 5,   0);
 
-  substr_with_check(&temp_str, str_, 0, 5, 6);
+  substr_with_check(&s_temp, str_, 0, 5, 6);
 
-  if (str_eq(&temp_str, &pattern))
+  if (str_eq(&s_temp, &pattern))
     i = char_index(str_, 93, 0); # ]
     return __sub(i, 5);
   else
@@ -980,14 +980,14 @@ def gen_top_stmts(g_, top_stmts_)
 end
 
 def codegen(g_, ast_)
-  var [5]temp_str;
+  var [5]s_temp;
 
-  aset(&temp_str, 0, 109); # m
-  aset(&temp_str, 1,  97); # a
-  aset(&temp_str, 2, 105); # i
-  aset(&temp_str, 3, 110); # n
-  aset(&temp_str, 4,   0);
-  asm_call(&temp_str);
+  aset(&s_temp, 0, 109); # m
+  aset(&s_temp, 1,  97); # a
+  aset(&s_temp, 2, 105); # i
+  aset(&s_temp, 3, 110); # n
+  aset(&s_temp, 4,   0);
+  asm_call(&s_temp);
 
   asm_exit();
 

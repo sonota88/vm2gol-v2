@@ -75,7 +75,7 @@ def Json_parse_int(rest_, pos, size_)
   var pos_start;
   var pos_end;
   var n;
-  var [8]temp_str;
+  var [8]s_temp;
 
   if (char_at(rest_, pos) == 45) # -
     pos_start = pos + 1;
@@ -84,14 +84,14 @@ def Json_parse_int(rest_, pos, size_)
   end
 
   pos_end = non_digit_index(rest_, pos_start);
-  substr(&temp_str, rest_, pos, pos_end);
-  n = parse_int(&temp_str);
+  substr(&s_temp, rest_, pos, pos_end);
+  n = parse_int(&s_temp);
 
   if (char_at(rest_, 0) == 45) # -
     n = n * -1;
   end
 
-  *(size_) = str_size(&temp_str);
+  *(size_) = str_size(&s_temp);
   return n;
 end
 
@@ -101,7 +101,7 @@ def Json_parse_list(g_, rest_, pos_start, size_)
   var list_;
   var c;
   var pos_end;
-  var temp_str_size = 40; var [40]temp_str;
+  var s_temp_size = 40; var [40]s_temp;
   var n;
   var do_break = FALSE();
   var child_list_;
@@ -142,9 +142,9 @@ def Json_parse_list(g_, rest_, pos_start, size_)
 
     when (c == C_DQ())
       pos_end = char_index(rest_, C_DQ(), pos + 1);
-      substr_with_check(&temp_str, rest_, pos + 1, pos_end, temp_str_size);
-      NodeList_add_str(g_, list_, &temp_str);
-      pos = pos + str_size(&temp_str) + 2;
+      substr_with_check(&s_temp, rest_, pos + 1, pos_end, s_temp_size);
+      NodeList_add_str(g_, list_, &s_temp);
+      pos = pos + str_size(&s_temp) + 2;
 
     else
       p_char(c);

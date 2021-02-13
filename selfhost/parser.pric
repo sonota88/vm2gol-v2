@@ -223,7 +223,7 @@ end
 
 def parse_func(g_)
   var func_stmt_;
-  var [10]temp_str;
+  var [10]s_temp;
   var t_;
   var stmts_;
   var stmt_;
@@ -759,21 +759,21 @@ end
 def parse_top_stmts(g_)
   var top_stmts_;
   var top_stmt_;
-  var [10]temp_str;
+  var [10]s_temp;
 
   top_stmts_ = NodeList_new(g_);
 
-  aset(&temp_str, 0, 116); # t
-  aset(&temp_str, 1, 111); # o
-  aset(&temp_str, 2, 112); # p
-  aset(&temp_str, 3,  95); # _
-  aset(&temp_str, 4, 115); # s
-  aset(&temp_str, 5, 116); # t
-  aset(&temp_str, 6, 109); # m
-  aset(&temp_str, 7, 116); # t
-  aset(&temp_str, 8, 115); # s
-  aset(&temp_str, 9,   0);
-  NodeList_add_str(g_, top_stmts_, &temp_str);
+  aset(&s_temp, 0, 116); # t
+  aset(&s_temp, 1, 111); # o
+  aset(&s_temp, 2, 112); # p
+  aset(&s_temp, 3,  95); # _
+  aset(&s_temp, 4, 115); # s
+  aset(&s_temp, 5, 116); # t
+  aset(&s_temp, 6, 109); # m
+  aset(&s_temp, 7, 116); # t
+  aset(&s_temp, 8, 115); # s
+  aset(&s_temp, 9,   0);
+  NodeList_add_str(g_, top_stmts_, &s_temp);
 
   while (__not(is_end(g_)))
     top_stmt_ = parse_top_stmt(g_);

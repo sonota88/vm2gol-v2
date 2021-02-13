@@ -5,12 +5,12 @@
 
 def _match_kw_func(input_, pos)
   var size = 4;
-  var [5]temp_str;
+  var [5]s_temp;
 
-  substr(&temp_str, input_, pos, pos + size);
+  substr(&s_temp, input_, pos, pos + size);
 
   if (__and(
-        str_eq_func(&temp_str),
+        str_eq_func(&s_temp),
         is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
     return size;
@@ -21,12 +21,12 @@ end
 
 def _match_kw_var(input_, pos)
   var size = 3;
-  var [4]temp_str;
+  var [4]s_temp;
 
-  substr(&temp_str, input_, pos, pos + size);
+  substr(&s_temp, input_, pos, pos + size);
 
   if (__and(
-        str_eq_var(&temp_str),
+        str_eq_var(&s_temp),
         is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
     return size;
@@ -37,12 +37,12 @@ end
 
 def _match_kw_set(input_, pos)
   var size = 3;
-  var [4]temp_str;
+  var [4]s_temp;
 
-  substr(&temp_str, input_, pos, pos + size);
+  substr(&s_temp, input_, pos, pos + size);
 
   if (__and(
-        str_eq_set(&temp_str),
+        str_eq_set(&s_temp),
         is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
     return size;
@@ -53,15 +53,15 @@ end
 
 def _match_kw_vm_comment(input_, pos)
   var size = 4;
-  var [5]temp_str;
+  var [5]s_temp;
 
   substr_with_check(
-    &temp_str, input_, pos, pos + size,
+    &s_temp, input_, pos, pos + size,
     size + 1
   );
 
   if (__and(
-        str_eq__cmt(&temp_str),
+        str_eq__cmt(&s_temp),
         is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
     return size;
@@ -72,15 +72,15 @@ end
 
 def _match_kw_call(input_, pos)
   var size = 4;
-  var [5]temp_str;
+  var [5]s_temp;
 
   substr_with_check(
-    &temp_str, input_, pos, pos + size,
+    &s_temp, input_, pos, pos + size,
     size + 1
   );
 
   if (__and(
-        str_eq_call(&temp_str),
+        str_eq_call(&s_temp),
         is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
     return size;
@@ -91,15 +91,15 @@ end
 
 def _match_kw_call_set(input_, pos)
   var size = 8;
-  var [9]temp_str;
+  var [9]s_temp;
 
   substr_with_check(
-    &temp_str, input_, pos, pos + size,
+    &s_temp, input_, pos, pos + size,
     size + 1
   );
 
   if (__and(
-        str_eq_call_set(&temp_str),
+        str_eq_call_set(&s_temp),
         is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
     return size;
@@ -110,15 +110,15 @@ end
 
 def _match_kw_return(input_, pos)
   var size = 6;
-  var [7]temp_str;
+  var [7]s_temp;
 
   substr_with_check(
-    &temp_str, input_, pos, pos + size,
+    &s_temp, input_, pos, pos + size,
     size + 1
   );
 
   if (__and(
-        str_eq_return(&temp_str),
+        str_eq_return(&s_temp),
         is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
     return size;
@@ -129,15 +129,15 @@ end
 
 def _match_kw_while(input_, pos)
   var size = 5;
-  var [6]temp_str;
+  var [6]s_temp;
 
   substr_with_check(
-    &temp_str, input_, pos, pos + size,
+    &s_temp, input_, pos, pos + size,
     size + 1
   );
 
   if (__and(
-        str_eq_while(&temp_str),
+        str_eq_while(&s_temp),
         is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
     return size;
@@ -148,15 +148,15 @@ end
 
 def _match_kw_case(input_, pos)
   var size = 4;
-  var [5]temp_str;
+  var [5]s_temp;
 
   substr_with_check(
-    &temp_str, input_, pos, pos + size,
+    &s_temp, input_, pos, pos + size,
     size + 1
   );
 
   if (__and(
-        str_eq_case(&temp_str),
+        str_eq_case(&s_temp),
         is_ident_char(char_at(input_, pos + size)) == FALSE()
       ))
     return size;
@@ -356,7 +356,7 @@ def main()
   var pos = 0;
   var do_break = FALSE();
   var size;
-  var temp_str_size = 40; var [40]temp_str;
+  var s_temp_size = 40; var [40]s_temp;
   var c;
 
   # init globals
@@ -377,37 +377,37 @@ def main()
 
     when (0 < match_symbol(&input, pos))
       size = match_symbol(&input, pos);
-      substr(&temp_str, &input, pos, pos + size);
-      print_symbol(&temp_str);
+      substr(&s_temp, &input, pos, pos + size);
+      print_symbol(&s_temp);
       pos = pos + size;
 
     when (0 < match_str(&input, pos))
       size = match_str(&input, pos);
 
       substr_with_check(
-        &temp_str, &input, pos + 1, pos + 1 + size,
-        temp_str_size
+        &s_temp, &input, pos + 1, pos + 1 + size,
+        s_temp_size
       );
 
-      print_str(&temp_str);
+      print_str(&s_temp);
       pos = pos + size + 2;
 
     when (0 < match_kw(&input, pos))
       size = match_kw(&input, pos);
-      substr(&temp_str, &input, pos, pos + size);
-      print_kw(&temp_str);
+      substr(&s_temp, &input, pos, pos + size);
+      print_kw(&s_temp);
       pos = pos + size;
 
     when (0 < match_int(&input, pos))
       size = match_int(&input, pos);
-      substr(&temp_str, &input, pos, pos + size);
-      print_int(&temp_str);
+      substr(&s_temp, &input, pos, pos + size);
+      print_int(&s_temp);
       pos = pos + size;
 
     when (0 < match_ident(&input, pos))
       size = match_ident(&input, pos);
-      substr_with_check(&temp_str, &input, pos, pos + size, temp_str_size);
-      print_ident(&temp_str);
+      substr_with_check(&s_temp, &input, pos, pos + size, s_temp_size);
+      print_ident(&s_temp);
       pos = pos + size;
 
     else
