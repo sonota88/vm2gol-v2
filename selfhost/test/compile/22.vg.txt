@@ -1,7 +1,7 @@
-// -*- mode: ruby -*-
+# -*- mode: ruby -*-
 
 func main() {
-  // *, neq
+  # *, neq
   var a;
   set a = 2 * 3;
   set a = 4 != 5;

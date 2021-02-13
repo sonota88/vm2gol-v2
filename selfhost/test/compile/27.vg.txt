@@ -1,14 +1,14 @@
-// -*- mode: ruby -*-
+# -*- mode: ruby -*-
 
 func ret_vram_lvar() {
   var vi = 49;
-  // vram[ローカル変数] を return
+  # vram[ローカル変数] を return
   return vram[vi];
 }
 
 func ret_lvar() {
   var a;
-  // ローカル変数 を return
+  # ローカル変数 を return
   return a;
 }
 

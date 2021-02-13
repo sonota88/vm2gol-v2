@@ -1,4 +1,4 @@
-// -*- mode: ruby -*-
+# -*- mode: ruby -*-
 
 func main() {
   var vi = 0;

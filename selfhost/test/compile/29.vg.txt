@@ -1,7 +1,7 @@
-// -*- mode: ruby -*-
+# -*- mode: ruby -*-
 
 func to_vi(w, x, y, offset) {
-  var vi; // vram index
+  var vi; # vram index
 
   set vi = 
     ((y * w) + x)
@@ -13,19 +13,19 @@ func to_vi(w, x, y, offset) {
 }
 
 func vram_set(w, x, y, val) {
-  var vi; // vram index
+  var vi; # vram index
   call_set vi = to_vi(w, x, y, 0);
   set vram[vi] = val;
 }
 
 func vram_set_buf(w, x, y, val) {
-  var vi; // vram index
+  var vi; # vram index
   call_set  vi = to_vi(w, x, y, 25);
   set vram[vi] = val;
 }
 
 func vram_get(w, x, y) {
-  var vi; // vram index
+  var vi; # vram index
   call_set vi = to_vi(w, x, y, 0);
   return vram[vi];
 }
@@ -52,7 +52,7 @@ func adjust_index(width, i) {
 }
 
 func calc_next_gen(current_val, count) {
-  // 注目しているセルの次世代の生死
+  # 注目しているセルの次世代の生死
   var next_val = 0;
 
   case {
@@ -148,9 +148,9 @@ func make_next_gen(w, h) {
   var y = 0;
 
   var count;
-  // 注目しているセルの現世代の生死
+  # 注目しているセルの現世代の生死
   var current_val;
-  // 注目しているセルの次世代の生死
+  # 注目しているセルの次世代の生死
   var next_val;
 
   while (y != h) {
@@ -191,10 +191,10 @@ func replace_with_buf() {
 }
 
 func main() {
-  var w = 5; // 盤面の幅
-  var h = 5; // 盤面の高さ
+  var w = 5; # 盤面の幅
+  var h = 5; # 盤面の高さ
 
-  // 初期状態の設定
+  # 初期状態の設定
   call vram_set(w, 1, 0, 1);
   call vram_set(w, 2, 1, 1);
   call vram_set(w, 0, 2, 1);

@@ -1,4 +1,4 @@
-// -*- mode: ruby -*-
+# -*- mode: ruby -*-
 
 func to_vi(w, x, y, offset) {
 }

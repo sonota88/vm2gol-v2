@@ -1,4 +1,4 @@
-// -*- mode: ruby -*-
+# -*- mode: ruby -*-
 
 func add(a, b) {
   var c;

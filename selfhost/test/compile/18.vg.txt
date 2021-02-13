@@ -1,4 +1,4 @@
-// -*- mode: ruby -*-
+# -*- mode: ruby -*-
 
 func main() {
   var a = (2 == 3);

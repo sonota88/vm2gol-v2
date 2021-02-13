@@ -1,7 +1,7 @@
-// -*- mode: ruby -*-
+# -*- mode: ruby -*-
 
 func main() {
-  // 式の左項が (...)
+  # 式の左項が (...)
   var a;
   set a = (1 + 2) + 3;
 }

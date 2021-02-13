@@ -1,4 +1,4 @@
-// -*- mode: ruby -*-
+# -*- mode: ruby -*-
 
 func sub(a, b, c) {
 }
