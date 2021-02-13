@@ -164,10 +164,10 @@ def read_stdin_all(dest_, limit)
 
     c = getchar();
     if (c == -1)
-      *(dest_ + i) = 0;
+      aset(dest_, i, 0);
       do_break = 1;
     else
-      *(dest_ + i) = c;
+      aset(dest_, i, c);
       i = i + 1;
     end
   end
@@ -309,7 +309,7 @@ end
 def chomp(str_)
   var i = __sub(str_size(str_), 1);
   if (char_at(str_, i) == C_LF())
-    *(str_ + i) = 0;
+    aset(str_, i, 0);
   end
 end
 
@@ -325,13 +325,13 @@ def substr(dest_, src_, from, to)
     ))
       do_break = TRUE();
     else
-      *(dest_ + dest_i) = char_at(src_, i);
+      aset(dest_, dest_i, char_at(src_, i));
       i = i + 1;
       dest_i = dest_i + 1;
     end
   end
 
-  *(dest_ + dest_i) = 0;
+  aset(dest_, dest_i, 0);
 end
 
 # dest_size: size with sentinel
