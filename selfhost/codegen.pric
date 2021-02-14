@@ -968,8 +968,9 @@ def gen_top_stmts(g_, top_stmts_)
 end
 
 def gen_builtin_set_vram()
-  var [3]s_bp; str_set_bp(&s_bp);
   var [9]s_set_vram;
+  var [7]s_vram_addr;
+  var [7]s_val;
 
   aset(&s_set_vram, 0, 115); # s
   aset(&s_set_vram, 1, 101); # e
@@ -981,32 +982,28 @@ def gen_builtin_set_vram()
   aset(&s_set_vram, 7, 109); # m
   aset(&s_set_vram, 8,   0);
 
-  asm_label(&s_set_vram);
+  aset(&s_vram_addr, 0,  91); # [
+  aset(&s_vram_addr, 1,  98); # b
+  aset(&s_vram_addr, 2, 112); # p
+  aset(&s_vram_addr, 3,  58); # :
+  aset(&s_vram_addr, 4,  50); # 2
+  aset(&s_vram_addr, 5,  93); # ]
+  aset(&s_vram_addr, 6,   0);
 
+  aset(&s_val, 0,  91); # [
+  aset(&s_val, 1,  98); # b
+  aset(&s_val, 2, 112); # p
+  aset(&s_val, 3,  58); # :
+  aset(&s_val, 4,  51); # 3
+  aset(&s_val, 5,  93); # ]
+  aset(&s_val, 6,   0);
+
+  asm_label(&s_set_vram);
   asm_fn_prologue();
 
-  # set_vram [bp:2] [bp:3]" # vram_addr value
-  asm_indent();
-  print_s(&s_set_vram);
-
-  putchar(C_SPC());
-  putchar( 91); # [
-  print_s(&s_bp);
-  putchar( 58); # :
-  print_i(2);
-  putchar( 93); # ]
-
-  putchar(C_SPC());
-  putchar( 91); # [
-  print_s(&s_bp);
-  putchar( 58); # :
-  print_i(3);
-  putchar( 93); # ]
-
-  putchar(C_LF());
+  asm_set_vram(&s_vram_addr, &s_val);
 
   asm_fn_epilogue();
-
   asm_ret();
 end
 
