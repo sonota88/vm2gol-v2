@@ -967,6 +967,49 @@ def gen_top_stmts(g_, top_stmts_)
   end
 end
 
+def gen_builtin_set_vram()
+  var [3]s_bp; str_set_bp(&s_bp);
+  var [9]s_set_vram;
+
+  aset(&s_set_vram, 0, 115); # s
+  aset(&s_set_vram, 1, 101); # e
+  aset(&s_set_vram, 2, 116); # t
+  aset(&s_set_vram, 3,  95); # _
+  aset(&s_set_vram, 4, 118); # v
+  aset(&s_set_vram, 5, 114); # r
+  aset(&s_set_vram, 6,  97); # a
+  aset(&s_set_vram, 7, 109); # m
+  aset(&s_set_vram, 8,   0);
+
+  asm_label(&s_set_vram);
+
+  asm_fn_prologue();
+
+  # set_vram [bp:2] [bp:3]" # vram_addr value
+  asm_indent();
+  print_s(&s_set_vram);
+
+  putchar(C_SPC());
+  putchar( 91); # [
+  print_s(&s_bp);
+  putchar( 58); # :
+  print_i(2);
+  putchar( 93); # ]
+
+  putchar(C_SPC());
+  putchar( 91); # [
+  print_s(&s_bp);
+  putchar( 58); # :
+  print_i(3);
+  putchar( 93); # ]
+
+  putchar(C_LF());
+
+  asm_fn_epilogue();
+
+  asm_ret();
+end
+
 def codegen(g_, ast_)
   var [5]s_temp;
 
@@ -978,6 +1021,8 @@ def codegen(g_, ast_)
   asm_call(&s_temp);
 
   asm_exit();
+
+  gen_builtin_set_vram();
 
   gen_top_stmts(g_, ast_);
 end

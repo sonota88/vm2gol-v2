@@ -52,7 +52,13 @@ label vram_set
   add_sp 4
   cp reg_a [bp:-1]
   cp [bp:5] reg_a
-  set_vram [bp:-1] reg_a
+
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
+  _cmt call~~set_vram
+  call set_vram
+  add_sp 2
 
   cp bp sp
   pop bp
@@ -77,7 +83,13 @@ label vram_set_buf
   add_sp 4
   cp reg_a [bp:-1]
   cp [bp:5] reg_a
-  set_vram [bp:-1] reg_a
+
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
+  _cmt call~~set_vram
+  call set_vram
+  add_sp 2
 
   cp bp sp
   pop bp
@@ -772,7 +784,14 @@ label true_17
   get_vram [bp:-2] reg_a
   cp reg_a [bp:-3]
   cp [bp:-3] reg_a
-  set_vram [bp:-1] reg_a
+
+  push reg_a
+  cp [bp:-1] reg_a
+  push reg_a
+  _cmt call~~set_vram
+  call set_vram
+  add_sp 2
+
   cp [bp:-1] reg_a
   push reg_a
   cp 1 reg_a
