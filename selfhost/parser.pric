@@ -259,7 +259,7 @@ def parse_func(g_)
 
   stmts_ = NodeList_new(g_);
 
-  while(__not(do_break))
+  while (__not(do_break))
     t_ = peek(g_, 0);
     if (char_at(Token_get_val(t_), 0) == 125) # }
       do_break = TRUE();
@@ -394,7 +394,7 @@ def _parse_expr_right(g_, expr_node_l_)
     return expr_node_l_;
   else
 
-    if (char_at(Token_get_val(t_), 0) == 59) #;
+    if (char_at(Token_get_val(t_), 0) == 59) # ;
       return expr_node_l_;
     else
 
