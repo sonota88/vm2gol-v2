@@ -71,7 +71,7 @@ module Checker
     gs_total = 0
     gs_total += 1 # alloc cursor
 
-    declared_size = 0
+    declared_size = nil
 
     File.read(file).each_line { |line|
       case line
@@ -82,8 +82,12 @@ module Checker
       end
     }
 
-    if declared_size != gs_total
-      raise "ERROR: #{file}: total (#{gs_total}) declared (#{declared_size})"
+    if declared_size
+      if declared_size != gs_total
+        raise "ERROR: #{file}: total (#{gs_total}) declared (#{declared_size})"
+      end
+    else
+      # OK: グローバル変数を使っていない
     end
   end
 
