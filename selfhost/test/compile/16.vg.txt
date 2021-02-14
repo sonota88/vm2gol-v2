@@ -8,5 +8,5 @@ end
 
 def main()
   var c;
-  call_set c = add(1, 2);
+  c = add(1, 2);
 end

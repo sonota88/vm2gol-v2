@@ -617,33 +617,6 @@ def parse_call(g_)
   return stmt_;
 end
 
-def parse_call_set(g_)
-  var [9]s_call_set; str_set_call_set(&s_call_set);
-  var funcall_;
-  var t_;
-  var var_name_;
-  var stmt_;
-
-  consume_kw(g_, &s_call_set);
-
-  t_ = peek(g_, 0);
-  inc_token_index(g_);
-  var_name_ = Token_get_val(t_);
-
-  consume_sym_equal(g_); # =
-
-  funcall_ = parse_funcall(g_);
-
-  consume_sym_semicolon(g_);
-
-  stmt_ = NodeList_new(g_);
-  NodeList_add_str(g_, stmt_, &s_call_set);
-  NodeList_add_str(g_, stmt_, var_name_);
-  NodeList_add_list(g_, stmt_, funcall_);
-
-  return stmt_;
-end
-
 def parse_return(g_)
   var expr_;
   var stmt_;
@@ -762,8 +735,6 @@ def parse_stmt(g_)
     return parse_vm_comment(g_);
   when (str_eq_return(Token_get_val(t_)))
     return parse_return(g_);
-  when (str_eq_call_set(Token_get_val(t_)))
-    return parse_call_set(g_);
   when (str_eq_while(Token_get_val(t_)))
     return parse_while(g_);
   when (str_eq_case(Token_get_val(t_)))

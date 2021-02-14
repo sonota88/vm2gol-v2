@@ -813,27 +813,6 @@ def gen_call(g_, fn_arg_names_, lvar_names_, stmt_)
   asm_add_sp(NodeList_size(args_));
 end
 
-def gen_call_set(g_, fn_arg_names_, lvar_names_, stmt_)
-  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
-  var [5]s_call; str_set_call(&s_call);
-
-  var lvar_name_ = NodeList_get_as_str(stmt_, 1);
-  var funcall_   = NodeList_get_as_list(stmt_, 2);
-
-  var [10]lvar_addr;
-  var call_stmt_;
-
-  call_stmt_ = NodeList_new(g_);
-  NodeList_add_str(g_, call_stmt_, &s_call);
-  NodeList_add_all(call_stmt_, funcall_);
-
-  gen_call(g_, fn_arg_names_, lvar_names_, call_stmt_);
-
-  to_lvar_addr(&lvar_addr, lvar_names_, lvar_name_);
-
-  asm_cp(&s_reg_a, &lvar_addr);
-end
-
 def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var [8]dest;
   var [8]dest_str_;
@@ -896,8 +875,6 @@ def gen_stmt(g_, fn_arg_names_, lvar_names_, stmt_)
     gen_vm_comment(stmt_);
   when (str_eq_call(head_str_))
     gen_call(g_, fn_arg_names_, lvar_names_, stmt_);
-  when (str_eq_call_set(head_str_))
-    gen_call_set(g_, fn_arg_names_, lvar_names_, stmt_);
   when (str_eq_return(head_str_))
     gen_return(g_, fn_arg_names_, lvar_names_, stmt_);
   when (str_eq_while(head_str_))

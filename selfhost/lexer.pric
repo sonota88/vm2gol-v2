@@ -54,25 +54,6 @@ def _match_kw_vm_comment(input_, pos)
   end
 end
 
-def _match_kw_call_set(input_, pos)
-  var size = 8;
-  var [9]s_temp;
-
-  substr_with_check(
-    &s_temp, input_, pos, pos + size,
-    size + 1
-  );
-
-  if (__and(
-        str_eq_call_set(&s_temp),
-        is_ident_char(char_at(input_, pos + size)) == FALSE()
-      ))
-    return size;
-  else
-    return 0;
-  end
-end
-
 def _match_kw_return(input_, pos)
   var size = 6;
   var [7]s_temp;
@@ -176,8 +157,6 @@ def match_kw(input_, pos)
     return _match_kw_var(input_, pos);
   when (0 < _match_kw_vm_comment(input_, pos))
     return _match_kw_vm_comment(input_, pos);
-  when (0 < _match_kw_call_set(input_, pos))
-    return _match_kw_call_set(input_, pos);
   when (0 < _match_kw_return(input_, pos))
     return _match_kw_return(input_, pos);
   when (0 < _match_kw_while(input_, pos))

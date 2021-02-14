@@ -6,5 +6,5 @@ end
 
 def main()
   var c;
-  call_set c = f1();
+  c = f1();
 end
