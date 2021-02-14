@@ -393,62 +393,59 @@ def _parse_expr_right(g_, expr_node_l_)
   case
   when (char_at(Token_get_val(t_), 0) == 41) # )
     return expr_node_l_;
+  when (char_at(Token_get_val(t_), 0) == 59) # ;
+    return expr_node_l_;
+  when (char_at(Token_get_val(t_), 0) == 43) # +
+    consume_sym(g_, &s_plus);
+    expr_node_r_ = parse_expr(g_);
 
-    when (char_at(Token_get_val(t_), 0) == 59) # ;
-      return expr_node_l_;
+    expr_els_ = NodeList_new(g_);
 
-      when (char_at(Token_get_val(t_), 0) == 43) # +
-        consume_sym(g_, &s_plus);
-        expr_node_r_ = parse_expr(g_);
+    NodeList_add_str(g_, expr_els_, &s_plus);
+    NodeList_add(expr_els_, expr_node_l_);
+    NodeList_add(expr_els_, expr_node_r_);
 
-        expr_els_ = NodeList_new(g_);
+    return Node_new_list(g_, expr_els_);
 
-        NodeList_add_str(g_, expr_els_, &s_plus);
-        NodeList_add(expr_els_, expr_node_l_);
-        NodeList_add(expr_els_, expr_node_r_);
+  when (char_at(Token_get_val(t_), 0) == 42) # *
+    consume_sym(g_, &s_star);
+    expr_node_r_ = parse_expr(g_);
 
-        return Node_new_list(g_, expr_els_);
+    expr_els_ = NodeList_new(g_);
 
-      when (char_at(Token_get_val(t_), 0) == 42) # *
-        consume_sym(g_, &s_star);
-        expr_node_r_ = parse_expr(g_);
+    NodeList_add_str(g_, expr_els_, &s_star);
+    NodeList_add(expr_els_, expr_node_l_);
+    NodeList_add(expr_els_, expr_node_r_);
 
-        expr_els_ = NodeList_new(g_);
+    return Node_new_list(g_, expr_els_);
 
-        NodeList_add_str(g_, expr_els_, &s_star);
-        NodeList_add(expr_els_, expr_node_l_);
-        NodeList_add(expr_els_, expr_node_r_);
+  when (Token_val_eq(t_, &s_double_equal))
+    consume_sym(g_, &s_double_equal);
+    expr_node_r_ = parse_expr(g_);
 
-        return Node_new_list(g_, expr_els_);
+    expr_els_ = NodeList_new(g_);
 
-      when (Token_val_eq(t_, &s_double_equal))
-        consume_sym(g_, &s_double_equal);
-        expr_node_r_ = parse_expr(g_);
+    NodeList_add_str(g_, expr_els_, &s_eq_op);
+    NodeList_add(expr_els_, expr_node_l_);
+    NodeList_add(expr_els_, expr_node_r_);
 
-        expr_els_ = NodeList_new(g_);
+    return Node_new_list(g_, expr_els_);
 
-        NodeList_add_str(g_, expr_els_, &s_eq_op);
-        NodeList_add(expr_els_, expr_node_l_);
-        NodeList_add(expr_els_, expr_node_r_);
+  when (Token_val_eq(t_, &s_not_equal))
+    consume_sym(g_, &s_not_equal);
+    expr_node_r_ = parse_expr(g_);
 
-        return Node_new_list(g_, expr_els_);
+    expr_els_ = NodeList_new(g_);
 
-      when (Token_val_eq(t_, &s_not_equal))
-        consume_sym(g_, &s_not_equal);
-        expr_node_r_ = parse_expr(g_);
+    NodeList_add_str(g_, expr_els_, &s_neq_op);
+    NodeList_add(expr_els_, expr_node_l_);
+    NodeList_add(expr_els_, expr_node_r_);
 
-        expr_els_ = NodeList_new(g_);
+    return Node_new_list(g_, expr_els_);
 
-        NodeList_add_str(g_, expr_els_, &s_neq_op);
-        NodeList_add(expr_els_, expr_node_l_);
-        NodeList_add(expr_els_, expr_node_r_);
-
-        return Node_new_list(g_, expr_els_);
-
-      else
-        p_s(Token_get_val(t_));
-        panic(380); # _parse_expr_right
-
+  else
+    p_s(Token_get_val(t_));
+    panic(380); # _parse_expr_right
   end
 end
 
