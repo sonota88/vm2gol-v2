@@ -9,7 +9,12 @@ label ret_vram_lvar
   sub_sp 1
   cp 49 reg_a
   cp reg_a [bp:-1]
-  get_vram [bp:-1] reg_a
+
+  cp [bp:-1] reg_a
+  push reg_a
+  _cmt call~~get_vram
+  call get_vram
+  add_sp 1
 
   cp bp sp
   pop bp

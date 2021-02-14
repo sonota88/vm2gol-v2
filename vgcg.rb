@@ -550,6 +550,18 @@ def codegen_builtin_set_vram
   puts "  ret"
 end
 
+def codegen_builtin_get_vram
+  puts "label get_vram"
+  puts "  push bp"
+  puts "  cp sp bp"
+
+  puts "  get_vram [bp:2] reg_a"
+
+  puts "  cp bp sp"
+  puts "  pop bp"
+  puts "  ret"
+end
+
 def codegen(tree)
   puts "  call main"
   puts "  exit"
@@ -564,6 +576,8 @@ def codegen(tree)
   codegen_builtin_panic()
   puts ""
   codegen_builtin_set_vram()
+  puts ""
+  codegen_builtin_get_vram()
 
   head, *rest = tree
   # assert head == "top_stmts"

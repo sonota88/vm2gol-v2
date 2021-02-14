@@ -3,7 +3,7 @@
 def ret_vram_lvar()
   var vi = 49;
   # vram[ローカル変数] を return
-  return vram[vi];
+  return get_vram(vi);
 end
 
 def ret_lvar()

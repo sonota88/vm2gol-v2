@@ -10,7 +10,13 @@ label main
   sub_sp 1
   cp 0 reg_a
   cp reg_a [bp:-2]
-  get_vram [bp:-2] reg_a
+
+  cp [bp:-2] reg_a
+  push reg_a
+  _cmt call~~get_vram
+  call get_vram
+  add_sp 1
+
   cp reg_a [bp:-1]
 
   cp bp sp

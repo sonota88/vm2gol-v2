@@ -113,7 +113,12 @@ label vram_get
   call to_vi
   add_sp 4
   cp reg_a [bp:-1]
-  get_vram [bp:-1] reg_a
+
+  cp [bp:-1] reg_a
+  push reg_a
+  _cmt call~~get_vram
+  call get_vram
+  add_sp 1
 
   cp bp sp
   pop bp
@@ -781,7 +786,13 @@ label true_17
   pop reg_a
   add_ab
   cp reg_a [bp:-2]
-  get_vram [bp:-2] reg_a
+
+  cp [bp:-2] reg_a
+  push reg_a
+  _cmt call~~get_vram
+  call get_vram
+  add_sp 1
+
   cp reg_a [bp:-3]
   cp [bp:-3] reg_a
 

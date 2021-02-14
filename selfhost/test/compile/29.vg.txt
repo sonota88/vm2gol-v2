@@ -27,7 +27,7 @@ end
 def vram_get(w, x, y)
   var vi; # vram index
   vi = to_vi(w, x, y, 0);
-  return vram[vi];
+  return get_vram(vi);
 end
 
 def adjust_index(width, i)
@@ -176,7 +176,7 @@ def replace_with_buf()
 
   while (vi != 25)
     vi_buf = vi + 25;
-    temp = vram[vi_buf];
+    temp = get_vram(vi_buf);
     set_vram(vi, temp);
     vi = vi + 1;
   end

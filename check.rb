@@ -59,6 +59,7 @@ module Checker
       fn_sigs["_panic" ] = []
       fn_sigs["_debug" ] = []
       fn_sigs["set_vram" ] = ["vram_addr", "value"]
+      fn_sigs["get_vram" ] = ["vram_addr"]
 
       _check(fn_sigs, tree)
 

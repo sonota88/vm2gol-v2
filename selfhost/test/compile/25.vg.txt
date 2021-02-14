@@ -3,5 +3,5 @@
 def main()
   var a;
   var vi = 0;
-  a = vram[vi];
+  a = get_vram(vi);
 end
