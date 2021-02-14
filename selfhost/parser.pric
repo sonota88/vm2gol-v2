@@ -496,13 +496,11 @@ def parse_expr(g_)
 
         return Node_new_list(g_, funcall_list_);
       else
+        inc_token_index(g_);
 
-      inc_token_index(g_);
+        expr_node_l_ = Node_new_str(g_, Token_get_val(t_left_));
 
-      expr_node_l_ = Node_new_str(g_, Token_get_val(t_left_));
-
-      return _parse_expr_right(g_, expr_node_l_);
-
+        return _parse_expr_right(g_, expr_node_l_);
       end
 
     else

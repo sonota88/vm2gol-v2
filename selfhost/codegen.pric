@@ -771,7 +771,7 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
         ))
       gen_call(g_, fn_arg_names_, lvar_names_, list_);
     else
-    _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_);
+      _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_);
     end
 
   else
