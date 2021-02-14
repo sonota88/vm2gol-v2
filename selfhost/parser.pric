@@ -456,6 +456,10 @@ def parse_expr(g_)
   var t_left_;
   var n;
   var expr_node_l_;
+  var funcall_;
+  var funcall_list_;
+  var [8]s_funcall; str_set_funcall(&s_funcall);
+  var i;
 
   t_left_ = peek(g_, 0);
 
@@ -477,11 +481,29 @@ def parse_expr(g_)
       return _parse_expr_right(g_, expr_node_l_);
 
     when (Token_kind_eq(t_left_, TOKEN_KIND__IDENT()))
+
+      if (char_at(Token_get_val(peek(g_, 1)), 0) == 40) # (
+        funcall_ = parse_funcall(g_);
+
+        funcall_list_ = NodeList_new(g_);
+        NodeList_add_str(g_, funcall_list_, &s_funcall);
+
+        i = 0;
+        while (i < NodeList_size(funcall_))
+          NodeList_add(funcall_list_, NodeList_get(funcall_, i));
+          i = i + 1;
+        end
+
+        return Node_new_list(g_, funcall_list_);
+      else
+
       inc_token_index(g_);
 
       expr_node_l_ = Node_new_str(g_, Token_get_val(t_left_));
 
       return _parse_expr_right(g_, expr_node_l_);
+
+      end
 
     else
       Json_print(Token_to_plain(g_, t_left_));

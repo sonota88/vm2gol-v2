@@ -718,11 +718,13 @@ end
 def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
   var [20]cp_src;
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [8]s_funcall; str_set_funcall(&s_funcall);
   var expr;
   var str_;
   var vram_param_size = 20; var [20]vram_param;
   var size;
   var [8]vram_addr;
+  var list_;
 
   case
   when (Node_kind_eq(expr_, NODE_KIND__INT()))
@@ -761,7 +763,16 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
     end
 
   when (Node_kind_eq(expr_, NODE_KIND__LIST()))
+    list_ = Node_get_list(expr_);
+
+    if (str_eq(
+          NodeList_get_as_str(list_, 0),
+          &s_funcall
+        ))
+      gen_call(g_, fn_arg_names_, lvar_names_, list_);
+    else
     _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_);
+    end
 
   else
     Json_print_node(expr_);

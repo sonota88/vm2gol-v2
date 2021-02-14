@@ -1,0 +1,76 @@
+  call main
+  exit
+
+label getchar
+  push bp
+  cp sp bp
+  getchar reg_a
+  cp bp sp
+  pop bp
+  ret
+
+label putchar
+  push bp
+  cp sp bp
+  cp [bp:2] reg_a
+  putchar reg_a
+  cp bp sp
+  pop bp
+  ret
+
+label get_sp
+  push bp
+  cp sp bp
+  cp sp reg_a
+  cp bp sp
+  pop bp
+  ret
+
+label _panic
+  putchar 80
+  putchar 65
+  putchar 78
+  putchar 73
+  putchar 67
+  putchar 10
+  exit
+
+label add
+  push bp
+  cp sp bp
+
+  # -->> add body
+  cp [bp:2] reg_a
+  push reg_a
+  cp [bp:3] reg_a
+  push reg_a
+  pop reg_b
+  pop reg_a
+  add_ab
+  # <<-- add body
+
+  cp bp sp
+  pop bp
+  ret
+
+label main
+  push bp
+  cp sp bp
+
+  # -->> main body
+  sub_sp 1
+  cp 2 reg_a
+  push reg_a
+  cp 1 reg_a
+  push reg_a
+  _cmt call~~add
+  call add
+  add_sp 2
+  push reg_a
+  pop reg_a
+  cp reg_a [bp:-1]
+  # <<-- main body
+
+  cp bp sp
+  pop bp
+  ret

@@ -1,0 +1,12 @@
+# -*- mode: ruby -*-
+
+# v3: funcall を式として扱う
+
+def add(a, b)
+  return a + b;
+end
+
+def main()
+  var x;
+  x = add(1, 2);
+end
