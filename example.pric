@@ -14,7 +14,6 @@ def fib(n)
 end
 
 def main()
-  var [1]g; # global variable (unused)
   var n = 0;
 
   while (n < 21)
