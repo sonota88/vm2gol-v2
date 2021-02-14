@@ -487,15 +487,7 @@ class Vm
     arg1 = @mem.main[@pc][1] # dest (vram)
     arg2 = @mem.main[@pc][2] # src
 
-    src_val =
-      case arg2
-      when Integer
-        arg2
-      when "reg_a"
-        @reg_a
-      else
-        raise not_yet_impl("set_vram", arg2)
-      end
+    src_val = get_value(arg2)
 
     case arg1
     when Integer
