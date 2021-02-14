@@ -33,12 +33,39 @@ def remove_blank_line(infile, outfile)
   system cmd
 end
 
+def remove_builtins(lines)
+  new_lines = []
+  in_builtins = false
+
+  lines.each do |line|
+    case line
+    when /^#>builtins/
+      in_builtins = true
+    when /^#<builtins/
+      in_builtins = false
+    else
+      unless in_builtins
+        new_lines << line
+      end
+    end
+  end
+
+  new_lines
+end
+
 def filter_asm(infile, outfile)
-  cmd = "cat #{infile}"
-  cmd += ' | sed -e \'s/# .*$//g\'' # Remove asm comments
-  cmd += ' | egrep -v \'^ *$\''     # Remove blank lines
-  cmd += " > #{outfile}"
-  system cmd
+  lines =
+    remove_builtins(File.open(infile).each_line)
+    .map do |line|
+      if /^(.+)# .*$/ =~ line
+        $1 + "\n"
+      else
+        line
+      end
+    end
+    .reject { |line| /^ *$/ =~ line }
+
+  File.open(outfile, "wb") { |f| f.print lines.join }
 end
 
 # --------------------------------

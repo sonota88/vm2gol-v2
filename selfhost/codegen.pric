@@ -1062,8 +1062,32 @@ def codegen(g_, ast_)
 
   asm_exit();
 
+  putchar( 35); # #
+  putchar( 62); # >
+  putchar( 98); # b
+  putchar(117); # u
+  putchar(105); # i
+  putchar(108); # l
+  putchar(116); # t
+  putchar(105); # i
+  putchar(110); # n
+  putchar(115); # s
+  putchar(C_LF());
+
   gen_builtin_set_vram();
   gen_builtin_get_vram();
+
+  putchar( 35); # #
+  putchar( 60); # <
+  putchar( 98); # b
+  putchar(117); # u
+  putchar(105); # i
+  putchar(108); # l
+  putchar(116); # t
+  putchar(105); # i
+  putchar(110); # n
+  putchar(115); # s
+  putchar(C_LF());
 
   gen_top_stmts(g_, ast_);
 end
