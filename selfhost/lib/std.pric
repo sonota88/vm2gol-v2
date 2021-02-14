@@ -186,7 +186,7 @@ def p_i(n)
 end
 
 # debug print
-def p_int_kv(k, n)
+def p_i_kv(k, n)
   putchar(47); # /
   print_i(k);
   p_i(n);
@@ -330,10 +330,10 @@ def substr_with_check(dest_, src_, from, to, dest_size)
   if (__sub(to, from) < dest_size)
     substr(dest_, src_, from, to);
   else
-    p_int_kv(316, from);
-    p_int_kv(317, to);
-    p_int_kv(318, __sub(to, from));
-    p_int_kv(319, dest_size);
+    p_i_kv(316, from);
+    p_i_kv(317, to);
+    p_i_kv(318, __sub(to, from));
+    p_i_kv(319, dest_size);
     # p_s(src_);
     # print_s(src_);
     panic(290); # src string is longer than dest
