@@ -3,7 +3,7 @@
 def to_vi(w, x, y, offset)
   var vi; # vram index
 
-  set vi = 
+  vi = 
     ((y * w) + x)
     +
     offset
@@ -15,13 +15,13 @@ end
 def vram_set(w, x, y, val)
   var vi; # vram index
   call_set vi = to_vi(w, x, y, 0);
-  set vram[vi] = val;
+  vram[vi] = val;
 end
 
 def vram_set_buf(w, x, y, val)
   var vi; # vram index
   call_set  vi = to_vi(w, x, y, 25);
-  set vram[vi] = val;
+  vram[vi] = val;
 end
 
 def vram_get(w, x, y)
@@ -36,13 +36,13 @@ def adjust_index(width, i)
   case
   when (i == -1)
     _cmt("下限を超えた場合");
-    set adjusted = width + -1;
+    adjusted = width + -1;
   when (i == width)
     _cmt("上限を超えた場合");
-    set adjusted = 0;
+    adjusted = 0;
   when (1 == 1)
     _cmt("補正が不要な場合");
-   set adjusted = i;
+    adjusted = i;
   end
 
   return adjusted;
@@ -56,14 +56,14 @@ def calc_next_gen(current_val, count)
   when (current_val == 0)
     case
     when (count == 3)
-      set next_val = 1;
+      next_val = 1;
     end
   when (0 == 0)
     case
     when (count == 2)
-      set next_val = 1;
+      next_val = 1;
     when (count == 3)
-      set next_val = 1;
+      next_val = 1;
     end
   end
   
@@ -100,35 +100,35 @@ def count_alive(w, h, x, y)
 
   _cmt("左上");
   call_set tmp = vram_get(w, xl, yt);
-  set count = count + tmp;
+  count = count + tmp;
 
   _cmt("上");
   call_set tmp = vram_get(w, x, yt);
-  set count = count + tmp;
+  count = count + tmp;
 
   _cmt("右上");
   call_set tmp = vram_get(w, xr, yt);
-  set count = count + tmp;
+  count = count + tmp;
 
   _cmt("左");
   call_set tmp = vram_get(w, xl, y);
-  set count = count + tmp;
+  count = count + tmp;
 
   _cmt("右");
   call_set tmp = vram_get(w, xr, y);
-  set count = count + tmp;
+  count = count + tmp;
 
   _cmt("左下");
   call_set tmp = vram_get(w, xl, yb);
-  set count = count + tmp;
+  count = count + tmp;
 
   _cmt("下");
   call_set tmp = vram_get(w, x, yb);
-  set count = count + tmp;
+  count = count + tmp;
 
   _cmt("右下");
   call_set tmp = vram_get(w, xr, yb);
-  set count = count + tmp;
+  count = count + tmp;
 
   _cmt("★count_aliveの最後");
 
@@ -146,7 +146,7 @@ def make_next_gen(w, h)
   var next_val;
 
   while (y != h)
-    set x = 0;
+    x = 0;
     while (x != w)
       call_set count = count_alive(w, h, x, y);
       _cmt("★ count_alive から戻った直後");
@@ -162,9 +162,9 @@ def make_next_gen(w, h)
       vram_set_buf(w, x, y, next_val);
       _cmt("★ vram_set_buf から戻った直後");
 
-      set x = x + 1;
+      x = x + 1;
     end
-    set y = y + 1;
+    y = y + 1;
   end
 end
 
@@ -175,10 +175,10 @@ def replace_with_buf()
   var temp;
 
   while (vi != 25)
-    set vi_buf = vi + 25;
-    set temp = vram[vi_buf];
-    set vram[vi] = temp;
-    set vi = vi + 1;
+    vi_buf = vi + 25;
+    temp = vram[vi_buf];
+    vram[vi] = temp;
+    vi = vi + 1;
   end
 end
 
@@ -198,6 +198,6 @@ def main()
   while (gen != gen_limit)
     make_next_gen(w, h);
     replace_with_buf();
-    set gen = gen + 1;
+    gen = gen + 1;
   end
 end

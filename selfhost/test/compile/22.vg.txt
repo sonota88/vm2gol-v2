@@ -3,6 +3,6 @@
 def main()
   # *, neq
   var a;
-  set a = 2 * 3;
-  set a = 4 != 5;
+  a = 2 * 3;
+  a = 4 != 5;
 end

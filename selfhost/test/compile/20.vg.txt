@@ -4,8 +4,8 @@ def main()
   var a = 0;
   case
   when (a == 1)
-    set a = 0;
+    a = 0;
   when (a == 0)
-    set a = 1;
+    a = 1;
   end
 end

@@ -2,5 +2,5 @@
 
 def main()
   var a;
-  set a = 42;
+  a = 42;
 end

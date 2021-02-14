@@ -499,8 +499,6 @@ def parse_set(g_)
   var var_name_;
   var expr_node_;
 
-  consume_kw(g_, &s_set);
-
   t_ = peek(g_, 0);
   inc_token_index(g_);
   var_name_ = Token_get_val(t_);
@@ -702,8 +700,6 @@ def parse_stmt(g_)
   t_ = peek(g_, 0);
 
   case
-  when (str_eq_set(Token_get_val(t_)))
-    return parse_set(g_);
   when (str_eq__cmt(Token_get_val(t_)))
     return parse_vm_comment(g_);
   when (str_eq_return(Token_get_val(t_)))
@@ -719,10 +715,7 @@ def parse_stmt(g_)
     when (char_at(Token_get_val(peek(g_, 1)), 0) == 40) # (
       return parse_call(g_);
     else
-
-    p_s(Token_get_val(t_));
-    panic(421); # parse_stmt
-
+      return parse_set(g_);
     end
   end
 end
