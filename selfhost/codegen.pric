@@ -861,7 +861,7 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
 
   else
     Json_print(stmt_);
-    p_str(&dest);
+    p_s(&dest);
     panic(823);
   end
 end

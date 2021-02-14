@@ -126,9 +126,9 @@ def consume_sym(g_, str_)
   ))
     inc_token_index(g_);
   else
-    p_str(str_); # expected
+    p_s(str_); # expected
     p_int(Token_get_kind(t_));
-    p_str(Token_get_val(t_)); # actual
+    p_s(Token_get_val(t_)); # actual
     panic(117); # consume_sym: unexpected token
   end
 end
@@ -449,7 +449,7 @@ def _parse_expr_right(g_, expr_node_l_)
 
       else
 
-        p_str(Token_get_val(t_));
+        p_s(Token_get_val(t_));
         panic(380); # _parse_expr_right
       end
 
@@ -721,7 +721,7 @@ def parse_stmt(g_)
   when (str_eq_case(Token_get_val(t_)))
     return parse_case(g_);
   else
-    p_str(Token_get_val(t_));
+    p_s(Token_get_val(t_));
     panic(421); # parse_stmt
   end
 end

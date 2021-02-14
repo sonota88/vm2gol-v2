@@ -193,7 +193,7 @@ def p_int_kv(k, n)
 end
 
 # debug print
-def p_str(str_)
+def p_s(str_)
   var i;
 
   putchar(C_LF());
@@ -334,7 +334,7 @@ def substr_with_check(dest_, src_, from, to, dest_size)
     p_int_kv(317, to);
     p_int_kv(318, __sub(to, from));
     p_int_kv(319, dest_size);
-    # p_str(src_);
+    # p_s(src_);
     # print_s(src_);
     panic(290); # src string is longer than dest
   end
