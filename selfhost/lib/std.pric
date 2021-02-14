@@ -165,7 +165,7 @@ def read_stdin_all(dest_, limit)
 end
 
 # debug print
-def p_char(c)
+def p_c(c)
   putchar( 47); # /
   putchar( 99); # c
   putchar( 61); # =
@@ -203,7 +203,7 @@ def p_s(str_)
   while (i < str_size(str_))
     print_i(i);
     putchar(58); # :
-    p_char(char_at(str_, i));
+    p_c(char_at(str_, i));
     i = i + 1;
   end
 

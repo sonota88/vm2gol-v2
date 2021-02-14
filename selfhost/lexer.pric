@@ -412,7 +412,7 @@ def main()
 
     else
       p_int(pos);
-      p_char(c);
+      p_c(c);
       panic(163); # not yet impl
     end
 

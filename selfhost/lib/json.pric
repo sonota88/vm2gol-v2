@@ -147,7 +147,7 @@ def Json_parse_list(g_, rest_, pos_start, size_)
       pos = pos + str_size(&s_temp) + 2;
 
     else
-      p_char(c);
+      p_c(c);
       panic(142);
     end
 
