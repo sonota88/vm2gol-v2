@@ -178,9 +178,6 @@ def _parse_arg(g_)
   case
   when (Token_kind_eq(t_, TOKEN_KIND__IDENT()))
     return Node_new_str(g_, Token_get_val(t_));
-  when (Token_kind_eq(t_, TOKEN_KIND__INT()))
-    n = parse_int(Token_get_val(t_));
-    return Node_new_int(g_, n);
   else
     panic(202); # _parse_arg: unsupported
   end
@@ -436,6 +433,9 @@ def _parse_expr_right(g_, expr_node_l_)
     return expr_node_l_;
   when (char_at(Token_get_val(t_), 0) == 59) # ;
     return expr_node_l_;
+  when (char_at(Token_get_val(t_), 0) == 44) # ,
+    return expr_node_l_;
+
   when (char_at(Token_get_val(t_), 0) == 43) # +
     consume_sym(g_, &s_plus);
     expr_node_r_ = parse_expr(g_);
@@ -589,7 +589,7 @@ def parse_funcall(g_)
   fn_name_ = Token_get_val(t_);
 
   consume_sym_paren_l(g_); # (
-  args_ = parse_args(g_);
+  args_ = parse_exprs(g_);
   consume_sym_paren_r(g_); # )
 
   funcall_ = NodeList_new(g_);
