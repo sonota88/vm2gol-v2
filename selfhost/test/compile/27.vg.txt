@@ -13,6 +13,6 @@ def ret_lvar()
 end
 
 def main()
-  call ret_vram_lvar();
-  call ret_lvar();
+  ret_vram_lvar();
+  ret_lvar();
 end

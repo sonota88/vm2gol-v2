@@ -551,7 +551,6 @@ def parse_call(g_)
 
   stmt_ = NodeList_new(g_);
 
-  consume_kw(g_, &s_call);
   NodeList_add_str(g_, stmt_, &s_call);
 
   funcall_ = parse_funcall(g_);
@@ -707,8 +706,6 @@ def parse_stmt(g_)
     return parse_set(g_);
   when (str_eq__cmt(Token_get_val(t_)))
     return parse_vm_comment(g_);
-  when (str_eq_call(Token_get_val(t_)))
-    return parse_call(g_);
   when (str_eq_return(Token_get_val(t_)))
     return parse_return(g_);
   when (str_eq_call_set(Token_get_val(t_)))
@@ -718,8 +715,15 @@ def parse_stmt(g_)
   when (str_eq_case(Token_get_val(t_)))
     return parse_case(g_);
   else
+    case
+    when (char_at(Token_get_val(peek(g_, 1)), 0) == 40) # (
+      return parse_call(g_);
+    else
+
     p_s(Token_get_val(t_));
     panic(421); # parse_stmt
+
+    end
   end
 end
 

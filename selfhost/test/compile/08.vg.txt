@@ -4,5 +4,5 @@ def sub()
 end
 
 def main()
-  call sub();
+  sub();
 end
