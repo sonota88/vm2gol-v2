@@ -356,13 +356,13 @@ end
 
 def gen_var(g_, fn_arg_names_, lvar_names_, stmt_)
   var set_stmt_;
-  var [4]str_set; str_set_set(&str_set);
+  var [4]s_set; str_set_set(&s_set);
 
   asm_sub_sp(1);
 
   if (NodeList_size(stmt_) == 3)
     set_stmt_ = NodeList_new(g_);
-    NodeList_add_str(g_, set_stmt_, &str_set);
+    NodeList_add_str(g_, set_stmt_, &s_set);
     NodeList_add(set_stmt_, NodeList_get(stmt_, 1));
     NodeList_add(set_stmt_, NodeList_get(stmt_, 2));
 
@@ -540,11 +540,11 @@ def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
 end
 
 def _gen_expr_add()
-  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
-  var [6]str_reg_b; str_set_reg_b(&str_reg_b);
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [6]s_reg_b; str_set_reg_b(&s_reg_b);
 
-  asm_pop(&str_reg_b);
-  asm_pop(&str_reg_a);
+  asm_pop(&s_reg_b);
+  asm_pop(&s_reg_a);
 
   asm_indent();
   putchar( 97); # a
@@ -557,11 +557,11 @@ def _gen_expr_add()
 end
 
 def _gen_expr_mult()
-  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
-  var [6]str_reg_b; str_set_reg_b(&str_reg_b);
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [6]s_reg_b; str_set_reg_b(&s_reg_b);
 
-  asm_pop(&str_reg_b);
-  asm_pop(&str_reg_a);
+  asm_pop(&s_reg_b);
+  asm_pop(&s_reg_a);
 
   asm_indent();
   putchar(109); # m
@@ -575,19 +575,19 @@ def _gen_expr_mult()
 end
 
 def _gen_expr_eq(g_)
-  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
-  var [6]str_reg_b; str_set_reg_b(&str_reg_b);
-  var [2]str_0;
-  var [2]str_1;
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [6]s_reg_b; str_set_reg_b(&s_reg_b);
+  var [2]s_0;
+  var [2]s_1;
   var label_end_size = 12; var [12]label_end; # end_eq_xxxx ... 11 chars + 1
   var label_then_size = 10; var [10]label_then; # then_xxxx ... 9 chars + 1
   var label_id;
 
-  aset(&str_0, 0, 48); # 0
-  aset(&str_0, 1,  0);
+  aset(&s_0, 0, 48); # 0
+  aset(&s_0, 1,  0);
 
-  aset(&str_1, 0, 49); # 1
-  aset(&str_1, 1,  0);
+  aset(&s_1, 0, 49); # 1
+  aset(&s_1, 1,  0);
 
   inc_label_id(g_);
   label_id = get_label_id(g_);
@@ -608,37 +608,37 @@ def _gen_expr_eq(g_)
   aset(&label_then, 4,   0);
   append_label_id(&label_then, label_id, label_then_size);
 
-  asm_pop(&str_reg_b);
-  asm_pop(&str_reg_a);
+  asm_pop(&s_reg_b);
+  asm_pop(&s_reg_a);
 
   asm_compare();
 
   asm_jump_eq(&label_then);
 
-  asm_cp(&str_0, &str_reg_a);
+  asm_cp(&s_0, &s_reg_a);
 
   asm_jump(&label_end);
 
   asm_label(&label_then);
-  asm_cp(&str_1, &str_reg_a);
+  asm_cp(&s_1, &s_reg_a);
 
   asm_label(&label_end);
 end
 
 def _gen_expr_neq(g_)
-  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
-  var [6]str_reg_b; str_set_reg_b(&str_reg_b);
-  var [2]str_0;
-  var [2]str_1;
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [6]s_reg_b; str_set_reg_b(&s_reg_b);
+  var [2]s_0;
+  var [2]s_1;
   var label_end_size = 13; var [13]label_end; # end_neq_xxxx ... 12 chars + 1
   var label_then_size = 10; var [10]label_then; # then_xxxx ... 9 chars + 1
   var label_id;
 
-  aset(&str_0, 0, 48); # 0
-  aset(&str_0, 1,  0);
+  aset(&s_0, 0, 48); # 0
+  aset(&s_0, 1,  0);
 
-  aset(&str_1, 0, 49); # 1
-  aset(&str_1, 1,  0);
+  aset(&s_1, 0, 49); # 1
+  aset(&s_1, 1,  0);
 
   inc_label_id(g_);
   label_id = get_label_id(g_);
@@ -660,19 +660,19 @@ def _gen_expr_neq(g_)
   aset(&label_then, 4,   0);
   append_label_id(&label_then, label_id, label_then_size);
 
-  asm_pop(&str_reg_b);
-  asm_pop(&str_reg_a);
+  asm_pop(&s_reg_b);
+  asm_pop(&s_reg_a);
 
   asm_compare();
 
   asm_jump_eq(&label_then);
 
-  asm_cp(&str_1, &str_reg_a);
+  asm_cp(&s_1, &s_reg_a);
 
   asm_jump(&label_end);
 
   asm_label(&label_then);
-  asm_cp(&str_0, &str_reg_a);
+  asm_cp(&s_0, &s_reg_a);
 
   asm_label(&label_end);
 end
@@ -682,7 +682,7 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   var op_str_ = NodeList_get_as_str(expr_els_, 0);
   var arg_l_ = NodeList_get(expr_els_, 1);
   var arg_r_ = NodeList_get(expr_els_, 2);
-  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var [3]s_eq;
   var [4]s_neq;
 
@@ -696,10 +696,10 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   aset(&s_neq, 3,   0);
 
   gen_expr(g_, fn_arg_names_, lvar_names_, arg_l_);
-  asm_push(&str_reg_a);
+  asm_push(&s_reg_a);
 
   gen_expr(g_, fn_arg_names_, lvar_names_, arg_r_);
-  asm_push(&str_reg_a);
+  asm_push(&s_reg_a);
 
   case
   when (char_at(op_str_, 0) == 43) # +
@@ -717,7 +717,7 @@ end
 
 def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
   var [20]cp_src;
-  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var expr;
   var str_;
   var vram_param_size = 20; var [20]vram_param;
@@ -728,7 +728,7 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
   when (Node_kind_eq(expr_, NODE_KIND__INT()))
     expr = Node_get_int(expr_);
     unparse_int(&cp_src, expr);
-    asm_cp(&cp_src, &str_reg_a);
+    asm_cp(&cp_src, &s_reg_a);
 
   when (Node_kind_eq(expr_, NODE_KIND__STR()))
     str_ = Node_get_str(expr_);
@@ -736,11 +736,11 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
     case
     when (Names_includes(fn_arg_names_, str_))
       to_fn_arg_addr(&cp_src, fn_arg_names_, str_);
-      asm_cp(&cp_src, &str_reg_a);
+      asm_cp(&cp_src, &s_reg_a);
 
     when (Names_includes(lvar_names_, str_))
       to_lvar_addr(&cp_src, lvar_names_, str_);
-      asm_cp(&cp_src, &str_reg_a);
+      asm_cp(&cp_src, &s_reg_a);
 
     when (0 < match_vram(str_))
       size = match_vram(str_);
@@ -748,7 +748,7 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
 
       if (Names_includes(lvar_names_, &vram_param))
         to_lvar_addr(&vram_addr, lvar_names_, &vram_param);
-        asm_get_vram(&vram_addr, &str_reg_a);
+        asm_get_vram(&vram_addr, &s_reg_a);
       else
         panic(703);
       end
@@ -775,7 +775,7 @@ def gen_call(g_, fn_arg_names_, lvar_names_, stmt_)
   var args_;
   var i;
   var node_;
-  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
 
   fn_name_ = NodeList_get_as_str(stmt_, 1);
   args_ = NodeList_rest(g_, stmt_, 2);
@@ -793,7 +793,7 @@ def gen_call(g_, fn_arg_names_, lvar_names_, stmt_)
   while (__le(0, i))
     node_ = NodeList_get(args_, i);
     gen_expr(g_, fn_arg_names_, lvar_names_, node_);
-    asm_push(&str_reg_a);
+    asm_push(&s_reg_a);
     i = __sub(i, 1);
   end
 
@@ -803,8 +803,8 @@ def gen_call(g_, fn_arg_names_, lvar_names_, stmt_)
 end
 
 def gen_call_set(g_, fn_arg_names_, lvar_names_, stmt_)
-  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
-  var [5]str_call; str_set_call(&str_call);
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [5]s_call; str_set_call(&s_call);
 
   var lvar_name_ = NodeList_get_as_str(stmt_, 1);
   var funcall_   = NodeList_get_as_list(stmt_, 2);
@@ -813,20 +813,20 @@ def gen_call_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var call_stmt_;
 
   call_stmt_ = NodeList_new(g_);
-  NodeList_add_str(g_, call_stmt_, &str_call);
+  NodeList_add_str(g_, call_stmt_, &s_call);
   NodeList_add_all(call_stmt_, funcall_);
 
   gen_call(g_, fn_arg_names_, lvar_names_, call_stmt_);
 
   to_lvar_addr(&lvar_addr, lvar_names_, lvar_name_);
 
-  asm_cp(&str_reg_a, &lvar_addr);
+  asm_cp(&s_reg_a, &lvar_addr);
 end
 
 def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var [8]dest;
   var [8]dest_str_;
-  var [6]str_reg_a; str_set_reg_a(&str_reg_a);
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var expr_node_;
   var size;
   var [8]vram_param;
@@ -846,7 +846,7 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
       dest_str_
     );
 
-    asm_cp(&str_reg_a, &dest);
+    asm_cp(&s_reg_a, &dest);
 
   when (0 < match_vram(dest_str_))
     size = match_vram(dest_str_);
@@ -854,7 +854,7 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
 
     if (Names_includes(lvar_names_, &vram_param))
       to_lvar_addr(&vram_addr, lvar_names_, &vram_param);
-      asm_set_vram(&vram_addr, &str_reg_a);
+      asm_set_vram(&vram_addr, &s_reg_a);
     else
       panic(703);
     end
