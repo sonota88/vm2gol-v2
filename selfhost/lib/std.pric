@@ -464,8 +464,8 @@ end
 
 # TODO && 演算子を用意するまでの代替
 def __and(a, b)
-  if (a == TRUE())
-    if (b == TRUE())
+  if (a)
+    if (b)
       return TRUE();
     else
       return FALSE();
@@ -478,9 +478,9 @@ end
 # TODO || 演算子を用意するまでの代替
 def __or(a, b)
   case
-  when (a == TRUE()) return TRUE();
-  when (b == TRUE()) return TRUE();
-  else               return FALSE();
+  when (a) return TRUE();
+  when (b) return TRUE();
+  else     return FALSE();
   end
 end
 

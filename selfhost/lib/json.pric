@@ -133,7 +133,7 @@ def Json_parse_list(g_, rest_, pos_start, size_)
     when (c == C_COMMA()) pos = pos + 1;
 
     when (__or(
-            is_digit_char(c) == TRUE(),
+            is_digit_char(c),
             c == 45 # -
           ))
       n = Json_parse_int(rest_, pos, &size);
