@@ -365,7 +365,7 @@ def _parse_when_clause
     consume ")"
   when "else"
     consume "else"
-    expr = [:eq, 0, 0]
+    expr = 1 # true
   else
     raise not_yet_impl("t", t)
   end
