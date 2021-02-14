@@ -224,6 +224,44 @@ def parse_args(g_)
   end
 end
 
+def parse_exprs(g_)
+  var exprs_;
+  var t_;
+  var expr_node_;
+  var do_break = FALSE();
+  var [2]s_comma;
+
+  aset(&s_comma, 0, 44); # ,
+  aset(&s_comma, 1,  0);
+
+  exprs_ = NodeList_new(g_);
+
+  t_ = peek(g_, 0);
+
+  if (char_at(Token_get_val(t_), 0) == 41) # )
+    return exprs_;
+  else
+
+    expr_node_ = parse_expr(g_);
+    NodeList_add(exprs_, expr_node_);
+
+    while (__not(do_break))
+      t_ = peek(g_, 0);
+
+      if (char_at(Token_get_val(t_), 0) == 44) # ,
+        consume_sym(g_, &s_comma);
+        expr_node_ = parse_expr(g_);
+        NodeList_add(exprs_, expr_node_);
+      else
+        do_break = TRUE();
+      end
+    end
+
+    return exprs_;
+
+  end
+end
+
 def parse_func(g_)
   var func_stmt_;
   var [10]s_temp;
