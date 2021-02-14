@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+
+# v3: 関数呼び出し時の引数として任意の式（具体的には funcall）を渡せるようにする
+
+def add(a, b)
+  return a + b;
+end
+
+def f()
+  return 2;
+end
+
+def main()
+  var x;
+  x = add(1, f());
+end
