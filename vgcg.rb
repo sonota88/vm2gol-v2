@@ -341,20 +341,6 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
   puts "  add_sp #{fn_args.size}"
 end
 
-def _match_vram_addr(str)
-  md = /^vram\[(\d+)\]$/.match(str)
-  return nil if md.nil?
-
-  md[1]
-end
-
-def _match_vram_ref(str)
-  md = /^vram\[([a-z_][a-z0-9_]*)\]$/.match(str)
-  return nil if md.nil?
-
-  md[1]
-end
-
 def codegen_set(fn_arg_names, lvar_names, rest)
   dest = rest[0]
   expr = rest[1]
@@ -366,20 +352,6 @@ def codegen_set(fn_arg_names, lvar_names, rest)
   when String
 
     case
-    when _match_vram_addr(dest)
-      vram_addr = _match_vram_addr(dest)
-      puts "  pop reg_a"
-      puts "  set_vram #{vram_addr} reg_a"
-    when _match_vram_ref(dest)
-      vram_addr = _match_vram_ref(dest)
-      case
-      when lvar_names.include?(vram_addr)
-        disp = lvar_names.disp_lvar(vram_addr)
-        puts "  pop reg_a"
-        puts "  set_vram [bp:#{disp}] reg_a"
-      else
-        raise not_yet_impl("dest", dest)
-      end
     when lvar_names.include?(dest)
       disp = lvar_names.disp_lvar(dest)
       puts "  pop reg_a"

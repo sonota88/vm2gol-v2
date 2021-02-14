@@ -180,10 +180,6 @@ def is_ident_char(c)
     return TRUE();
   when (range_include(97, 122, c)) # a..z
     return TRUE();
-  when (c == 91) # [
-    return TRUE();
-  when (c == 93) # ]
-    return TRUE();
   when (c == 95) # _
     return TRUE();
   else

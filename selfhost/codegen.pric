@@ -330,28 +330,6 @@ def append_label_id(label_, id, dest_size)
   str_append_with_check(label_, &id_str, dest_size);
 end
 
-def match_vram(str_)
-  var [6]pattern;
-  var [6]s_temp;
-  var i;
-
-  aset(&pattern, 0, 118); # v
-  aset(&pattern, 1, 114); # r
-  aset(&pattern, 2,  97); # a
-  aset(&pattern, 3, 109); # m
-  aset(&pattern, 4,  91); # [
-  aset(&pattern, 5,   0);
-
-  substr_with_check(&s_temp, str_, 0, 5, 6);
-
-  if (str_eq(&s_temp, &pattern))
-    i = char_index(str_, 93, 0); # ]
-    return __sub(i, 5);
-  else
-    return 0;
-  end
-end
-
 # --------------------------------
 
 def gen_var(g_, fn_arg_names_, lvar_names_, stmt_)
@@ -721,9 +699,6 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
   var [8]s_funcall; str_set_funcall(&s_funcall);
   var expr;
   var str_;
-  var vram_param_size = 20; var [20]vram_param;
-  var size;
-  var [8]vram_addr;
   var list_;
 
   case
@@ -743,17 +718,6 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
     when (Names_includes(lvar_names_, str_))
       to_lvar_addr(&cp_src, lvar_names_, str_);
       asm_cp(&cp_src, &s_reg_a);
-
-    when (0 < match_vram(str_))
-      size = match_vram(str_);
-      substr_with_check(&vram_param, str_, 5, 5 + size, vram_param_size);
-
-      if (Names_includes(lvar_names_, &vram_param))
-        to_lvar_addr(&vram_addr, lvar_names_, &vram_param);
-        asm_get_vram(&vram_addr, &s_reg_a);
-      else
-        panic(703);
-      end
 
     else
       Json_print(Names_to_plain(g_, fn_arg_names_));
@@ -818,9 +782,6 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var [8]dest_str_;
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var expr_node_;
-  var size;
-  var [8]vram_param;
-  var [8]vram_addr;
 
   dest_str_ = NodeList_get_as_str(stmt_, 1);
   expr_node_ = NodeList_get(stmt_, 2);
@@ -837,17 +798,6 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
     );
 
     asm_cp(&s_reg_a, &dest);
-
-  when (0 < match_vram(dest_str_))
-    size = match_vram(dest_str_);
-    substr(&vram_param, dest_str_, 5, 5 + size);
-
-    if (Names_includes(lvar_names_, &vram_param))
-      to_lvar_addr(&vram_addr, lvar_names_, &vram_param);
-      asm_set_vram(&vram_addr, &s_reg_a);
-    else
-      panic(703);
-    end
 
   else
     Json_print(stmt_);
