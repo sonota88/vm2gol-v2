@@ -94,13 +94,6 @@ end
 
 # --------------------------------
 
-def _parse_exprs_rest
-  return nil if peek().value == ")"
-
-  consume(",")
-  parse_expr()
-end
-
 def parse_exprs
   exprs = []
 
@@ -115,13 +108,9 @@ def parse_exprs
     exprs << first_arg
   end
 
-  loop do
-    rest_arg = _parse_exprs_rest()
-    if rest_arg.nil?
-      break
-    else
-      exprs << rest_arg
-    end
+  while peek().value == ","
+    consume ","
+    exprs << parse_expr()
   end
 
   exprs
