@@ -311,8 +311,8 @@ def Names_add(self_, name_)
   var size = Names_size(self_);
 
   if (__le(NAMES__NUM_STRS_MAX(), size))
-    p_int(NAMES__NUM_STRS_MAX());
-    p_int(size);
+    p_i(NAMES__NUM_STRS_MAX());
+    p_i(size);
     panic(316);
   end
 

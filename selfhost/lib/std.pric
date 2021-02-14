@@ -177,7 +177,7 @@ def p_c(c)
 end
 
 # debug print
-def p_int(n)
+def p_i(n)
   putchar( 47); # /
   putchar(110); # n
   putchar( 61); # =
@@ -189,7 +189,7 @@ end
 def p_int_kv(k, n)
   putchar(47); # /
   print_i(k);
-  p_int(n);
+  p_i(n);
 end
 
 # debug print
@@ -278,9 +278,9 @@ def str_append_with_check(dest_, str_, dest_size)
     end
     aset(dest_, dest_offset + append_size, 0);
   else
-    p_int(dest_offset);
-    p_int(append_size);
-    p_int(dest_size);
+    p_i(dest_offset);
+    p_i(append_size);
+    p_i(dest_size);
     panic(281); # str_append_with_check: failed to append
   end
 end
