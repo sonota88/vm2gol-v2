@@ -34,15 +34,15 @@ def adjust_index(width, i)
   var adjusted;
 
   case
-    when (i == -1)
-      _cmt("下限を超えた場合");
-      set adjusted = width + -1;
-    when (i == width)
-      _cmt("上限を超えた場合");
-      set adjusted = 0;
-    when (1 == 1)
-      _cmt("補正が不要な場合");
-     set adjusted = i;
+  when (i == -1)
+    _cmt("下限を超えた場合");
+    set adjusted = width + -1;
+  when (i == width)
+    _cmt("上限を超えた場合");
+    set adjusted = 0;
+  when (1 == 1)
+    _cmt("補正が不要な場合");
+   set adjusted = i;
   end
 
   return adjusted;
@@ -53,18 +53,18 @@ def calc_next_gen(current_val, count)
   var next_val = 0;
 
   case
-    when (current_val == 0)
-      case
-        when (count == 3)
-          set next_val = 1;
-        end
-    when (0 == 0)
-      case
-        when (count == 2)
-          set next_val = 1;
-        when (count == 3)
-          set next_val = 1;
-        end
+  when (current_val == 0)
+    case
+    when (count == 3)
+      set next_val = 1;
+    end
+  when (0 == 0)
+    case
+    when (count == 2)
+      set next_val = 1;
+    when (count == 3)
+      set next_val = 1;
+    end
   end
   
   return next_val;
