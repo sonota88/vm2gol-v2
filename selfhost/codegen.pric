@@ -895,10 +895,10 @@ def gen_func(g_, func_)
 end
 
 def gen_top_stmt(g_, top_stmt_)
-  var head_ = NodeList_get(top_stmt_, 0);
+  var s_head_ = NodeList_get_as_str(top_stmt_, 0);
 
   case
-  when (str_eq_func(Node_get_str(head_)))
+  when (str_eq_func(s_head_))
     gen_func(g_, top_stmt_);
   else
     panic(194);
