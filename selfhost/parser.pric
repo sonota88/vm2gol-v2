@@ -490,6 +490,28 @@ def _parse_expr_right(g_, expr_node_l_)
   end
 end
 
+def parse_expr_addr(g_)
+  var t_;
+  var var_name_;
+  var expr_list_;
+  var expr_node_;
+  var [5]s_addr; str_set_addr(&s_addr);
+
+  consume_sym_one_char(g_, 38); # &
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+  var var_name_ = Token_get_val(t_);
+
+  expr_list_ = NodeList_new(g_);
+  NodeList_add_str(g_, expr_list_, &s_addr);
+  NodeList_add_str(g_, expr_list_, var_name_);
+
+  expr_node_ = Node_new_list(g_, expr_list_);
+
+  return expr_node_;
+end
+
 def parse_expr(g_)
   var t_left_;
   var n;
@@ -501,12 +523,19 @@ def parse_expr(g_)
 
   t_left_ = peek(g_, 0);
 
-  if (char_at(Token_get_val(t_left_), 0) == 40) # (
+  case
+  when (char_at(Token_get_val(t_left_), 0) == 40) # (
     consume_sym_paren_l(g_); # (
     expr_node_l_ = parse_expr(g_);
     consume_sym_paren_r(g_); # )
 
     return _parse_expr_right(g_, expr_node_l_);
+
+  when (char_at(Token_get_val(t_left_), 0) == 38) # &
+    expr_node_l_ = parse_expr_addr(g_);
+
+    return _parse_expr_right(g_, expr_node_l_);
+
   else
 
     case
