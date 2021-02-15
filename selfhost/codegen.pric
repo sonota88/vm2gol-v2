@@ -318,12 +318,9 @@ def to_lvar_addr(dest_, names_, name_)
 end
 
 def append_label_id(label_, id, dest_size)
-  var [2]underscore;
   var [8]id_str;
 
-  aset(&underscore, 0, 95); # _
-  aset(&underscore, 1,  0);
-  str_append_with_check(label_, &underscore, dest_size);
+  append_char_with_check(label_, 95, dest_size); # _
 
   unparse_int(&id_str, id);
   str_append_with_check(label_, &id_str, dest_size);
