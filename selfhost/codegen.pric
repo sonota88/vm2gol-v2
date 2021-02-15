@@ -296,41 +296,16 @@ def render_indirection_bp(dest_, disp, dest_size)
   append_char_with_check(dest_, 93, dest_size); # ]
 end
 
-def to_fn_arg_addr(dest_, names_, name_)
+def to_fn_arg_addr(dest_, names_, name_, dest_size)
   var idx = Names_index(names_, name_);
 
-  aset(dest_, 0,  91); # [
-  aset(dest_, 1,  98); # b
-  aset(dest_, 2, 112); # p
-  aset(dest_, 3,  58); # :
-
-  if ((idx + 2) < 10)
-    aset(dest_, 4, i_to_c(idx + 2));
-  else
-    panic(230); # to_fn_arg_addr: not yet supported
-  end
-
-  aset(dest_, 5,  93); # ]
-  aset(dest_, 6,   0);
+  render_indirection_bp(dest_, idx + 2, dest_size);
 end
 
-def to_lvar_addr(dest_, names_, name_)
+def to_lvar_addr(dest_, names_, name_, dest_size)
   var idx = Names_index(names_, name_);
 
-  aset(dest_, 0,  91); # [
-  aset(dest_, 1,  98); # b
-  aset(dest_, 2, 112); # p
-  aset(dest_, 3,  58); # :
-  aset(dest_, 4,  45); # -
-
-  if ((idx + 1) < 10)
-    aset(dest_, 5, i_to_c(idx + 1));
-  else
-    panic(181); # to_lvar_addr: not yet supported
-  end
-
-  aset(dest_, 6,  93); # ]
-  aset(dest_, 7,   0);
+  render_indirection_bp(dest_, (idx + 1) * -1, dest_size);
 end
 
 def append_label_id(label_, id, dest_size)
@@ -750,7 +725,7 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
 end
 
 def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
-  var [20]cp_src;
+  var cp_src_size = 20; var [20]cp_src;
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var [8]s_funcall; str_set_funcall(&s_funcall);
   var expr;
@@ -768,11 +743,11 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
 
     case
     when (Names_includes(fn_arg_names_, str_))
-      to_fn_arg_addr(&cp_src, fn_arg_names_, str_);
+      to_fn_arg_addr(&cp_src, fn_arg_names_, str_, cp_src_size);
       asm_cp(&cp_src, &s_reg_a);
 
     when (Names_includes(lvar_names_, str_))
-      to_lvar_addr(&cp_src, lvar_names_, str_);
+      to_lvar_addr(&cp_src, lvar_names_, str_, cp_src_size);
       asm_cp(&cp_src, &s_reg_a);
 
     else
@@ -841,7 +816,7 @@ def gen_call(g_, fn_arg_names_, lvar_names_, stmt_)
 end
 
 def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
-  var [8]dest;
+  var dest_size = 8; var [8]dest;
   var [8]dest_str_;
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var expr_node_;
@@ -857,7 +832,8 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
     to_lvar_addr(
       &dest,
       lvar_names_,
-      dest_str_
+      dest_str_,
+      dest_size
     );
 
     asm_cp(&s_reg_a, &dest);
@@ -985,7 +961,7 @@ end
 def gen_builtin_putchar()
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var [8]s_putchar;
-  var [7]s_fn_arg1;
+  var s_fn_arg1_size = 7; var [7]s_fn_arg1;
 
   aset(&s_putchar, 0, 112); # p
   aset(&s_putchar, 1, 117); # u
@@ -996,13 +972,7 @@ def gen_builtin_putchar()
   aset(&s_putchar, 6, 114); # r
   aset(&s_putchar, 7,   0);
 
-  aset(&s_fn_arg1, 0,  91); # [
-  aset(&s_fn_arg1, 1,  98); # b
-  aset(&s_fn_arg1, 2, 112); # p
-  aset(&s_fn_arg1, 3,  58); # :
-  aset(&s_fn_arg1, 4,  50); # 2
-  aset(&s_fn_arg1, 5,  93); # ]
-  aset(&s_fn_arg1, 6,   0);
+  render_indirection_bp(&s_fn_arg1, 2, s_fn_arg1_size);
 
   asm_label(&s_putchar);
   asm_fn_prologue();
@@ -1020,7 +990,7 @@ end
 def gen_builtin_getchar()
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var [8]s_getchar;
-  var [7]s_fn_arg1;
+  var s_fn_arg1_size = 7; var [7]s_fn_arg1;
 
   aset(&s_getchar, 0, 103); # g
   aset(&s_getchar, 1, 101); # e
@@ -1031,13 +1001,7 @@ def gen_builtin_getchar()
   aset(&s_getchar, 6, 114); # r
   aset(&s_getchar, 7,   0);
 
-  aset(&s_fn_arg1, 0,  91); # [
-  aset(&s_fn_arg1, 1,  98); # b
-  aset(&s_fn_arg1, 2, 112); # p
-  aset(&s_fn_arg1, 3,  58); # :
-  aset(&s_fn_arg1, 4,  50); # 2
-  aset(&s_fn_arg1, 5,  93); # ]
-  aset(&s_fn_arg1, 6,   0);
+  render_indirection_bp(&s_fn_arg1, 2, s_fn_arg1_size);
 
   asm_label(&s_getchar);
   asm_fn_prologue();
@@ -1054,8 +1018,8 @@ end
 
 def gen_builtin_set_vram()
   var [9]s_set_vram;
-  var [7]s_vram_addr;
-  var [7]s_val;
+  var s_vram_addr_size = 7; var [7]s_vram_addr;
+  var s_val_size = 7; var [7]s_val;
 
   aset(&s_set_vram, 0, 115); # s
   aset(&s_set_vram, 1, 101); # e
@@ -1067,21 +1031,9 @@ def gen_builtin_set_vram()
   aset(&s_set_vram, 7, 109); # m
   aset(&s_set_vram, 8,   0);
 
-  aset(&s_vram_addr, 0,  91); # [
-  aset(&s_vram_addr, 1,  98); # b
-  aset(&s_vram_addr, 2, 112); # p
-  aset(&s_vram_addr, 3,  58); # :
-  aset(&s_vram_addr, 4,  50); # 2
-  aset(&s_vram_addr, 5,  93); # ]
-  aset(&s_vram_addr, 6,   0);
+  render_indirection_bp(&s_vram_addr, 2, s_vram_addr_size);
 
-  aset(&s_val, 0,  91); # [
-  aset(&s_val, 1,  98); # b
-  aset(&s_val, 2, 112); # p
-  aset(&s_val, 3,  58); # :
-  aset(&s_val, 4,  51); # 3
-  aset(&s_val, 5,  93); # ]
-  aset(&s_val, 6,   0);
+  render_indirection_bp(&s_val, 3, s_val_size);
 
   asm_label(&s_set_vram);
   asm_fn_prologue();
@@ -1093,7 +1045,7 @@ def gen_builtin_set_vram()
 end
 
 def gen_builtin_get_vram()
-  var [7]s_vram_addr;
+  var s_vram_addr_size = 7; var [7]s_vram_addr;
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var [9]s_get_vram;
 
@@ -1107,13 +1059,7 @@ def gen_builtin_get_vram()
   aset(&s_get_vram, 7, 109); # m
   aset(&s_get_vram, 8,   0);
 
-  aset(&s_vram_addr, 0,  91); # [
-  aset(&s_vram_addr, 1,  98); # b
-  aset(&s_vram_addr, 2, 112); # p
-  aset(&s_vram_addr, 3,  58); # :
-  aset(&s_vram_addr, 4,  50); # 2
-  aset(&s_vram_addr, 5,  93); # ]
-  aset(&s_vram_addr, 6,   0);
+  render_indirection_bp(&s_vram_addr, 2, s_vram_addr_size);
 
   asm_label(&s_get_vram);
   asm_fn_prologue();
