@@ -49,7 +49,7 @@ def tokenize(src)
       pos += str.size
     else
       p_e rest[0...100]
-      raise "must not happen"
+      raise "must not happen (lineno=#{lineno})"
     end
   end
 
