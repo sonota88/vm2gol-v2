@@ -285,6 +285,16 @@ def str_append_with_check(dest_, str_, dest_size)
   end
 end
 
+# dest_size: size with sentinel
+def append_char_with_check(dest_, c, dest_size)
+  var [2]s_temp;
+
+  aset(&s_temp, 0, c);
+  aset(&s_temp, 1, 0);
+
+  str_append_with_check(dest_, &s_temp, dest_size);
+end
+
 def str_size(str_)
   var i = 0;
   var c = char_at(str_, i);
