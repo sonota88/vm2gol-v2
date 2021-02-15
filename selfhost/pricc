@@ -18,8 +18,8 @@ run() {
   # time (
   #   printf "${name} ... "
 
-  cp $infile $STDINFILE
-  DEBUG=0 VERBOSE=0 $PRICVM ${__DIR__}/exe/${name}.exe.txt > $outfile
+  STDIN=$infile DEBUG=0 VERBOSE=0 \
+    $PRICVM ${__DIR__}/exe/${name}.exe.txt > $outfile
 
   #   printf "done\n"
   #   printf "\n"
@@ -30,7 +30,6 @@ __DIR__="$(print_this_dir)"
 
 TMP_DIR=${__DIR__}/tmp/
 PRICVM=${__DIR__}/../pricvm
-STDINFILE=${TMP_DIR}/stdin
 
 mkdir -p ${TMP_DIR}
 

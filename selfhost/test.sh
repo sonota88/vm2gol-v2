@@ -43,8 +43,7 @@ run_exe() {
   local name="$1"; shift
   local infile="$1"; shift
 
-  cp $infile ${TEMP_DIR}/stdin
-  $RUNNER ${EXE_DIR}/${name}.exe.txt
+  STDIN=$infile $RUNNER ${EXE_DIR}/${name}.exe.txt
 }
 
 # --------------------------------

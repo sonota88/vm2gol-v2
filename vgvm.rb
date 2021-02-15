@@ -562,16 +562,9 @@ end
 $stdin_ = nil
 
 if $PROGRAM_NAME == __FILE__
-  stdin_file = "tmp/stdin"
-  # File.open(stdin_file, "wb"){|f| f.write $stdin.read }
-
   exe_file = ARGV[0]
 
-  ARGV.each { |arg|
-    if /^stdin=(.+)/ =~ arg
-      stdin_file = $1
-    end
-  }
+  stdin_file = ENV.fetch("STDIN", File.join(__dir__, "tmp/stdin"))
   if File.exist?(stdin_file)
     $stdin_ = File.open(stdin_file, "rb")
   end
