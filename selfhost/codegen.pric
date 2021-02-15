@@ -289,7 +289,7 @@ def to_fn_arg_addr(dest_, names_, name_)
   aset(dest_, 2, 112); # p
   aset(dest_, 3,  58); # :
 
-  if ((idx + 1) < 10)
+  if ((idx + 2) < 10)
     aset(dest_, 4, i_to_c(idx + 2));
   else
     panic(230); # to_fn_arg_addr: not yet supported
