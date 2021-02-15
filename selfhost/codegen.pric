@@ -533,15 +533,13 @@ def _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_)
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var list_ = Node_get_list(expr_);
   var arg_ = NodeList_get_as_str(list_, 1);
-  var index;
+  var disp;
   var s_src_size = 10; var [10]s_src; # [bp:xxxx]
+  var [8]s_disp;
 
   if (Names_includes(lvar_names_, arg_))
-    index = Names_index(lvar_names_, arg_);
-
-    if (__le(10, index))
-      panic(532); # not yet supported
-    end
+    disp = Names_disp_lvar(lvar_names_, arg_);
+    unparse_int(&s_disp, disp);
 
     aset(&s_src, 0,  91); # [
     aset(&s_src, 1,  98); # b
@@ -549,8 +547,7 @@ def _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_)
     aset(&s_src, 3,  58); # :
     aset(&s_src, 4,   0);
 
-    append_char_with_check(&s_src, 45, s_src_size); # -
-    append_char_with_check(&s_src, i_to_c(index + 1), s_src_size);
+    str_append_with_check(&s_src, &s_disp, s_src_size);
 
     append_char_with_check(&s_src, 93, s_src_size); # ]
 
