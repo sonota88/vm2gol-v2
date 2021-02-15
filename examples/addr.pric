@@ -1,0 +1,10 @@
+# -*- mode: ruby -*-
+
+# DEBUG=1 ./pricrun examples/addr.pric
+
+def main()
+  var a = 42;
+  var b_;
+
+  b_ = &a;
+end
