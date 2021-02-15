@@ -534,7 +534,7 @@ def _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_)
   var list_ = Node_get_list(expr_);
   var arg_ = NodeList_get_as_str(list_, 1);
   var index;
-  var [10]s_src; # [bp:xxxx]
+  var s_src_size = 10; var [10]s_src; # [bp:xxxx]
 
   if (Names_includes(lvar_names_, arg_))
     index = Names_index(lvar_names_, arg_);
@@ -547,12 +547,12 @@ def _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_)
     aset(&s_src, 1,  98); # b
     aset(&s_src, 2, 112); # p
     aset(&s_src, 3,  58); # :
-    aset(&s_src, 4,  45); # -
+    aset(&s_src, 4,   0);
 
-    aset(&s_src, 5, i_to_c(index + 1));
+    append_char_with_check(&s_src, 45, s_src_size); # -
+    append_char_with_check(&s_src, i_to_c(index + 1), s_src_size);
 
-    aset(&s_src, 6,  93); # ]
-    aset(&s_src, 7,   0);
+    append_char_with_check(&s_src, 93, s_src_size); # ]
 
     asm_lea(&s_reg_a, &s_src);
   else
