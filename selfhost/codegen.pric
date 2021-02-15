@@ -263,6 +263,18 @@ def asm_set_vram(vram_addr_, val_)
   putchar(C_LF());
 end
 
+def asm_lea(dest_, src_)
+  asm_indent();
+
+  putchar(108); # l
+  putchar(101); # e
+  putchar( 97); # a
+
+  putchar(C_SPC()); print_s(dest_);
+  putchar(C_SPC()); print_s(src_);
+  putchar(C_LF());
+end
+
 def asm_fn_prologue()
   var [3]s_bp; str_set_bp(&s_bp);
   var [3]s_sp; str_set_sp(&s_sp);
