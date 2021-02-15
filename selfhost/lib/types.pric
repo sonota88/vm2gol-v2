@@ -361,7 +361,7 @@ end
 def Names_disp_lvar(self_, target_name_)
   var i = Names_index(self_, target_name_);
 
-  return __sub(0, i + 1);
+  return (i + 1) * -1;
 end
 
 def Names_from_node_list(g_, list_)
