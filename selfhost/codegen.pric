@@ -1001,6 +1001,8 @@ def codegen(g_, ast_)
 
   asm_exit();
 
+  gen_top_stmts(g_, ast_);
+
   putchar( 35); # #
   putchar( 62); # >
   putchar( 98); # b
@@ -1027,8 +1029,6 @@ def codegen(g_, ast_)
   putchar(110); # n
   putchar(115); # s
   putchar(C_LF());
-
-  gen_top_stmts(g_, ast_);
 end
 
 def GO_LABEL_ID() return GO_ALLOC_CURSOR() + GS_ALLOC_CURSOR(); end
