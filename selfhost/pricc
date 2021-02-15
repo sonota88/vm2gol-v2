@@ -44,8 +44,7 @@ asmfile=${TMP_DIR}/${bname}.vga.txt
 rake build-all
 
 # ruby ${__DIR__}/../check.rb gvar-width $file # TODO
-# ruby ${__DIR__}/preproc.rb $file > $src_temp # TODO
-cat $file > $src_temp # TODO preproc の代わり。暫定。
+ruby ${__DIR__}/../preproc.rb $file > $src_temp
 
 run "lexer" $src_temp $tokensfile
 
