@@ -954,6 +954,40 @@ def gen_builtin_putchar()
   asm_ret();
 end
 
+def gen_builtin_getchar()
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [8]s_getchar;
+  var [7]s_fn_arg1;
+
+  aset(&s_getchar, 0, 103); # g
+  aset(&s_getchar, 1, 101); # e
+  aset(&s_getchar, 2, 116); # t
+  aset(&s_getchar, 3,  99); # c
+  aset(&s_getchar, 4, 104); # h
+  aset(&s_getchar, 5,  97); # a
+  aset(&s_getchar, 6, 114); # r
+  aset(&s_getchar, 7,   0);
+
+  aset(&s_fn_arg1, 0,  91); # [
+  aset(&s_fn_arg1, 1,  98); # b
+  aset(&s_fn_arg1, 2, 112); # p
+  aset(&s_fn_arg1, 3,  58); # :
+  aset(&s_fn_arg1, 4,  50); # 2
+  aset(&s_fn_arg1, 5,  93); # ]
+  aset(&s_fn_arg1, 6,   0);
+
+  asm_label(&s_getchar);
+  asm_fn_prologue();
+
+  asm_cp(&s_fn_arg1, &s_reg_a);
+
+  asm_indent();
+  putchar(C_SPC()); print_s(&s_getchar);
+  putchar(C_SPC()); print_s(&s_reg_a);
+
+  asm_fn_epilogue();
+  asm_ret();
+end
 
 def gen_builtin_set_vram()
   var [9]s_set_vram;
@@ -1056,6 +1090,7 @@ def codegen(g_, ast_)
   putchar(C_LF());
 
   gen_builtin_putchar();
+  gen_builtin_getchar();
   gen_builtin_set_vram();
   gen_builtin_get_vram();
 
