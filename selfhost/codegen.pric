@@ -280,6 +280,22 @@ end
 
 # --------------------------------
 
+def render_indirection_bp(dest_, disp, dest_size)
+  var i = 0;
+  var [8]s_disp;
+
+  unparse_int(&s_disp, disp);
+
+  aset(dest_, i,  91); i = i + 1; # [
+  aset(dest_, i,  98); i = i + 1; # b
+  aset(dest_, i, 112); i = i + 1; # p
+  aset(dest_, i,  58); i = i + 1; # :
+  aset(dest_, i,   0);
+
+  str_append_with_check(dest_, &s_disp, dest_size);
+  append_char_with_check(dest_, 93, dest_size); # ]
+end
+
 def to_fn_arg_addr(dest_, names_, name_)
   var idx = Names_index(names_, name_);
 
