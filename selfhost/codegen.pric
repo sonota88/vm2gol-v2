@@ -37,8 +37,7 @@ def asm_label(label_)
   aset(&s_temp, 5,   0);
 
   print_s(&s_temp);
-  putchar(C_SPC());
-  print_s(label_);
+  putchar(C_SPC()); print_s(label_);
   putchar(C_LF());
 end
 
@@ -53,8 +52,7 @@ def asm_call(label_)
 
   asm_indent();
   print_s(&s_temp);
-  putchar(C_SPC());
-  print_s(label_);
+  putchar(C_SPC()); print_s(label_);
   putchar(C_LF());
 end
 
@@ -80,10 +78,8 @@ def asm_cp(src_, dest_)
 
   asm_indent();
   print_s(&s_temp);
-  putchar(C_SPC());
-  print_s(src_);
-  putchar(C_SPC());
-  print_s(dest_);
+  putchar(C_SPC()); print_s(src_);
+  putchar(C_SPC()); print_s(dest_);
   putchar(C_LF());
 end
 
@@ -98,8 +94,7 @@ def asm_push(arg_)
 
   asm_indent();
   print_s(&s_temp);
-  putchar(C_SPC());
-  print_s(arg_);
+  putchar(C_SPC()); print_s(arg_);
   putchar(C_LF());
 end
 
@@ -113,8 +108,7 @@ def asm_pop(dest_)
 
   asm_indent();
   print_s(&s_temp);
-  putchar(C_SPC());
-  print_s(dest_);
+  putchar(C_SPC()); print_s(dest_);
   putchar(C_LF());
 end
 
@@ -131,8 +125,7 @@ def asm_sub_sp(n)
 
   asm_indent();
   print_s(&s_temp);
-  putchar(C_SPC());
-  print_i(n);
+  putchar(C_SPC()); print_i(n);
   putchar(C_LF());
 end
 
@@ -149,8 +142,7 @@ def asm_add_sp(n)
 
   asm_indent();
   print_s(&s_temp);
-  putchar(C_SPC());
-  print_i(n);
+  putchar(C_SPC()); print_i(n);
   putchar(C_LF());
 end
 
@@ -172,8 +164,8 @@ def asm_jump(label_)
   putchar(117); # u
   putchar(109); # m
   putchar(112); # p
-  putchar(C_SPC());
-  print_s(label_);
+
+  putchar(C_SPC()); print_s(label_);
   putchar(C_LF());
 end
 
@@ -186,8 +178,8 @@ def asm_jump_eq(label_)
   putchar( 95); # _
   putchar(101); # e
   putchar(113); # q
-  putchar(C_SPC());
-  print_s(label_);
+
+  putchar(C_SPC()); print_s(label_);
   putchar(C_LF());
 end
 
@@ -214,8 +206,7 @@ def asm_vm_comment(vm_comment_)
 
   asm_indent();
   print_s(&str__cmt);
-  putchar(C_SPC());
-  print_s(&vm_comment);
+  putchar(C_SPC()); print_s(&vm_comment);
   putchar(C_LF());
 end
 
@@ -234,10 +225,8 @@ def asm_get_vram(vram_addr_, dest_)
 
   asm_indent();
   print_s(&s_temp);
-  putchar(C_SPC());
-  print_s(vram_addr_);
-  putchar(C_SPC());
-  print_s(dest_);
+  putchar(C_SPC()); print_s(vram_addr_);
+  putchar(C_SPC()); print_s(dest_);
   putchar(C_LF());
 end
 
@@ -256,10 +245,8 @@ def asm_set_vram(vram_addr_, val_)
 
   asm_indent();
   print_s(&s_temp);
-  putchar(C_SPC());
-  print_s(vram_addr_);
-  putchar(C_SPC());
-  print_s(val_);
+  putchar(C_SPC()); print_s(vram_addr_);
+  putchar(C_SPC()); print_s(val_);
   putchar(C_LF());
 end
 
