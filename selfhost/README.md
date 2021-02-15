@@ -7,13 +7,13 @@ rake test_v3
 
 ```sh
 # コンパイル
-../pricc ../example.pric > example.exe.txt
+../pricc ../examples/fibonacci.pric > fibonacci.exe.txt
 
 # 実行ファイルを VM で実行
-../pricvm example.exe.txt
+../pricvm fibonacci.exe.txt
 
 # コンパイル＋実行
-../pricrun ../example.pric
+../pricrun ../examples/fibonacci.pric
 ```
 
 第2世代: Pric版 v2 コンパイラ
@@ -27,11 +27,11 @@ rake test_v3
 mkdir -p exe
 
 # 第2世代コンパイラでライフゲームをコンパイル
-./pricc examples/gol.pric > exe/gol.exe.txt
+./pricc ../examples/gol.pric > exe/gol.exe.txt
 
 # VM で実行
 VERBOSE=1 SKIP=100 ../pricvm exe/gol.exe.txt
 
 # コンパイル＋実行
-VERBOSE=1 SKIP=100 ./pricrun examples/gol.pric
+VERBOSE=1 SKIP=100 ./pricrun ../examples/gol.pric
 ```
