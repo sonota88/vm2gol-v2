@@ -529,6 +529,37 @@ def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
   asm_label(&label_end);
 end
 
+def _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_)
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var list_ = Node_get_list(expr_);
+  var arg_ = NodeList_get_as_str(list_, 1);
+  var index;
+  var [10]s_src; # [bp:xxxx]
+
+  if (Names_includes(lvar_names_, arg_))
+    index = Names_index(lvar_names_, arg_);
+
+    if (__le(10, index))
+      panic(532); # not yet supported
+    end
+
+    aset(&s_src, 0,  91); # [
+    aset(&s_src, 1,  98); # b
+    aset(&s_src, 2, 112); # p
+    aset(&s_src, 3,  58); # :
+    aset(&s_src, 4,  45); # -
+
+    aset(&s_src, 5, i_to_c(index + 1));
+
+    aset(&s_src, 6,  93); # ]
+    aset(&s_src, 7,   0);
+
+    asm_lea(&s_reg_a, &s_src);
+  else
+    panic(526);
+  end
+end
+
 def _gen_expr_add()
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var [6]s_reg_b; str_set_reg_b(&s_reg_b);
@@ -667,6 +698,22 @@ def _gen_expr_neq(g_)
   asm_label(&label_end);
 end
 
+def _gen_expr_unary(g_, fn_arg_names_, lvar_names_, expr_)
+  var list_;
+  var operator_;
+
+  list_ = Node_get_list(expr_);
+  operator_ = NodeList_get_as_str(list_, 0);
+
+  case
+  when (str_eq_addr(operator_))
+    return _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_);
+  else
+    p_s(operator_);
+    panic(670);
+  end
+end
+
 def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   var expr_els_ = Node_get_list(expr_);
   var op_str_ = NodeList_get_as_str(expr_els_, 0);
@@ -747,7 +794,14 @@ def gen_expr(g_, fn_arg_names_, lvar_names_, expr_)
         ))
       gen_call(g_, fn_arg_names_, lvar_names_, list_);
     else
-      _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_);
+      case
+      when (NodeList_size(list_) == 2)
+        _gen_expr_unary(g_, fn_arg_names_, lvar_names_, expr_);
+      when (NodeList_size(list_) == 3)
+        _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_);
+      else
+        panic(742);
+      end
     end
 
   else
