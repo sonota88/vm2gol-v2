@@ -472,15 +472,15 @@ def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
   aset(&label_begin, 5,   0);
   append_label_id(&label_begin, label_id, label_begin_size);
 
-  aset(&label_end,  0, 101); # e
-  aset(&label_end,  1, 110); # n
-  aset(&label_end,  2, 100); # d
-  aset(&label_end,  3,  95); # _
-  aset(&label_end,  4, 119); # w
-  aset(&label_end,  5, 104); # h
-  aset(&label_end,  6, 105); # i
-  aset(&label_end,  7, 108); # l
-  aset(&label_end,  8, 101); # e
+  aset(&label_end, 0, 101); # e
+  aset(&label_end, 1, 110); # n
+  aset(&label_end, 2, 100); # d
+  aset(&label_end, 3,  95); # _
+  aset(&label_end, 4, 119); # w
+  aset(&label_end, 5, 104); # h
+  aset(&label_end, 6, 105); # i
+  aset(&label_end, 7, 108); # l
+  aset(&label_end, 8, 101); # e
   aset(&label_end, 9,   0);
   append_label_id(&label_end, label_id, label_end_size);
 
