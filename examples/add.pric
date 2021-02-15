@@ -1,12 +1,10 @@
-// -*- mode: javascript -*-
+# -*- mode: ruby -*-
 
-func add(a, b) {
-  var result = a + b;
-  return result;
-}
+def add(a, b)
+  return a + b;
+end
 
-func main() {
+def main()
   var a = 1;
-  var result;
-  call_set result = add(a, 2);
-}
+  var result = add(a, 2);
+end
