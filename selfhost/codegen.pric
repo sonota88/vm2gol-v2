@@ -817,14 +817,17 @@ end
 
 def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var dest_size = 8; var [8]dest;
+  var dest_node_;
   var [8]dest_str_;
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var expr_node_;
 
-  dest_str_ = NodeList_get_as_str(stmt_, 1);
+  dest_node_ = NodeList_get(stmt_, 1);
   expr_node_ = NodeList_get(stmt_, 2);
 
   gen_expr(g_, fn_arg_names_, lvar_names_, expr_node_);
+
+  dest_str_ = Node_get_str(dest_node_);
 
   case
   when (Names_includes(lvar_names_, dest_str_))
