@@ -10,6 +10,17 @@ print_this_dir() {
   )
 }
 
+get_envvar() {
+  local name="$1"; shift
+  local default_value="$1"; shift
+
+  if (env | grep "^${name}=" > /dev/null); then
+    eval 'echo $'"$name"
+  else
+    echo $default_value
+  fi
+}
+
 run() {
   local name="$1"; shift
   local infile="$1"; shift
@@ -30,6 +41,7 @@ __DIR__="$(print_this_dir)"
 
 TMP_DIR=${__DIR__}/tmp/
 PRICVM=${__DIR__}/../pricvm
+PRINT_ASM=$(get_envvar "PRINT_ASM" 0)
 
 mkdir -p ${TMP_DIR}
 
@@ -53,4 +65,8 @@ run "parser" $tokensfile $treefile
 ruby ${__DIR__}/../check.rb fn-sig $treefile
 run "codegen" $treefile $asmfile
 
-ruby ${__DIR__}/../vgasm.rb $asmfile
+if [ $PRINT_ASM -eq 1 ]; then
+  cat $asmfile
+else
+  ruby ${__DIR__}/../vgasm.rb $asmfile
+fi

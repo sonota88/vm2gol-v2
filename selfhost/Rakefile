@@ -49,7 +49,7 @@ dep_map = {
 dep_map.keys.each do |name|
   file "exe/#{name}.exe.txt" => dep_map[name] do |t|
     exe_file = t.name
-    sh %( ../pricc #{name}.pric > #{exe_file} )
+    sh %( PRINT_ASM=0 ../pricc #{name}.pric > #{exe_file} )
   end
 end
 
