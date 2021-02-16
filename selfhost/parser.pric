@@ -770,7 +770,12 @@ def parse_stmt(g_)
     return parse_case(g_);
   else
     case
-    when (char_at(Token_get_val(peek(g_, 1)), 0) == 40) # (
+    when (
+      __and(
+        Token_get_kind(peek(g_, 0)) == TOKEN_KIND__IDENT(),
+        char_at(Token_get_val(peek(g_, 1)), 0) == 40 # (
+      )
+    )
       return parse_call(g_);
     else
       return parse_set(g_);
