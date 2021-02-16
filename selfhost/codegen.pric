@@ -980,8 +980,9 @@ def gen_builtin_putchar()
   asm_cp(&s_fn_arg1, &s_reg_a);
 
   asm_indent();
-  putchar(C_SPC()); print_s(&s_putchar);
+  print_s(&s_putchar);
   putchar(C_SPC()); print_s(&s_reg_a);
+  putchar(C_LF());
 
   asm_fn_epilogue();
   asm_ret();
@@ -1006,11 +1007,10 @@ def gen_builtin_getchar()
   asm_label(&s_getchar);
   asm_fn_prologue();
 
-  asm_cp(&s_fn_arg1, &s_reg_a);
-
   asm_indent();
-  putchar(C_SPC()); print_s(&s_getchar);
+  print_s(&s_getchar);
   putchar(C_SPC()); print_s(&s_reg_a);
+  putchar(C_LF());
 
   asm_fn_epilogue();
   asm_ret();
