@@ -820,7 +820,16 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var dest_node_;
   var [8]dest_str_;
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [6]s_reg_b; str_set_reg_b(&s_reg_b);
   var expr_node_;
+  var list_;
+  var s_reg_a_ind_size = 8; var [8]s_reg_a_ind;
+
+  # "[reg_a]"
+  aset(&s_reg_a_ind, 0, 0);
+  append_char_with_check(&s_reg_a_ind, 91, s_reg_a_ind_size); # [
+  str_append_with_check(&s_reg_a_ind, &s_reg_a, s_reg_a_ind_size);
+  append_char_with_check(&s_reg_a_ind, 93, s_reg_a_ind_size); # ]
 
   dest_node_ = NodeList_get(stmt_, 1);
   expr_node_ = NodeList_get(stmt_, 2);
@@ -847,6 +856,20 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
       Json_print(stmt_);
       p_s(&dest);
       panic(823);
+    end
+
+  when (Node_get_kind(dest_node_) == NODE_KIND__LIST())
+    list_ = Node_get_list(dest_node_);
+
+    if (str_eq_deref(NodeList_get_as_str(list_, 0)))
+      asm_push(&s_reg_a);
+
+      gen_expr(g_, fn_arg_names_, lvar_names_, NodeList_get(list_, 1));
+
+      asm_pop(&s_reg_b);
+      asm_cp(&s_reg_b, &s_reg_a_ind);
+    else
+      panic(859); # gen_set
     end
 
   else
