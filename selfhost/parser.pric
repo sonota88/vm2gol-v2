@@ -512,6 +512,23 @@ def parse_expr_addr(g_)
   return expr_node_;
 end
 
+def parse_expr_deref(g_)
+  var list_;
+  var expr_node_;
+  var [6]s_deref; str_set_deref(&s_deref);
+
+  consume_sym_one_char(g_, 42); # *
+  consume_sym_paren_l(g_);      # (
+  expr_node_ = parse_expr(g_);
+  consume_sym_paren_r(g_);      # )
+
+  list_ = NodeList_new(g_);
+  NodeList_add_str(g_, list_, &s_deref);
+  NodeList_add(list_, expr_node_);
+
+  return Node_new_list(g_, list_);
+end
+
 def parse_expr(g_)
   var t_left_;
   var n;
@@ -586,9 +603,15 @@ def parse_set(g_)
   var lhs_node_;
   var expr_node_;
 
+  if (char_at(Token_get_val(peek(g_, 0)), 0) == 42) # *
+    lhs_node_ = parse_expr_deref(g_);
+  else
+
   t_ = peek(g_, 0);
   inc_token_index(g_);
   lhs_node_ = Node_new_str(g_, Token_get_val(t_));
+
+  end
 
   consume_sym_equal(g_); # =
 
