@@ -842,16 +842,8 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
 
     case
     when (Names_includes(lvar_names_, dest_str_))
-
-      to_lvar_addr(
-        &dest,
-        lvar_names_,
-        dest_str_,
-        dest_size
-      );
-
+      to_lvar_addr(&dest, lvar_names_, dest_str_, dest_size);
       asm_cp(&s_reg_a, &dest);
-
     else
       Json_print(stmt_);
       p_s(&dest);
