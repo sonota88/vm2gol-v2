@@ -606,11 +606,9 @@ def parse_set(g_)
   if (char_at(Token_get_val(peek(g_, 0)), 0) == 42) # *
     lhs_node_ = parse_expr_deref(g_);
   else
-
     t_ = peek(g_, 0);
     inc_token_index(g_);
     lhs_node_ = Node_new_str(g_, Token_get_val(t_));
-
   end
 
   consume_sym_equal(g_); # =
@@ -620,11 +618,8 @@ def parse_set(g_)
   consume_sym_semicolon(g_); # ;
 
   stmt_ = NodeList_new(g_);
-
   NodeList_add_str(g_, stmt_, &s_set);
-
   NodeList_add(stmt_, lhs_node_);
-
   NodeList_add(stmt_, expr_node_);
 
   return stmt_;
