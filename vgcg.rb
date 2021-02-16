@@ -342,7 +342,6 @@ def codegen_set(fn_arg_names, lvar_names, rest)
   expr = rest[1]
 
   codegen_expr(fn_arg_names, lvar_names, expr)
-  puts "  push reg_a"
 
   case dest
   when String
@@ -350,7 +349,6 @@ def codegen_set(fn_arg_names, lvar_names, rest)
     case
     when lvar_names.include?(dest)
       disp = lvar_names.disp_lvar(dest)
-      puts "  pop reg_a"
       puts "  cp reg_a [bp:#{disp}]"
     else
       raise not_yet_impl("dest", dest)
@@ -358,6 +356,8 @@ def codegen_set(fn_arg_names, lvar_names, rest)
 
   when Array
     if dest[0] == "deref"
+      puts "  push reg_a"
+
       codegen_expr(fn_arg_names, lvar_names, dest[1])
 
       # この時点で

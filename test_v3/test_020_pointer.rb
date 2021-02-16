@@ -37,8 +37,6 @@ class Test020 < Minitest::Test
   sub_sp 1
   sub_sp 1
   lea reg_a [bp:-1]  # dest src
-  push reg_a
-  pop reg_a
   cp reg_a [bp:-2]
     ASM
 
@@ -82,8 +80,6 @@ class Test020 < Minitest::Test
   sub_sp 1
   sub_sp 1
   lea reg_a [bp:-1]  # dest src
-  push reg_a
-  pop reg_a
   cp reg_a [bp:-2]
   cp 65 reg_a
   push reg_a
