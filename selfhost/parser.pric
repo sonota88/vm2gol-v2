@@ -603,10 +603,11 @@ def parse_set(g_)
   var lhs_node_;
   var expr_node_;
 
-  if (char_at(Token_get_val(peek(g_, 0)), 0) == 42) # *
+  t_ = peek(g_, 0);
+
+  if (char_at(Token_get_val(t_), 0) == 42) # *
     lhs_node_ = parse_expr_deref(g_);
   else
-    t_ = peek(g_, 0);
     inc_token_index(g_);
     lhs_node_ = Node_new_str(g_, Token_get_val(t_));
   end
