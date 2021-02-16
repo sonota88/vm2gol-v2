@@ -827,6 +827,8 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
 
   gen_expr(g_, fn_arg_names_, lvar_names_, expr_node_);
 
+  case
+  when (Node_get_kind(dest_node_) == NODE_KIND__STR())
   dest_str_ = Node_get_str(dest_node_);
 
   case
@@ -845,6 +847,10 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
     Json_print(stmt_);
     p_s(&dest);
     panic(823);
+  end
+
+  else
+    panic(853); # gen_set
   end
 end
 
