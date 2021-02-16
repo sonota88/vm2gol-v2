@@ -583,12 +583,12 @@ def parse_set(g_)
   var stmt_;
   var [4]s_set; str_set_set(&s_set);
   var t_;
-  var var_name_;
+  var lhs_node_;
   var expr_node_;
 
   t_ = peek(g_, 0);
   inc_token_index(g_);
-  var_name_ = Node_new_str(g_, Token_get_val(t_));
+  lhs_node_ = Node_new_str(g_, Token_get_val(t_));
 
   consume_sym_equal(g_); # =
 
@@ -600,7 +600,7 @@ def parse_set(g_)
 
   NodeList_add_str(g_, stmt_, &s_set);
 
-  NodeList_add(stmt_, var_name_);
+  NodeList_add(stmt_, lhs_node_);
 
   NodeList_add(stmt_, expr_node_);
 
