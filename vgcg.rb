@@ -113,7 +113,6 @@ def codegen_while(fn_arg_names, lvar_names, rest)
 
   label_begin = "while_#{label_id}"
   label_end = "end_while_#{label_id}"
-  label_true = "true_#{label_id}"
 
   puts ""
 
@@ -130,10 +129,6 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   # 条件式の結果が偽の場合ループを抜ける
   puts "  jump_eq #{label_end}"
 
-  # 条件式の結果が真の場合ループの本体を実行
-  puts "  jump #{label_true}"
-
-  puts "label #{label_true}"
   # ループの本体
   codegen_stmts(fn_arg_names, lvar_names, body)
 
