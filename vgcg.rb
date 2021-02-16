@@ -538,10 +538,14 @@ def codegen(tree)
   puts "  call main"
   puts "  exit"
 
-  puts ""
-  codegen_builtin_getchar()
+  head, *rest = tree
+  # assert head == "top_stmts"
+  codegen_top_stmts(rest)
+
   puts ""
   codegen_builtin_putchar()
+  puts ""
+  codegen_builtin_getchar()
   puts ""
   codegen_builtin_get_sp()
   puts ""
@@ -550,10 +554,6 @@ def codegen(tree)
   codegen_builtin_set_vram()
   puts ""
   codegen_builtin_get_vram()
-
-  head, *rest = tree
-  # assert head == "top_stmts"
-  codegen_top_stmts(rest)
 end
 
 src = File.read(ARGV[0])
