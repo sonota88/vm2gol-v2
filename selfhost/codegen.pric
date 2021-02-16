@@ -829,25 +829,25 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
 
   case
   when (Node_get_kind(dest_node_) == NODE_KIND__STR())
-  dest_str_ = Node_get_str(dest_node_);
+    dest_str_ = Node_get_str(dest_node_);
 
-  case
-  when (Names_includes(lvar_names_, dest_str_))
+    case
+    when (Names_includes(lvar_names_, dest_str_))
 
-    to_lvar_addr(
-      &dest,
-      lvar_names_,
-      dest_str_,
-      dest_size
-    );
+      to_lvar_addr(
+        &dest,
+        lvar_names_,
+        dest_str_,
+        dest_size
+      );
 
-    asm_cp(&s_reg_a, &dest);
+      asm_cp(&s_reg_a, &dest);
 
-  else
-    Json_print(stmt_);
-    p_s(&dest);
-    panic(823);
-  end
+    else
+      Json_print(stmt_);
+      p_s(&dest);
+      panic(823);
+    end
 
   else
     panic(853); # gen_set
