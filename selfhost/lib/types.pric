@@ -281,10 +281,10 @@ end
 
 def NAMES__TYPE_SIZE() return 97; end
 
-def NAMES__STR_SIZE_MAX () return 16; end
-def NAMES__NUM_STRS_MAX () return 6; end
+def NAMES__STR_SIZE_MAX() return 16; end
+def NAMES__NUM_STRS_MAX() return 6; end
 
-def NAMES__SIZE () return 0; end
+def NAMES__SIZE() return 0; end
 def NAMES__STRS() return 1; end # 1..96(= 16 * 6)
 
 def Names_new(g_)
