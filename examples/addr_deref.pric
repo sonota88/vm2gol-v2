@@ -5,7 +5,9 @@
 def main()
   var a = 42;
   var b_;
+  var c;
 
   b_ = &a;
-  *(b_) = 43;
+  *(b_) = 65;
+  c = *(b_);
 end

@@ -532,6 +532,23 @@ def _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_)
   end
 end
 
+def _gen_expr_deref(g_, fn_arg_names_, lvar_names_, expr_)
+  var list_ = Node_get_list(expr_);
+  var inner_expr_ = NodeList_get(list_, 1);
+
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var s_reg_a_ind_size = 8; var [8]s_reg_a_ind;
+
+  aset(&s_reg_a_ind, 0, 0);
+  append_char_with_check(&s_reg_a_ind, 91, s_reg_a_ind_size); # [
+  str_append_with_check(&s_reg_a_ind, &s_reg_a, s_reg_a_ind_size);
+  append_char_with_check(&s_reg_a_ind, 93, s_reg_a_ind_size); # ]
+
+  gen_expr(g_, fn_arg_names_, lvar_names_, inner_expr_);
+
+  asm_cp(&s_reg_a_ind, &s_reg_a);
+end
+
 def _gen_expr_add()
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var [6]s_reg_b; str_set_reg_b(&s_reg_b);
@@ -680,6 +697,8 @@ def _gen_expr_unary(g_, fn_arg_names_, lvar_names_, expr_)
   case
   when (str_eq_addr(operator_))
     return _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_);
+  when (str_eq_deref(operator_))
+    return _gen_expr_deref(g_, fn_arg_names_, lvar_names_, expr_);
   else
     p_s(operator_);
     panic(670);

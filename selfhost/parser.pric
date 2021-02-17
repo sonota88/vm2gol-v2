@@ -553,6 +553,11 @@ def parse_expr(g_)
 
     return _parse_expr_right(g_, expr_node_l_);
 
+  when (char_at(Token_get_val(t_left_), 0) == 42) # *
+    expr_node_l_ = parse_expr_deref(g_);
+
+    return _parse_expr_right(g_, expr_node_l_);
+
   else
 
     case
