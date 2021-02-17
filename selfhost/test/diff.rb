@@ -57,7 +57,7 @@ def filter_asm(infile, outfile)
   lines =
     remove_builtins(File.open(infile).each_line)
     .map do |line|
-      if /^(.+)# .*$/ =~ line
+      if /^(.+?) *# .*$/ =~ line
         $1 + "\n"
       else
         line
