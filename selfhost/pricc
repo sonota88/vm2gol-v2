@@ -48,8 +48,8 @@ mkdir -p ${TMP_DIR}
 file="$1"
 bname=pricc-pric
 
-src_temp=${TMP_DIR}/${bname}.pric.js
-tokensfile=${TMP_DIR}/${bname}.vgtok.txt
+src_temp=${TMP_DIR}/${bname}.pric.rb
+tokensfile=${TMP_DIR}/${bname}.tokens.txt
 treefile=${TMP_DIR}/${bname}.vgt.json
 asmfile=${TMP_DIR}/${bname}.vga.txt
 
