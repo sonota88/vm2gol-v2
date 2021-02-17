@@ -20,6 +20,12 @@ def _system(cmd)
   out
 end
 
+def _system_v2(cmd)
+  out = `#{cmd}`
+  status = $?
+  [out, status]
+end
+
 def setup_common
   Dir.chdir PROJECT_DIR
   FileUtils.mkdir_p File.join(PROJECT_DIR, "tmp")
@@ -55,6 +61,8 @@ FILE_TOKENS = project_path("tmp/test.tokens.txt")
 FILE_TREE   = project_path("tmp/test.vgt.json")
 FILE_ASM    = project_path("tmp/test.vga.txt")
 FILE_EXE    = project_path("tmp/test.vge.txt")
+FILE_ASM_RB = project_path("tmp/test_rb.vga.txt")
+FILE_ASM_PRIC = project_path("tmp/test_pric.vga.txt")
 FILE_OUTPUT = project_path("tmp/output.txt")
 
 def compile_to_asm(src)
@@ -70,6 +78,20 @@ def build(infile, outfile)
   _system %( ruby #{PROJECT_DIR}/vgparser.rb #{FILE_TOKENS} > #{FILE_TREE  } )
   _system %( ruby #{PROJECT_DIR}/vgcg.rb     #{FILE_TREE  } > #{FILE_ASM   } )
   _system %( ruby #{PROJECT_DIR}/vgasm.rb    #{FILE_ASM   } > #{outfile    } )
+end
+
+def pricc_pric(infile, outfile, print_asm: false)
+  cmd = [
+    project_path("selfhost/pricc"),
+    infile,
+    "> #{outfile}"
+  ].join(" ")
+
+  cmd = "PRINT_ASM=1 " + cmd if print_asm
+
+  Dir.chdir(project_path("selfhost/")) do
+    _system cmd
+  end
 end
 
 def run_vm(src, stdin: "")
