@@ -80,6 +80,20 @@ def build(infile, outfile)
   _system %( ruby #{PROJECT_DIR}/vgasm.rb    #{FILE_ASM   } > #{outfile    } )
 end
 
+def pricc_rb(infile, outfile, print_asm: false)
+  cmd = [
+    project_path("pricc"),
+    infile,
+    "> #{outfile}"
+  ].join(" ")
+
+  cmd = "PRINT_ASM=1 " + cmd if print_asm
+
+  Dir.chdir(project_path("./")) do
+    _system cmd
+  end
+end
+
 def pricc_pric(infile, outfile, print_asm: false)
   cmd = [
     project_path("selfhost/pricc"),

@@ -23,9 +23,7 @@ class Test100 < Minitest::Test
     files.each do |file|
       file_src = project_path("examples/#{file}")
 
-      asm = compile_to_asm(File.read(file_src))
-      file_write(FILE_ASM_RB, asm)
-
+      pricc_rb(  file_src, FILE_ASM_RB  , print_asm: true)
       pricc_pric(file_src, FILE_ASM_PRIC, print_asm: true)
 
       output, status = _system_v2( %( #{diff_cmd} asm #{FILE_ASM_RB} #{FILE_ASM_PRIC} ) )
