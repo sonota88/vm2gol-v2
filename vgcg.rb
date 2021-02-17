@@ -543,6 +543,7 @@ def codegen(tree)
   codegen_top_stmts(rest)
 
   puts ""
+  puts "#>builtins"
   codegen_builtin_putchar()
   puts ""
   codegen_builtin_getchar()
@@ -554,6 +555,7 @@ def codegen(tree)
   codegen_builtin_set_vram()
   puts ""
   codegen_builtin_get_vram()
+  puts "#<builtins"
 end
 
 src = File.read(ARGV[0])
