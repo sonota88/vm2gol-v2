@@ -193,7 +193,7 @@ def TokenKind_from_str(str_)
   when (__and(c0 == 105, c1 == 100)) # id
     return TOKEN_KIND__IDENT();
   else
-    panic(196);
+    panic(196); # TokenKind_from_str: invalid token kind string
   end
 end
 
