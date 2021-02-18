@@ -218,6 +218,25 @@ def str_eq_var(str_)
   return str_eq(str_, &pattern);
 end
 
+def str_set_var_array(dest_)
+  aset(dest_, 0, 118); # v
+  aset(dest_, 1,  97); # a
+  aset(dest_, 2, 114); # r
+  aset(dest_, 3,  95); # _
+  aset(dest_, 4,  97); # a
+  aset(dest_, 5, 114); # r
+  aset(dest_, 6, 114); # r
+  aset(dest_, 7,  97); # a
+  aset(dest_, 8, 121); # y
+  aset(dest_, 9,   0);
+end
+
+def str_eq_var_array(str_)
+  var [10]pattern;
+  str_set_var_array(&pattern);
+  return str_eq(str_, &pattern);
+end
+
 def str_set_when(str_)
   aset(str_, 0, 119); # w
   aset(str_, 1, 104); # h
