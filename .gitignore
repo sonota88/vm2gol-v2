@@ -1,2 +1,3 @@
 tmp/
 z_*
+.rake_tasks~
