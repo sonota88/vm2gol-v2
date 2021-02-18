@@ -375,7 +375,7 @@ def parse_var(g_)
   var [2]s_equal;
   var t_;
 
-  aset(&s_semicolon, 0, 59); #;
+  aset(&s_semicolon, 0, 59); # ;
   aset(&s_semicolon, 1,  0);
 
   aset(&s_equal, 0, 61); # =
@@ -389,7 +389,7 @@ def parse_var(g_)
     _parse_var_init(g_);
   else
     print_s(Token_get_val(t_));
-    panic(240); # must not happen
+    panic(426); # parse_var: unexpected token
   end
 
 end
