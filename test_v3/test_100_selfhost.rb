@@ -31,7 +31,7 @@ class Test100 < Minitest::Test
         pass
       else
         puts output
-        flunk
+        flunk("failed file: #{file}")
       end
     end
   end
