@@ -303,9 +303,9 @@ def to_fn_arg_addr(dest_, names_, name_, dest_size)
 end
 
 def to_lvar_addr(dest_, names_, name_, dest_size)
-  var idx = Names_index(names_, name_);
+  var disp = Names_disp_lvar(names_, name_);
 
-  render_indirection_bp(dest_, (idx + 1) * -1, dest_size);
+  render_indirection_bp(dest_, disp, dest_size);
 end
 
 def append_label_id(label_, id, dest_size)
