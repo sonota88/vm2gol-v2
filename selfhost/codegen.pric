@@ -262,6 +262,25 @@ def asm_lea(dest_, src_)
   putchar(C_LF());
 end
 
+def asm_putchar(c)
+  var [8]s_c;
+
+  unparse_int(&s_c, c);
+
+  asm_indent();
+  putchar(112); # p
+  putchar(117); # u
+  putchar(116); # t
+  putchar( 99); # c
+  putchar(104); # h
+  putchar( 97); # a
+  putchar(114); # r
+
+  putchar(C_SPC()); print_s(&s_c);
+
+  putchar(C_LF());
+end
+
 def asm_fn_prologue()
   var [3]s_bp; str_set_bp(&s_bp);
   var [3]s_sp; str_set_sp(&s_sp);
