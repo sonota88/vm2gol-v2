@@ -335,6 +335,12 @@ def gen_var(g_, fn_arg_names_, lvar_names_, stmt_)
   end
 end
 
+def gen_var_array(g_, fn_arg_names_, lvar_names_, stmt_)
+  var width = NodeList_get_as_int(stmt_, 2);
+
+  asm_sub_sp(width);
+end
+
 def gen_case(g_, fn_arg_names_, lvar_names_, stmt_)
   var i;
   var when_clauses_;
@@ -936,6 +942,7 @@ def gen_func(g_, func_)
   var i;
   var lvar_names_;
   var lvar_name_;
+  var lvar_width_;
   var fn_arg_names_;
 
   assert(4, NodeList_size(func_), 243);
@@ -960,16 +967,24 @@ def gen_func(g_, func_)
   while (i < NodeList_size(stmts_))
     stmt_ = NodeList_get_as_list(stmts_, i);
 
-    if (str_eq_var(NodeList_get_as_str(stmt_, 0)))
+    case
+    when (str_eq_var(NodeList_get_as_str(stmt_, 0)))
       lvar_name_ = NodeList_get_as_str(stmt_, 1);
       Names_add(lvar_names_, lvar_name_, 1);
       gen_var(g_, fn_arg_names_, lvar_names_, stmt_);
+    when (str_eq_var_array(NodeList_get_as_str(stmt_, 0)))
+      lvar_name_ = NodeList_get_as_str(stmt_, 1);
+      lvar_width_ = NodeList_get_as_int(stmt_, 2);
+      Names_add(lvar_names_, lvar_name_, lvar_width_);
+      gen_var_array(g_, fn_arg_names_, lvar_names_, stmt_);
     else
       gen_stmt(g_, fn_arg_names_, lvar_names_, stmt_);
     end
 
     i = i + 1;
   end
+
+  # Json_print(Names_to_plain(g_, lvar_names_));
 
   asm_fn_epilogue();
 
