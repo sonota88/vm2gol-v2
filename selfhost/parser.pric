@@ -370,6 +370,37 @@ def _parse_var_init(g_)
   return stmt_;
 end
 
+def _parse_var_array(g_)
+  var t_;
+  var width;
+  var var_name_;
+  var stmt_;
+  var [4]s_var; str_set_var(&s_var);
+  var [10]s_var_array; str_set_var_array(&s_var_array);
+
+  consume_kw(g_, &s_var);
+
+  consume_sym_one_char(g_, 91); # [
+
+  t_ = peek(g_, 0);
+  inc_token_index(g_);
+  width = parse_int(Token_get_val(t_));
+
+  consume_sym_one_char(g_, 93); # ]
+
+  var_name_ = Token_get_val(peek(g_, 0));
+  inc_token_index(g_);
+
+  consume_sym_semicolon(g_);
+
+  stmt_ = NodeList_new(g_);
+  NodeList_add_str(g_, stmt_, &s_var_array);
+  NodeList_add_str(g_, stmt_, var_name_);
+  NodeList_add_int(g_, stmt_, width);
+
+  return stmt_;
+end
+
 def parse_var(g_)
   var [2]s_semicolon;
   var [2]s_equal;
@@ -380,6 +411,12 @@ def parse_var(g_)
 
   aset(&s_equal, 0, 61); # =
   aset(&s_equal, 1,  0);
+
+  t_ = peek(g_, 1);
+
+  if (char_at(Token_get_val(t_), 0) == 91) # [
+    _parse_var_array(g_);
+  else
 
   t_ = peek(g_, 2);
   case
@@ -392,6 +429,7 @@ def parse_var(g_)
     panic(426); # parse_var: unexpected token
   end
 
+  end
 end
 
 def _parse_expr_right(g_, expr_node_l_)
