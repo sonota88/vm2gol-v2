@@ -366,9 +366,29 @@ def Names_includes(self_, target_name_)
 end
 
 def Names_disp_lvar(self_, target_name_)
-  var i = Names_index(self_, target_name_);
+  var i;
+  var disp = 0;
+  var do_break = FALSE();
+  var str_;
+  var width;
 
-  return (i + 1) * -1;
+  i = 0;
+  while (__not(do_break))
+    if (__le(Names_size(self_), i))
+      do_break = TRUE();
+    else
+      str_  = Names_get(self_, i);
+      width = Names_get_width(self_, i);
+      disp = __sub(disp, width);
+      if (str_eq(str_, target_name_))
+        do_break = TRUE();
+      end
+    end
+
+    i = i + 1;
+  end
+
+  return disp;
 end
 
 def Names_from_node_list(g_, list_)
