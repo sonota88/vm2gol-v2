@@ -15,7 +15,8 @@ class Test100 < Minitest::Test
       "blank_main.pric",
       "hello_world.pric",
       "add.pric",
-      "addr_deref.pric"
+      "addr_deref.pric",
+      "array.pric"
     ]
 
     diff_cmd = "ruby " + project_path("selfhost/test/diff.rb")
