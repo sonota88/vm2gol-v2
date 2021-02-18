@@ -279,13 +279,14 @@ end
 
 # --------------------------------
 
-def NAMES__TYPE_SIZE() return 97; end
+def NAMES__TYPE_SIZE() return 102; end
 
 def NAMES__STR_SIZE_MAX() return 16; end
 def NAMES__NUM_STRS_MAX() return 6; end
 
 def NAMES__SIZE() return 0; end
-def NAMES__STRS() return 1; end # 1..96(= 16 * 6)
+def NAMES__WIDTHS() return 1; end # 1..6
+def NAMES__STRS() return 7; end # 7..102(+ 16 * 6)
 
 def Names_new(g_)
   var self_ = allocate(g_, NAMES__TYPE_SIZE());
@@ -327,6 +328,10 @@ end
 
 def Names_get(self_, i)
   return Names_str_offset(self_, i);
+end
+
+def Names_get_width(self_, i)
+  return *(self_ + NAMES__WIDTHS() + i);
 end
 
 def Names_index(self_, target_name_)
@@ -387,6 +392,7 @@ def Names_to_plain(g_, self_)
 
   while (i < Names_size(self_))
     NodeList_add_str(g_, list_, Names_get(self_, i));
+    NodeList_add_int(g_, list_, Names_get_width(self_, i));
     i = i + 1;
   end
 
