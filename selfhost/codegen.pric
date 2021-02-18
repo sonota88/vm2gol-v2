@@ -962,7 +962,7 @@ def gen_func(g_, func_)
 
     if (str_eq_var(NodeList_get_as_str(stmt_, 0)))
       lvar_name_ = NodeList_get_as_str(stmt_, 1);
-      Names_add(lvar_names_, lvar_name_);
+      Names_add(lvar_names_, lvar_name_, 1);
       gen_var(g_, fn_arg_names_, lvar_names_, stmt_);
     else
       gen_stmt(g_, fn_arg_names_, lvar_names_, stmt_);

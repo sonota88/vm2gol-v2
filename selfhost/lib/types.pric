@@ -308,7 +308,7 @@ def Names_str_offset(self_, i)
   );
 end
 
-def Names_add(self_, name_)
+def Names_add(self_, name_, width)
   var size = Names_size(self_);
 
   if (__le(NAMES__NUM_STRS_MAX(), size))
@@ -316,6 +316,8 @@ def Names_add(self_, name_)
     p_i(size);
     panic(316);
   end
+
+  *(self_ + NAMES__WIDTHS() + size) = width;
 
   str_cp_with_check(
     Names_str_offset(self_, size),
@@ -378,7 +380,8 @@ def Names_from_node_list(g_, list_)
   while (i < size)
     Names_add(
       names_,
-      NodeList_get_as_str(list_, i)
+      NodeList_get_as_str(list_, i),
+      1
     );
     i = i + 1;
   end
