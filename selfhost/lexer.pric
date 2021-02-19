@@ -149,6 +149,25 @@ def _match_kw_when(input_, pos)
   end
 end
 
+def _match_kw_else(input_, pos)
+  var size = 4;
+  var [5]s_temp;
+
+  substr_with_check(
+    &s_temp, input_, pos, pos + size,
+    size + 1
+  );
+
+  if (__and(
+        str_eq_else(&s_temp),
+        is_ident_char(char_at(input_, pos + size)) == FALSE()
+      ))
+    return size;
+  else
+    return 0;
+  end
+end
+
 def match_kw(input_, pos)
   case
   when (0 < _match_kw_def(input_, pos))
@@ -167,6 +186,8 @@ def match_kw(input_, pos)
     return _match_kw_end(input_, pos);
   when (0 < _match_kw_when(input_, pos))
     return _match_kw_when(input_, pos);
+  when (0 < _match_kw_else(input_, pos))
+    return _match_kw_else(input_, pos);
   else
     return 0;
   end
