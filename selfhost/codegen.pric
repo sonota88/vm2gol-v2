@@ -476,12 +476,7 @@ def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
   inc_label_id(g_);
   label_id = get_label_id(g_);
 
-  aset(&label_begin, 0, 119); # w
-  aset(&label_begin, 1, 104); # h
-  aset(&label_begin, 2, 105); # i
-  aset(&label_begin, 3, 108); # l
-  aset(&label_begin, 4, 101); # e
-  aset(&label_begin, 5,   0);
+  str_set_while(&label_begin);
   append_label_id(&label_begin, label_id, label_begin_size);
 
   aset(&label_end, 0, 101); # e
