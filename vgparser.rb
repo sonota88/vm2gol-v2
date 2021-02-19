@@ -355,7 +355,6 @@ end
 
 def _parse_when_clause
   t = peek()
-  return nil if t.value == "end"
 
   case t.value
   when "when"
@@ -380,13 +379,8 @@ def parse_case
 
   when_clauses = []
 
-  loop do
-    when_clause = _parse_when_clause()
-    if when_clause.nil?
-      break
-    else
-      when_clauses << when_clause
-    end
+  while peek().value != "end"
+    when_clauses << _parse_when_clause()
   end
 
   if when_clauses.empty?
