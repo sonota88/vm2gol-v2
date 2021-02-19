@@ -108,6 +108,20 @@ def str_eq_deref(str_)
   return str_eq(str_, &pattern);
 end
 
+def str_set_else(str_)
+  aset(str_, 0, 101); # e
+  aset(str_, 1, 108); # l
+  aset(str_, 2, 115); # s
+  aset(str_, 3, 101); # e
+  aset(str_, 4,   0);
+end
+
+def str_eq_else(str_)
+  var [5]pattern;
+  str_set_else(&pattern);
+  return str_eq(str_, &pattern);
+end
+
 def str_set_end(str_)
   aset(str_, 0, 101); # e
   aset(str_, 1, 110); # n
