@@ -440,7 +440,7 @@ def _parse_expr_right(g_, expr_node_l_)
   var [2]s_star;
   var [3]s_double_equal;
   var [3]s_not_equal;
-  var [3]s_eq_op;
+  var [3]s_eq;
   var [4]s_neq_op;
 
   aset(&s_plus, 0, 43); # +
@@ -457,9 +457,9 @@ def _parse_expr_right(g_, expr_node_l_)
   aset(&s_not_equal, 1, 61); # =
   aset(&s_not_equal, 2,  0);
 
-  aset(&s_eq_op, 0, 101); # e
-  aset(&s_eq_op, 1, 113); # q
-  aset(&s_eq_op, 2,   0);
+  aset(&s_eq, 0, 101); # e
+  aset(&s_eq, 1, 113); # q
+  aset(&s_eq, 2,   0);
 
   aset(&s_neq_op, 0, 110); # n
   aset(&s_neq_op, 1, 101); # e
@@ -504,7 +504,7 @@ def _parse_expr_right(g_, expr_node_l_)
 
     expr_els_ = NodeList_new(g_);
 
-    NodeList_add_str(g_, expr_els_, &s_eq_op);
+    NodeList_add_str(g_, expr_els_, &s_eq);
     NodeList_add(expr_els_, expr_node_l_);
     NodeList_add(expr_els_, expr_node_r_);
 
