@@ -395,11 +395,7 @@ def gen_case(g_, fn_arg_names_, lvar_names_, stmt_)
   aset(&label_end, 8,   0);
   append_label_id(&label_end, label_id, label_size);
 
-  aset(&label_when_head, 0, 119); # w
-  aset(&label_when_head, 1, 104); # h
-  aset(&label_when_head, 2, 101); # e
-  aset(&label_when_head, 3, 110); # n
-  aset(&label_when_head, 4,   0);
+  str_set_when(&label_when_head);
   append_label_id(&label_when_head, label_id, label_size);
 
   aset(&label_end_when_head, 0, 101); # e
