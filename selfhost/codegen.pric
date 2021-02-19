@@ -183,6 +183,19 @@ def asm_jump_eq(label_)
   putchar(C_LF());
 end
 
+def asm_jump_g(label_)
+  asm_indent();
+  putchar(106); # j
+  putchar(117); # u
+  putchar(109); # m
+  putchar(112); # p
+  putchar( 95); # _
+  putchar(103); # g
+
+  putchar(C_SPC()); print_s(label_);
+  putchar(C_LF());
+end
+
 def asm_vm_comment(vm_comment_)
   var [5] str__cmt; str_set__cmt(&str__cmt);
   var vm_comment_size = 40; var [40]vm_comment;
