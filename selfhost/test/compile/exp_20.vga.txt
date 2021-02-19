@@ -27,10 +27,10 @@ label then_2
   cp 1 reg_a
 label end_eq_2
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_1_0
-  jump end_when_1_0
+  jump_eq end_when_1_0
+  jump when_1_0
 label when_1_0
   cp 0 reg_a
   cp reg_a [bp:-1]
@@ -52,10 +52,10 @@ label then_3
   cp 1 reg_a
 label end_eq_3
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_1_1
-  jump end_when_1_1
+  jump_eq end_when_1_1
+  jump when_1_1
 label when_1_1
   cp 1 reg_a
   cp reg_a [bp:-1]

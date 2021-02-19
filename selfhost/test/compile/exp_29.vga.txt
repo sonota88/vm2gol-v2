@@ -148,10 +148,10 @@ label then_2
   cp 1 reg_a
 label end_eq_2
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_1_0
-  jump end_when_1_0
+  jump_eq end_when_1_0
+  jump when_1_0
 label when_1_0
   _cmt 下限を超えた場合
   cp [bp:2] reg_a
@@ -180,10 +180,10 @@ label then_3
   cp 1 reg_a
 label end_eq_3
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_1_1
-  jump end_when_1_1
+  jump_eq end_when_1_1
+  jump when_1_1
 label when_1_1
   _cmt 上限を超えた場合
   cp 0 reg_a
@@ -206,10 +206,10 @@ label then_4
   cp 1 reg_a
 label end_eq_4
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_1_2
-  jump end_when_1_2
+  jump_eq end_when_1_2
+  jump when_1_2
 label when_1_2
   _cmt 補正が不要な場合
   cp [bp:3] reg_a
@@ -251,10 +251,10 @@ label then_6
   cp 1 reg_a
 label end_eq_6
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_5_0
-  jump end_when_5_0
+  jump_eq end_when_5_0
+  jump when_5_0
 label when_5_0
 
   # -->> case_7
@@ -274,10 +274,10 @@ label then_8
   cp 1 reg_a
 label end_eq_8
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_7_0
-  jump end_when_7_0
+  jump_eq end_when_7_0
+  jump when_7_0
 label when_7_0
   cp 1 reg_a
   cp reg_a [bp:-1]
@@ -304,10 +304,10 @@ label then_9
   cp 1 reg_a
 label end_eq_9
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_5_1
-  jump end_when_5_1
+  jump_eq end_when_5_1
+  jump when_5_1
 label when_5_1
 
   # -->> case_10
@@ -327,10 +327,10 @@ label then_11
   cp 1 reg_a
 label end_eq_11
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_10_0
-  jump end_when_10_0
+  jump_eq end_when_10_0
+  jump when_10_0
 label when_10_0
   cp 1 reg_a
   cp reg_a [bp:-1]
@@ -352,10 +352,10 @@ label then_12
   cp 1 reg_a
 label end_eq_12
   # <<-- expr
-  cp 1 reg_b
+  cp 0 reg_b
   compare
-  jump_eq when_10_1
-  jump end_when_10_1
+  jump_eq end_when_10_1
+  jump when_10_1
 label when_10_1
   cp 1 reg_a
   cp reg_a [bp:-1]
