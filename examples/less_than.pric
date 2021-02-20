@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+
+def main()
+  case when (1 < 2)
+    putchar(65); # A
+  else
+    putchar(66); # B
+  end
+
+  case when (2 < 2)
+    putchar(67); # C
+  else
+    putchar(68); # D
+  end
+
+  case when (3 < 2)
+    putchar(69); # E
+  else
+    putchar(70); # F
+  end
+end
