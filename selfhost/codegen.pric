@@ -712,6 +712,55 @@ def _gen_expr_neq(g_)
   asm_label(&label_end);
 end
 
+def _gen_expr_lt(g_)
+  var [6]s_reg_a; str_set_reg_a(&s_reg_a);
+  var [6]s_reg_b; str_set_reg_b(&s_reg_b);
+  var [2]s_0;
+  var [2]s_1;
+  var label_end_size = 12; var [12]label_end; # end_lt_xxxx ... 11 chars + 1
+  var label_then_size = 10; var [10]label_then; # then_xxxx ... 9 chars + 1
+  var label_id;
+
+  aset(&s_0, 0, 48); # 0
+  aset(&s_0, 1,  0);
+
+  aset(&s_1, 0, 49); # 1
+  aset(&s_1, 1,  0);
+
+  inc_label_id(g_);
+  label_id = get_label_id(g_);
+
+  aset(&label_end, 0, 101); # e
+  aset(&label_end, 1, 110); # n
+  aset(&label_end, 2, 100); # d
+  aset(&label_end, 3,  95); # _
+  aset(&label_end, 4, 108); # l
+  aset(&label_end, 5, 116); # t
+  aset(&label_end, 6,   0);
+  append_label_id(&label_end, label_id, label_end_size);
+
+  aset(&label_then, 0, 116); # t
+  aset(&label_then, 1, 104); # h
+  aset(&label_then, 2, 101); # e
+  aset(&label_then, 3, 110); # n
+  aset(&label_then, 4,   0);
+  append_label_id(&label_then, label_id, label_then_size);
+
+  asm_pop(&s_reg_b);
+  asm_pop(&s_reg_a);
+
+  asm_compare();
+  asm_jump_g(&label_then);
+
+  asm_cp(&s_0, &s_reg_a);
+  asm_jump(&label_end);
+
+  asm_label(&label_then);
+  asm_cp(&s_1, &s_reg_a);
+
+  asm_label(&label_end);
+end
+
 def _gen_expr_unary(g_, fn_arg_names_, lvar_names_, expr_)
   var list_;
   var operator_;
@@ -738,6 +787,7 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
   var [3]s_eq;
   var [4]s_neq;
+  var [3]s_lt; str_set_lt(&s_lt);
 
   aset(&s_eq, 0, 101); # e
   aset(&s_eq, 1, 113); # q
@@ -763,6 +813,8 @@ def _gen_expr_binary(g_, fn_arg_names_, lvar_names_, expr_)
     _gen_expr_eq(g_);
   when (str_eq(op_str_, &s_neq)) # neq
     _gen_expr_neq(g_);
+  when (str_eq(op_str_, &s_lt)) # lt
+    _gen_expr_lt(g_);
   else
     panic(284); # _gen_expr_binary: not yet impl
   end

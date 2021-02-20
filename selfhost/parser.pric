@@ -438,16 +438,21 @@ def _parse_expr_right(g_, expr_node_l_)
   var expr_els_;
   var [2]s_plus;
   var [2]s_star;
+  var [2]s_sym_lt;
   var [3]s_double_equal;
   var [3]s_not_equal;
   var [3]s_eq;
   var [4]s_neq;
+  var [3]s_lt; str_set_lt(&s_lt);
 
   aset(&s_plus, 0, 43); # +
   aset(&s_plus, 1,  0);
 
   aset(&s_star, 0, 42); # *
   aset(&s_star, 1,  0);
+
+  aset(&s_sym_lt, 0, 60); # <
+  aset(&s_sym_lt, 1,  0);
 
   aset(&s_double_equal, 0, 61); # =
   aset(&s_double_equal, 1, 61); # =
@@ -517,6 +522,18 @@ def _parse_expr_right(g_, expr_node_l_)
     expr_els_ = NodeList_new(g_);
 
     NodeList_add_str(g_, expr_els_, &s_neq);
+    NodeList_add(expr_els_, expr_node_l_);
+    NodeList_add(expr_els_, expr_node_r_);
+
+    return Node_new_list(g_, expr_els_);
+
+  when (Token_val_eq(t_, &s_sym_lt))
+    consume_sym(g_, &s_sym_lt);
+    expr_node_r_ = parse_expr(g_);
+
+    expr_els_ = NodeList_new(g_);
+
+    NodeList_add_str(g_, expr_els_, &s_lt);
     NodeList_add(expr_els_, expr_node_l_);
     NodeList_add(expr_els_, expr_node_r_);
 
