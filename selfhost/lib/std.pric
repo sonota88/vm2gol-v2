@@ -221,16 +221,6 @@ def p_s(str_)
   end
 end
 
-def pow10(e)
-  var i = 0;
-  var n = 1;
-  while (i < e)
-    n = n * 10;
-    i = i + 1;
-  end
-  return n;
-end
-
 def assert(exp, act, errno)
   if (exp != act)
     putchar(101); # e (expected)
