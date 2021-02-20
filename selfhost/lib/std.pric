@@ -64,17 +64,17 @@ def print_i(arg_n)
   var mod;
   var [8]buf;
   var digit = 0;
-  var done = 0;
+  var done = FALSE();
 
   if (n < 0)
     putchar(45); # -
     n = n * -1;
   end
 
-  while (done != 1)
+  while (__not(done))
     if (n < 10)
       aset(&buf, digit, n);
-      done = 1;
+      done = TRUE();
     else
       div = __div(n, 10);
       mod = __mod(n, 10);
@@ -97,7 +97,7 @@ def unparse_int(dest_, arg_n)
   var mod;
   var [8]buf;
   var digit = 0;
-  var done = 0;
+  var done = FALSE();
   var i;
   var dest_offset = 0;
 
@@ -107,10 +107,10 @@ def unparse_int(dest_, arg_n)
     dest_offset = 1;
   end
 
-  while (done != 1)
+  while (__not(done))
     if (n < 10)
       aset(&buf, digit, n);
-      done = 1;
+      done = TRUE();
     else
       div = __div(n, 10);
       mod = __mod(n, 10);
@@ -146,7 +146,7 @@ end
 def read_stdin_all(dest_, limit)
   var i = 0;
   var c;
-  var do_break = 0;
+  var do_break = FALSE();
 
   while (__not(do_break))
     if (i == limit)
