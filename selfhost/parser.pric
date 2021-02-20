@@ -638,7 +638,9 @@ def parse_expr(g_)
           i = i + 1;
         end
 
-        return Node_new_list(g_, funcall_list_);
+        expr_node_l_ = Node_new_list(g_, funcall_list_);
+
+        return _parse_expr_right(g_, expr_node_l_);
       else
         inc_token_index(g_);
 
