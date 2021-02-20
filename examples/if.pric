@@ -1,0 +1,9 @@
+# -*- mode: ruby -*-
+
+def main()
+  if (1)
+    putchar(65); # A
+  else
+    putchar(66); # B
+  end
+end

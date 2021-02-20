@@ -168,6 +168,25 @@ def _match_kw_else(input_, pos)
   end
 end
 
+def _match_kw_if(input_, pos)
+  var size = 2;
+  var [3]s_temp;
+
+  substr_with_check(
+    &s_temp, input_, pos, pos + size,
+    size + 1
+  );
+
+  if (__and(
+        str_eq_if(&s_temp),
+        is_ident_char(char_at(input_, pos + size)) == FALSE()
+      ))
+    return size;
+  else
+    return 0;
+  end
+end
+
 def match_kw(input_, pos)
   case
   when (0 < _match_kw_def(input_, pos))
@@ -188,6 +207,8 @@ def match_kw(input_, pos)
     return _match_kw_when(input_, pos);
   when (0 < _match_kw_else(input_, pos))
     return _match_kw_else(input_, pos);
+  when (0 < _match_kw_if(input_, pos))
+    return _match_kw_if(input_, pos);
   else
     return 0;
   end
@@ -360,6 +381,8 @@ def main()
   var pos = 0;
   var do_break = FALSE();
   var size;
+  var [5]s_case; str_set_case(&s_case);
+  var [5]s_when; str_set_when(&s_when);
   var s_temp_size = 40; var [40]s_temp;
   var c;
 
@@ -399,7 +422,14 @@ def main()
     when (0 < match_kw(&input, pos))
       size = match_kw(&input, pos);
       substr(&s_temp, &input, pos, pos + size);
+
+      if (str_eq_if(&s_temp))
+        print_kw(&s_case);
+        print_kw(&s_when);
+      else
       print_kw(&s_temp);
+      end
+
       pos = pos + size;
 
     when (0 < match_int(&input, pos))
