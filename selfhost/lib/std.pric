@@ -64,17 +64,17 @@ def print_i(arg_n)
   var mod;
   var [8]buf;
   var digit = 0;
-  var done = FALSE();
+  var do_break = FALSE();
 
   if (n < 0)
     putchar(45); # -
     n = n * -1;
   end
 
-  while (__not(done))
+  while (__not(do_break))
     if (n < 10)
       aset(&buf, digit, n);
-      done = TRUE();
+      do_break = TRUE();
     else
       div = __div(n, 10);
       mod = __mod(n, 10);
@@ -97,7 +97,7 @@ def unparse_int(dest_, arg_n)
   var mod;
   var [8]buf;
   var digit = 0;
-  var done = FALSE();
+  var do_break = FALSE();
   var i;
   var dest_offset = 0;
 
@@ -107,10 +107,10 @@ def unparse_int(dest_, arg_n)
     dest_offset = 1;
   end
 
-  while (__not(done))
+  while (__not(do_break))
     if (n < 10)
       aset(&buf, digit, n);
-      done = TRUE();
+      do_break = TRUE();
     else
       div = __div(n, 10);
       mod = __mod(n, 10);
