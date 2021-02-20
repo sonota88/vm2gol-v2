@@ -166,6 +166,18 @@ def str_eq_funcall(str_)
   return str_eq(str_, &pattern);
 end
 
+def str_set_if(str_)
+  aset(str_, 0, 105); # i
+  aset(str_, 1, 102); # f
+  aset(str_, 2,   0);
+end
+
+def str_eq_if(str_)
+  var [3]pattern;
+  str_set_if(&pattern);
+  return str_eq(str_, &pattern);
+end
+
 def str_set_lt(str_)
   aset(str_, 0, 108); # l
   aset(str_, 1, 116); # t
