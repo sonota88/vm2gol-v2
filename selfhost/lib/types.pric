@@ -279,7 +279,7 @@ end
 
 # --------------------------------
 
-def NAMES__TYPE_SIZE() return 102; end
+def NAMES__TYPE_SIZE() return 103; end
 
 def NAMES__STR_SIZE_MAX() return 16; end
 def NAMES__NUM_STRS_MAX() return 6; end
