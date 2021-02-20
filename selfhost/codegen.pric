@@ -538,7 +538,7 @@ def _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_)
   var list_ = Node_get_list(expr_);
   var arg_ = NodeList_get_as_str(list_, 1);
   var disp;
-  var s_src_size = 10; var [10]s_src; # [bp:xxxx]
+  var s_src_size = 11; var [11]s_src; # [bp:-xxxx]
   var [8]s_disp;
 
   if (Names_includes(lvar_names_, arg_))
@@ -912,7 +912,7 @@ def gen_call(g_, fn_arg_names_, lvar_names_, stmt_)
 end
 
 def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
-  var dest_size = 8; var [8]dest;
+  var dest_size = 11; var [11]dest; # [bp:-xxxx] 10 chars + 1
   var dest_node_;
   var [8]dest_str_;
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
