@@ -87,7 +87,7 @@ def print_i(arg_n)
 
   while (__le(0, digit))
     putchar(48 + aget(&buf, digit));
-    digit = digit + -1;
+    digit = __sub(digit, 1);
   end
 end
 
@@ -404,7 +404,7 @@ def char_index(str_, target_c, pos_from)
 end
 
 def parse_int(s_)
-  var i = str_size(s_) + -1;
+  var i = __sub(str_size(s_), 1);
   var c;
   var factor = 1;
   var e = 0;
@@ -419,7 +419,7 @@ def parse_int(s_)
     end
 
     e = e + 1;
-    i = i + -1;
+    i = __sub(i, 1);
   end
 
   return n * factor;
