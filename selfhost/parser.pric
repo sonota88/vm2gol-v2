@@ -738,13 +738,11 @@ def _parse_when_clause(g_)
 
   case
   when (str_eq_when(Token_get_val(t_)))
+    consume_kw(g_, &s_when);
 
-  consume_kw(g_, &s_when);
-
-  consume_sym_paren_l(g_); # (
-  cond_expr_node_ = parse_expr(g_);
-  consume_sym_paren_r(g_); # )
-
+    consume_sym_paren_l(g_); # (
+    cond_expr_node_ = parse_expr(g_);
+    consume_sym_paren_r(g_); # )
   when (str_eq_else(Token_get_val(t_)))
     consume_kw(g_, &s_else);
     cond_expr_node_ = Node_new_int(g_, 1);
