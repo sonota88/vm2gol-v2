@@ -261,7 +261,6 @@ end
 
 def parse_func(g_)
   var func_stmt_;
-  var [10]s_temp;
   var t_;
   var stmts_;
   var stmt_;
