@@ -61,36 +61,10 @@ def println(str_)
 end
 
 def print_i(arg_n)
-  var n = arg_n;
-  var div;
-  var mod;
-  var [8]buf;
-  var digit = 0;
-  var do_break = FALSE();
+  var [8]s_temp;
 
-  if (n < 0)
-    putchar(45); # -
-    n = n * -1;
-  end
-
-  while (__not(do_break))
-    if (n < 10)
-      aset(&buf, digit, n);
-      do_break = TRUE();
-    else
-      div = __div(n, 10);
-      mod = __mod(n, 10);
-      aset(&buf, digit, mod);
-
-      n = div;
-      digit = digit + 1;
-    end
-  end
-
-  while (__le(0, digit))
-    putchar(48 + aget(&buf, digit));
-    digit = __sub(digit, 1);
-  end
+  unparse_int(&s_temp, arg_n);
+  print_s(&s_temp);
 end
 
 def unparse_int(dest_, arg_n)
