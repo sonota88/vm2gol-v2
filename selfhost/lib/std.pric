@@ -15,6 +15,8 @@ def C_SPC  () return 32; end # 0x20
 def C_DQ   () return 34; end # 0x22
 def C_COMMA() return 44; end # 0x2c
 
+def DEBUG() return 0; end
+
 # --------------------------------
 
 def check_heap_stack_overlap(g_)
@@ -166,6 +168,7 @@ end
 
 # debug print
 def p_c(c)
+  if (DEBUG())
   putchar( 47); # /
   putchar( 99); # c
   putchar( 61); # =
@@ -174,28 +177,34 @@ def p_c(c)
   putchar(c);
   putchar( 41); # )
   putchar(C_LF());
+  end
 end
 
 # debug print
 def p_i(n)
+  if (DEBUG())
   putchar( 47); # /
   putchar(110); # n
   putchar( 61); # =
   print_i(n);
   putchar(C_LF());
+  end
 end
 
 # debug print
 def p_i_kv(k, n)
+  if (DEBUG())
   putchar(47); # /
   print_i(k);
   p_i(n);
+  end
 end
 
 # debug print
 def p_s(str_)
   var i;
 
+  if (DEBUG())
   putchar(C_LF());
   putchar(C_LF());
 
@@ -209,6 +218,7 @@ def p_s(str_)
 
   putchar(C_LF());
   putchar(C_LF());
+  end
 end
 
 def pow10(e)
