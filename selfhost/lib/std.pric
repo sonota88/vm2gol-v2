@@ -169,34 +169,34 @@ end
 # debug print
 def p_c(c)
   if (DEBUG())
-  putchar( 47); # /
-  putchar( 99); # c
-  putchar( 61); # =
-  print_i(c);
-  putchar( 40); # (
-  putchar(c);
-  putchar( 41); # )
-  putchar(C_LF());
+    putchar( 47); # /
+    putchar( 99); # c
+    putchar( 61); # =
+    print_i(c);
+    putchar( 40); # (
+    putchar(c);
+    putchar( 41); # )
+    putchar(C_LF());
   end
 end
 
 # debug print
 def p_i(n)
   if (DEBUG())
-  putchar( 47); # /
-  putchar(110); # n
-  putchar( 61); # =
-  print_i(n);
-  putchar(C_LF());
+    putchar( 47); # /
+    putchar(110); # n
+    putchar( 61); # =
+    print_i(n);
+    putchar(C_LF());
   end
 end
 
 # debug print
 def p_i_kv(k, n)
   if (DEBUG())
-  putchar(47); # /
-  print_i(k);
-  p_i(n);
+    putchar(47); # /
+    print_i(k);
+    p_i(n);
   end
 end
 
@@ -205,19 +205,19 @@ def p_s(str_)
   var i;
 
   if (DEBUG())
-  putchar(C_LF());
-  putchar(C_LF());
+    putchar(C_LF());
+    putchar(C_LF());
 
-  i = 0;
-  while (i < str_size(str_))
-    print_i(i);
-    putchar(58); # :
-    p_c(char_at(str_, i));
-    i = i + 1;
-  end
+    i = 0;
+    while (i < str_size(str_))
+      print_i(i);
+      putchar(58); # :
+      p_c(char_at(str_, i));
+      i = i + 1;
+    end
 
-  putchar(C_LF());
-  putchar(C_LF());
+    putchar(C_LF());
+    putchar(C_LF());
   end
 end
 
