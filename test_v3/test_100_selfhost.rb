@@ -19,6 +19,7 @@ class Test100 < Minitest::Test
       "array.pric",
       "less_than.pric",
       "if.pric",
+      "test_while.pric",
     ]
 
     diff_cmd = "ruby " + project_path("selfhost/test/diff.rb")

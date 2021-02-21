@@ -1,0 +1,10 @@
+# -*- mode: ruby -*-
+
+def main()
+  putchar(65); # A
+  while (0)
+    putchar(66); # B
+  end
+
+  _panic();
+end
