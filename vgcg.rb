@@ -322,9 +322,6 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
   if fn_name == "_debug"
     puts "  _debug"
     return
-  elsif fn_name == "_panic"
-    puts "  call _panic"
-    return
   end
 
   fn_args.reverse.each do |fn_arg|
