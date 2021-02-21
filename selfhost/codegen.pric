@@ -515,20 +515,14 @@ def gen_while(g_, fn_arg_names_, lvar_names_, stmt_)
 
   gen_expr(g_, fn_arg_names_, lvar_names_, cond_expr_node_);
 
-  asm_cp(&s_1, &s_reg_b);
+  asm_cp(&s_0, &s_reg_b);
 
   asm_compare();
 
-  asm_jump_eq(&label_true);
+  asm_jump_eq(&label_end);
 
-  asm_jump(&label_end);
-
-
-  asm_label(&label_true);
   gen_stmts(g_, fn_arg_names_, lvar_names_, stmts_);
-
   asm_jump(&label_begin);
-
 
   asm_label(&label_end);
 end
