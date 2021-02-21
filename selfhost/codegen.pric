@@ -532,7 +532,7 @@ def _gen_expr_addr(g_, fn_arg_names_, lvar_names_, expr_)
   var list_ = Node_get_list(expr_);
   var arg_ = NodeList_get_as_str(list_, 1);
   var disp;
-  var s_src_size = 11; var [11]s_src; # [bp:-xxxx]
+  var s_src_size = 15; var [15]s_src; # [bp:-xxxxxxxx]
   var [8]s_disp;
 
   if (Names_includes(lvar_names_, arg_))
@@ -906,7 +906,7 @@ def gen_call(g_, fn_arg_names_, lvar_names_, stmt_)
 end
 
 def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
-  var dest_size = 11; var [11]dest; # [bp:-xxxx] 10 chars + 1
+  var dest_size = 15; var [15]dest; # [bp:-xxxxxxxx] 14 chars + 1
   var dest_node_;
   var [8]dest_str_;
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
@@ -1304,7 +1304,7 @@ def inc_label_id(g_)
 end
 
 def load_ast(g_)
-  var input_size_max = 14000; var [14000]input;
+  var input_size_max = 230000; var [230000]input;
 
   read_stdin_all(&input, input_size_max);
   return Json_parse(g_, &input);

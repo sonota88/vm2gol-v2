@@ -162,11 +162,11 @@ def print_str(str_)
   putchar(C_LF());
 end
 
-def INPUT_MAX() return 5000; end
+def INPUT_MAX() return 60000; end
 
 def main()
   var [1]g;
-  var [5000]input; # INPUT_MAX
+  var [60000]input; # INPUT_MAX
   var pos = 0;
   var do_break = FALSE();
   var size;

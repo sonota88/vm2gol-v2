@@ -569,7 +569,7 @@ if $PROGRAM_NAME == __FILE__
     $stdin_ = File.open(stdin_file, "rb")
   end
 
-  stack_size = 90_000
+  stack_size = 3_000_000
   mem = Memory.new(stack_size)
   vm = Vm.new(
     mem,

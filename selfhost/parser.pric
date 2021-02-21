@@ -38,7 +38,7 @@ def read_tokens(g_)
   var value_str_size = 64; var [64]value_str;
   var t_;
   var ti;
-  var input_size_max = 8000; var [8000]input;
+  var input_size_max = 150000; var [150000]input;
   check_heap_stack_overlap(g_);
 
   read_stdin_all(&input, input_size_max);
@@ -945,7 +945,7 @@ def parse(g_)
 end
 
 def GO_TOKENS() return GO_ALLOC_CURSOR() + GS_ALLOC_CURSOR(); end
-def GS_TOKENS() return 1000; end
+def GS_TOKENS() return 15000; end
 
 def GO_TOKEN_INDEX() return GO_TOKENS() + GS_TOKENS(); end
 def GS_TOKEN_INDEX() return 1; end
@@ -958,7 +958,7 @@ def NUM_TOKENS_MAX()
 end
 
 def main()
-  var [1003]g;
+  var [15003]g;
 
   # init globals
   init_alloc_cursor(&g);

@@ -88,7 +88,7 @@ def NODE_LIST__SIZE() return 0; end
 def NODE_LIST__SIZE_WIDTH() return 1; end
 
 def NODE_LIST__ITEMS() return 1; end
-def NODE_LIST__ITEMS_WIDTH() return 50; end
+def NODE_LIST__ITEMS_WIDTH() return 240; end
 
 def NODE_LIST__TYPE_SIZE()
   return (
@@ -287,8 +287,8 @@ end
 
 # --------------------------------
 
-def NAMES__STR_SIZE_MAX() return 16; end
-def NAMES__NUM_STRS_MAX() return 6; end
+def NAMES__STR_SIZE_MAX() return 30; end
+def NAMES__NUM_STRS_MAX() return 14; end
 
 def NAMES__SIZE() return 0; end
 def NAMES__SIZE_WIDTH() return 1; end
@@ -298,7 +298,7 @@ def NAMES__WIDTHS_WIDTH()
   return NAMES__NUM_STRS_MAX();
 end
 
-def NAMES__STRS() return 7; end
+def NAMES__STRS() return 15; end
 def NAMES__STRS_WIDTH()
   return (
     NAMES__STR_SIZE_MAX()

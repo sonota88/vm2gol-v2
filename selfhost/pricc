@@ -26,6 +26,8 @@ run() {
   local infile="$1"; shift
   local outfile="$1"; shift
 
+  echo "-->> ${name}" >&2
+
   # time (
   #   printf "${name} ... "
 
