@@ -32,7 +32,7 @@ def _Json_print_node(node_, lv)
     list_ = Node_get_list(node_);
     Json_print_list(list_, lv);
   else
-    panic(35);
+    panic(35); # _Json_print_node: unknown node kind
   end
 end
 

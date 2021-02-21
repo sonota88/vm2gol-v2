@@ -566,7 +566,7 @@ def _gen_expr_deref(g_, fn_arg_names_, lvar_names_, expr_)
   var inner_expr_ = NodeList_get(list_, 1);
 
   var [6]s_reg_a; str_set_reg_a(&s_reg_a);
-  var s_reg_a_ind_size = 8; var [8]s_reg_a_ind;
+  var s_reg_a_ind_size = 8; var [8]s_reg_a_ind; # [reg_a]
 
   aset(&s_reg_a_ind, 0, 0);
   append_char_with_check(&s_reg_a_ind, 91, s_reg_a_ind_size); # [
@@ -919,7 +919,7 @@ def gen_set(g_, fn_arg_names_, lvar_names_, stmt_)
   var [6]s_reg_b; str_set_reg_b(&s_reg_b);
   var expr_node_;
   var list_;
-  var s_reg_a_ind_size = 8; var [8]s_reg_a_ind;
+  var s_reg_a_ind_size = 8; var [8]s_reg_a_ind; # [reg_a]
 
   # "[reg_a]"
   aset(&s_reg_a_ind, 0, 0);
