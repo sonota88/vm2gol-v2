@@ -16,7 +16,7 @@ rake test_v3
 ../pricrun ../examples/fibonacci.pric
 ```
 
-第2世代: Pric版 v2 コンパイラ
+第2世代: Pric版 v3 コンパイラ
 
 ```sh
 # テスト
@@ -34,4 +34,13 @@ VERBOSE=1 SKIP=100 ../pricvm exe/gol.exe.txt
 
 # コンパイル＋実行
 VERBOSE=1 SKIP=100 ./pricrun ../examples/gol.pric
+```
+
+```sh
+# (1) 第1世代コンパイラで第2世代コンパイラをコンパイル
+# (2) (1) で生成された実行ファイル（第2世代コンパイラ）で第2世代コンパイラ自身をコンパイル
+
+# 上記 (1), (2) の出力（実行ファイル）が一致することを確認:
+./test_selfhost.sh
+# （作者の環境だと 15分程度）
 ```
