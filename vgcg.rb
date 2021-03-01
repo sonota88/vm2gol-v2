@@ -227,9 +227,7 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
   fn_name, *fn_args = stmt_rest
 
   fn_args.reverse.each do |fn_arg|
-    codegen_expr(
-      fn_arg_names, lvar_names, fn_arg
-    )
+    codegen_expr(fn_arg_names, lvar_names, fn_arg)
     puts "  push reg_a"
   end
 
