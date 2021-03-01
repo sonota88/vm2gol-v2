@@ -43,27 +43,27 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
 
     puts "  # when_#{label_id}_#{when_idx}: #{cond.inspect}"
 
-      # 式の結果が reg_a に入る
-      puts "  # -->> expr"
-      codegen_expr(fn_arg_names, lvar_names, cond)
-      puts "  # <<-- expr"
+    # 式の結果が reg_a に入る
+    puts "  # -->> expr"
+    codegen_expr(fn_arg_names, lvar_names, cond)
+    puts "  # <<-- expr"
 
-      # 式の結果と比較するための値を reg_b に入れる
-      puts "  cp 1 reg_b"
+    # 式の結果と比較するための値を reg_b に入れる
+    puts "  cp 1 reg_b"
 
-      puts "  compare"
-      puts "  jump_eq #{label_when_head}_#{when_idx}"  # 真の場合
-      puts "  jump #{label_end_when_head}_#{when_idx}" # 偽の場合
+    puts "  compare"
+    puts "  jump_eq #{label_when_head}_#{when_idx}"  # 真の場合
+    puts "  jump #{label_end_when_head}_#{when_idx}" # 偽の場合
 
-      # 真の場合ここにジャンプ
-      puts "label #{label_when_head}_#{when_idx}"
+    # 真の場合ここにジャンプ
+    puts "label #{label_when_head}_#{when_idx}"
 
-      codegen_stmts(fn_arg_names, lvar_names, rest)
+    codegen_stmts(fn_arg_names, lvar_names, rest)
 
-      puts "  jump #{label_end}"
+    puts "  jump #{label_end}"
 
-      # 偽の場合ここにジャンプ
-      puts "label #{label_end_when_head}_#{when_idx}"
+    # 偽の場合ここにジャンプ
+    puts "label #{label_end_when_head}_#{when_idx}"
   end
 
   puts "label #{label_end}"
