@@ -1,6 +1,5 @@
 # coding: utf-8
 
-require "pp"
 require "json"
 
 require_relative "./common"
