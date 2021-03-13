@@ -383,6 +383,19 @@ def codegen_builtin_set_vram
   puts "  ret"
 end
 
+def codegen_builtin_get_vram
+  puts ""
+  puts "label get_vram"
+  puts "  push bp"
+  puts "  cp sp bp"
+
+  puts "  get_vram [bp:2] reg_a" # vram_addr dest
+
+  puts "  cp bp sp"
+  puts "  pop bp"
+  puts "  ret"
+end
+
 def codegen(tree)
   puts "  call main"
   puts "  exit"
@@ -392,6 +405,7 @@ def codegen(tree)
   codegen_top_stmts(rest)
 
   codegen_builtin_set_vram()
+  codegen_builtin_get_vram()
 end
 
 # vgtコード読み込み

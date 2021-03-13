@@ -26,8 +26,10 @@ func vram_set_buf(w, x, y, val) {
 
 func vram_get(w, x, y) {
   var vi; // vram index
+  var vram_val;
   call_set vi = to_vi(w, x, y, 0);
-  return vram[vi];
+  call_set vram_val = get_vram(vi);
+  return vram_val;
 }
 
 func adjust_index(width, i) {
@@ -184,7 +186,7 @@ func replace_with_buf() {
 
   while (vi != 25) {
     set vi_buf = vi + 25;
-    set temp = vram[vi_buf];
+    call_set temp = get_vram(vi_buf);
     call set_vram(vi, temp);
     set vi = vi + 1;
   }
