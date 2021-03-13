@@ -24,7 +24,7 @@ def codegen_var(fn_arg_names, lvar_names, stmt_rest)
   end
 end
 
-def codegen_case(fn_arg_names, lvar_names, when_blocks)
+def codegen_case(fn_arg_names, lvar_names, when_clauses)
   $label_id += 1
   label_id = $label_id
 
@@ -37,9 +37,9 @@ def codegen_case(fn_arg_names, lvar_names, when_blocks)
   puts ""
   puts "  # -->> case_#{label_id}"
 
-  when_blocks.each do |when_block|
+  when_clauses.each do |when_clause|
     when_idx += 1
-    cond, *rest = when_block
+    cond, *rest = when_clause
 
     puts "  # when_#{label_id}_#{when_idx}: #{cond.inspect}"
 
