@@ -301,9 +301,7 @@ end
 def parse_return
   consume "return"
 
-  t = peek()
-
-  if t.value == ";"
+  if peek().value == ";"
     consume ";"
     [:return]
   else
