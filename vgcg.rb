@@ -172,10 +172,7 @@ def _codegen_expr_neq
 end
 
 def _codegen_expr_binary(fn_arg_names, lvar_names, expr)
-  operator, *args = expr
-
-  arg_l = args[0]
-  arg_r = args[1]
+  operator, arg_l, arg_r = expr
 
   codegen_expr(fn_arg_names, lvar_names, arg_l)
   puts "  push reg_a"
