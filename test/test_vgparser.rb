@@ -63,19 +63,6 @@ class ParserTest < Minitest::Test
     assert_equal(format(tree_exp), format_stmts(tree_act))
   end
 
-  def test_return_3
-    src = <<-EOS
-      return vram[vi];
-    EOS
-
-    tree_exp = [
-      [:return, "vram[vi]"]]
-
-    tree_act = parse_stmts(src)
-
-    assert_equal(format(tree_exp), format_stmts(tree_act))
-  end
-
   # --------------------------------
 
   def test_var_1
@@ -170,19 +157,6 @@ class ParserTest < Minitest::Test
 
     tree_exp = [
       [:set, "a", "b"]]
-
-    tree_act = parse_stmts(src)
-
-    assert_equal(format(tree_exp), format_stmts(tree_act))
-  end
-
-  def test_set_3
-    src = <<-EOS
-      set vram[vi] = b;
-    EOS
-
-    tree_exp = [
-      [:set, "vram[vi]", "b"]]
 
     tree_act = parse_stmts(src)
 

@@ -33,7 +33,7 @@ def tokenize(src)
       str = $1
       tokens << Token.new(:sym, str)
       pos += str.size
-    when /\A([a-z_][a-z0-9_\[\]]*)/
+    when /\A([a-z_][a-z0-9_]*)/
       str = $1
       tokens << Token.new(:ident, str)
       pos += str.size

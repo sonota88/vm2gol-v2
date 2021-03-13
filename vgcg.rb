@@ -204,15 +204,6 @@ def codegen_expr(fn_arg_names, lvar_names, expr)
     when lvar_names.include?(expr)
       cp_src = to_lvar_addr(lvar_names, expr)
       puts "  cp #{cp_src} reg_a"
-    when _match_vram_ref(expr)
-      var_name = _match_vram_ref(expr)
-      case
-      when lvar_names.include?(var_name)
-        vram_addr = to_lvar_addr(lvar_names, var_name)
-        puts "  get_vram #{vram_addr} reg_a"
-      else
-        raise not_yet_impl("rest", rest)
-      end
     else
       raise not_yet_impl("expr", expr)
     end
@@ -245,20 +236,6 @@ def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
   puts "  cp reg_a #{lvar_addr}"
 end
 
-def _match_vram_addr(str)
-  md = /^vram\[(\d+)\]$/.match(str)
-  return nil if md.nil?
-
-  md[1]
-end
-
-def _match_vram_ref(str)
-  md = /^vram\[([a-z_][a-z0-9_]*)\]$/.match(str)
-  return nil if md.nil?
-
-  md[1]
-end
-
 def codegen_set(fn_arg_names, lvar_names, rest)
   dest = rest[0]
   expr = rest[1]
@@ -267,18 +244,6 @@ def codegen_set(fn_arg_names, lvar_names, rest)
   src_val = "reg_a"
 
   case
-  when _match_vram_addr(dest)
-    vram_addr = _match_vram_addr(dest)
-    puts "  set_vram #{vram_addr} #{src_val}"
-  when _match_vram_ref(dest)
-    vram_addr = _match_vram_ref(dest)
-    case
-    when lvar_names.include?(vram_addr)
-      lvar_addr = to_lvar_addr(lvar_names, vram_addr)
-      puts "  set_vram #{lvar_addr} #{src_val}"
-    else
-      raise not_yet_impl("dest", dest)
-    end
   when lvar_names.include?(dest)
     lvar_addr = to_lvar_addr(lvar_names, dest)
     puts "  cp #{src_val} #{lvar_addr}"
