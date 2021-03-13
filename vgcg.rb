@@ -370,6 +370,19 @@ def codegen_top_stmts(rest)
   end
 end
 
+def codegen_builtin_set_vram
+  puts ""
+  puts "label set_vram"
+  puts "  push bp"
+  puts "  cp sp bp"
+
+  puts "  set_vram [bp:2] [bp:3]" # vram_addr value
+
+  puts "  cp bp sp"
+  puts "  pop bp"
+  puts "  ret"
+end
+
 def codegen(tree)
   puts "  call main"
   puts "  exit"
@@ -377,6 +390,8 @@ def codegen(tree)
   head, *rest = tree
   # assert head == "top_stmts"
   codegen_top_stmts(rest)
+
+  codegen_builtin_set_vram()
 end
 
 # vgtコード読み込み

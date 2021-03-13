@@ -15,13 +15,13 @@ func to_vi(w, x, y, offset) {
 func vram_set(w, x, y, val) {
   var vi; // vram index
   call_set vi = to_vi(w, x, y, 0);
-  set vram[vi] = val;
+  call set_vram(vi, val);
 }
 
 func vram_set_buf(w, x, y, val) {
   var vi; // vram index
   call_set  vi = to_vi(w, x, y, 25);
-  set vram[vi] = val;
+  call set_vram(vi, val);
 }
 
 func vram_get(w, x, y) {
@@ -185,7 +185,7 @@ func replace_with_buf() {
   while (vi != 25) {
     set vi_buf = vi + 25;
     set temp = vram[vi_buf];
-    set vram[vi] = temp;
+    call set_vram(vi, temp);
     set vi = vi + 1;
   }
 }

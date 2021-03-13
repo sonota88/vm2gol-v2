@@ -63,8 +63,9 @@
         ]
       ],
       [
-        "set",
-        "vram[vi]",
+        "call",
+        "set_vram",
+        "vi",
         "val"
       ]
     ]
@@ -95,8 +96,9 @@
         ]
       ],
       [
-        "set",
-        "vram[vi]",
+        "call",
+        "set_vram",
+        "vi",
         "val"
       ]
     ]
@@ -775,8 +777,9 @@
             "vram[vi_buf]"
           ],
           [
-            "set",
-            "vram[vi]",
+            "call",
+            "set_vram",
+            "vi",
             "temp"
           ],
           [
