@@ -342,10 +342,6 @@ def parse_case
     end
   end
 
-  if when_clauses.empty?
-    raise ParseError, "At least one when clause is required"
-  end
-
   consume "}"
 
   [:case, *when_clauses]
