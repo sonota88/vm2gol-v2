@@ -157,6 +157,9 @@ Metrics/ClassLength:
   Exclude:
     - 'vgvm.rb'
 
+Style/WhileUntilModifier:
+  Enabled: false
+
 #--------------------------------
 
 Security/Open:
