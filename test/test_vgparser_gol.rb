@@ -14,9 +14,23 @@ class VgparserGolTest < Minitest::Test
     system %( ruby #{PROJECT_DIR}/vglexer.rb  #{PROJECT_DIR}/gol.vg.txt > #{TOKENS_FILE} )
     system %( ruby #{PROJECT_DIR}/vgparser.rb #{TOKENS_FILE} > #{TREE_FILE} )
 
-    assert_equal(
-      File.read(project_path("test/gol.vgt.json")),
-      File.read(TREE_FILE)
-    )
+    act = File.read(TREE_FILE)
+    exp = File.read(project_path("test/gol.vgt.json"))
+
+    if act == exp
+      pass
+    else
+      ts = Time.now.strftime("%Y%m%d_%H%M%S")
+      act_file = project_path("tmp/test_result_vgt_#{ts}.txt")
+      FileUtils.cp(TREE_FILE, act_file)
+
+      $stderr.print "\n"
+      $stderr.puts <<~MSG
+        [FAILED] #{self.class.name}##{__method__}
+          For detail, run
+          diff -u "test/gol.vgt.json" "#{act_file}"
+      MSG
+      flunk
+    end
   end
 end
