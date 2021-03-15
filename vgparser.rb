@@ -263,11 +263,11 @@ end
 def parse_call
   consume "call"
 
-  func_name, *args = parse_funcall()
+  funcall = parse_funcall()
 
   consume ";"
 
-  [:call, func_name, *args]
+  [:call, *funcall]
 end
 
 def parse_funcall
@@ -291,11 +291,11 @@ def parse_call_set
 
   consume "="
 
-  expr = parse_funcall()
+  funcall = parse_funcall()
 
   consume ";"
 
-  [:call_set, var_name, expr]
+  [:call_set, var_name, funcall]
 end
 
 def parse_return

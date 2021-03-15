@@ -225,9 +225,9 @@ def codegen_call(fn_arg_names, lvar_names, stmt_rest)
 end
 
 def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
-  lvar_name, fn_temp = stmt_rest
+  lvar_name, funcall = stmt_rest
 
-  codegen_call(fn_arg_names, lvar_names, fn_temp)
+  codegen_call(fn_arg_names, lvar_names, funcall)
 
   lvar_addr = to_lvar_addr(lvar_names, lvar_name)
   puts "  cp reg_a #{lvar_addr}"
