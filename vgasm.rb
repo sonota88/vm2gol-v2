@@ -54,7 +54,12 @@ alines.each do |aline|
     insn << rest[0]
   when "jump", "jump_eq", "call"
     label_name = rest[0]
-    insn << label_addr_map[label_name]
+
+    if label_addr_map.key?(label_name)
+      insn << label_addr_map[label_name]
+    else
+      raise "label not found (#{label_name})"
+    end
   else
     insn += rest.map {|arg| to_machine_code_operand(arg) }
   end
