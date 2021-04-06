@@ -68,6 +68,10 @@ Naming/HeredocDelimiterNaming:
   Exclude:
     - 'test/test_vgparser.rb'
 
+Naming/VariableNumber:
+  Exclude:
+    - 'test/test_vgparser.rb'
+
 #--------------------------------
 
 Style/AsciiComments:
