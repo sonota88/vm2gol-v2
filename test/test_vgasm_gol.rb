@@ -30,6 +30,5 @@ class VgasmGolTest < Minitest::Test
       MSG
       flunk
     end
-
   end
 end
