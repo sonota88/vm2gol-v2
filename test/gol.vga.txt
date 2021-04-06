@@ -419,7 +419,7 @@ label count_alive
   pop reg_a
   add_ab
   cp reg_a [bp:-5]
-  _cmt ★~xl~の補正の直前
+  _cmt xl~の補正の直前
   cp [bp:-2] reg_a
   push reg_a
   cp [bp:2] reg_a
@@ -428,8 +428,8 @@ label count_alive
   call adjust_index
   add_sp 2
   cp reg_a [bp:-2]
-  _cmt ★~xl~の補正の直後
-  _cmt ★~xr~の補正の直前
+  _cmt xl~の補正の直後
+  _cmt xr~の補正の直前
   cp [bp:-3] reg_a
   push reg_a
   cp [bp:2] reg_a
@@ -438,8 +438,8 @@ label count_alive
   call adjust_index
   add_sp 2
   cp reg_a [bp:-3]
-  _cmt ★~xr~の補正の直後
-  _cmt ★~yt~の補正の直前
+  _cmt xr~の補正の直後
+  _cmt yt~の補正の直前
   cp [bp:-4] reg_a
   push reg_a
   cp [bp:3] reg_a
@@ -448,8 +448,8 @@ label count_alive
   call adjust_index
   add_sp 2
   cp reg_a [bp:-4]
-  _cmt ★~yt~の補正の直後
-  _cmt ★~yb~の補正の直前
+  _cmt yt~の補正の直後
+  _cmt yb~の補正の直前
   cp [bp:-5] reg_a
   push reg_a
   cp [bp:3] reg_a
@@ -458,8 +458,8 @@ label count_alive
   call adjust_index
   add_sp 2
   cp reg_a [bp:-5]
-  _cmt ★~yb~の補正の直後
-  _cmt ★~座標補正の直後
+  _cmt yb~の補正の直後
+  _cmt 座標補正の直後
   sub_sp 1
   _cmt 左上
   cp [bp:-4] reg_a
@@ -613,7 +613,7 @@ label count_alive
   pop reg_a
   add_ab
   cp reg_a [bp:-1]
-  _cmt ★count_aliveの最後
+  _cmt count_aliveの最後
   cp [bp:-1] reg_a
 
   cp bp sp
@@ -688,8 +688,8 @@ label true_15
   call count_alive
   add_sp 4
   cp reg_a [bp:-3]
-  _cmt ★~count_alive~から戻った直後
-  _cmt ★次世代の生死決定の直前
+  _cmt count_alive~から戻った直後
+  _cmt 次世代の生死決定の直前
   cp [bp:-2] reg_a
   push reg_a
   cp [bp:-1] reg_a
@@ -708,7 +708,7 @@ label true_15
   call calc_next_gen
   add_sp 2
   cp reg_a [bp:-5]
-  _cmt ★次世代の生死決定の直後
+  _cmt 次世代の生死決定の直後
   cp [bp:-5] reg_a
   push reg_a
   cp [bp:-2] reg_a
@@ -720,7 +720,7 @@ label true_15
   _cmt call~~vram_set_buf
   call vram_set_buf
   add_sp 4
-  _cmt ★~vram_set_buf~から戻った直後
+  _cmt vram_set_buf~から戻った直後
   cp [bp:-1] reg_a
   push reg_a
   cp 1 reg_a
