@@ -16,15 +16,15 @@ def to_lvar_addr(lvar_names, lvar_name)
   "[bp:-#{index + 1}]"
 end
 
-def codegen_var(fn_arg_names, lvar_names, stmt_rest)
+def gen_var(fn_arg_names, lvar_names, stmt_rest)
   puts "  sub_sp 1"
 
   if stmt_rest.size == 2
-    codegen_set(fn_arg_names, lvar_names, stmt_rest)
+    gen_set(fn_arg_names, lvar_names, stmt_rest)
   end
 end
 
-def codegen_case(fn_arg_names, lvar_names, when_clauses)
+def gen_case(fn_arg_names, lvar_names, when_clauses)
   $label_id += 1
   label_id = $label_id
 
@@ -45,7 +45,7 @@ def codegen_case(fn_arg_names, lvar_names, when_clauses)
 
     # 式の結果が reg_a に入る
     puts "  # -->> expr"
-    codegen_expr(fn_arg_names, lvar_names, cond)
+    gen_expr(fn_arg_names, lvar_names, cond)
     puts "  # <<-- expr"
 
     # 式の結果と比較するための値を reg_b に入れる
@@ -58,7 +58,7 @@ def codegen_case(fn_arg_names, lvar_names, when_clauses)
     # 真の場合ここにジャンプ
     puts "label #{label_when_head}_#{when_idx}"
 
-    codegen_stmts(fn_arg_names, lvar_names, rest)
+    gen_stmts(fn_arg_names, lvar_names, rest)
 
     puts "  jump #{label_end}"
 
@@ -71,7 +71,7 @@ def codegen_case(fn_arg_names, lvar_names, when_clauses)
   puts ""
 end
 
-def codegen_while(fn_arg_names, lvar_names, rest)
+def gen_while(fn_arg_names, lvar_names, rest)
   cond_expr, body = rest
 
   $label_id += 1
@@ -87,7 +87,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   puts "label #{label_begin}"
 
   # 条件の評価 ... 結果が reg_a に入る
-  codegen_expr(fn_arg_names, lvar_names, cond_expr)
+  gen_expr(fn_arg_names, lvar_names, cond_expr)
   # 比較対象の値（真）をセット
   puts "  cp 1 reg_b"
   puts "  compare"
@@ -100,7 +100,7 @@ def codegen_while(fn_arg_names, lvar_names, rest)
 
   puts "label #{label_true}"
   # ループの本体
-  codegen_stmts(fn_arg_names, lvar_names, body)
+  gen_stmts(fn_arg_names, lvar_names, body)
 
   # ループの先頭に戻る
   puts "  jump #{label_begin}"
@@ -109,21 +109,21 @@ def codegen_while(fn_arg_names, lvar_names, rest)
   puts ""
 end
 
-def _codegen_expr_add
+def _gen_expr_add
   puts "  pop reg_b"
   puts "  pop reg_a"
 
   puts "  add_ab"
 end
 
-def _codegen_expr_mult
+def _gen_expr_mult
   puts "  pop reg_b"
   puts "  pop reg_a"
 
   puts "  mult_ab"
 end
 
-def _codegen_expr_eq
+def _gen_expr_eq
   $label_id += 1
   label_id = $label_id
 
@@ -147,7 +147,7 @@ def _codegen_expr_eq
   puts "label #{label_end}"
 end
 
-def _codegen_expr_neq
+def _gen_expr_neq
   $label_id += 1
   label_id = $label_id
 
@@ -171,25 +171,25 @@ def _codegen_expr_neq
   puts "label #{label_end}"
 end
 
-def _codegen_expr_binary(fn_arg_names, lvar_names, expr)
+def _gen_expr_binary(fn_arg_names, lvar_names, expr)
   operator, arg_l, arg_r = expr
 
-  codegen_expr(fn_arg_names, lvar_names, arg_l)
+  gen_expr(fn_arg_names, lvar_names, arg_l)
   puts "  push reg_a"
-  codegen_expr(fn_arg_names, lvar_names, arg_r)
+  gen_expr(fn_arg_names, lvar_names, arg_r)
   puts "  push reg_a"
 
   case operator
-  when "+"   then _codegen_expr_add()
-  when "*"   then _codegen_expr_mult()
-  when "eq"  then _codegen_expr_eq()
-  when "neq" then _codegen_expr_neq()
+  when "+"   then _gen_expr_add()
+  when "*"   then _gen_expr_mult()
+  when "eq"  then _gen_expr_eq()
+  when "neq" then _gen_expr_neq()
   else
     raise not_yet_impl("operator", operator)
   end
 end
 
-def codegen_expr(fn_arg_names, lvar_names, expr)
+def gen_expr(fn_arg_names, lvar_names, expr)
   case expr
   when Integer
     puts "  cp #{expr} reg_a"
@@ -205,39 +205,39 @@ def codegen_expr(fn_arg_names, lvar_names, expr)
       raise not_yet_impl("expr", expr)
     end
   when Array
-    _codegen_expr_binary(fn_arg_names, lvar_names, expr)
+    _gen_expr_binary(fn_arg_names, lvar_names, expr)
   else
     raise not_yet_impl("expr", expr)
   end
 end
 
-def codegen_call(fn_arg_names, lvar_names, stmt_rest)
+def gen_call(fn_arg_names, lvar_names, stmt_rest)
   fn_name, *fn_args = stmt_rest
 
   fn_args.reverse.each do |fn_arg|
-    codegen_expr(fn_arg_names, lvar_names, fn_arg)
+    gen_expr(fn_arg_names, lvar_names, fn_arg)
     puts "  push reg_a"
   end
 
-  codegen_vm_comment("call  #{fn_name}")
+  gen_vm_comment("call  #{fn_name}")
   puts "  call #{fn_name}"
   puts "  add_sp #{fn_args.size}"
 end
 
-def codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
+def gen_call_set(fn_arg_names, lvar_names, stmt_rest)
   lvar_name, funcall = stmt_rest
 
-  codegen_call(fn_arg_names, lvar_names, funcall)
+  gen_call(fn_arg_names, lvar_names, funcall)
 
   lvar_addr = to_lvar_addr(lvar_names, lvar_name)
   puts "  cp reg_a #{lvar_addr}"
 end
 
-def codegen_set(fn_arg_names, lvar_names, rest)
+def gen_set(fn_arg_names, lvar_names, rest)
   dest = rest[0]
   expr = rest[1]
 
-  codegen_expr(fn_arg_names, lvar_names, expr)
+  gen_expr(fn_arg_names, lvar_names, expr)
   src_val = "reg_a"
 
   case
@@ -249,45 +249,45 @@ def codegen_set(fn_arg_names, lvar_names, rest)
   end
 end
 
-def codegen_return(lvar_names, stmt_rest)
+def gen_return(lvar_names, stmt_rest)
   retval = stmt_rest[0]
-  codegen_expr([], lvar_names, retval);
+  gen_expr([], lvar_names, retval);
 end
 
-def codegen_vm_comment(comment)
+def gen_vm_comment(comment)
   puts "  _cmt " + comment.gsub(" ", "~")
 end
 
-def codegen_stmt(fn_arg_names, lvar_names, stmt)
+def gen_stmt(fn_arg_names, lvar_names, stmt)
   stmt_head, *stmt_rest = stmt
 
   case stmt_head
   when "call"
-    codegen_call(fn_arg_names, lvar_names, stmt_rest)
+    gen_call(fn_arg_names, lvar_names, stmt_rest)
   when "call_set"
-    codegen_call_set(fn_arg_names, lvar_names, stmt_rest)
+    gen_call_set(fn_arg_names, lvar_names, stmt_rest)
   when "set"
-    codegen_set(fn_arg_names, lvar_names, stmt_rest)
+    gen_set(fn_arg_names, lvar_names, stmt_rest)
   when "return"
-    codegen_return(lvar_names, stmt_rest)
+    gen_return(lvar_names, stmt_rest)
   when "case"
-    codegen_case(fn_arg_names, lvar_names, stmt_rest)
+    gen_case(fn_arg_names, lvar_names, stmt_rest)
   when "while"
-    codegen_while(fn_arg_names, lvar_names, stmt_rest)
+    gen_while(fn_arg_names, lvar_names, stmt_rest)
   when "_cmt"
-    codegen_vm_comment(stmt_rest[0])
+    gen_vm_comment(stmt_rest[0])
   else
     raise not_yet_impl("stmt_head", stmt_head)
   end
 end
 
-def codegen_stmts(fn_arg_names, lvar_names, stmts)
+def gen_stmts(fn_arg_names, lvar_names, stmts)
   stmts.each do |stmt|
-    codegen_stmt(fn_arg_names, lvar_names, stmt)
+    gen_stmt(fn_arg_names, lvar_names, stmt)
   end
 end
 
-def codegen_func_def(rest)
+def gen_func_def(rest)
   fn_name = rest[0]
   fn_arg_names = rest[1]
   body = rest[2]
@@ -306,9 +306,9 @@ def codegen_func_def(rest)
     if stmt[0] == "var"
       _, *stmt_rest = stmt
       lvar_names << stmt_rest[0]
-      codegen_var(fn_arg_names, lvar_names, stmt_rest)
+      gen_var(fn_arg_names, lvar_names, stmt_rest)
     else
-      codegen_stmt(fn_arg_names, lvar_names, stmt)
+      gen_stmt(fn_arg_names, lvar_names, stmt)
     end
   end
 
@@ -318,21 +318,21 @@ def codegen_func_def(rest)
   puts "  ret"
 end
 
-def codegen_top_stmts(rest)
+def gen_top_stmts(rest)
   rest.each do |stmt|
     stmt_head, *stmt_rest = stmt
     case stmt_head
     when "func"
-      codegen_func_def(stmt_rest)
+      gen_func_def(stmt_rest)
     when "_cmt"
-      codegen_vm_comment(stmt_rest[0])
+      gen_vm_comment(stmt_rest[0])
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
   end
 end
 
-def codegen_builtin_set_vram
+def gen_builtin_set_vram
   puts ""
   puts "label set_vram"
   puts "  push bp"
@@ -345,7 +345,7 @@ def codegen_builtin_set_vram
   puts "  ret"
 end
 
-def codegen_builtin_get_vram
+def gen_builtin_get_vram
   puts ""
   puts "label get_vram"
   puts "  push bp"
@@ -364,10 +364,10 @@ def codegen(tree)
 
   head, *rest = tree
   # assert head == "top_stmts"
-  codegen_top_stmts(rest)
+  gen_top_stmts(rest)
 
-  codegen_builtin_set_vram()
-  codegen_builtin_get_vram()
+  gen_builtin_set_vram()
+  gen_builtin_get_vram()
 end
 
 # vgtコード読み込み
