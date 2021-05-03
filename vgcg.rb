@@ -71,44 +71,6 @@ def gen_case(fn_arg_names, lvar_names, when_clauses)
   puts ""
 end
 
-def gen_while(fn_arg_names, lvar_names, rest)
-  cond_expr, body = rest
-
-  $label_id += 1
-  label_id = $label_id
-
-  label_begin = "while_#{label_id}"
-  label_end = "end_while_#{label_id}"
-  label_true = "true_#{label_id}"
-
-  puts ""
-
-  # ループの先頭
-  puts "label #{label_begin}"
-
-  # 条件の評価 ... 結果が reg_a に入る
-  gen_expr(fn_arg_names, lvar_names, cond_expr)
-  # 比較対象の値（真）をセット
-  puts "  cp 1 reg_b"
-  puts "  compare"
-
-  # true の場合ループの本体を実行
-  puts "  jump_eq #{label_true}"
-
-  # false の場合ループを抜ける
-  puts "  jump #{label_end}"
-
-  puts "label #{label_true}"
-  # ループの本体
-  gen_stmts(fn_arg_names, lvar_names, body)
-
-  # ループの先頭に戻る
-  puts "  jump #{label_begin}"
-
-  puts "label #{label_end}"
-  puts ""
-end
-
 def _gen_expr_add
   puts "  pop reg_b"
   puts "  pop reg_a"
@@ -252,6 +214,44 @@ end
 def gen_return(lvar_names, stmt_rest)
   retval = stmt_rest[0]
   gen_expr([], lvar_names, retval);
+end
+
+def gen_while(fn_arg_names, lvar_names, rest)
+  cond_expr, body = rest
+
+  $label_id += 1
+  label_id = $label_id
+
+  label_begin = "while_#{label_id}"
+  label_end = "end_while_#{label_id}"
+  label_true = "true_#{label_id}"
+
+  puts ""
+
+  # ループの先頭
+  puts "label #{label_begin}"
+
+  # 条件の評価 ... 結果が reg_a に入る
+  gen_expr(fn_arg_names, lvar_names, cond_expr)
+  # 比較対象の値（真）をセット
+  puts "  cp 1 reg_b"
+  puts "  compare"
+
+  # true の場合ループの本体を実行
+  puts "  jump_eq #{label_true}"
+
+  # false の場合ループを抜ける
+  puts "  jump #{label_end}"
+
+  puts "label #{label_true}"
+  # ループの本体
+  gen_stmts(fn_arg_names, lvar_names, body)
+
+  # ループの先頭に戻る
+  puts "  jump #{label_begin}"
+
+  puts "label #{label_end}"
+  puts ""
 end
 
 def gen_vm_comment(comment)
