@@ -11,6 +11,11 @@ def asm_prologue
   puts "  cp sp bp"
 end
 
+def asm_epilogue
+  puts "  cp bp sp"
+  puts "  pop bp"
+end
+
 def to_fn_arg_disp(fn_arg_names, fn_arg_name)
   index = fn_arg_names.index(fn_arg_name)
   index + 2
@@ -317,8 +322,7 @@ def gen_func_def(rest)
   end
 
   puts ""
-  puts "  cp bp sp"
-  puts "  pop bp"
+  asm_epilogue()
   puts "  ret"
 end
 
@@ -341,9 +345,7 @@ def gen_builtin_set_vram
   puts "label set_vram"
   asm_prologue()
   puts "  set_vram [bp:2] [bp:3]" # vram_addr value
-
-  puts "  cp bp sp"
-  puts "  pop bp"
+  asm_epilogue()
   puts "  ret"
 end
 
@@ -352,9 +354,7 @@ def gen_builtin_get_vram
   puts "label get_vram"
   asm_prologue()
   puts "  get_vram [bp:2] reg_a" # vram_addr dest
-
-  puts "  cp bp sp"
-  puts "  pop bp"
+  asm_epilogue()
   puts "  ret"
 end
 
