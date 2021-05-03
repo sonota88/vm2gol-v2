@@ -228,16 +228,6 @@ def parse_set
   [:set, var_name, expr]
 end
 
-def parse_call
-  consume "call"
-
-  funcall = parse_funcall()
-
-  consume ";"
-
-  [:call, *funcall]
-end
-
 def parse_funcall
   t = peek()
   $pos += 1
@@ -248,6 +238,16 @@ def parse_funcall
   consume ")"
 
   [func_name, *args]
+end
+
+def parse_call
+  consume "call"
+
+  funcall = parse_funcall()
+
+  consume ";"
+
+  [:call, *funcall]
 end
 
 def parse_call_set
