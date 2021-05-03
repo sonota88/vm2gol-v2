@@ -16,14 +16,6 @@ def to_lvar_disp(lvar_names, lvar_name)
   -(index + 1)
 end
 
-def gen_var(fn_arg_names, lvar_names, stmt_rest)
-  puts "  sub_sp 1"
-
-  if stmt_rest.size == 2
-    gen_set(fn_arg_names, lvar_names, stmt_rest)
-  end
-end
-
 def _gen_expr_add
   puts "  pop reg_b"
   puts "  pop reg_a"
@@ -284,6 +276,14 @@ end
 def gen_stmts(fn_arg_names, lvar_names, stmts)
   stmts.each do |stmt|
     gen_stmt(fn_arg_names, lvar_names, stmt)
+  end
+end
+
+def gen_var(fn_arg_names, lvar_names, stmt_rest)
+  puts "  sub_sp 1"
+
+  if stmt_rest.size == 2
+    gen_set(fn_arg_names, lvar_names, stmt_rest)
   end
 end
 
