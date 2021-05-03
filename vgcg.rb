@@ -6,6 +6,11 @@ require_relative "./common"
 
 $label_id = 0
 
+def asm_prologue
+  puts "  push bp"
+  puts "  cp sp bp"
+end
+
 def to_fn_arg_disp(fn_arg_names, fn_arg_name)
   index = fn_arg_names.index(fn_arg_name)
   index + 2
@@ -294,8 +299,7 @@ def gen_func_def(rest)
 
   puts ""
   puts "label #{fn_name}"
-  puts "  push bp"
-  puts "  cp sp bp"
+  asm_prologue()
 
   puts ""
   puts "  # 関数の処理本体"
@@ -335,9 +339,7 @@ end
 def gen_builtin_set_vram
   puts ""
   puts "label set_vram"
-  puts "  push bp"
-  puts "  cp sp bp"
-
+  asm_prologue()
   puts "  set_vram [bp:2] [bp:3]" # vram_addr value
 
   puts "  cp bp sp"
@@ -348,9 +350,7 @@ end
 def gen_builtin_get_vram
   puts ""
   puts "label get_vram"
-  puts "  push bp"
-  puts "  cp sp bp"
-
+  asm_prologue()
   puts "  get_vram [bp:2] reg_a" # vram_addr dest
 
   puts "  cp bp sp"
