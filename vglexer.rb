@@ -21,7 +21,7 @@ def tokenize(src)
       str = $1
       tokens << Token.new(:str, str)
       pos += str.size + 2
-    when /\A(func|set|var|call_set|call|return|case|while|_cmt)[^a-z_]/
+    when /\A(func|set|var|call_set|call|return|case|while|_cmt|_debug)[^a-z_]/
       str = $1
       tokens << Token.new(:kw, str)
       pos += str.size

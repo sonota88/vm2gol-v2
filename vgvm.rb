@@ -49,7 +49,7 @@ class Memory
           case opcode
           when "exit", "call", "ret", "jump", "jump_eq"
             TermColor::RED
-          when "_cmt"
+          when "_cmt", "_debug"
             TermColor::BLUE
           else
             ""
@@ -135,6 +135,7 @@ class Vm
     @bp = stack_size - 1 # base pointer
 
     @step = 0
+    @debug = false
   end
 
   def test?
@@ -178,6 +179,7 @@ class Vm
     when "set_vram"  then set_vram()  ; @pc += 1
     when "get_vram"  then get_vram()  ; @pc += 1
     when "_cmt"      then               @pc += 1
+    when "_debug"    then _debug()    ; @pc += 1
     else
       raise "Unknown opcode (#{opcode})"
     end
@@ -199,7 +201,7 @@ class Vm
       return if do_exit
 
       unless test?
-        if ENV.key?("STEP")
+        if ENV.key?("STEP") || @debug
           dump()
           $stdin.gets
           # $stdin.gets if @step >= 600
@@ -431,6 +433,10 @@ class Vm
     else
       raise not_yet_impl("arg2", arg2)
     end
+  end
+
+  def _debug
+    @debug = true
   end
 end
 

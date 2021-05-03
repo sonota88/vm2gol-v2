@@ -343,6 +343,15 @@ def parse_vm_comment
   [:_cmt, comment]
 end
 
+def parse_debug
+  consume "_debug"
+  consume "("
+  consume ")"
+  consume ";"
+
+  [:_debug]
+end
+
 def parse_stmt
   t = peek()
 
@@ -354,6 +363,7 @@ def parse_stmt
   when "while"    then parse_while()
   when "case"     then parse_case()
   when "_cmt"     then parse_vm_comment()
+  when "_debug"   then parse_debug()
   else
     raise ParseError, "Unexpected token (#{t.inspect})"
   end

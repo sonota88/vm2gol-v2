@@ -260,6 +260,10 @@ def gen_vm_comment(comment)
   puts "  _cmt " + comment.gsub(" ", "~")
 end
 
+def gen_debug
+  puts "  _debug"
+end
+
 def gen_stmt(fn_arg_names, lvar_names, stmt)
   stmt_head, *stmt_rest = stmt
 
@@ -278,6 +282,8 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
     gen_while(fn_arg_names, lvar_names, stmt_rest)
   when "_cmt"
     gen_vm_comment(stmt_rest[0])
+  when "_debug"
+    gen_debug()
   else
     raise not_yet_impl("stmt_head", stmt_head)
   end
