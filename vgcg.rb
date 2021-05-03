@@ -6,9 +6,9 @@ require_relative "./common"
 
 $label_id = 0
 
-def to_fn_arg_addr(fn_arg_names, fn_arg_name)
+def to_fn_arg_disp(fn_arg_names, fn_arg_name)
   index = fn_arg_names.index(fn_arg_name)
-  "[bp:#{index + 2}]"
+  index + 2
 end
 
 def to_lvar_addr(lvar_names, lvar_name)
@@ -196,8 +196,8 @@ def gen_expr(fn_arg_names, lvar_names, expr)
   when String
     case
     when fn_arg_names.include?(expr)
-      cp_src = to_fn_arg_addr(fn_arg_names, expr)
-      puts "  cp #{cp_src} reg_a"
+      disp = to_fn_arg_disp(fn_arg_names, expr)
+      puts "  cp [bp:#{disp}] reg_a"
     when lvar_names.include?(expr)
       cp_src = to_lvar_addr(lvar_names, expr)
       puts "  cp #{cp_src} reg_a"
