@@ -279,6 +279,20 @@ def parse_return
   end
 end
 
+def parse_while
+  consume "while"
+
+  consume "("
+  expr = parse_expr()
+  consume ")"
+
+  consume "{"
+  stmts = parse_stmts()
+  consume "}"
+
+  [:while, expr, stmts]
+end
+
 def _parse_when_clause
   t = peek()
   return nil if t.value == "}"
@@ -313,20 +327,6 @@ def parse_case
   consume "}"
 
   [:case, *when_clauses]
-end
-
-def parse_while
-  consume "while"
-
-  consume "("
-  expr = parse_expr()
-  consume ")"
-
-  consume "{"
-  stmts = parse_stmts()
-  consume "}"
-
-  [:while, expr, stmts]
 end
 
 def parse_vm_comment
