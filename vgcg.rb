@@ -24,53 +24,6 @@ def gen_var(fn_arg_names, lvar_names, stmt_rest)
   end
 end
 
-def gen_case(fn_arg_names, lvar_names, when_clauses)
-  $label_id += 1
-  label_id = $label_id
-
-  when_idx = -1
-
-  label_end = "end_case_#{label_id}"
-  label_when_head = "when_#{label_id}"
-  label_end_when_head = "end_when_#{label_id}"
-
-  puts ""
-  puts "  # -->> case_#{label_id}"
-
-  when_clauses.each do |when_clause|
-    when_idx += 1
-    cond, *rest = when_clause
-
-    puts "  # when_#{label_id}_#{when_idx}: #{cond.inspect}"
-
-    # 式の結果が reg_a に入る
-    puts "  # -->> expr"
-    gen_expr(fn_arg_names, lvar_names, cond)
-    puts "  # <<-- expr"
-
-    # 式の結果と比較するための値を reg_b に入れる
-    puts "  cp 1 reg_b"
-
-    puts "  compare"
-    puts "  jump_eq #{label_when_head}_#{when_idx}"  # 真の場合
-    puts "  jump #{label_end_when_head}_#{when_idx}" # 偽の場合
-
-    # 真の場合ここにジャンプ
-    puts "label #{label_when_head}_#{when_idx}"
-
-    gen_stmts(fn_arg_names, lvar_names, rest)
-
-    puts "  jump #{label_end}"
-
-    # 偽の場合ここにジャンプ
-    puts "label #{label_end_when_head}_#{when_idx}"
-  end
-
-  puts "label #{label_end}"
-  puts "  # <<-- case_#{label_id}"
-  puts ""
-end
-
 def _gen_expr_add
   puts "  pop reg_b"
   puts "  pop reg_a"
@@ -251,6 +204,53 @@ def gen_while(fn_arg_names, lvar_names, rest)
   puts "  jump #{label_begin}"
 
   puts "label #{label_end}"
+  puts ""
+end
+
+def gen_case(fn_arg_names, lvar_names, when_clauses)
+  $label_id += 1
+  label_id = $label_id
+
+  when_idx = -1
+
+  label_end = "end_case_#{label_id}"
+  label_when_head = "when_#{label_id}"
+  label_end_when_head = "end_when_#{label_id}"
+
+  puts ""
+  puts "  # -->> case_#{label_id}"
+
+  when_clauses.each do |when_clause|
+    when_idx += 1
+    cond, *rest = when_clause
+
+    puts "  # when_#{label_id}_#{when_idx}: #{cond.inspect}"
+
+    # 式の結果が reg_a に入る
+    puts "  # -->> expr"
+    gen_expr(fn_arg_names, lvar_names, cond)
+    puts "  # <<-- expr"
+
+    # 式の結果と比較するための値を reg_b に入れる
+    puts "  cp 1 reg_b"
+
+    puts "  compare"
+    puts "  jump_eq #{label_when_head}_#{when_idx}"  # 真の場合
+    puts "  jump #{label_end_when_head}_#{when_idx}" # 偽の場合
+
+    # 真の場合ここにジャンプ
+    puts "label #{label_when_head}_#{when_idx}"
+
+    gen_stmts(fn_arg_names, lvar_names, rest)
+
+    puts "  jump #{label_end}"
+
+    # 偽の場合ここにジャンプ
+    puts "label #{label_end_when_head}_#{when_idx}"
+  end
+
+  puts "label #{label_end}"
+  puts "  # <<-- case_#{label_id}"
   puts ""
 end
 
