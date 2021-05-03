@@ -11,9 +11,9 @@ def to_fn_arg_disp(fn_arg_names, fn_arg_name)
   index + 2
 end
 
-def to_lvar_addr(lvar_names, lvar_name)
+def to_lvar_disp(lvar_names, lvar_name)
   index = lvar_names.index(lvar_name)
-  "[bp:-#{index + 1}]"
+  -(index + 1)
 end
 
 def gen_var(fn_arg_names, lvar_names, stmt_rest)
@@ -199,8 +199,8 @@ def gen_expr(fn_arg_names, lvar_names, expr)
       disp = to_fn_arg_disp(fn_arg_names, expr)
       puts "  cp [bp:#{disp}] reg_a"
     when lvar_names.include?(expr)
-      cp_src = to_lvar_addr(lvar_names, expr)
-      puts "  cp #{cp_src} reg_a"
+      disp = to_lvar_disp(lvar_names, expr)
+      puts "  cp [bp:#{disp}] reg_a"
     else
       raise not_yet_impl("expr", expr)
     end
@@ -229,8 +229,8 @@ def gen_call_set(fn_arg_names, lvar_names, stmt_rest)
 
   gen_call(fn_arg_names, lvar_names, funcall)
 
-  lvar_addr = to_lvar_addr(lvar_names, lvar_name)
-  puts "  cp reg_a #{lvar_addr}"
+  disp = to_lvar_disp(lvar_names, lvar_name)
+  puts "  cp reg_a [bp:#{disp}]"
 end
 
 def gen_set(fn_arg_names, lvar_names, rest)
@@ -242,8 +242,8 @@ def gen_set(fn_arg_names, lvar_names, rest)
 
   case
   when lvar_names.include?(dest)
-    lvar_addr = to_lvar_addr(lvar_names, dest)
-    puts "  cp #{src_val} #{lvar_addr}"
+    disp = to_lvar_disp(lvar_names, dest)
+    puts "  cp #{src_val} [bp:#{disp}]"
   else
     raise not_yet_impl("dest", dest)
   end
