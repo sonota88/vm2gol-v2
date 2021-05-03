@@ -77,37 +77,16 @@ def _parse_arg
   end
 end
 
-def _parse_args_first
-  return nil if peek().value == ")"
-
-  _parse_arg()
-end
-
-def _parse_args_rest
-  return nil if peek().value == ")"
-
-  consume(",")
-
-  _parse_arg()
-end
-
 def parse_args
   args = []
 
-  first_arg = _parse_args_first()
-  if first_arg.nil?
-    return args
-  else
-    args << first_arg
-  end
+  return args if peek().value == ")"
 
-  loop do
-    rest_arg = _parse_args_rest()
-    if rest_arg.nil?
-      break
-    else
-      args << rest_arg
-    end
+  args << _parse_arg()
+
+  while peek().value == ","
+    consume ","
+    args << _parse_arg()
   end
 
   args
