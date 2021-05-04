@@ -39,7 +39,7 @@ def dump_state(msg = nil)
   ]
 end
 
-def assert_value(pos, exp)
+def assert_value(exp)
   t = peek()
 
   if t.value != exp
@@ -53,7 +53,7 @@ def assert_value(pos, exp)
 end
 
 def consume(str)
-  assert_value($pos, str)
+  assert_value(str)
   $pos += 1
 end
 
