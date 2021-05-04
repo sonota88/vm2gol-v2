@@ -74,7 +74,13 @@ Naming/VariableNumber:
 
 #--------------------------------
 
+Style/AccessorGrouping:
+  Enabled: false
+
 Style/AsciiComments:
+  Enabled: false
+
+Style/StringConcatenation:
   Enabled: false
 
 Style/StringLiterals:
