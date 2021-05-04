@@ -47,6 +47,12 @@ Metrics/MethodLength:
 # Offense count: 5
 Metrics/PerceivedComplexity:
   Max: 12
+  Exclude:
+    - 'gol.rb'
+
+Style/CombinableLoops:
+  Exclude:
+    - 'gol.rb'
 
 # Offense count: 19
 # Cop supports --auto-correct.
