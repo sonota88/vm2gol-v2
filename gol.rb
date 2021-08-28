@@ -1,5 +1,3 @@
-# coding: utf-8
-
 $w = 5
 $h = 5
 $grid = []
