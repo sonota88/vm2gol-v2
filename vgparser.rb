@@ -63,16 +63,9 @@ end
 
 def _parse_arg
   t = peek()
+  $pos += 1
 
-  if t.type == :ident
-    $pos += 1
-    t.value
-  elsif t.type == :int
-    $pos += 1
-    t.value.to_i
-  else
-    raise ParseError
-  end
+  t.get_value()
 end
 
 def parse_args
@@ -172,17 +165,9 @@ def _parse_expr_factor
     expr = parse_expr()
     consume ")"
     expr
-
   when :int, :ident
     $pos += 1
-
-    case t.type
-    when :int
-      t.value.to_i
-    else
-      t.value
-    end
-
+    t.get_value()
   else
     raise ParseError
   end

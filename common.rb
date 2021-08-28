@@ -18,6 +18,15 @@ class Token
     "#{@type}:#{@value}"
   end
 
+  def get_value
+    case @type
+    when :int   then @value.to_i
+    when :ident then @value
+    else
+      raise "invalid type"
+    end
+  end
+
   def self.from_line(line)
     if /^(.+?):(.+)$/ =~ line
       Token.new($1.to_sym, $2)
