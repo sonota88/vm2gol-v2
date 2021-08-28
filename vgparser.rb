@@ -98,10 +98,8 @@ def parse_func
 
   stmts = []
   while peek().value != "}"
-    t = peek()
-
     stmts <<
-      if t.value == "var"
+      if peek().value == "var"
         parse_var()
       else
         parse_stmt()
@@ -298,8 +296,7 @@ def parse_case
   when_clauses = []
 
   while peek().value != "}"
-    when_clause = _parse_when_clause()
-      when_clauses << when_clause
+    when_clauses << _parse_when_clause()
   end
 
   consume "}"
