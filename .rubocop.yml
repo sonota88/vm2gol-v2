@@ -57,6 +57,9 @@ Lint/StructNewOverride:
 
 #--------------------------------
 
+Naming/AccessorMethodName:
+  Enabled: false
+
 Naming/MethodParameterName:
   Enabled: false
 
