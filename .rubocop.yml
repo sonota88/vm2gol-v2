@@ -83,6 +83,9 @@ Style/AccessorGrouping:
 Style/AsciiComments:
   Enabled: false
 
+Style/NegatedWhile:
+  Enabled: false
+
 Style/StringConcatenation:
   Enabled: false
 
