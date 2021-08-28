@@ -97,9 +97,8 @@ def parse_func
   consume "{"
 
   stmts = []
-  loop do
+  while peek().value != "}"
     t = peek()
-    break if t.value == "}"
 
     stmts <<
       if t.value == "var"
@@ -298,13 +297,9 @@ def parse_case
 
   when_clauses = []
 
-  loop do
+  while peek().value != "}"
     when_clause = _parse_when_clause()
-    if when_clause.nil?
-      break
-    else
       when_clauses << when_clause
-    end
   end
 
   consume "}"
@@ -355,9 +350,7 @@ end
 def parse_stmts
   stmts = []
 
-  loop do
-    break if peek().value == "}"
-
+  while peek().value != "}"
     stmts << parse_stmt()
   end
 
@@ -377,9 +370,7 @@ end
 def parse_top_stmts
   stmts = []
 
-  loop do
-    break if end?()
-
+  while !(end?())
     stmts << parse_top_stmt()
   end
 
