@@ -193,10 +193,6 @@ def gen_while(fn_arg_names, lvar_names, rest)
   # false の場合ループを抜ける
   puts "  jump_eq #{label_end}"
 
-  # true の場合ループの本体を実行
-  puts "  jump #{label_true}"
-
-  puts "label #{label_true}"
   # ループの本体
   gen_stmts(fn_arg_names, lvar_names, body)
 

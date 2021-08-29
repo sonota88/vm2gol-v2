@@ -652,8 +652,6 @@ label end_neq_14
   cp 0 reg_b
   compare
   jump_eq end_while_13
-  jump true_13
-label true_13
   cp 0 reg_a
   cp reg_a [bp:-1]
 
@@ -674,8 +672,6 @@ label end_neq_16
   cp 0 reg_b
   compare
   jump_eq end_while_15
-  jump true_15
-label true_15
   cp [bp:-2] reg_a
   push reg_a
   cp [bp:-1] reg_a
@@ -776,8 +772,6 @@ label end_neq_18
   cp 0 reg_b
   compare
   jump_eq end_while_17
-  jump true_17
-label true_17
   cp [bp:-1] reg_a
   push reg_a
   cp 25 reg_a
@@ -905,8 +899,6 @@ label end_neq_20
   cp 0 reg_b
   compare
   jump_eq end_while_19
-  jump true_19
-label true_19
   cp [bp:-2] reg_a
   push reg_a
   cp [bp:-1] reg_a
