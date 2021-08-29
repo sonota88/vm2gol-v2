@@ -232,10 +232,6 @@ def gen_case(fn_arg_names, lvar_names, when_clauses)
 
     puts "  compare"
     puts "  jump_eq #{label_end_when_head}_#{when_idx}" # 偽の場合
-    puts "  jump #{label_when_head}_#{when_idx}"        # 真の場合
-
-    # 真の場合ここにジャンプ
-    puts "label #{label_when_head}_#{when_idx}"
 
     gen_stmts(fn_arg_names, lvar_names, rest)
 
