@@ -228,11 +228,11 @@ def gen_case(fn_arg_names, lvar_names, when_clauses)
     puts "  # <<-- expr"
 
     # 式の結果と比較するための値を reg_b に入れる
-    puts "  cp 1 reg_b"
+    puts "  cp 0 reg_b"
 
     puts "  compare"
-    puts "  jump_eq #{label_when_head}_#{when_idx}"  # 真の場合
-    puts "  jump #{label_end_when_head}_#{when_idx}" # 偽の場合
+    puts "  jump_eq #{label_end_when_head}_#{when_idx}" # 偽の場合
+    puts "  jump #{label_when_head}_#{when_idx}"        # 真の場合
 
     # 真の場合ここにジャンプ
     puts "label #{label_when_head}_#{when_idx}"
