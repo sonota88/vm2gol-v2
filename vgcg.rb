@@ -186,15 +186,15 @@ def gen_while(fn_arg_names, lvar_names, rest)
 
   # 条件の評価 ... 結果が reg_a に入る
   gen_expr(fn_arg_names, lvar_names, cond_expr)
-  # 比較対象の値（真）をセット
-  puts "  cp 1 reg_b"
+  # 比較対象の値をセット
+  puts "  cp 0 reg_b"
   puts "  compare"
 
-  # true の場合ループの本体を実行
-  puts "  jump_eq #{label_true}"
-
   # false の場合ループを抜ける
-  puts "  jump #{label_end}"
+  puts "  jump_eq #{label_end}"
+
+  # true の場合ループの本体を実行
+  puts "  jump #{label_true}"
 
   puts "label #{label_true}"
   # ループの本体
