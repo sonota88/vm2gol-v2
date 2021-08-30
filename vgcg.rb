@@ -210,7 +210,9 @@ def gen_while(fn_arg_names, lvar_names, rest)
   puts ""
 end
 
-def gen_case(fn_arg_names, lvar_names, when_clauses)
+def gen_case(fn_arg_names, lvar_names, stmt)
+  _, *when_clauses = stmt
+
   $label_id += 1
   label_id = $label_id
 
@@ -274,7 +276,7 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
   when "return"
     gen_return(lvar_names, stmt)
   when "case"
-    gen_case(fn_arg_names, lvar_names, stmt_rest)
+    gen_case(fn_arg_names, lvar_names, stmt)
   when "while"
     gen_while(fn_arg_names, lvar_names, stmt_rest)
   when "_cmt"
