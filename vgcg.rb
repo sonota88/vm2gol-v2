@@ -148,6 +148,19 @@ def gen_call_set(fn_arg_names, lvar_names, stmt_rest)
   puts "  cp reg_a [bp:#{disp}]"
 end
 
+def _gen_set(fn_arg_names, lvar_names, dest, expr)
+  gen_expr(fn_arg_names, lvar_names, expr)
+  src_val = "reg_a"
+
+  case
+  when lvar_names.include?(dest)
+    disp = to_lvar_disp(lvar_names, dest)
+    puts "  cp #{src_val} [bp:#{disp}]"
+  else
+    raise not_yet_impl("dest", dest)
+  end
+end
+
 def gen_set(fn_arg_names, lvar_names, rest)
   dest = rest[0]
   expr = rest[1]
