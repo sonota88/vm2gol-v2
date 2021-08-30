@@ -165,16 +165,7 @@ def gen_set(fn_arg_names, lvar_names, rest)
   dest = rest[0]
   expr = rest[1]
 
-  gen_expr(fn_arg_names, lvar_names, expr)
-  src_val = "reg_a"
-
-  case
-  when lvar_names.include?(dest)
-    disp = to_lvar_disp(lvar_names, dest)
-    puts "  cp #{src_val} [bp:#{disp}]"
-  else
-    raise not_yet_impl("dest", dest)
-  end
+  _gen_set(fn_arg_names, lvar_names, dest, expr)
 end
 
 def gen_return(lvar_names, stmt_rest)
@@ -302,7 +293,8 @@ def gen_var(fn_arg_names, lvar_names, stmt_rest)
   puts "  sub_sp 1"
 
   if stmt_rest.size == 2
-    gen_set(fn_arg_names, lvar_names, stmt_rest)
+    dest, expr = stmt_rest
+    _gen_set(fn_arg_names, lvar_names, dest, expr)
   end
 end
 
