@@ -328,8 +328,6 @@ def gen_top_stmts(rest)
     case stmt_head
     when "func"
       gen_func_def(stmt_rest)
-    when "_cmt"
-      gen_vm_comment(stmt_rest[0])
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
