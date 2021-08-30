@@ -315,8 +315,7 @@ def gen_func_def(func_def)
 
   body.each do |stmt|
     if stmt[0] == "var"
-      _, *stmt_rest = stmt
-      lvar_names << stmt_rest[0]
+      lvar_names << stmt[1]
       gen_var(fn_arg_names, lvar_names, stmt)
     else
       gen_stmt(fn_arg_names, lvar_names, stmt)
