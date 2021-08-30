@@ -139,23 +139,14 @@ def _gen_funcall(fn_arg_names, lvar_names, funcall)
   puts "  add_sp #{fn_args.size}"
 end
 
-def gen_call(fn_arg_names, lvar_names, stmt_rest)
-  fn_name, *fn_args = stmt_rest
-
-  fn_args.reverse.each do |fn_arg|
-    gen_expr(fn_arg_names, lvar_names, fn_arg)
-    puts "  push reg_a"
-  end
-
-  gen_vm_comment("call  #{fn_name}")
-  puts "  call #{fn_name}"
-  puts "  add_sp #{fn_args.size}"
+def gen_call(fn_arg_names, lvar_names, funcall)
+  _gen_funcall(fn_arg_names, lvar_names, funcall)
 end
 
 def gen_call_set(fn_arg_names, lvar_names, stmt_rest)
   lvar_name, funcall = stmt_rest
 
-  gen_call(fn_arg_names, lvar_names, funcall)
+  _gen_funcall(fn_arg_names, lvar_names, funcall)
 
   disp = to_lvar_disp(lvar_names, lvar_name)
   puts "  cp reg_a [bp:#{disp}]"
