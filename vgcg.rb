@@ -301,10 +301,8 @@ def gen_var(fn_arg_names, lvar_names, stmt)
   end
 end
 
-def gen_func_def(rest)
-  fn_name = rest[0]
-  fn_arg_names = rest[1]
-  body = rest[2]
+def gen_func_def(func_def)
+  _, fn_name, fn_arg_names, body = func_def
 
   puts ""
   puts "label #{fn_name}"
@@ -335,7 +333,7 @@ def gen_top_stmts(rest)
     stmt_head, *stmt_rest = stmt
     case stmt_head
     when "func"
-      gen_func_def(stmt_rest)
+      gen_func_def(stmt)
     else
       raise not_yet_impl("stmt_head", stmt_head)
     end
