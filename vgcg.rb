@@ -166,10 +166,8 @@ def _gen_set(fn_arg_names, lvar_names, dest, expr)
   end
 end
 
-def gen_set(fn_arg_names, lvar_names, rest)
-  dest = rest[0]
-  expr = rest[1]
-
+def gen_set(fn_arg_names, lvar_names, stmt)
+  _, dest, expr = stmt
   _gen_set(fn_arg_names, lvar_names, dest, expr)
 end
 
@@ -272,7 +270,7 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
   when "call_set"
     gen_call_set(fn_arg_names, lvar_names, stmt)
   when "set"
-    gen_set(fn_arg_names, lvar_names, stmt_rest)
+    gen_set(fn_arg_names, lvar_names, stmt)
   when "return"
     gen_return(lvar_names, stmt_rest)
   when "case"
