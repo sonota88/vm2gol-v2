@@ -22,7 +22,7 @@ class ParseError < StandardError; end
 
 def rest_head
   $tokens[$pos ... $pos + 8]
-    .map { |t| format("%s<%s>", t.type, t.value) }
+    .map { |t| format("%s<%s>", t.kind, t.value) }
 end
 
 def peek(offset = 0)
@@ -156,7 +156,7 @@ end
 def _parse_expr_factor
   t = peek()
 
-  case t.type
+  case t.kind
   when :sym
     consume "("
     expr = parse_expr()

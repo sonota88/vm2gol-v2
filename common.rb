@@ -1,29 +1,29 @@
 require "pp"
 
 class Token
-  attr_reader :type, :value
+  attr_reader :kind, :value
 
-  # type:
+  # kind:
   #   str:   string
   #   kw:    keyword
   #   int:   integer
   #   sym:   symbol
   #   ident: identifier
-  def initialize(type, value)
-    @type = type
+  def initialize(kind, value)
+    @kind = kind
     @value = value
   end
 
   def to_line
-    "#{@type}:#{@value}"
+    "#{@kind}:#{@value}"
   end
 
   def get_value
-    case @type
+    case @kind
     when :int   then @value.to_i
     when :ident then @value
     else
-      raise "invalid type"
+      raise "invalid kind"
     end
   end
 
