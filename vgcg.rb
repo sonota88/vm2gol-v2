@@ -329,12 +329,11 @@ end
 
 def gen_top_stmts(rest)
   rest.each do |stmt|
-    stmt_head, *stmt_rest = stmt
-    case stmt_head
+    case stmt[0]
     when "func"
       gen_func_def(stmt)
     else
-      raise not_yet_impl("stmt_head", stmt_head)
+      raise not_yet_impl("stmt", stmt)
     end
   end
 end
