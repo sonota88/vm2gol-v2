@@ -139,7 +139,8 @@ def _gen_funcall(fn_arg_names, lvar_names, funcall)
   puts "  add_sp #{fn_args.size}"
 end
 
-def gen_call(fn_arg_names, lvar_names, funcall)
+def gen_call(fn_arg_names, lvar_names, stmt)
+  _, *funcall = stmt
   _gen_funcall(fn_arg_names, lvar_names, funcall)
 end
 
@@ -267,7 +268,7 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
 
   case stmt_head
   when "call"
-    gen_call(fn_arg_names, lvar_names, stmt_rest)
+    gen_call(fn_arg_names, lvar_names, stmt)
   when "call_set"
     gen_call_set(fn_arg_names, lvar_names, stmt_rest)
   when "set"
