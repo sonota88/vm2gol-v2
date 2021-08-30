@@ -144,8 +144,8 @@ def gen_call(fn_arg_names, lvar_names, stmt)
   _gen_funcall(fn_arg_names, lvar_names, funcall)
 end
 
-def gen_call_set(fn_arg_names, lvar_names, stmt_rest)
-  lvar_name, funcall = stmt_rest
+def gen_call_set(fn_arg_names, lvar_names, stmt)
+  _, lvar_name, funcall = stmt
 
   _gen_funcall(fn_arg_names, lvar_names, funcall)
 
@@ -270,7 +270,7 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
   when "call"
     gen_call(fn_arg_names, lvar_names, stmt)
   when "call_set"
-    gen_call_set(fn_arg_names, lvar_names, stmt_rest)
+    gen_call_set(fn_arg_names, lvar_names, stmt)
   when "set"
     gen_set(fn_arg_names, lvar_names, stmt_rest)
   when "return"
