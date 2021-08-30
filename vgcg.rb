@@ -176,8 +176,8 @@ def gen_return(lvar_names, stmt)
   gen_expr([], lvar_names, retval);
 end
 
-def gen_while(fn_arg_names, lvar_names, rest)
-  cond_expr, body = rest
+def gen_while(fn_arg_names, lvar_names, stmt)
+  _, cond_expr, body = stmt
 
   $label_id += 1
   label_id = $label_id
@@ -278,7 +278,7 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
   when "case"
     gen_case(fn_arg_names, lvar_names, stmt)
   when "while"
-    gen_while(fn_arg_names, lvar_names, stmt_rest)
+    gen_while(fn_arg_names, lvar_names, stmt)
   when "_cmt"
     gen_vm_comment(stmt_rest[0])
   when "_debug"
