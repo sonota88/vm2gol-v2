@@ -327,13 +327,15 @@ def gen_func_def(func_def)
   puts "  ret"
 end
 
-def gen_top_stmts(rest)
-  rest.each do |stmt|
-    case stmt[0]
+def gen_top_stmts(tree)
+  _, *top_stmts = tree
+
+  top_stmts.each do |top_stmt|
+    case top_stmt[0]
     when "func"
-      gen_func_def(stmt)
+      gen_func_def(top_stmt)
     else
-      raise not_yet_impl("stmt", stmt)
+      raise not_yet_impl("top_stmt", top_stmt)
     end
   end
 end
@@ -360,9 +362,7 @@ def codegen(tree)
   puts "  call main"
   puts "  exit"
 
-  head, *rest = tree
-  # assert head == "top_stmts"
-  gen_top_stmts(rest)
+  gen_top_stmts(tree)
 
   gen_builtin_set_vram()
   gen_builtin_get_vram()
