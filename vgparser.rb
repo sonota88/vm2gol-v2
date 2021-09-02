@@ -178,7 +178,7 @@ def parse_expr
       case peek().value
       when "+"  then "+"
       when "*"  then "*"
-      when "==" then "eq"
+      when "==" then "=="
       when "!=" then "neq"
       else
         raise ParseError, "must not happen"
