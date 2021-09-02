@@ -98,7 +98,7 @@ def _gen_expr_binary(fn_arg_names, lvar_names, expr)
   when "+"   then _gen_expr_add()
   when "*"   then _gen_expr_mult()
   when "=="  then _gen_expr_eq()
-  when "neq" then _gen_expr_neq()
+  when "!="  then _gen_expr_neq()
   else
     raise not_yet_impl("operator", operator)
   end

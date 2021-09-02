@@ -179,7 +179,7 @@ def parse_expr
       when "+"  then "+"
       when "*"  then "*"
       when "==" then "=="
-      when "!=" then "neq"
+      when "!=" then "!="
       else
         raise ParseError, "must not happen"
       end
