@@ -1,9 +1,9 @@
 require_relative "./helper"
 
 class ParserTest < Minitest::Test
-  VG_FILE   = project_path("tmp/test.vg.txt")
+  VG_FILE     = project_path("tmp/test.vg.txt")
   TOKENS_FILE = project_path("tmp/test.tokens.txt")
-  TREE_FILE = project_path("tmp/test.vgt.json")
+  TREE_FILE   = project_path("tmp/test.vgt.json")
 
   # --------------------------------
 
