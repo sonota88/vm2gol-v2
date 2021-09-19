@@ -274,9 +274,6 @@ def parse_while
 end
 
 def _parse_when_clause
-  t = peek()
-  return nil if t.value == "}"
-
   consume "("
   expr = parse_expr()
   consume ")"
