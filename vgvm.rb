@@ -376,19 +376,19 @@ class Vm
 
   def set_vram
     arg_vram = @mem.main[@pc][1]
-    arg2 = @mem.main[@pc][2]
+    arg_val = @mem.main[@pc][2]
 
     src_val =
-      case arg2
+      case arg_val
       when Integer
-        arg2
+        arg_val
       when "reg_a"
         @reg_a
       when /^ind:/
-        stack_addr = calc_indirect_addr(arg2)
+        stack_addr = calc_indirect_addr(arg_val)
         @mem.stack[stack_addr]
       else
-        raise not_yet_impl("set_vram", arg2)
+        raise not_yet_impl("arg_val", arg_val)
       end
 
     case arg_vram
