@@ -405,7 +405,7 @@ class Vm
 
   def get_vram
     arg_vram = @mem.main[@pc][1]
-    arg2 = @mem.main[@pc][2]
+    arg_dest = @mem.main[@pc][2]
 
     vram_addr =
       case arg_vram
@@ -425,11 +425,11 @@ class Vm
 
     val = @mem.vram[vram_addr]
 
-    case arg2
+    case arg_dest
     when "reg_a"
       @reg_a = val
     else
-      raise not_yet_impl("arg2", arg2)
+      raise not_yet_impl("arg_dest", arg_dest)
     end
   end
 
