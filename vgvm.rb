@@ -200,12 +200,9 @@ class Vm
         if ENV.key?("STEP") || @debug
           dump()
           $stdin.gets
-          # $stdin.gets if @step >= 600
         else
           dump() if @step % 10 == 0
         end
-
-        # sleep 0.01
       end
     end
   end
