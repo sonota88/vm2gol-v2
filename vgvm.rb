@@ -118,15 +118,13 @@ class Vm
   FLAG_FALSE = 0
 
   def initialize(mem, stack_size)
-    # program counter
-    @pc = 0
+    @pc = 0 # program counter
 
-    # register
+    # registers
     @reg_a = 0
     @reg_b = 0
 
-    # zero flag
-    @zf = FLAG_FALSE
+    @zf = FLAG_FALSE # zero flag
 
     @mem = mem
     @sp = stack_size - 1 # stack pointer
