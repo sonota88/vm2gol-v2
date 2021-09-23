@@ -238,7 +238,8 @@ def gen_case(fn_arg_names, lvar_names, stmt)
     puts "  cp 0 reg_b"
 
     puts "  compare"
-    puts "  jump_eq #{label_end_when_head}_#{when_idx}" # 偽の場合
+    # 偽の場合
+    puts "  jump_eq #{label_end_when_head}_#{when_idx}"
 
     gen_stmts(fn_arg_names, lvar_names, rest)
 
