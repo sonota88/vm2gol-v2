@@ -404,23 +404,23 @@ class Vm
   end
 
   def get_vram
-    arg1 = @mem.main[@pc][1]
+    arg_vram = @mem.main[@pc][1]
     arg2 = @mem.main[@pc][2]
 
     vram_addr =
-      case arg1
+      case arg_vram
       when Integer
-        arg1
+        arg_vram
       when String
-        case arg1
+        case arg_vram
         when /^ind:/
-          stack_addr = calc_indirect_addr(arg1)
+          stack_addr = calc_indirect_addr(arg_vram)
           @mem.stack[stack_addr]
         else
-          raise not_yet_impl("arg1", arg1)
+          raise not_yet_impl("arg_vram", arg_vram)
         end
       else
-        raise not_yet_impl("arg1", arg1)
+        raise not_yet_impl("arg_vram", arg_vram)
       end
 
     val = @mem.vram[vram_addr]
