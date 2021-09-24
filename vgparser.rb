@@ -166,15 +166,7 @@ def parse_expr
   expr = _parse_expr_factor()
 
   while binary_op?(peek())
-    op =
-      case peek().value
-      when "+"  then "+"
-      when "*"  then "*"
-      when "==" then "=="
-      when "!=" then "!="
-      else
-        raise ParseError, "must not happen"
-      end
+    op = peek().value
     $pos += 1
 
     expr_r = _parse_expr_factor()
