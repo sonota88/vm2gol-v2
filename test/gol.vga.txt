@@ -620,6 +620,7 @@ label make_next_gen
   sub_sp 1
 
 label while_13
+  # -->> eval_expr_13
   cp [bp:-2] reg_a
   push reg_a
   cp [bp:3] reg_a
@@ -633,6 +634,7 @@ label while_13
 label then_14
   cp 0 reg_a
 label end_neq_14
+  # <<-- eval_expr_13
   cp 0 reg_b
   compare
   jump_eq end_while_13
@@ -640,6 +642,7 @@ label end_neq_14
   cp reg_a [bp:-1]
 
 label while_15
+  # -->> eval_expr_15
   cp [bp:-1] reg_a
   push reg_a
   cp [bp:2] reg_a
@@ -653,6 +656,7 @@ label while_15
 label then_16
   cp 0 reg_a
 label end_neq_16
+  # <<-- eval_expr_15
   cp 0 reg_b
   compare
   jump_eq end_while_15
@@ -740,6 +744,7 @@ label replace_with_buf
   sub_sp 1
 
 label while_17
+  # -->> eval_expr_17
   cp [bp:-1] reg_a
   push reg_a
   cp 25 reg_a
@@ -753,6 +758,7 @@ label while_17
 label then_18
   cp 0 reg_a
 label end_neq_18
+  # <<-- eval_expr_17
   cp 0 reg_b
   compare
   jump_eq end_while_17
@@ -867,6 +873,7 @@ label main
   cp reg_a [bp:-4]
 
 label while_19
+  # -->> eval_expr_19
   cp [bp:-4] reg_a
   push reg_a
   cp [bp:-3] reg_a
@@ -880,6 +887,7 @@ label while_19
 label then_20
   cp 0 reg_a
 label end_neq_20
+  # <<-- eval_expr_19
   cp 0 reg_b
   compare
   jump_eq end_while_19

@@ -191,7 +191,10 @@ def gen_while(fn_arg_names, lvar_names, stmt)
   puts "label #{label_begin}"
 
   # 条件を評価 ... 結果が reg_a に入る
+  puts "  # -->> eval_expr_#{label_id}"
   gen_expr(fn_arg_names, lvar_names, cond_expr)
+  puts "  # <<-- eval_expr_#{label_id}"
+
   # 条件の評価結果と比較するための値を reg_b にセットして比較
   puts "  cp 0 reg_b"
   puts "  compare"
