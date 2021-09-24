@@ -103,7 +103,7 @@ def parse_func
   [:func, func_name, args, stmts]
 end
 
-def parse_var_declare
+def _parse_var_declare
   t = peek()
   $pos += 1
   var_name = t.value
@@ -113,7 +113,7 @@ def parse_var_declare
   [:var, var_name]
 end
 
-def parse_var_init
+def _parse_var_init
   t = peek()
   $pos += 1
   var_name = t.value
@@ -133,9 +133,9 @@ def parse_var
   t = peek(1)
 
   if t.value == ";"
-    parse_var_declare()
+    _parse_var_declare()
   elsif t.value == "="
-    parse_var_init()
+    _parse_var_init()
   else
     raise ParseError
   end
