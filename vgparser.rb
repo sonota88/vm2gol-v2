@@ -29,14 +29,6 @@ def peek(offset = 0)
   $tokens[$pos + offset]
 end
 
-def dump_state(msg = nil)
-  pp_e [
-    msg,
-    $pos,
-    rest_head
-  ]
-end
-
 def assert_value(exp)
   t = peek()
 
@@ -386,7 +378,7 @@ $pos = 0
 begin
   tree = parse()
 rescue ParseError => e
-  dump_state()
+  pp_e [$pos, rest_head]
   raise e
 end
 
