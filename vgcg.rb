@@ -230,9 +230,9 @@ def gen_case(fn_arg_names, lvar_names, stmt)
     puts "  # when_#{label_id}_#{when_idx}: #{cond.inspect}"
 
     # 条件を評価 ... 結果が reg_a に入る
-    puts "  # -->> expr"
+    puts "  # -->> eval_expr_#{label_id}"
     gen_expr(fn_arg_names, lvar_names, cond)
-    puts "  # <<-- expr"
+    puts "  # <<-- eval_expr_#{label_id}"
 
     # 条件の評価結果と比較するための値を reg_b にセットして比較
     puts "  cp 0 reg_b"
