@@ -8,7 +8,7 @@ class VgparserGolTest < Minitest::Test
     setup_common()
   end
 
-  def test_vgcg_gol
+  def test_gol
     system %( ruby #{PROJECT_DIR}/vglexer.rb  #{PROJECT_DIR}/gol.vg.txt > #{TOKENS_FILE} )
     system %( ruby #{PROJECT_DIR}/vgparser.rb #{TOKENS_FILE} > #{TREE_FILE} )
 

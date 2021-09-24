@@ -7,7 +7,7 @@ class VgasmGolTest < Minitest::Test
     setup_common()
   end
 
-  def test_vgasm_gol
+  def test_gol
     system %( ruby #{PROJECT_DIR}/vgasm.rb #{PROJECT_DIR}/test/gol.vga.txt > #{EXE_FILE} )
 
     act = File.read(EXE_FILE)

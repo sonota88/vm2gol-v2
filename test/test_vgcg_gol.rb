@@ -7,7 +7,7 @@ class VgcgGolTest < Minitest::Test
     setup_common()
   end
 
-  def test_vgcg_gol
+  def test_gol
     system %( ruby #{PROJECT_DIR}/vgcg.rb #{PROJECT_DIR}/test/gol.vgt.json > #{ASM_FILE} )
 
     act = File.read(ASM_FILE)
