@@ -274,9 +274,8 @@ class ParserTest < Minitest::Test
   def test_case_1
     src = <<-EOS
       var a;
-      case {
-        (1){ set a = 2; }
-      }
+      case
+      when (1) { set a = 2; }
     EOS
 
     tree_exp = [
@@ -292,10 +291,9 @@ class ParserTest < Minitest::Test
   def test_case_2
     src = <<-EOS
       var a;
-      case {
-        (1){ set a = 3; }
-        (2){ set a = 4; }
-      }
+      case
+      when (1) { set a = 3; }
+      when (2) { set a = 4; }
     EOS
 
     tree_exp = [
@@ -312,9 +310,8 @@ class ParserTest < Minitest::Test
   def test_case_3
     src = <<-EOS
       var a;
-      case {
-        (a == 1){ set a = 2; }
-      }
+      case
+      when (a == 1) { set a = 2; }
     EOS
 
     tree_exp = [

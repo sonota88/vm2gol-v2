@@ -35,19 +35,18 @@ func vram_get(w, x, y) {
 func adjust_index(width, i) {
   var adjusted;
 
-  case {
-    (i == -1) {
-      _cmt("下限を超えた場合");
-      set adjusted = width + -1;
-    }
-    (i == width) {
-      _cmt("上限を超えた場合");
-      set adjusted = 0;
-    }
-    (1 == 1) {
-      _cmt("補正が不要な場合");
-     set adjusted = i;
-    }
+  case
+  when (i == -1) {
+    _cmt("下限を超えた場合");
+    set adjusted = width + -1;
+  }
+  when (i == width) {
+    _cmt("上限を超えた場合");
+    set adjusted = 0;
+  }
+  when (1 == 1) {
+    _cmt("補正が不要な場合");
+   set adjusted = i;
   }
 
   return adjusted;
@@ -57,23 +56,20 @@ func calc_next_gen(current_val, count) {
   // 注目しているセルの次世代の生死
   var next_val = 0;
 
-  case {
-    (current_val == 0) {
-      case {
-        (count == 3) {
-          set next_val = 1;
-        }
-      }
+  case
+  when (current_val == 0) {
+    case
+    when (count == 3) {
+      set next_val = 1;
     }
-    (0 == 0) {
-      case {
-        (count == 2) {
-          set next_val = 1;
-        }
-        (count == 3) {
-          set next_val = 1;
-        }
-      }
+  }
+  when (0 == 0) {
+    case
+    when (count == 2) {
+      set next_val = 1;
+    }
+    when (count == 3) {
+      set next_val = 1;
     }
   }
   

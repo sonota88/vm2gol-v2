@@ -258,6 +258,7 @@ def parse_while
 end
 
 def _parse_when_clause
+  consume "when"
   consume "("
   expr = parse_expr()
   consume ")"
@@ -272,15 +273,11 @@ end
 def parse_case
   consume "case"
 
-  consume "{"
-
   when_clauses = []
 
-  while peek().value != "}"
+  while peek().value == "when"
     when_clauses << _parse_when_clause()
   end
-
-  consume "}"
 
   [:case, *when_clauses]
 end

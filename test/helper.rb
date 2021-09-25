@@ -1,4 +1,5 @@
 require "fileutils"
+require "json"
 require "minitest/autorun"
 
 PROJECT_DIR = File.expand_path("..", __dir__)
