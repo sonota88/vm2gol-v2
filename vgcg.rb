@@ -190,16 +190,16 @@ def gen_while(fn_arg_names, lvar_names, stmt)
   # ループの先頭
   puts "label #{label_begin}"
 
-  # 条件の評価 ... 結果が reg_a に入る
+  # 条件を評価 ... 結果が reg_a に入る
   gen_expr(fn_arg_names, lvar_names, cond_expr)
-  # 比較対象の値をセット
+  # 条件の評価結果と比較するための値を reg_b にセットして比較
   puts "  cp 0 reg_b"
   puts "  compare"
 
-  # false の場合ループを抜ける
+  # 結果が false の場合ループを抜ける
   puts "  jump_eq #{label_end}"
 
-  # ループの本体
+  # 結果が true の場合
   gen_stmts(fn_arg_names, lvar_names, body)
 
   # ループの先頭に戻る
@@ -229,23 +229,24 @@ def gen_case(fn_arg_names, lvar_names, stmt)
 
     puts "  # when_#{label_id}_#{when_idx}: #{cond.inspect}"
 
-    # 式の結果が reg_a に入る
+    # 条件を評価 ... 結果が reg_a に入る
     puts "  # -->> expr"
     gen_expr(fn_arg_names, lvar_names, cond)
     puts "  # <<-- expr"
 
-    # 式の結果と比較するための値を reg_b に入れる
+    # 条件の評価結果と比較するための値を reg_b にセットして比較
     puts "  cp 0 reg_b"
-
     puts "  compare"
-    # 偽の場合
+
+    # 結果が false の場合 when 句の最後にジャンプ
     puts "  jump_eq #{label_end_when_head}_#{when_idx}"
 
+    # 結果が true の場合
     gen_stmts(fn_arg_names, lvar_names, rest)
 
     puts "  jump #{label_end}"
 
-    # 偽の場合ここにジャンプ
+    # 結果が false の場合ここにジャンプ
     puts "label #{label_end_when_head}_#{when_idx}"
   end
 
