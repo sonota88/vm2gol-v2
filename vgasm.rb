@@ -59,7 +59,7 @@ alines.each do |aline|
       raise "label not found (#{label_name})"
     end
   else
-    insn += rest.map {|arg| to_machine_code_operand(arg) }
+    insn += rest.map { |arg| to_machine_code_operand(arg) }
   end
 
   puts JSON.generate(insn)

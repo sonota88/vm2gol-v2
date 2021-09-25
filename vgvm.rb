@@ -97,7 +97,7 @@ class Memory
   end
 
   def format_cols(cols)
-    cols.map {|col| col == 1 ? "@" : "." }.join("")
+    cols.map { |col| col == 1 ? "@" : "." }.join("")
   end
 
   def dump_vram

@@ -4,13 +4,13 @@ $grid = []
 $buf = []
 
 # init
-(0...$h).each {|y|
+(0...$h).each { |y|
   $grid[y] = []
   $buf[y] = []
 }
 
-(0...$h).each {|y|
-  (0...$w).each {|x|
+(0...$h).each { |y|
+  (0...$w).each { |x|
     $grid[y][x] = 0
     $buf[y][x] = 0
   }
@@ -18,8 +18,8 @@ $buf = []
 
 def dump(turn)
   puts "turn: #{turn}"
-  (0...$h).each {|y|
-    puts $grid[y].map {|v|
+  (0...$h).each { |y|
+    puts $grid[y].map { |v|
       v == 0 ? "." : "@"
     }.join("")
   }
@@ -64,8 +64,8 @@ def make_next_gen
 end
 
 def replace_with_buf
-  (0...$h).each {|y|
-    (0...$w).each {|x|
+  (0...$h).each { |y|
+    (0...$w).each { |x|
       $grid[y][x] = $buf[y][x]
     }
   }

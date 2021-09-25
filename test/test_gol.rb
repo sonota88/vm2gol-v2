@@ -6,7 +6,7 @@ class Memory
     rows = @vram.each_slice(5).to_a
     main = rows[0..4]
 
-    (0..4).map {|li|
+    (0..4).map { |li|
       format_cols(main[li])
     }.join("\n")
   end
@@ -41,7 +41,7 @@ class GolTest < Minitest::Test
   # num_generations 世代で終了するように書き換える
   def replace_gen_limit(num_generations)
     src = File.read(VG_FILE)
-    open(VG_FILE_REPLACED, "w") {|f|
+    open(VG_FILE_REPLACED, "w") { |f|
       f.print src.sub("var gen_limit = 0;", "var gen_limit = #{num_generations + 1};")
     }
   end
