@@ -22,3 +22,28 @@ rake test
 # Run game of life / ライフゲームの実行
 ./run.sh gol.vg.txt
 ```
+
+
+# Porting
+
+These are ports of the compiler part only, with some exceptions.
+
+- [Haskell](https://github.com/sonota88/vm2gol-v2-haskell)
+- [OCaml](https://github.com/sonota88/vm2gol-v2-ocaml)
+- [Pascal](https://github.com/sonota88/vm2gol-v2-pascal)
+- [Julia](https://github.com/sonota88/vm2gol-v2-julia)
+- [Rust](https://github.com/sonota88/vm2gol-v2-rust)
+- [Crystal](https://github.com/sonota88/vm2gol-v2-crystal)
+- [Pric (self-hosting)](https://github.com/sonota88/pric)
+- [Kotlin](https://github.com/sonota88/vm2gol-v2-kotlin)
+- [Zig](https://github.com/sonota88/vm2gol-v2-zig)
+- [LibreOffice Basic](https://github.com/sonota88/vm2gol-v2-libreoffice-basic)
+- [Go](https://github.com/sonota88/vm2gol-v2-go)
+- [PHP](https://github.com/sonota88/vm2gol-v2-php)
+- [C♭](https://github.com/sonota88/vm2gol-v2-cflat)
+- [Perl](https://github.com/sonota88/vm2gol-v2-perl)
+- [C](https://github.com/sonota88/vm2gol-v2-c)
+- [Java](https://github.com/sonota88/vm2gol-v2-java)
+- [Dart](https://github.com/sonota88/vm2gol-v2-dart)
+- [Python](https://github.com/sonota88/vm2gol-v2-python)
+- [TypeScript (Deno)](https://github.com/sonota88/vm2gol-v2-typescript)
