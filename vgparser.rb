@@ -215,6 +215,10 @@ def parse_expr_right(expr_l)
   end
 end
 
+def binary_op?(t)
+  ["+", "*", "==", "!="].include?(t.value)
+end
+
 def _parse_expr_factor
   t = peek()
 
@@ -240,8 +244,25 @@ def _parse_expr_factor
 end
 
 def parse_expr
-  expr_l = _parse_expr_factor()
-  parse_expr_right(expr_l)
+  expr = _parse_expr_factor()
+
+  while binary_op?(peek())
+    op =
+      case peek().value
+      when "+"  then "+"
+      when "*"  then "*"
+      when "==" then "eq"
+      when "!=" then "neq"
+      else
+        raise ParseError, "must not happen"
+      end
+    $pos += 1
+
+    expr_r = _parse_expr_factor()
+    expr = [op.to_sym, expr, expr_r]
+  end
+
+  expr
 end
 
 def parse_set
