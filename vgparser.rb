@@ -218,15 +218,16 @@ end
 def parse_expr
   t_left = peek()
 
+  expr_l =
   if t_left.type == :sym
     consume "("
-    expr_l = parse_expr()
+    expr = parse_expr()
     consume ")"
+    expr
 
   elsif t_left.type == :int || t_left.type == :ident
     $pos += 1
 
-    expr_l =
       case t_left.type
       when :int
         t_left.value.to_i
