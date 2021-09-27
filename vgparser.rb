@@ -240,29 +240,7 @@ def _parse_expr_factor
 end
 
 def parse_expr
-  t_left = peek()
-
-  expr_l =
-  if t_left.type == :sym
-    consume "("
-    expr = parse_expr()
-    consume ")"
-    expr
-
-  elsif t_left.type == :int || t_left.type == :ident
-    $pos += 1
-
-      case t_left.type
-      when :int
-        t_left.value.to_i
-      else
-        t_left.value
-      end
-
-  else
-    raise ParseError
-  end
-
+  expr_l = _parse_expr_factor()
   parse_expr_right(expr_l)
 end
 
