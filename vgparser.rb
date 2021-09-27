@@ -218,15 +218,14 @@ end
 def parse_expr
   t_left = peek()
 
-  if t_left.value == "("
+  if t_left.type == :sym
     consume "("
     expr_l = parse_expr()
     consume ")"
 
     return parse_expr_right(expr_l)
-  end
 
-  if t_left.type == :int || t_left.type == :ident
+  elsif t_left.type == :int || t_left.type == :ident
     $pos += 1
 
     expr_l =
