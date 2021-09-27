@@ -215,6 +215,30 @@ def parse_expr_right(expr_l)
   end
 end
 
+def _parse_expr_factor
+  t = peek()
+
+  if t.type == :sym
+    consume "("
+    expr = parse_expr()
+    consume ")"
+    expr
+
+  elsif t.type == :int || t.type == :ident
+    $pos += 1
+
+    case t.type
+    when :int
+      t.value.to_i
+    else
+      t.value
+    end
+
+  else
+    raise ParseError
+  end
+end
+
 def parse_expr
   t_left = peek()
 
