@@ -182,39 +182,6 @@ def parse_var
   end
 end
 
-def parse_expr_right(expr_l)
-  t = peek()
-
-  if t.value == ";" || t.value == ")"
-    return expr_l
-  end
-
-  case t.value
-  when "+"
-    consume "+"
-    expr_r = parse_expr()
-    [:+, expr_l, expr_r]
-
-  when "*"
-    consume "*"
-    expr_r = parse_expr()
-    [:*, expr_l, expr_r]
-
-  when "=="
-    consume "=="
-    expr_r = parse_expr()
-    [:eq, expr_l, expr_r]
-
-  when "!="
-    consume "!="
-    expr_r = parse_expr()
-    [:neq, expr_l, expr_r]
-
-  else
-    raise ParseError
-  end
-end
-
 def binary_op?(t)
   ["+", "*", "==", "!="].include?(t.value)
 end
