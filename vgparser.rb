@@ -189,13 +189,14 @@ end
 def _parse_expr_factor
   t = peek()
 
-  if t.type == :sym
+  case t.type
+  when :sym
     consume "("
     expr = parse_expr()
     consume ")"
     expr
 
-  elsif t.type == :int || t.type == :ident
+  when :int, :ident
     $pos += 1
 
     case t.type
