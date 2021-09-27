@@ -169,8 +169,8 @@ def parse_expr
     op = peek().value
     $pos += 1
 
-    expr_r = _parse_expr_factor()
-    expr = [op.to_sym, expr, expr_r]
+    factor = _parse_expr_factor()
+    expr = [op.to_sym, expr, factor]
   end
 
   expr
