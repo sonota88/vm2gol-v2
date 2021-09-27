@@ -223,8 +223,6 @@ def parse_expr
     expr_l = parse_expr()
     consume ")"
 
-    return parse_expr_right(expr_l)
-
   elsif t_left.type == :int || t_left.type == :ident
     $pos += 1
 
@@ -236,11 +234,11 @@ def parse_expr
         t_left.value
       end
 
-    parse_expr_right(expr_l)
-
   else
     raise ParseError
   end
+
+  parse_expr_right(expr_l)
 end
 
 def parse_set
