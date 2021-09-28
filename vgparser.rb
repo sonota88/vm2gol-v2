@@ -245,7 +245,6 @@ end
 
 def parse_while
   consume "while"
-
   consume "("
   expr = parse_expr()
   consume ")"
