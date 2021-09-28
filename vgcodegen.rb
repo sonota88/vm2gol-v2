@@ -24,6 +24,8 @@ def to_lvar_disp(lvar_names, lvar_name)
   -(index + 1)
 end
 
+# --------------------------------
+
 def _gen_expr_add
   puts "  pop reg_b"
   puts "  pop reg_a"
