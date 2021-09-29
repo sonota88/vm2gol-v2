@@ -1,11 +1,12 @@
 ```
-$ LANG=C wc -l vg*.rb
+$ LANG=C wc -l vg*.rb common.rb
    66 vgasm.rb
-  381 vgcodegen.rb
+  375 vgcodegen.rb
    58 vglexer.rb
-  377 vgparser.rb
+  370 vgparser.rb
   447 vgvm.rb
- 1329 total
+   52 common.rb
+ 1368 total
 ```
 
 Rubyで素朴な自作言語のコンパイラを作った - memo88  
