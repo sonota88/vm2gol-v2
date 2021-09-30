@@ -363,21 +363,12 @@ class ParserTest < Minitest::Test
 
   # --------------------------------
 
-  def _parse(src)
+  def parse(src)
     File.open(VG_FILE, "wb") { |f| f.print src }
     _system %( ruby #{PROJECT_DIR}/vglexer.rb  #{VG_FILE} > #{TOKENS_FILE} )
     _system %( ruby #{PROJECT_DIR}/vgparser.rb #{TOKENS_FILE} > #{TREE_FILE} )
     json = File.read(TREE_FILE)
     JSON.parse(json)
-  end
-
-  def parse(src)
-    begin
-      _parse(src)
-    rescue ParseError => e
-      parser.dump_state()
-      raise e
-    end
   end
 
   def format(tree)
@@ -391,7 +382,7 @@ class ParserTest < Minitest::Test
       }
     EOS
 
-    _parse(wrapped_src)
+    parse(wrapped_src)
   end
 
   def format_stmts(tree)
