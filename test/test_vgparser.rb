@@ -67,11 +67,11 @@ class ParserTest < Minitest::Test
 
   def test_expr_1
     src = <<-EOS
-      var a = 1 + 2;
+      return 1 + 2;
     EOS
 
     tree_exp = [
-      [:var, "a", [:+, 1, 2]]]
+      [:return, [:+, 1, 2]]]
 
     tree_act = parse_stmts(src)
 
@@ -80,11 +80,11 @@ class ParserTest < Minitest::Test
 
   def test_expr_paren
     src = <<-EOS
-      var a = ((b * c) + d) + e;
+      return ((b * c) + d) + e;
     EOS
 
     tree_exp = [
-      [:var, "a",
+      [:return,
        [:+,
           [:+,
              [:*, "b", "c"],
@@ -98,11 +98,11 @@ class ParserTest < Minitest::Test
 
   def test_expr_left_assoc
     src = <<-EOS
-      var a = 1 + 2 + 3;
+      return 1 + 2 + 3;
     EOS
 
     tree_exp = [
-      [:var, "a",
+      [:return,
        ["+".to_sym,
         ["+".to_sym, 1, 2],
         3]]]
