@@ -363,6 +363,21 @@ class ParserTest < Minitest::Test
 
   # --------------------------------
 
+  def test_debug
+    src = <<-EOS
+      _debug();
+    EOS
+
+    tree_exp = [
+      [:_debug]]
+
+    tree_act = parse_stmts(src)
+
+    assert_equal(format(tree_exp), format_stmts(tree_act))
+  end
+
+  # --------------------------------
+
   def parse(src)
     File.open(VG_FILE, "wb") { |f| f.print src }
     _system %( ruby #{PROJECT_DIR}/vglexer.rb  #{VG_FILE} > #{TOKENS_FILE} )
