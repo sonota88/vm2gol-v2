@@ -65,6 +65,19 @@ class ParserTest < Minitest::Test
 
   # --------------------------------
 
+  def test_var_init_2
+    src = <<-EOS
+      var a = 1 + 2;
+    EOS
+
+    tree_exp = [
+      [:var, "a", [:+, 1, 2]]]
+
+    tree_act = parse_stmts(src)
+
+    assert_equal(format(tree_exp), format_stmts(tree_act))
+  end
+
   def test_expr_1
     src = <<-EOS
       var a = 1 + 2 + 3;
@@ -107,19 +120,6 @@ class ParserTest < Minitest::Test
 
     tree_exp = [
       [:var, "a", 1]]
-
-    tree_act = parse_stmts(src)
-
-    assert_equal(format(tree_exp), format_stmts(tree_act))
-  end
-
-  def test_var_init_2
-    src = <<-EOS
-      var a = 1 + 2;
-    EOS
-
-    tree_exp = [
-      [:var, "a", [:+, 1, 2]]]
 
     tree_act = parse_stmts(src)
 
