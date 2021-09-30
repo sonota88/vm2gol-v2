@@ -78,6 +78,24 @@ class ParserTest < Minitest::Test
     assert_equal(format(tree_exp), format_stmts(tree_act))
   end
 
+  def test_var_init_4
+    src = <<-EOS
+      var a = ((b * c) + d) + e;
+    EOS
+
+    tree_exp = [
+      [:var, "a",
+       [:+,
+          [:+,
+             [:*, "b", "c"],
+           "d"],
+        "e"]]]
+
+    tree_act = parse_stmts(src)
+
+    assert_equal(format(tree_exp), format_stmts(tree_act))
+  end
+
   def test_expr_1
     src = <<-EOS
       var a = 1 + 2 + 3;
@@ -133,24 +151,6 @@ class ParserTest < Minitest::Test
 
     tree_exp = [
       [:var, "b", "a"]]
-
-    tree_act = parse_stmts(src)
-
-    assert_equal(format(tree_exp), format_stmts(tree_act))
-  end
-
-  def test_var_init_4
-    src = <<-EOS
-      var a = ((b * c) + d) + e;
-    EOS
-
-    tree_exp = [
-      [:var, "a",
-       [:+,
-          [:+,
-             [:*, "b", "c"],
-           "d"],
-        "e"]]]
 
     tree_act = parse_stmts(src)
 
