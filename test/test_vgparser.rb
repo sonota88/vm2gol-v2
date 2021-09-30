@@ -65,7 +65,7 @@ class ParserTest < Minitest::Test
 
   # --------------------------------
 
-  def test_var_init_2
+  def test_expr_1
     src = <<-EOS
       var a = 1 + 2;
     EOS
@@ -78,7 +78,7 @@ class ParserTest < Minitest::Test
     assert_equal(format(tree_exp), format_stmts(tree_act))
   end
 
-  def test_var_init_4
+  def test_expr_paren
     src = <<-EOS
       var a = ((b * c) + d) + e;
     EOS
@@ -96,7 +96,7 @@ class ParserTest < Minitest::Test
     assert_equal(format(tree_exp), format_stmts(tree_act))
   end
 
-  def test_expr_1
+  def test_expr_left_assoc
     src = <<-EOS
       var a = 1 + 2 + 3;
     EOS
@@ -111,8 +111,7 @@ class ParserTest < Minitest::Test
 
     assert_equal(
       format(tree_exp),
-      format_stmts(tree_act),
-      "左結合になること"
+      format_stmts(tree_act)
     )
   end
 
@@ -144,7 +143,7 @@ class ParserTest < Minitest::Test
     assert_equal(format(tree_exp), format_stmts(tree_act))
   end
 
-  def test_var_init_3
+  def test_var_init_2
     src = <<-EOS
       var b = a;
     EOS
