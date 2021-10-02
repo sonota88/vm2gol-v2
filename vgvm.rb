@@ -201,7 +201,10 @@ class Vm
           dump()
           $stdin.gets
         else
-          dump() if @step % 10 == 0
+          if @step % 200 == 0
+            dump()
+            sleep 0.01
+          end
         end
       end
     end
