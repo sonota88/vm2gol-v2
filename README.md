@@ -9,6 +9,11 @@ $ LANG=C wc -l vg*.rb common.rb
  1368 total
 ```
 
+![image](https://raw.githubusercontent.com/sonota88/vm2gol-v2/images/images/run_gol_step62.gif)
+
+![image](https://raw.githubusercontent.com/sonota88/vm2gol-v2/images/images/run_gol_step62_step.gif)
+
+
 Rubyで素朴な自作言語のコンパイラを作った - memo88  
 https://memo88.hatenablog.com/entry/2020/05/04/155425
 
