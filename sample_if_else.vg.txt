@@ -1,0 +1,11 @@
+func main() {
+  if (1) {
+    call set_vram(0, 1);
+  }
+
+  if (0) {
+    call set_vram(1, 1);
+  } else {
+    call set_vram(2, 1);
+  }
+}

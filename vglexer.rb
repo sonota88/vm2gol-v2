@@ -2,6 +2,7 @@ require_relative "./common"
 
 KEYWORDS = [
   "func", "set", "var", "call_set", "call", "return", "case", "when", "while",
+  "if", "else",
   "_cmt", "_debug"
 ]
 
@@ -34,8 +35,19 @@ def tokenize(src)
       pos += str.size
     when /\A([a-z_][a-z0-9_]*)/
       str = $1
-      type = KEYWORDS.include?(str) ? :kw : :ident
-      tokens << Token.new(type, str)
+      case str
+      when "if"
+        tokens << Token.new(:kw, "case")
+        tokens << Token.new(:kw, "when")
+      when "else"
+        tokens << Token.new(:kw, "when")
+        tokens << Token.new(:sym, "(")
+        tokens << Token.new(:int, "1")
+        tokens << Token.new(:sym, ")")
+      else
+        type = KEYWORDS.include?(str) ? :kw : :ident
+        tokens << Token.new(type, str)
+      end
       pos += str.size
     else
       p_e rest[0...100]
