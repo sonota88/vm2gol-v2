@@ -140,7 +140,7 @@ def gen_expr(fn_arg_names, lvar_names, expr)
     when 2
       _gen_expr_unary(fn_arg_names, lvar_names, expr)
     when 3
-    _gen_expr_binary(fn_arg_names, lvar_names, expr)
+      _gen_expr_binary(fn_arg_names, lvar_names, expr)
     else
       raise "unsupported (#{expr.inspect})"
     end

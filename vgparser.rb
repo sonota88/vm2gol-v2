@@ -149,10 +149,10 @@ def _parse_expr_factor
   when :sym
     case t.value
     when "("
-    consume "("
-    expr = parse_expr()
-    consume ")"
-    expr
+      consume "("
+      expr = parse_expr()
+      consume ")"
+      expr
     when "-"
       consume "-"
       factor = _parse_expr_factor()
