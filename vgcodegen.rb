@@ -112,6 +112,10 @@ def gen_expr(fn_arg_names, lvar_names, expr)
     puts "  cp #{expr} reg_a"
   when String
     case
+    when expr == "true"
+      puts "  cp 1 reg_a"
+    when expr == "false"
+      puts "  cp 0 reg_a"
     when fn_arg_names.include?(expr)
       disp = to_fn_arg_disp(fn_arg_names, expr)
       puts "  cp [bp:#{disp}] reg_a"

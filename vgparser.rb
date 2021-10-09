@@ -154,6 +154,14 @@ def _parse_expr_factor
   when :int, :ident
     $pos += 1
     t.get_value()
+  when :kw
+    case t.value
+    when "true", "false"
+      $pos += 1
+      t.value
+    else
+      raise ParseError
+    end
   else
     raise ParseError
   end
