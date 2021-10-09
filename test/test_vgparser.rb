@@ -5,6 +5,10 @@ class ParserTest < Minitest::Test
   TOKENS_FILE = project_path("tmp/test.tokens.txt")
   TREE_FILE   = project_path("tmp/test.vgt.json")
 
+  def setup
+    setup_common
+  end
+
   # --------------------------------
 
   def test_func_1
