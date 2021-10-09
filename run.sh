@@ -12,7 +12,7 @@ asmfile=tmp/${bname}.vga.txt
 exefile=tmp/${bname}.vge.txt
 
 ruby vglexer.rb $file > $tokensfile
-ruby vgparser.rb $tokensfile > $treefile
+ruby vgparser_racc.rb $tokensfile > $treefile
 ruby vgcodegen.rb $treefile > $asmfile
 ruby vgasm.rb $asmfile > $exefile
 ruby vgvm.rb $exefile

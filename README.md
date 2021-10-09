@@ -53,3 +53,17 @@ These are ports of the compiler part only, with some exceptions.
 - [Dart](https://github.com/sonota88/vm2gol-v2-dart)
 - [Python](https://github.com/sonota88/vm2gol-v2-python)
 - [TypeScript (Deno)](https://github.com/sonota88/vm2gol-v2-typescript)
+
+
+# Optional
+
+## Racc version of parser
+
+```sh
+## install Racc
+bundle config set --local path 'vendor/bundle'
+bundle install
+
+## generate parser
+bundle exec racc -t -o vgparser_racc.rb vgparser_racc.y
+```

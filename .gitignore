@@ -1,2 +1,11 @@
 tmp/
 z_*
+
+# Bundler
+/vendor/bundle/
+/.bundle/
+
+# Racc
+/vgparser_racc.rb
+/stack.log
+/debug.log

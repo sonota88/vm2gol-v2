@@ -400,7 +400,7 @@ class ParserTest < Minitest::Test
   def parse(src)
     File.open(VG_FILE, "wb") { |f| f.print src }
     _system %( ruby #{PROJECT_DIR}/vglexer.rb  #{VG_FILE} > #{TOKENS_FILE} )
-    _system %( ruby #{PROJECT_DIR}/vgparser.rb #{TOKENS_FILE} > #{TREE_FILE} )
+    _system %( ruby #{PROJECT_DIR}/vgparser_racc.rb #{TOKENS_FILE} > #{TREE_FILE} )
     json = File.read(TREE_FILE)
     JSON.parse(json)
   end

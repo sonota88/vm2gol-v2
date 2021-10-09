@@ -20,4 +20,6 @@ end
 
 def setup_common
   FileUtils.mkdir_p File.join(PROJECT_DIR, "tmp")
+
+  system %(bundle exec racc -t -o vgparser_racc.rb vgparser_racc.y)
 end
