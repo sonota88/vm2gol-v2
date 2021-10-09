@@ -147,10 +147,19 @@ def _parse_expr_factor
 
   case t.kind
   when :sym
+    case t.value
+    when "("
     consume "("
     expr = parse_expr()
     consume ")"
     expr
+    when "-"
+      consume "-"
+      factor = _parse_expr_factor()
+      [:-, factor]
+    else
+      raise ParseError
+    end
   when :int, :ident
     $pos += 1
     t.get_value()

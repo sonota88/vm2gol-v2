@@ -88,6 +88,20 @@ def _gen_expr_neq
   puts "label #{label_end}"
 end
 
+def _gen_expr_unary(fn_arg_names, lvar_names, expr)
+  operator, arg = expr
+
+  case operator
+  when "-"
+    gen_expr(fn_arg_names, lvar_names, arg)
+    puts "  push reg_a"
+    puts "  push -1"
+    _gen_expr_mult()
+  else
+    raise not_yet_impl("operator", operator)
+  end
+end
+
 def _gen_expr_binary(fn_arg_names, lvar_names, expr)
   operator, arg_l, arg_r = expr
 
@@ -122,7 +136,14 @@ def gen_expr(fn_arg_names, lvar_names, expr)
       raise not_yet_impl("expr", expr)
     end
   when Array
+    case expr.size
+    when 2
+      _gen_expr_unary(fn_arg_names, lvar_names, expr)
+    when 3
     _gen_expr_binary(fn_arg_names, lvar_names, expr)
+    else
+      raise "unsupported (#{expr.inspect})"
+    end
   else
     raise not_yet_impl("expr", expr)
   end

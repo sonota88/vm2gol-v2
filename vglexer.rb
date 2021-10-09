@@ -24,11 +24,11 @@ def tokenize(src)
       str = $1
       tokens << Token.new(:str, str)
       pos += str.size + 2
-    when /\A(-?[0-9]+)/
+    when /\A([0-9]+)/
       str = $1
       tokens << Token.new(:int, str.to_i)
       pos += str.size
-    when /\A(==|!=|[(){}=;+*,])/
+    when /\A(==|!=|[(){}=;+*,-])/
       str = $1
       tokens << Token.new(:sym, str)
       pos += str.size
