@@ -253,6 +253,13 @@ def parse_while
   [:while, expr, stmts]
 end
 
+def parse_break
+  consume "break"
+  consume ";"
+
+  [:break]
+end
+
 def _parse_when_clause
   consume "when"
   consume "("
@@ -310,6 +317,7 @@ def parse_stmt
   when "call_set" then parse_call_set()
   when "return"   then parse_return()
   when "while"    then parse_while()
+  when "break"    then parse_break()
   when "case"     then parse_case()
   when "_cmt"     then parse_vm_comment()
   when "_debug"   then parse_debug()

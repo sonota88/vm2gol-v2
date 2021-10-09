@@ -2,6 +2,7 @@ require_relative "./common"
 
 KEYWORDS = [
   "func", "set", "var", "call_set", "call", "return", "case", "when", "while",
+  "break",
   "_cmt", "_debug"
 ]
 

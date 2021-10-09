@@ -3,6 +3,7 @@ require "json"
 require_relative "./common"
 
 $label_id = 0
+$while_stack = []
 
 def asm_prologue
   puts "  push bp"
@@ -187,6 +188,8 @@ def gen_while(fn_arg_names, lvar_names, stmt)
   label_begin = "while_#{label_id}"
   label_end = "end_while_#{label_id}"
 
+  $while_stack.push label_end
+
   puts ""
 
   # ループの先頭
@@ -212,6 +215,13 @@ def gen_while(fn_arg_names, lvar_names, stmt)
 
   puts "label #{label_end}"
   puts ""
+
+  $while_stack.pop
+end
+
+def gen_break
+  end_while_label = $while_stack.last
+  puts "  jump #{end_while_label}"
 end
 
 def gen_case(fn_arg_names, lvar_names, stmt)
@@ -276,6 +286,7 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
   when "return"   then gen_return(                lvar_names, stmt)
   when "case"     then gen_case(    fn_arg_names, lvar_names, stmt)
   when "while"    then gen_while(   fn_arg_names, lvar_names, stmt)
+  when "break"    then gen_break()
   when "_cmt"     then gen_vm_comment(stmt[1])
   when "_debug"   then gen_debug()
   else
