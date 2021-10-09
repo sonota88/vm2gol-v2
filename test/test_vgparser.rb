@@ -27,6 +27,22 @@ class ParserTest < Minitest::Test
 
   def test_func_2
     src = <<-EOS
+      func f1(){}
+      func f2(){}
+    EOS
+
+    tree_exp = [
+      :top_stmts,
+      [:func, "f1", [], []],
+      [:func, "f2", [], []]]
+
+    tree_act = parse(src)
+
+    assert_equal(format(tree_exp), format(tree_act))
+  end
+
+  def test_func_3
+    src = <<-EOS
       func f1(a, b, c){}
     EOS
 
