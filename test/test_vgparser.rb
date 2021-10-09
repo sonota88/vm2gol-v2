@@ -27,12 +27,12 @@ class ParserTest < Minitest::Test
 
   def test_func_2
     src = <<-EOS
-      func f1(a, b){}
+      func f1(a, b, c){}
     EOS
 
     tree_exp = [
       :top_stmts,
-      [:func, "f1", ["a", "b"], []]]
+      [:func, "f1", ["a", "b", "c"], []]]
 
     tree_act = parse(src)
 
