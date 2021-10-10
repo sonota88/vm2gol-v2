@@ -3,6 +3,7 @@ require "json"
 require_relative "./common"
 
 $label_id = 0
+$return_stack = []
 
 def asm_prologue
   puts "  push bp"
@@ -176,6 +177,9 @@ end
 def gen_return(lvar_names, stmt)
   _, retval = stmt
   gen_expr([], lvar_names, retval)
+
+  end_fn_label = $return_stack.last
+  puts "  jump #{end_fn_label}"
 end
 
 def gen_while(fn_arg_names, lvar_names, stmt)
@@ -301,6 +305,11 @@ end
 def gen_func_def(func_def)
   _, fn_name, fn_arg_names, stmts = func_def
 
+  $label_id += 1
+  label_id = $label_id
+  end_fn_label = "end_fn_#{label_id}"
+  $return_stack.push end_fn_label
+
   puts ""
   puts "label #{fn_name}"
   asm_prologue()
@@ -320,8 +329,11 @@ def gen_func_def(func_def)
   end
 
   puts ""
+  puts "label #{end_fn_label}"
   asm_epilogue()
   puts "  ret"
+
+  $return_stack.pop
 end
 
 def gen_top_stmts(tree)
