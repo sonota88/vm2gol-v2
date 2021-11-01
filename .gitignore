@@ -1,2 +1,6 @@
 tmp/
 z_*
+
+# Bundler
+/.bundle/
+/vendor/bundle/

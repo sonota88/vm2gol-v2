@@ -9,8 +9,7 @@ class VgparserGolTest < Minitest::Test
   end
 
   def test_gol
-    system %( ruby #{PROJECT_DIR}/vglexer.rb  #{PROJECT_DIR}/gol.vg.txt > #{TOKENS_FILE} )
-    system %( ruby #{PROJECT_DIR}/vgparser.rb #{TOKENS_FILE} > #{TREE_FILE} )
+    system %( bundle exec ruby #{PROJECT_DIR}/vgparser_parslet.rb #{PROJECT_DIR}/gol.vg.txt > #{TREE_FILE} )
 
     act = File.read(TREE_FILE)
     exp = File.read(project_path("test/gol.vgt.json"))

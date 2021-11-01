@@ -11,8 +11,7 @@ treefile=tmp/${bname}.vgt.json
 asmfile=tmp/${bname}.vga.txt
 exefile=tmp/${bname}.vge.txt
 
-ruby vglexer.rb $file > $tokensfile
-ruby vgparser.rb $tokensfile > $treefile
+ruby vgparser_parslet.rb $file > $treefile
 ruby vgcodegen.rb $treefile > $asmfile
 ruby vgasm.rb $asmfile > $exefile
 ruby vgvm.rb $exefile

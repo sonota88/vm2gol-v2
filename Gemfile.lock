@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    parslet (2.0.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  parslet
+
+BUNDLED WITH
+   2.2.17
