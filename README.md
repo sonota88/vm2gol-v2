@@ -30,7 +30,7 @@ rake test
 ```
 
 
-# Porting
+# Ports
 
 These are ports of the compiler part only, with some exceptions.
 
