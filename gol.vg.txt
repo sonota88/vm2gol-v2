@@ -46,7 +46,7 @@ func adjust_index(width, i) {
   }
   when (1 == 1) {
     _cmt("補正が不要な場合");
-   set adjusted = i;
+    set adjusted = i;
   }
 
   return adjusted;
