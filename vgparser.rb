@@ -76,7 +76,7 @@ def parse_args
 end
 
 def parse_func
-  consume "func"
+  consume "def"
 
   t = peek()
   $pos += 1
@@ -86,10 +86,8 @@ def parse_func
   args = parse_args()
   consume ")"
 
-  consume "{"
-
   stmts = []
-  while peek().value != "}"
+  while peek().value != "end"
     stmts <<
       if peek().value == "var"
         parse_var()
@@ -98,7 +96,7 @@ def parse_func
       end
   end
 
-  consume "}"
+  consume "end"
 
   [:func, func_name, args, stmts]
 end
@@ -246,9 +244,8 @@ def parse_while
   expr = parse_expr()
   consume ")"
 
-  consume "{"
   stmts = parse_stmts()
-  consume "}"
+  consume "end"
 
   [:while, expr, stmts]
 end
@@ -259,9 +256,7 @@ def _parse_when_clause
   expr = parse_expr()
   consume ")"
 
-  consume "{"
   stmts = parse_stmts()
-  consume "}"
 
   [expr, *stmts]
 end
@@ -274,6 +269,7 @@ def parse_case
   while peek().value == "when"
     when_clauses << _parse_when_clause()
   end
+  consume "end"
 
   [:case, *when_clauses]
 end
@@ -321,7 +317,7 @@ end
 def parse_stmts
   stmts = []
 
-  while peek().value != "}"
+  while peek().value != "end" && peek().value != "when"
     stmts << parse_stmt()
   end
 
@@ -332,7 +328,7 @@ def parse_top_stmt
   t = peek()
 
   case t.value
-  when "func" then parse_func()
+  when "def" then parse_func()
   else
     raise ParseError, "Unexpected token (#{t.inspect})"
   end

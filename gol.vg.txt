@@ -1,7 +1,7 @@
-// -*- mode: javascript -*-
+# -*- mode: ruby -*-
 
-func to_vi(w, x, y, offset) {
-  var vi; // vram index
+def to_vi(w, x, y, offset)
+  var vi; # vram index
 
   set vi = 
     ((y * w) + x)
@@ -10,73 +10,69 @@ func to_vi(w, x, y, offset) {
   ;
 
   return vi;
-}
+end
 
-func vram_set(w, x, y, val) {
+def vram_set(w, x, y, val)
   var vi;
   call_set vi = to_vi(w, x, y, 0);
   call set_vram(vi, val);
-}
+end
 
-func vram_set_buf(w, x, y, val) {
+def vram_set_buf(w, x, y, val)
   var vi;
   call_set  vi = to_vi(w, x, y, 25);
   call set_vram(vi, val);
-}
+end
 
-func vram_get(w, x, y) {
+def vram_get(w, x, y)
   var vi;
   var vram_val;
   call_set vi = to_vi(w, x, y, 0);
   call_set vram_val = get_vram(vi);
   return vram_val;
-}
+end
 
-func adjust_index(width, i) {
+def adjust_index(width, i)
   var adjusted;
 
   case
-  when (i == -1) {
+  when (i == -1)
     _cmt("下限を超えた場合");
     set adjusted = width + -1;
-  }
-  when (i == width) {
+  when (i == width)
     _cmt("上限を超えた場合");
     set adjusted = 0;
-  }
-  when (1 == 1) {
+  when (1 == 1)
     _cmt("補正が不要な場合");
     set adjusted = i;
-  }
+  end
 
   return adjusted;
-}
+end
 
-func calc_next_gen(current_val, count) {
-  // 注目しているセルの次世代の生死
+def calc_next_gen(current_val, count)
+  # 注目しているセルの次世代の生死
   var next_val = 0;
 
   case
-  when (current_val == 0) {
+  when (current_val == 0)
     case
-    when (count == 3) {
+    when (count == 3)
       set next_val = 1;
-    }
-  }
-  when (0 == 0) {
+    end
+  when (0 == 0)
     case
-    when (count == 2) {
+    when (count == 2)
       set next_val = 1;
-    }
-    when (count == 3) {
+    when (count == 3)
       set next_val = 1;
-    }
-  }
+    end
+  end
   
   return next_val;
-}
+end
 
-func count_alive(w, h, x, y) {
+def count_alive(w, h, x, y)
   var count = 0;
 
   var xl = x + -1;
@@ -139,21 +135,21 @@ func count_alive(w, h, x, y) {
   _cmt("count_aliveの最後");
 
   return count;
-}
+end
 
-func make_next_gen(w, h) {
+def make_next_gen(w, h)
   var x = 0;
   var y = 0;
 
   var count;
-  // 注目しているセルの現世代の生死
+  # 注目しているセルの現世代の生死
   var current_val;
-  // 注目しているセルの次世代の生死
+  # 注目しているセルの次世代の生死
   var next_val;
 
-  while (y != h) {
+  while (y != h)
     set x = 0;
-    while (x != w) {
+    while (x != w)
       call_set count = count_alive(w, h, x, y);
       _cmt("count_alive から戻った直後");
 
@@ -169,30 +165,30 @@ func make_next_gen(w, h) {
       _cmt("vram_set_buf から戻った直後");
 
       set x = x + 1;
-    }
+    end
     set y = y + 1;
-  }
-}
+  end
+end
 
-func replace_with_buf() {
+def replace_with_buf()
   var vi = 0;
 
   var vi_buf;
   var temp;
 
-  while (vi != 25) {
+  while (vi != 25)
     set vi_buf = vi + 25;
     call_set temp = get_vram(vi_buf);
     call set_vram(vi, temp);
     set vi = vi + 1;
-  }
-}
+  end
+end
 
-func main() {
-  var w = 5; // 盤面の幅
-  var h = 5; // 盤面の高さ
+def main()
+  var w = 5; # 盤面の幅
+  var h = 5; # 盤面の高さ
 
-  // 初期状態の設定
+  # 初期状態の設定
   call vram_set(w, 1, 0, 1);
   call vram_set(w, 2, 1, 1);
   call vram_set(w, 0, 2, 1);
@@ -201,9 +197,9 @@ func main() {
 
   var gen_limit = 0;
   var gen = 1;
-  while (gen != gen_limit) {
+  while (gen != gen_limit)
     call make_next_gen(w, h);
     call replace_with_buf();
     set gen = gen + 1;
-  }
-}
+  end
+end

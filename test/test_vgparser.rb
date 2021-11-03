@@ -13,7 +13,8 @@ class ParserTest < Minitest::Test
 
   def test_func_1
     src = <<-EOS
-      func f1(){}
+      def f1()
+      end
     EOS
 
     tree_exp = [
@@ -27,8 +28,10 @@ class ParserTest < Minitest::Test
 
   def test_func_2
     src = <<-EOS
-      func f1(){}
-      func f2(){}
+      def f1()
+      end
+      def f2()
+      end
     EOS
 
     tree_exp = [
@@ -43,7 +46,8 @@ class ParserTest < Minitest::Test
 
   def test_func_3
     src = <<-EOS
-      func f1(a, b, c){}
+      def f1(a, b, c)
+      end
     EOS
 
     tree_exp = [
@@ -266,7 +270,8 @@ class ParserTest < Minitest::Test
 
   def test_while_1
     src = <<-EOS
-      while (a == 1) {}
+      while (a == 1)
+      end
     EOS
 
     tree_exp = [
@@ -280,9 +285,9 @@ class ParserTest < Minitest::Test
   def test_while_2
     src = <<-EOS
       var a;
-      while (a == 1) {
+      while (a == 1)
         set a = 2;
-      }
+      end
     EOS
 
     tree_exp = [
@@ -297,7 +302,8 @@ class ParserTest < Minitest::Test
 
   def test_while_3
     src = <<-EOS
-      while (a != b) {}
+      while (a != b)
+      end
     EOS
 
     tree_exp = [
@@ -316,7 +322,9 @@ class ParserTest < Minitest::Test
     src = <<-EOS
       var a;
       case
-      when (1) { set a = 2; }
+      when (1)
+        set a = 2;
+      end
     EOS
 
     tree_exp = [
@@ -333,8 +341,11 @@ class ParserTest < Minitest::Test
     src = <<-EOS
       var a;
       case
-      when (1) { set a = 3; }
-      when (2) { set a = 4; }
+      when (1)
+        set a = 3;
+      when (2)
+        set a = 4;
+      end
     EOS
 
     tree_exp = [
@@ -352,7 +363,9 @@ class ParserTest < Minitest::Test
     src = <<-EOS
       var a;
       case
-      when (a == 1) { set a = 2; }
+      when (a == 1)
+        set a = 2;
+      end
     EOS
 
     tree_exp = [
@@ -411,9 +424,9 @@ class ParserTest < Minitest::Test
 
   def parse_stmts(src)
     wrapped_src = <<-EOS
-      func test(){
+      def test()
         #{src}
-      }
+      end
     EOS
 
     parse(wrapped_src)

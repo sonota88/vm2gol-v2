@@ -1,7 +1,8 @@
 require_relative "./common"
 
 KEYWORDS = [
-  "func", "set", "var", "call_set", "call", "return", "case", "when", "while",
+  "def", "set", "var", "call_set", "call", "return", "case", "when", "while",
+  "end",
   "_cmt", "_debug"
 ]
 
@@ -17,7 +18,7 @@ def tokenize(src)
     when /\A([ \n]+)/
       str = $1
       pos += str.size
-    when %r{\A(//.*)$}
+    when %r{\A(#.*)$}
       str = $1
       pos += str.size
     when /\A"(.*)"/
