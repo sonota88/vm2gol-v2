@@ -270,12 +270,12 @@ end
 
 def gen_stmt(fn_arg_names, lvar_names, stmt)
   case stmt[0]
+  when "set"      then gen_set(     fn_arg_names, lvar_names, stmt)
   when "call"     then gen_call(    fn_arg_names, lvar_names, stmt)
   when "call_set" then gen_call_set(fn_arg_names, lvar_names, stmt)
-  when "set"      then gen_set(     fn_arg_names, lvar_names, stmt)
   when "return"   then gen_return(                lvar_names, stmt)
-  when "case"     then gen_case(    fn_arg_names, lvar_names, stmt)
   when "while"    then gen_while(   fn_arg_names, lvar_names, stmt)
+  when "case"     then gen_case(    fn_arg_names, lvar_names, stmt)
   when "_cmt"     then gen_vm_comment(stmt[1])
   when "_debug"   then gen_debug()
   else
