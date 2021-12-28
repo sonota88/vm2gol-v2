@@ -132,7 +132,7 @@ def parse_var
   when ";" then _parse_var_declare()
   when "=" then _parse_var_init()
   else
-    raise
+    raise "Unexpected token (#{peek(1).inspect})"
   end
 end
 
@@ -153,7 +153,7 @@ def _parse_expr_factor
     $pos += 1
     t.get_value()
   else
-    raise
+    raise "Unexpected token kind (#{t.inspect})"
   end
 end
 
