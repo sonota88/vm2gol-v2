@@ -18,8 +18,6 @@ end
 
 # --------------------------------
 
-class ParseError < StandardError; end
-
 def rest_head
   $tokens[$pos ... $pos + 8]
     .map { |t| format("%s<%s>", t.kind, t.value) }
@@ -38,7 +36,7 @@ def assert_value(exp)
       exp.inspect,
       t.inspect
     )
-    raise ParseError, msg
+    raise msg
   end
 end
 
@@ -134,7 +132,7 @@ def parse_var
   when ";" then _parse_var_declare()
   when "=" then _parse_var_init()
   else
-    raise ParseError
+    raise
   end
 end
 
@@ -155,7 +153,7 @@ def _parse_expr_factor
     $pos += 1
     t.get_value()
   else
-    raise ParseError
+    raise
   end
 end
 
@@ -314,7 +312,7 @@ def parse_stmt
   when "_cmt"     then parse_vm_comment()
   when "_debug"   then parse_debug()
   else
-    raise ParseError, "Unexpected token (#{t.inspect})"
+    raise "Unexpected token (#{t.inspect})"
   end
 end
 
@@ -334,7 +332,7 @@ def parse_top_stmt
   case t.value
   when "func" then parse_func()
   else
-    raise ParseError, "Unexpected token (#{t.inspect})"
+    raise "Unexpected token (#{t.inspect})"
   end
 end
 
@@ -362,7 +360,7 @@ $pos = 0
 
 begin
   tree = parse()
-rescue ParseError => e
+rescue => e
   pp_e [$pos, rest_head]
   raise e
 end
