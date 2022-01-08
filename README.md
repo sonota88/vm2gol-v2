@@ -34,6 +34,9 @@ rake test
 
 These are ports of the compiler part only, with some exceptions.
 
+- [Tcl](https://github.com/sonota88/vm2gol-v2-tcl)
+- [Shell Script (Bash Script)](https://github.com/sonota88/vm2gol-v2-bash)
+- [なでしこ3](https://github.com/sonota88/vm2gol-v2-nadesiko3)
 - [Haskell](https://github.com/sonota88/vm2gol-v2-haskell)
 - [OCaml](https://github.com/sonota88/vm2gol-v2-ocaml)
 - [Pascal](https://github.com/sonota88/vm2gol-v2-pascal)
