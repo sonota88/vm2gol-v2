@@ -14,14 +14,33 @@ def asm_epilogue
   puts "  pop bp"
 end
 
-def to_fn_arg_disp(fn_arg_names, fn_arg_name)
-  index = fn_arg_names.index(fn_arg_name)
-  index + 2
-end
+class Context
+  def initialize(fn_arg_names, lvar_names)
+    @fn_arg_names = fn_arg_names
+    @lvar_names = lvar_names
+  end
 
-def to_lvar_disp(lvar_names, lvar_name)
-  index = lvar_names.index(lvar_name)
-  -(index + 1)
+  def fn_arg?(fn_arg_name)
+    @fn_arg_names.include?(fn_arg_name)
+  end
+
+  def fn_arg_disp(fn_arg_name)
+    index = @fn_arg_names.index(fn_arg_name)
+    index + 2
+  end
+
+  def add_lvar_name(lvar_name)
+    @lvar_names << lvar_name
+  end
+
+  def lvar?(lvar_name)
+    @lvar_names.include?(lvar_name)
+  end
+
+  def lvar_disp(lvar_name)
+    index = @lvar_names.index(lvar_name)
+    -(index + 1)
+  end
 end
 
 # --------------------------------
@@ -88,12 +107,12 @@ def _gen_expr_neq
   puts "label #{label_end}"
 end
 
-def _gen_expr_binary(fn_arg_names, lvar_names, expr)
+def _gen_expr_binary(context, expr)
   operator, arg_l, arg_r = expr
 
-  gen_expr(fn_arg_names, lvar_names, arg_l)
+  gen_expr(context, arg_l)
   puts "  push reg_a"
-  gen_expr(fn_arg_names, lvar_names, arg_r)
+  gen_expr(context, arg_r)
   puts "  push reg_a"
 
   case operator
@@ -106,33 +125,33 @@ def _gen_expr_binary(fn_arg_names, lvar_names, expr)
   end
 end
 
-def gen_expr(fn_arg_names, lvar_names, expr)
+def gen_expr(context, expr)
   case expr
   when Integer
     puts "  cp #{expr} reg_a"
   when String
     case
-    when fn_arg_names.include?(expr)
-      disp = to_fn_arg_disp(fn_arg_names, expr)
+    when context.fn_arg?(expr)
+      disp = context.fn_arg_disp(expr)
       puts "  cp [bp:#{disp}] reg_a"
-    when lvar_names.include?(expr)
-      disp = to_lvar_disp(lvar_names, expr)
+    when context.lvar?(expr)
+      disp = context.lvar_disp(expr)
       puts "  cp [bp:#{disp}] reg_a"
     else
       raise not_yet_impl("expr", expr)
     end
   when Array
-    _gen_expr_binary(fn_arg_names, lvar_names, expr)
+    _gen_expr_binary(context, expr)
   else
     raise not_yet_impl("expr", expr)
   end
 end
 
-def _gen_funcall(fn_arg_names, lvar_names, funcall)
+def _gen_funcall(context, funcall)
   fn_name, *fn_args = funcall
 
   fn_args.reverse.each do |fn_arg|
-    gen_expr(fn_arg_names, lvar_names, fn_arg)
+    gen_expr(context, fn_arg)
     puts "  push reg_a"
   end
 
@@ -141,44 +160,44 @@ def _gen_funcall(fn_arg_names, lvar_names, funcall)
   puts "  add_sp #{fn_args.size}"
 end
 
-def gen_call(fn_arg_names, lvar_names, stmt)
+def gen_call(context, stmt)
   _, *funcall = stmt
-  _gen_funcall(fn_arg_names, lvar_names, funcall)
+  _gen_funcall(context, funcall)
 end
 
-def gen_call_set(fn_arg_names, lvar_names, stmt)
+def gen_call_set(context, stmt)
   _, lvar_name, funcall = stmt
 
-  _gen_funcall(fn_arg_names, lvar_names, funcall)
+  _gen_funcall(context, funcall)
 
-  disp = to_lvar_disp(lvar_names, lvar_name)
+  disp = context.lvar_disp(lvar_name)
   puts "  cp reg_a [bp:#{disp}]"
 end
 
-def _gen_set(fn_arg_names, lvar_names, dest, expr)
-  gen_expr(fn_arg_names, lvar_names, expr)
+def _gen_set(context, dest, expr)
+  gen_expr(context, expr)
   src_val = "reg_a"
 
   case
-  when lvar_names.include?(dest)
-    disp = to_lvar_disp(lvar_names, dest)
+  when context.lvar?(dest)
+    disp = context.lvar_disp(dest)
     puts "  cp #{src_val} [bp:#{disp}]"
   else
     raise not_yet_impl("dest", dest)
   end
 end
 
-def gen_set(fn_arg_names, lvar_names, stmt)
+def gen_set(context, stmt)
   _, dest, expr = stmt
-  _gen_set(fn_arg_names, lvar_names, dest, expr)
+  _gen_set(context, dest, expr)
 end
 
-def gen_return(lvar_names, stmt)
+def gen_return(context, stmt)
   _, retval = stmt
-  gen_expr([], lvar_names, retval)
+  gen_expr(context, retval)
 end
 
-def gen_while(fn_arg_names, lvar_names, stmt)
+def gen_while(context, stmt)
   _, cond_expr, stmts = stmt
 
   $label_id += 1
@@ -194,7 +213,7 @@ def gen_while(fn_arg_names, lvar_names, stmt)
 
   # 条件を評価 ... 結果が reg_a に入る
   puts "  # -->> eval_expr_#{label_id}"
-  gen_expr(fn_arg_names, lvar_names, cond_expr)
+  gen_expr(context, cond_expr)
   puts "  # <<-- eval_expr_#{label_id}"
 
   # 条件の評価結果と比較するための値を reg_b にセットして比較
@@ -205,7 +224,7 @@ def gen_while(fn_arg_names, lvar_names, stmt)
   puts "  jump_eq #{label_end}"
 
   # 結果が true の場合
-  gen_stmts(fn_arg_names, lvar_names, stmts)
+  gen_stmts(context, stmts)
 
   # ループの先頭に戻る
   puts "  jump #{label_begin}"
@@ -214,7 +233,7 @@ def gen_while(fn_arg_names, lvar_names, stmt)
   puts ""
 end
 
-def gen_case(fn_arg_names, lvar_names, stmt)
+def gen_case(context, stmt)
   _, *when_clauses = stmt
 
   $label_id += 1
@@ -236,7 +255,7 @@ def gen_case(fn_arg_names, lvar_names, stmt)
 
     # 条件を評価 ... 結果が reg_a に入る
     puts "  # -->> eval_expr_#{label_id}"
-    gen_expr(fn_arg_names, lvar_names, cond)
+    gen_expr(context, cond)
     puts "  # <<-- eval_expr_#{label_id}"
 
     # 条件の評価結果と比較するための値を reg_b にセットして比較
@@ -247,7 +266,7 @@ def gen_case(fn_arg_names, lvar_names, stmt)
     puts "  jump_eq #{label_end_when_head}_#{when_idx}"
 
     # 結果が true の場合
-    gen_stmts(fn_arg_names, lvar_names, stmts)
+    gen_stmts(context, stmts)
 
     puts "  jump #{label_end}"
 
@@ -268,14 +287,14 @@ def gen_debug
   puts "  _debug"
 end
 
-def gen_stmt(fn_arg_names, lvar_names, stmt)
+def gen_stmt(context, stmt)
   case stmt[0]
-  when "call"     then gen_call(    fn_arg_names, lvar_names, stmt)
-  when "call_set" then gen_call_set(fn_arg_names, lvar_names, stmt)
-  when "set"      then gen_set(     fn_arg_names, lvar_names, stmt)
-  when "return"   then gen_return(                lvar_names, stmt)
-  when "case"     then gen_case(    fn_arg_names, lvar_names, stmt)
-  when "while"    then gen_while(   fn_arg_names, lvar_names, stmt)
+  when "call"     then gen_call(    context, stmt)
+  when "call_set" then gen_call_set(context, stmt)
+  when "set"      then gen_set(     context, stmt)
+  when "return"   then gen_return(  context, stmt)
+  when "case"     then gen_case(    context, stmt)
+  when "while"    then gen_while(   context, stmt)
   when "_cmt"     then gen_vm_comment(stmt[1])
   when "_debug"   then gen_debug()
   else
@@ -283,18 +302,18 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
   end
 end
 
-def gen_stmts(fn_arg_names, lvar_names, stmts)
+def gen_stmts(context, stmts)
   stmts.each do |stmt|
-    gen_stmt(fn_arg_names, lvar_names, stmt)
+    gen_stmt(context, stmt)
   end
 end
 
-def gen_var(fn_arg_names, lvar_names, stmt)
+def gen_var(context, stmt)
   puts "  sub_sp 1"
 
   if stmt.size == 3
     _, dest, expr = stmt
-    _gen_set(fn_arg_names, lvar_names, dest, expr)
+    _gen_set(context, dest, expr)
   end
 end
 
@@ -308,14 +327,14 @@ def gen_func_def(func_def)
   puts ""
   puts "  # 関数の処理本体"
 
-  lvar_names = []
+  context = Context.new(fn_arg_names, [])
 
   stmts.each do |stmt|
     if stmt[0] == "var"
-      lvar_names << stmt[1]
-      gen_var(fn_arg_names, lvar_names, stmt)
+      context.add_lvar_name(stmt[1])
+      gen_var(context, stmt)
     else
-      gen_stmt(fn_arg_names, lvar_names, stmt)
+      gen_stmt(context, stmt)
     end
   end
 
