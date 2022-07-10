@@ -235,7 +235,7 @@ class Vm
       when "bp"
         @bp
       else
-        raise not_yet_impl("base_str", base_str)
+        raise panic("base_str", base_str)
       end
 
     base + disp_str.to_i
@@ -266,7 +266,7 @@ class Vm
       when /^ind:/
         @mem.stack[calc_indirect_addr(arg_src)]
       else
-        raise not_yet_impl("copy src", arg_src)
+        raise panic("copy src", arg_src)
       end
 
     case arg_dest
@@ -281,7 +281,7 @@ class Vm
     when /^ind:/
       @mem.stack[calc_indirect_addr(arg_dest)] = src_val
     else
-      raise not_yet_impl("copy dest", arg_dest)
+      raise panic("copy dest", arg_dest)
     end
   end
 
@@ -341,10 +341,10 @@ class Vm
           stack_addr = calc_indirect_addr(arg)
           @mem.stack[stack_addr]
         else
-          raise not_yet_impl("push", arg)
+          raise panic("push", arg)
         end
       else
-        raise not_yet_impl("push", arg)
+        raise panic("push", arg)
       end
 
     set_sp(@sp - 1)
@@ -363,7 +363,7 @@ class Vm
     when "bp"
       @bp = val
     else
-      raise not_yet_impl("pop", arg)
+      raise panic("pop", arg)
     end
 
     set_sp(@sp + 1)
@@ -383,7 +383,7 @@ class Vm
         stack_addr = calc_indirect_addr(arg_val)
         @mem.stack[stack_addr]
       else
-        raise not_yet_impl("arg_val", arg_val)
+        raise panic("arg_val", arg_val)
       end
 
     case arg_vram
@@ -394,7 +394,7 @@ class Vm
       vram_addr = @mem.stack[stack_addr]
       @mem.vram[vram_addr] = src_val
     else
-      raise not_yet_impl("arg_vram", arg_vram)
+      raise panic("arg_vram", arg_vram)
     end
   end
 
@@ -412,10 +412,10 @@ class Vm
           stack_addr = calc_indirect_addr(arg_vram)
           @mem.stack[stack_addr]
         else
-          raise not_yet_impl("arg_vram", arg_vram)
+          raise panic("arg_vram", arg_vram)
         end
       else
-        raise not_yet_impl("arg_vram", arg_vram)
+        raise panic("arg_vram", arg_vram)
       end
 
     val = @mem.vram[vram_addr]
@@ -424,7 +424,7 @@ class Vm
     when "reg_a"
       @reg_a = val
     else
-      raise not_yet_impl("arg_dest", arg_dest)
+      raise panic("arg_dest", arg_dest)
     end
   end
 

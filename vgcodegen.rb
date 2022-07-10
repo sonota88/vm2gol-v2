@@ -102,7 +102,7 @@ def _gen_expr_binary(fn_arg_names, lvar_names, expr)
   when "==" then _gen_expr_eq()
   when "!=" then _gen_expr_neq()
   else
-    raise not_yet_impl("operator", operator)
+    raise panic("operator", operator)
   end
 end
 
@@ -119,12 +119,12 @@ def gen_expr(fn_arg_names, lvar_names, expr)
       disp = to_lvar_disp(lvar_names, expr)
       puts "  cp [bp:#{disp}] reg_a"
     else
-      raise not_yet_impl("expr", expr)
+      raise panic("expr", expr)
     end
   when Array
     _gen_expr_binary(fn_arg_names, lvar_names, expr)
   else
-    raise not_yet_impl("expr", expr)
+    raise panic("expr", expr)
   end
 end
 
@@ -164,7 +164,7 @@ def _gen_set(fn_arg_names, lvar_names, dest, expr)
     disp = to_lvar_disp(lvar_names, dest)
     puts "  cp #{src_val} [bp:#{disp}]"
   else
-    raise not_yet_impl("dest", dest)
+    raise panic("dest", dest)
   end
 end
 
@@ -279,7 +279,7 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
   when "_cmt"     then gen_vm_comment(stmt[1])
   when "_debug"   then gen_debug()
   else
-    raise not_yet_impl("stmt", stmt)
+    raise panic("stmt", stmt)
   end
 end
 
@@ -332,7 +332,7 @@ def gen_top_stmts(tree)
     when "func"
       gen_func_def(top_stmt)
     else
-      raise not_yet_impl("top_stmt", top_stmt)
+      raise panic("top_stmt", top_stmt)
     end
   end
 end

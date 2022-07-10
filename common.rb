@@ -44,8 +44,8 @@ def pp_e(*args)
   args.each { |arg| $stderr.puts arg.pretty_inspect }
 end
 
-def not_yet_impl(*args)
-  "Not yet implemented" +
+def panic(*args)
+  "PANIC" +
     args
     .map { |arg| " (#{ arg.inspect })" }
     .join("")
