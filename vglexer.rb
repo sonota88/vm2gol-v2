@@ -38,8 +38,7 @@ def tokenize(src)
       tokens << Token.new(kind, str)
       pos += str.size
     else
-      p_e rest[0...100]
-      raise "must not happen"
+      raise panic("Unsupported pattern", rest[0...100])
     end
   end
 

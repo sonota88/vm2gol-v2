@@ -132,7 +132,7 @@ def parse_var
   when ";" then _parse_var_declare()
   when "=" then _parse_var_init()
   else
-    raise "Unexpected token (#{peek(1).inspect})"
+    raise panic("Unexpected token", peek(1))
   end
 end
 
@@ -153,7 +153,7 @@ def _parse_expr_factor
     $pos += 1
     t.get_value()
   else
-    raise "Unexpected token kind (#{t.inspect})"
+    raise panic("Unexpected token kind", t)
   end
 end
 
@@ -312,7 +312,7 @@ def parse_stmt
   when "_cmt"     then parse_vm_comment()
   when "_debug"   then parse_debug()
   else
-    raise "Unexpected token (#{t.inspect})"
+    raise panic("Unexpected token", t)
   end
 end
 
@@ -332,7 +332,7 @@ def parse_top_stmt
   case t.value
   when "func" then parse_func()
   else
-    raise "Unexpected token (#{t.inspect})"
+    raise panic("Unexpected token", t)
   end
 end
 
