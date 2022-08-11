@@ -6,7 +6,7 @@ label to_vi
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
+  add_sp -1
   cp [bp:4] reg_a
   push reg_a
   cp [bp:2] reg_a
@@ -38,7 +38,7 @@ label vram_set
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
+  add_sp -1
   cp 0 reg_a
   push reg_a
   cp [bp:4] reg_a
@@ -68,7 +68,7 @@ label vram_set_buf
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
+  add_sp -1
   cp 25 reg_a
   push reg_a
   cp [bp:4] reg_a
@@ -98,8 +98,8 @@ label vram_get
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
-  sub_sp 1
+  add_sp -1
+  add_sp -1
   cp 0 reg_a
   push reg_a
   cp [bp:4] reg_a
@@ -129,7 +129,7 @@ label adjust_index
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
+  add_sp -1
 
   # -->> case_1
   # when_1_0: ["==", "i", -1]
@@ -224,7 +224,7 @@ label calc_next_gen
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
+  add_sp -1
   cp 0 reg_a
   cp reg_a [bp:-1]
 
@@ -364,10 +364,10 @@ label count_alive
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
+  add_sp -1
   cp 0 reg_a
   cp reg_a [bp:-1]
-  sub_sp 1
+  add_sp -1
   cp [bp:4] reg_a
   push reg_a
   cp -1 reg_a
@@ -376,7 +376,7 @@ label count_alive
   pop reg_a
   add_ab
   cp reg_a [bp:-2]
-  sub_sp 1
+  add_sp -1
   cp [bp:4] reg_a
   push reg_a
   cp 1 reg_a
@@ -385,7 +385,7 @@ label count_alive
   pop reg_a
   add_ab
   cp reg_a [bp:-3]
-  sub_sp 1
+  add_sp -1
   cp [bp:5] reg_a
   push reg_a
   cp -1 reg_a
@@ -394,7 +394,7 @@ label count_alive
   pop reg_a
   add_ab
   cp reg_a [bp:-4]
-  sub_sp 1
+  add_sp -1
   cp [bp:5] reg_a
   push reg_a
   cp 1 reg_a
@@ -444,7 +444,7 @@ label count_alive
   cp reg_a [bp:-5]
   _cmt yb~の補正の直後
   _cmt 座標補正の直後
-  sub_sp 1
+  add_sp -1
   _cmt 左上
   cp [bp:-4] reg_a
   push reg_a
@@ -609,15 +609,15 @@ label make_next_gen
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
+  add_sp -1
   cp 0 reg_a
   cp reg_a [bp:-1]
-  sub_sp 1
+  add_sp -1
   cp 0 reg_a
   cp reg_a [bp:-2]
-  sub_sp 1
-  sub_sp 1
-  sub_sp 1
+  add_sp -1
+  add_sp -1
+  add_sp -1
 
 label while_13
   # -->> eval_expr_13
@@ -737,11 +737,11 @@ label replace_with_buf
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
+  add_sp -1
   cp 0 reg_a
   cp reg_a [bp:-1]
-  sub_sp 1
-  sub_sp 1
+  add_sp -1
+  add_sp -1
 
 label while_17
   # -->> eval_expr_17
@@ -804,10 +804,10 @@ label main
   cp sp bp
 
   # 関数の処理本体
-  sub_sp 1
+  add_sp -1
   cp 5 reg_a
   cp reg_a [bp:-1]
-  sub_sp 1
+  add_sp -1
   cp 5 reg_a
   cp reg_a [bp:-2]
   cp 1 reg_a
@@ -865,10 +865,10 @@ label main
   _cmt call~~vram_set
   call vram_set
   add_sp 4
-  sub_sp 1
+  add_sp -1
   cp 0 reg_a
   cp reg_a [bp:-3]
-  sub_sp 1
+  add_sp -1
   cp 1 reg_a
   cp reg_a [bp:-4]
 

@@ -163,7 +163,6 @@ class Vm
     when "add_ab"   then add_ab()   ; @pc += 1
     when "mult_ab"  then mult_ab()  ; @pc += 1
     when "add_sp"   then add_sp()   ; @pc += 1
-    when "sub_sp"   then sub_sp()   ; @pc += 1
     when "compare"  then compare()  ; @pc += 1
     when "label"    then              @pc += 1
     when "jump"     then jump()
@@ -287,10 +286,6 @@ class Vm
 
   def add_sp
     set_sp(@sp + @mem.main[@pc][1])
-  end
-
-  def sub_sp
-    set_sp(@sp - @mem.main[@pc][1])
   end
 
   def compare

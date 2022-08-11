@@ -136,16 +136,6 @@ class VmTest < Minitest::Test
 
   # --------------------------------
 
-  def test_sub_sp
-    assert_equal(49, @vm.sp)
-
-    execute(["sub_sp", 2])
-
-    assert_equal(49 - 2, @vm.sp)
-  end
-
-  # --------------------------------
-
   def test_compare_equal
     @vm.reg_a = 0
     @vm.reg_b = 0

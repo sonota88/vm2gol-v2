@@ -290,7 +290,7 @@ def gen_stmts(fn_arg_names, lvar_names, stmts)
 end
 
 def gen_var(fn_arg_names, lvar_names, stmt)
-  puts "  sub_sp 1"
+  puts "  add_sp -1"
 
   if stmt.size == 3
     _, dest, expr = stmt
