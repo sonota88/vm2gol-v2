@@ -1,12 +1,12 @@
 ignore:
   - "**/*":
     - Layout/ExtraSpacing
+    - Layout/SpaceBeforeSemicolon
     - Layout/SpaceInsideParens
     - Lint/SymbolConversion
     - Style/GlobalVars
     - Style/MethodCallWithoutArgsParentheses
     - Style/StderrPuts
-    - Layout/SpaceBeforeSemicolon
     # TODO
     - Layout/ArrayAlignment
     - Layout/FirstArrayElementIndentation
