@@ -43,7 +43,7 @@ These are ports of the compiler part only, with some exceptions.
 - [Julia](https://github.com/sonota88/vm2gol-v2-julia)
 - [Rust](https://github.com/sonota88/vm2gol-v2-rust)
 - [Crystal](https://github.com/sonota88/vm2gol-v2-crystal)
-- [Pric (self-hosting)](https://github.com/sonota88/pric)
+- [Ruccola (self-hosting)](https://github.com/sonota88/ruccola)
 - [Kotlin](https://github.com/sonota88/vm2gol-v2-kotlin)
 - [Zig](https://github.com/sonota88/vm2gol-v2-zig)
 - [LibreOffice Basic](https://github.com/sonota88/vm2gol-v2-libreoffice-basic)
