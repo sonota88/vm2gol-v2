@@ -1,6 +1,8 @@
 ignore:
   - "**/*":
     - Layout/ExtraSpacing
+    - Layout/SpaceInsideParens
+    - Lint/SymbolConversion
     - Style/GlobalVars
     - Style/MethodCallWithoutArgsParentheses
     - Style/StderrPuts
