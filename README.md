@@ -2,11 +2,11 @@
 $ LANG=C wc -l vg*.rb common.rb
    66 vgasm.rb
   375 vgcodegen.rb
-   58 vglexer.rb
-  370 vgparser.rb
-  447 vgvm.rb
+   57 vglexer.rb
+  368 vgparser.rb
+  442 vgvm.rb
    52 common.rb
- 1368 total
+ 1360 total
 ```
 
 ![image](https://raw.githubusercontent.com/sonota88/vm2gol-v2/images/images/run_gol_step62.gif)
