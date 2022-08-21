@@ -5,13 +5,13 @@ require_relative "./common"
 $label_id = 0
 
 def asm_prologue
-  puts "  push bp"
-  puts "  cp sp bp"
+  puts "  push %rbp"
+  puts "  mov %rsp, %rbp"
 end
 
 def asm_epilogue
-  puts "  cp bp sp"
-  puts "  pop bp"
+  puts "  mov %rbp, %rsp"
+  puts "  pop %rbp"
 end
 
 def to_fn_arg_disp(fn_arg_names, fn_arg_name)
@@ -27,10 +27,11 @@ end
 # --------------------------------
 
 def _gen_expr_add
-  puts "  pop reg_b"
-  puts "  pop reg_a"
+  # rbx は callee-save なので避ける
+  puts "  pop %rcx"
+  puts "  pop %rax"
 
-  puts "  add_ab"
+  puts "  add %rcx, %rax"
 end
 
 def _gen_expr_mult
@@ -92,9 +93,9 @@ def _gen_expr_binary(fn_arg_names, lvar_names, expr)
   operator, arg_l, arg_r = expr
 
   gen_expr(fn_arg_names, lvar_names, arg_l)
-  puts "  push reg_a"
+  puts "  push %rax"
   gen_expr(fn_arg_names, lvar_names, arg_r)
-  puts "  push reg_a"
+  puts "  push %rax"
 
   case operator
   when "+"  then _gen_expr_add()
@@ -109,15 +110,15 @@ end
 def gen_expr(fn_arg_names, lvar_names, expr)
   case expr
   when Integer
-    puts "  cp #{expr} reg_a"
+    puts "  mov $#{expr}, %rax"
   when String
     case
     when fn_arg_names.include?(expr)
       disp = to_fn_arg_disp(fn_arg_names, expr)
-      puts "  cp [bp:#{disp}] reg_a"
+      puts "  mov #{disp * 8}(%rbp), %rax"
     when lvar_names.include?(expr)
       disp = to_lvar_disp(lvar_names, expr)
-      puts "  cp [bp:#{disp}] reg_a"
+      puts "  mov #{disp * 8}(%rbp), %rax"
     else
       raise panic("expr", expr)
     end
@@ -133,12 +134,12 @@ def _gen_funcall(fn_arg_names, lvar_names, funcall)
 
   fn_args.reverse.each do |fn_arg|
     gen_expr(fn_arg_names, lvar_names, fn_arg)
-    puts "  push reg_a"
+    puts "  push %rax"
   end
 
   gen_vm_comment("call  #{fn_name}")
   puts "  call #{fn_name}"
-  puts "  add_sp #{fn_args.size}"
+  puts "  add $#{fn_args.size * 8}, %rsp"
 end
 
 def gen_call(fn_arg_names, lvar_names, stmt)
@@ -152,17 +153,17 @@ def gen_call_set(fn_arg_names, lvar_names, stmt)
   _gen_funcall(fn_arg_names, lvar_names, funcall)
 
   disp = to_lvar_disp(lvar_names, lvar_name)
-  puts "  cp reg_a [bp:#{disp}]"
+  puts "  mov %rax, #{disp * 8}(%rbp)"
 end
 
 def _gen_set(fn_arg_names, lvar_names, dest, expr)
   gen_expr(fn_arg_names, lvar_names, expr)
-  src_val = "reg_a"
+  src_val = "%rax"
 
   case
   when lvar_names.include?(dest)
     disp = to_lvar_disp(lvar_names, dest)
-    puts "  cp #{src_val} [bp:#{disp}]"
+    puts "  mov #{src_val}, #{disp * 8}(%rbp)"
   else
     raise panic("dest", dest)
   end
@@ -261,7 +262,7 @@ def gen_case(fn_arg_names, lvar_names, stmt)
 end
 
 def gen_vm_comment(comment)
-  puts "  _cmt " + comment.gsub(" ", "~")
+  puts "  # _cmt " + comment.gsub(" ", "~")
 end
 
 def gen_debug
@@ -290,7 +291,7 @@ def gen_stmts(fn_arg_names, lvar_names, stmts)
 end
 
 def gen_var(fn_arg_names, lvar_names, stmt)
-  puts "  add_sp -1"
+  puts "  sub $8, %rsp"
 
   if stmt.size == 3
     _, dest, expr = stmt
@@ -302,7 +303,11 @@ def gen_func_def(func_def)
   _, fn_name, fn_arg_names, stmts = func_def
 
   puts ""
-  puts "label #{fn_name}"
+  if fn_name == "main"
+    puts "_main:"
+  else
+    puts "#{fn_name}:"
+  end
   asm_prologue()
 
   puts ""
@@ -356,13 +361,19 @@ def gen_builtin_get_vram
 end
 
 def codegen(tree)
-  puts "  call main"
-  puts "  exit"
+  puts "  .globl main"
+  puts
+
+  puts "main:"
+  puts "  call _main"
+  puts "  mov %rax, %rdi"
+  puts "  mov $60, %rax"
+  puts "  syscall"
 
   gen_top_stmts(tree)
 
-  gen_builtin_set_vram()
-  gen_builtin_get_vram()
+  # gen_builtin_set_vram()
+  # gen_builtin_get_vram()
 end
 
 # vgtコード読み込み
