@@ -14,5 +14,5 @@ exefile=tmp/${bname}.vge.txt
 ruby vglexer.rb $file > $tokensfile
 ruby vgparser.rb $tokensfile > $treefile
 ruby vgcodegen.rb $treefile > $asmfile
-ruby vgasm.rb $asmfile > $exefile
+ruby mrcl_asm.rb $asmfile > $exefile
 ruby mrcl_vm.rb $exefile

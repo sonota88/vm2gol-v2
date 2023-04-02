@@ -50,7 +50,7 @@ class GolTest < Minitest::Test
     _system %( ruby #{PROJECT_DIR}/vglexer.rb   #{VG_FILE_REPLACED} > #{TOKENS_FILE} )
     _system %( ruby #{PROJECT_DIR}/vgparser.rb  #{TOKENS_FILE}      > #{VGT_FILE} )
     _system %( ruby #{PROJECT_DIR}/vgcodegen.rb #{VGT_FILE}         > #{ASM_FILE} )
-    _system %( ruby #{PROJECT_DIR}/vgasm.rb     #{ASM_FILE}         > #{EXE_FILE} )
+    _system %( ruby #{PROJECT_DIR}/mrcl_asm.rb     #{ASM_FILE}         > #{EXE_FILE} )
   end
 
   def test_20generations

@@ -8,7 +8,7 @@ class VgasmGolTest < Minitest::Test
   end
 
   def test_gol
-    system %( ruby #{PROJECT_DIR}/vgasm.rb #{PROJECT_DIR}/test/gol.vga.txt > #{EXE_FILE} )
+    system %( ruby #{PROJECT_DIR}/mrcl_asm.rb #{PROJECT_DIR}/test/gol.vga.txt > #{EXE_FILE} )
 
     act = File.read(EXE_FILE)
     exp = File.read(project_path("test/gol.vge.txt"))
