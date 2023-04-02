@@ -1,10 +1,10 @@
 ```
-$ LANG=C wc -l vg*.rb common.rb
-   66 vgasm.rb
-  375 vgcodegen.rb
-   57 vglexer.rb
-  368 vgparser.rb
-  442 vgvm.rb
+$ LANG=C wc -l mrcl_*.rb common.rb
+   66 mrcl_asm.rb
+  375 mrcl_codegen.rb
+   57 mrcl_lexer.rb
+  368 mrcl_parser.rb
+  442 mrcl_vm.rb
    52 common.rb
  1360 total
 ```
