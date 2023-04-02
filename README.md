@@ -26,7 +26,7 @@ https://memo88.hatenablog.com/entry/2019/05/04/234516
 rake test
 
 # Run game of life / ライフゲームの実行
-./run.sh gol.vg.txt
+./run.sh gol.mrcl
 ```
 
 

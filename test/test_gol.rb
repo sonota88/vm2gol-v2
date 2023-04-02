@@ -21,7 +21,7 @@ end
 class GolTest < Minitest::Test
   TMP_DIR = File.join(PROJECT_DIR, "tmp")
 
-  VG_FILE = File.join(PROJECT_DIR, "gol.vg.txt")
+  VG_FILE = File.join(PROJECT_DIR, "gol.mrcl")
   VG_FILE_REPLACED = File.join(TMP_DIR, "gol_replaced.vg.txt")
   TOKENS_FILE = File.join(TMP_DIR, "gol.tokens.txt")
   VGT_FILE = File.join(TMP_DIR, "gol.vgt.json")
