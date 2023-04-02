@@ -1,7 +1,7 @@
 require_relative "./helper"
 
 class VgasmGolTest < Minitest::Test
-  EXE_FILE = project_path("tmp/test_vgasm_gol.vge.txt")
+  EXE_FILE = project_path("tmp/test_mrcl_asm_gol.vge.txt")
 
   def setup
     setup_common()

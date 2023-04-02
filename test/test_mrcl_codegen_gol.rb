@@ -1,7 +1,7 @@
 require_relative "./helper"
 
 class VgcgGolTest < Minitest::Test
-  ASM_FILE = project_path("tmp/test_vgasm_gol.vga.txt")
+  ASM_FILE = project_path("tmp/test_mrcl_asm_gol.vga.txt")
 
   def setup
     setup_common()
