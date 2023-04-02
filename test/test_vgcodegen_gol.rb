@@ -8,7 +8,7 @@ class VgcgGolTest < Minitest::Test
   end
 
   def test_gol
-    system %( ruby #{PROJECT_DIR}/vgcodegen.rb #{PROJECT_DIR}/test/gol.vgt.json > #{ASM_FILE} )
+    system %( ruby #{PROJECT_DIR}/mrcl_codegen.rb #{PROJECT_DIR}/test/gol.vgt.json > #{ASM_FILE} )
 
     act = File.read(ASM_FILE)
     exp = File.read(project_path("test/gol.vga.txt"))

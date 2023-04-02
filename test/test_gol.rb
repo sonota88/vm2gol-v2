@@ -49,7 +49,7 @@ class GolTest < Minitest::Test
   def compile
     _system %( ruby #{PROJECT_DIR}/mrcl_lexer.rb   #{VG_FILE_REPLACED} > #{TOKENS_FILE} )
     _system %( ruby #{PROJECT_DIR}/mrcl_parser.rb  #{TOKENS_FILE}      > #{VGT_FILE} )
-    _system %( ruby #{PROJECT_DIR}/vgcodegen.rb #{VGT_FILE}         > #{ASM_FILE} )
+    _system %( ruby #{PROJECT_DIR}/mrcl_codegen.rb #{VGT_FILE}         > #{ASM_FILE} )
     _system %( ruby #{PROJECT_DIR}/mrcl_asm.rb     #{ASM_FILE}         > #{EXE_FILE} )
   end
 
