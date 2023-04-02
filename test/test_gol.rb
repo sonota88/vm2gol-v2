@@ -1,5 +1,5 @@
 require_relative "./helper"
-require "vgvm"
+require "mrcl_vm"
 
 class Memory
   def dump_vram_main
