@@ -91,6 +91,8 @@ def parse_func
     stmts <<
       if peek().value == "var"
         parse_var()
+      elsif peek().value == "const"
+        parse_const()
       else
         parse_stmt()
       end
@@ -134,6 +136,22 @@ def parse_var
   else
     raise panic("Unexpected token", peek(1))
   end
+end
+
+def parse_const
+  consume "const"
+
+  t = peek()
+  $pos += 1
+  const_name = t.value
+
+  consume "="
+
+  expr = parse_expr()
+
+  consume ";"
+
+  [:const, const_name, expr]
 end
 
 def binary_op?(t)

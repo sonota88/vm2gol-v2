@@ -1,6 +1,7 @@
 require_relative "./common"
 
 KEYWORDS = [
+  "const",
   "func", "set", "var", "call_set", "call", "return", "case", "when", "while",
   "_cmt", "_debug"
 ]

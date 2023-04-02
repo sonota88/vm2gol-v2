@@ -13,6 +13,7 @@ exefile=tmp/${bname}.vge.txt
 
 ruby vglexer.rb $file > $tokensfile
 ruby vgparser.rb $tokensfile > $treefile
+ruby check_const.rb $treefile
 ruby vgcodegen.rb $treefile > $asmfile
 ruby vgasm.rb $asmfile > $exefile
 ruby vgvm.rb $exefile

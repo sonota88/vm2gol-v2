@@ -311,7 +311,7 @@ def gen_func_def(func_def)
   lvar_names = []
 
   stmts.each do |stmt|
-    if stmt[0] == "var"
+    if stmt[0] == "var" || stmt[0] == "const"
       lvar_names << stmt[1]
       gen_var(fn_arg_names, lvar_names, stmt)
     else
