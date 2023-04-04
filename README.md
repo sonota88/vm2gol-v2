@@ -14,18 +14,18 @@ $ LANG=C wc -l mrcl_*.rb common.rb
 ![image](https://raw.githubusercontent.com/sonota88/vm2gol-v2/images/images/run_gol_step62_step.gif)
 
 
-Rubyで素朴な自作言語のコンパイラを作った - memo88  
+Rubyで素朴な自作言語のコンパイラを作った  
 https://memo88.hatenablog.com/entry/2020/05/04/155425
 
-vm2gol v2 製作メモ - memo88  
+vm2gol v2 製作メモ  
 https://memo88.hatenablog.com/entry/2019/05/04/234516
 
 
 ```sh
-# Run tests / テストの実行
+  # Run tests / テストの実行
 rake test
 
-# Run game of life / ライフゲームの実行
+  # Run game of life / ライフゲームの実行
 ./run.sh gol.mrcl
 ```
 
