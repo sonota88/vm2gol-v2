@@ -221,7 +221,7 @@ class ParserTest < Minitest::Test
 
   def test_call_2
     src = <<-EOS
-  call foo(a, 1);
+      call foo(a, 1);
     EOS
 
     tree_exp = [
