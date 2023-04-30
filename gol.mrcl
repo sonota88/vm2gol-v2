@@ -14,21 +14,21 @@ func to_vi(w, x, y, offset) {
 
 func vram_set(w, x, y, val) {
   var vi;
-  call_set vi = to_vi(w, x, y, 0);
+  set vi = to_vi(w, x, y, 0);
   call set_vram(vi, val);
 }
 
 func vram_set_buf(w, x, y, val) {
   var vi;
-  call_set  vi = to_vi(w, x, y, 25);
+  set vi = to_vi(w, x, y, 25);
   call set_vram(vi, val);
 }
 
 func vram_get(w, x, y) {
   var vi;
   var vram_val;
-  call_set vi = to_vi(w, x, y, 0);
-  call_set vram_val = get_vram(vi);
+  set vi = to_vi(w, x, y, 0);
+  set vram_val = get_vram(vi);
   return vram_val;
 }
 
@@ -85,19 +85,19 @@ func count_alive(w, h, x, y) {
   var yb = y +  1;
 
   _cmt("xl の補正の直前");
-  call_set xl = adjust_index(w, xl);
+  set xl = adjust_index(w, xl);
   _cmt("xl の補正の直後");
 
   _cmt("xr の補正の直前");
-  call_set xr = adjust_index(w, xr);
+  set xr = adjust_index(w, xr);
   _cmt("xr の補正の直後");
 
   _cmt("yt の補正の直前");
-  call_set yt = adjust_index(h, yt);
+  set yt = adjust_index(h, yt);
   _cmt("yt の補正の直後");
 
   _cmt("yb の補正の直前");
-  call_set yb = adjust_index(h, yb);
+  set yb = adjust_index(h, yb);
   _cmt("yb の補正の直後");
 
   _cmt("座標補正の直後");
@@ -105,35 +105,35 @@ func count_alive(w, h, x, y) {
   var tmp;
 
   _cmt("左上");
-  call_set tmp = vram_get(w, xl, yt);
+  set tmp = vram_get(w, xl, yt);
   set count = count + tmp;
 
   _cmt("上");
-  call_set tmp = vram_get(w, x, yt);
+  set tmp = vram_get(w, x, yt);
   set count = count + tmp;
 
   _cmt("右上");
-  call_set tmp = vram_get(w, xr, yt);
+  set tmp = vram_get(w, xr, yt);
   set count = count + tmp;
 
   _cmt("左");
-  call_set tmp = vram_get(w, xl, y);
+  set tmp = vram_get(w, xl, y);
   set count = count + tmp;
 
   _cmt("右");
-  call_set tmp = vram_get(w, xr, y);
+  set tmp = vram_get(w, xr, y);
   set count = count + tmp;
 
   _cmt("左下");
-  call_set tmp = vram_get(w, xl, yb);
+  set tmp = vram_get(w, xl, yb);
   set count = count + tmp;
 
   _cmt("下");
-  call_set tmp = vram_get(w, x, yb);
+  set tmp = vram_get(w, x, yb);
   set count = count + tmp;
 
   _cmt("右下");
-  call_set tmp = vram_get(w, xr, yb);
+  set tmp = vram_get(w, xr, yb);
   set count = count + tmp;
 
   _cmt("count_aliveの最後");
@@ -154,14 +154,14 @@ func make_next_gen(w, h) {
   while (y != h) {
     set x = 0;
     while (x != w) {
-      call_set count = count_alive(w, h, x, y);
+      set count = count_alive(w, h, x, y);
       _cmt("count_alive から戻った直後");
 
       _cmt("次世代の生死決定の直前");
 
-      call_set current_val = vram_get(w, x, y);
+      set current_val = vram_get(w, x, y);
 
-      call_set next_val = calc_next_gen(current_val, count);
+      set next_val = calc_next_gen(current_val, count);
 
       _cmt("次世代の生死決定の直後");
 
@@ -182,7 +182,7 @@ func replace_with_buf() {
 
   while (vi != 25) {
     set vi_buf = vi + 25;
-    call_set temp = get_vram(vi_buf);
+    set temp = get_vram(vi_buf);
     call set_vram(vi, temp);
     set vi = vi + 1;
   }

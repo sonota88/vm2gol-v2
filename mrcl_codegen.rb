@@ -122,7 +122,12 @@ def gen_expr(fn_arg_names, lvar_names, expr)
       raise panic("expr", expr)
     end
   when Array
-    _gen_expr_binary(fn_arg_names, lvar_names, expr)
+    if expr[0] == "funcall"
+      funcall = expr[1..]
+      _gen_funcall(fn_arg_names, lvar_names, funcall)
+    else
+      _gen_expr_binary(fn_arg_names, lvar_names, expr)
+    end
   else
     raise panic("expr", expr)
   end
@@ -144,15 +149,6 @@ end
 def gen_call(fn_arg_names, lvar_names, stmt)
   _, *funcall = stmt
   _gen_funcall(fn_arg_names, lvar_names, funcall)
-end
-
-def gen_call_set(fn_arg_names, lvar_names, stmt)
-  _, lvar_name, funcall = stmt
-
-  _gen_funcall(fn_arg_names, lvar_names, funcall)
-
-  disp = to_lvar_disp(lvar_names, lvar_name)
-  puts "  cp reg_a [bp:#{disp}]"
 end
 
 def _gen_set(fn_arg_names, lvar_names, dest, expr)
@@ -272,7 +268,6 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
   case stmt[0]
   when "set"      then gen_set(     fn_arg_names, lvar_names, stmt)
   when "call"     then gen_call(    fn_arg_names, lvar_names, stmt)
-  when "call_set" then gen_call_set(fn_arg_names, lvar_names, stmt)
   when "return"   then gen_return(  fn_arg_names, lvar_names, stmt)
   when "while"    then gen_while(   fn_arg_names, lvar_names, stmt)
   when "case"     then gen_case(    fn_arg_names, lvar_names, stmt)

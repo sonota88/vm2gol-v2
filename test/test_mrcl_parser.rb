@@ -234,6 +234,7 @@ class ParserTest < Minitest::Test
 
   # --------------------------------
 
+=begin
   def test_call_set_1
     src = <<-EOS
       call_set a = f2();
@@ -261,6 +262,7 @@ class ParserTest < Minitest::Test
 
     assert_equal(format(tree_exp), format_stmts(tree_act))
   end
+=end
 
   # --------------------------------
 
@@ -389,6 +391,36 @@ class ParserTest < Minitest::Test
 
     tree_exp = [
       [:_debug]]
+
+    tree_act = parse_stmts(src)
+
+    assert_equal(format(tree_exp), format_stmts(tree_act))
+  end
+
+  # --------------------------------
+
+  def test_expr_func
+    src = <<-EOS
+      return f();
+    EOS
+
+    tree_exp = [
+      [:return, [:funcall, "f"]]]
+
+    tree_act = parse_stmts(src)
+
+    assert_equal(format(tree_exp), format_stmts(tree_act))
+  end
+
+  def test_expr_func_args
+    src = <<-EOS
+      return f1(f2(), 1);
+    EOS
+
+    tree_exp = [
+      [:return,
+       [:funcall, "f1",
+        [:funcall, "f2"], 1]]]
 
     tree_act = parse_stmts(src)
 

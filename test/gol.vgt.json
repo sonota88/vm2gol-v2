@@ -52,9 +52,10 @@
         "vi"
       ],
       [
-        "call_set",
+        "set",
         "vi",
         [
+          "funcall",
           "to_vi",
           "w",
           "x",
@@ -85,9 +86,10 @@
         "vi"
       ],
       [
-        "call_set",
+        "set",
         "vi",
         [
+          "funcall",
           "to_vi",
           "w",
           "x",
@@ -121,9 +123,10 @@
         "vram_val"
       ],
       [
-        "call_set",
+        "set",
         "vi",
         [
+          "funcall",
           "to_vi",
           "w",
           "x",
@@ -132,9 +135,10 @@
         ]
       ],
       [
-        "call_set",
+        "set",
         "vram_val",
         [
+          "funcall",
           "get_vram",
           "vi"
         ]
@@ -352,9 +356,10 @@
         "xl の補正の直前"
       ],
       [
-        "call_set",
+        "set",
         "xl",
         [
+          "funcall",
           "adjust_index",
           "w",
           "xl"
@@ -369,9 +374,10 @@
         "xr の補正の直前"
       ],
       [
-        "call_set",
+        "set",
         "xr",
         [
+          "funcall",
           "adjust_index",
           "w",
           "xr"
@@ -386,9 +392,10 @@
         "yt の補正の直前"
       ],
       [
-        "call_set",
+        "set",
         "yt",
         [
+          "funcall",
           "adjust_index",
           "h",
           "yt"
@@ -403,9 +410,10 @@
         "yb の補正の直前"
       ],
       [
-        "call_set",
+        "set",
         "yb",
         [
+          "funcall",
           "adjust_index",
           "h",
           "yb"
@@ -428,9 +436,10 @@
         "左上"
       ],
       [
-        "call_set",
+        "set",
         "tmp",
         [
+          "funcall",
           "vram_get",
           "w",
           "xl",
@@ -451,9 +460,10 @@
         "上"
       ],
       [
-        "call_set",
+        "set",
         "tmp",
         [
+          "funcall",
           "vram_get",
           "w",
           "x",
@@ -474,9 +484,10 @@
         "右上"
       ],
       [
-        "call_set",
+        "set",
         "tmp",
         [
+          "funcall",
           "vram_get",
           "w",
           "xr",
@@ -497,9 +508,10 @@
         "左"
       ],
       [
-        "call_set",
+        "set",
         "tmp",
         [
+          "funcall",
           "vram_get",
           "w",
           "xl",
@@ -520,9 +532,10 @@
         "右"
       ],
       [
-        "call_set",
+        "set",
         "tmp",
         [
+          "funcall",
           "vram_get",
           "w",
           "xr",
@@ -543,9 +556,10 @@
         "左下"
       ],
       [
-        "call_set",
+        "set",
         "tmp",
         [
+          "funcall",
           "vram_get",
           "w",
           "xl",
@@ -566,9 +580,10 @@
         "下"
       ],
       [
-        "call_set",
+        "set",
         "tmp",
         [
+          "funcall",
           "vram_get",
           "w",
           "x",
@@ -589,9 +604,10 @@
         "右下"
       ],
       [
-        "call_set",
+        "set",
         "tmp",
         [
+          "funcall",
           "vram_get",
           "w",
           "xr",
@@ -669,9 +685,10 @@
             ],
             [
               [
-                "call_set",
+                "set",
                 "count",
                 [
+                  "funcall",
                   "count_alive",
                   "w",
                   "h",
@@ -688,9 +705,10 @@
                 "次世代の生死決定の直前"
               ],
               [
-                "call_set",
+                "set",
                 "current_val",
                 [
+                  "funcall",
                   "vram_get",
                   "w",
                   "x",
@@ -698,9 +716,10 @@
                 ]
               ],
               [
-                "call_set",
+                "set",
                 "next_val",
                 [
+                  "funcall",
                   "calc_next_gen",
                   "current_val",
                   "count"
@@ -784,9 +803,10 @@
             ]
           ],
           [
-            "call_set",
+            "set",
             "temp",
             [
+              "funcall",
               "get_vram",
               "vi_buf"
             ]

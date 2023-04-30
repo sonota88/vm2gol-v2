@@ -51,23 +51,16 @@ end
 
 # --------------------------------
 
-def _parse_arg
-  t = peek()
-  $pos += 1
-
-  t.get_value()
-end
-
 def parse_args
   args = []
 
   return args if peek().value == ")"
 
-  args << _parse_arg()
+  args << parse_expr()
 
   while peek().value == ","
     consume ","
-    args << _parse_arg()
+    args << parse_expr()
   end
 
   args
@@ -149,9 +142,17 @@ def _parse_expr_factor
     expr = parse_expr()
     consume ")"
     expr
-  when :int, :ident
+  when :int
     $pos += 1
     t.get_value()
+  when :ident
+    if peek(1).value == "("
+      funcall = parse_funcall()
+      [:funcall, *funcall]
+    else
+      $pos += 1
+      t.get_value()
+    end
   else
     raise panic("Unexpected token kind", t)
   end
@@ -207,22 +208,6 @@ def parse_call
   consume ";"
 
   [:call, *funcall]
-end
-
-def parse_call_set
-  consume "call_set"
-
-  t = peek()
-  $pos += 1
-  var_name = t.value
-
-  consume "="
-
-  funcall = parse_funcall()
-
-  consume ";"
-
-  [:call_set, var_name, funcall]
 end
 
 def parse_return
@@ -305,7 +290,6 @@ def parse_stmt
   case t.value
   when "set"      then parse_set()
   when "call"     then parse_call()
-  when "call_set" then parse_call_set()
   when "return"   then parse_return()
   when "while"    then parse_while()
   when "case"     then parse_case()
