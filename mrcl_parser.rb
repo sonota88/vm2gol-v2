@@ -51,6 +51,7 @@ end
 
 # --------------------------------
 
+# arg : int | ident
 def _parse_arg
   t = peek()
   $pos += 1
@@ -58,6 +59,7 @@ def _parse_arg
   t.get_value()
 end
 
+# args : arg*
 def parse_args
   args = []
 
@@ -73,6 +75,7 @@ def parse_args
   args
 end
 
+# func_def: "func" func_name "(" args ")" "{" stmts "}"
 def parse_func
   consume "func"
 
@@ -125,6 +128,8 @@ def _parse_var_init
   [:var, var_name, expr]
 end
 
+# var_stmt : "var" var_name ";"
+#          | "var" var_name "=" expr ";"
 def parse_var
   consume "var"
 
@@ -140,6 +145,7 @@ def binary_op?(t)
   ["+", "*", "==", "!="].include?(t.value)
 end
 
+# expr_factor : "(" expr ")" | int | ident
 def _parse_expr_factor
   t = peek()
 
@@ -157,6 +163,8 @@ def _parse_expr_factor
   end
 end
 
+# expr : factor
+#      | expr binary_operator factor
 def parse_expr
   expr = _parse_expr_factor()
 
@@ -171,6 +179,7 @@ def parse_expr
   expr
 end
 
+# set_stmt : "set" var_name "=" expr ";"
 def parse_set
   consume "set"
 
@@ -187,6 +196,7 @@ def parse_set
   [:set, var_name, expr]
 end
 
+# funcall : func_name "(" args ")"
 def parse_funcall
   t = peek()
   $pos += 1
@@ -199,6 +209,7 @@ def parse_funcall
   [func_name, *args]
 end
 
+# call_stmt : "call" funcall ";"
 def parse_call
   consume "call"
 
@@ -209,6 +220,7 @@ def parse_call
   [:call, *funcall]
 end
 
+# call_set_stmt : "call_set" var_name "=" funcall ";"
 def parse_call_set
   consume "call_set"
 
@@ -225,6 +237,7 @@ def parse_call_set
   [:call_set, var_name, funcall]
 end
 
+# return_stmt : "return" expr ";"
 def parse_return
   consume "return"
 
@@ -238,6 +251,7 @@ def parse_return
   end
 end
 
+# while_stmt : "while" "(" expr ")" "{" stmts "}"
 def parse_while
   consume "while"
   consume "("
@@ -251,6 +265,7 @@ def parse_while
   [:while, expr, stmts]
 end
 
+# when_clause : "when" "(" expr ")" "{" stmts "}"
 def _parse_when_clause
   consume "when"
   consume "("
@@ -264,6 +279,9 @@ def _parse_when_clause
   [expr, *stmts]
 end
 
+# when_clauses : when_clause*
+
+# case_stmt : "case" when_clauses
 def parse_case
   consume "case"
 
@@ -276,6 +294,7 @@ def parse_case
   [:case, *when_clauses]
 end
 
+# vm_comment_stmt : "_cmt" "(" comment ")" ";"
 def parse_vm_comment
   consume "_cmt"
   consume "("
@@ -290,6 +309,7 @@ def parse_vm_comment
   [:_cmt, comment]
 end
 
+# debug_stmt : "_debug" "(" ")" ";"
 def parse_debug
   consume "_debug"
   consume "("
@@ -299,6 +319,14 @@ def parse_debug
   [:_debug]
 end
 
+# stmt : set_stmt
+#      | call_stmt
+#      | call_set_stmt
+#      | return_stmt
+#      | while_stmt
+#      | case_stmt
+#      | vm_comment_stmt
+#      | debug_stmt
 def parse_stmt
   t = peek()
 
@@ -316,6 +344,7 @@ def parse_stmt
   end
 end
 
+# stmts : stmt*
 def parse_stmts
   stmts = []
 
@@ -326,6 +355,7 @@ def parse_stmts
   stmts
 end
 
+# top_stmts : func_def
 def parse_top_stmt
   t = peek()
 
@@ -336,6 +366,7 @@ def parse_top_stmt
   end
 end
 
+# top_stmts : top_stmt*
 def parse_top_stmts
   stmts = []
 
