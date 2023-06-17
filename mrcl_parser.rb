@@ -217,7 +217,7 @@ def parse_call
 
   consume ";"
 
-  [:call, *funcall]
+  [:call, funcall]
 end
 
 # call_set_stmt : "call_set" var_name "=" funcall ";"

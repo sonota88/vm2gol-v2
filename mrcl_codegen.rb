@@ -142,7 +142,7 @@ def _gen_funcall(fn_arg_names, lvar_names, funcall)
 end
 
 def gen_call(fn_arg_names, lvar_names, stmt)
-  _, *funcall = stmt
+  _, funcall = stmt
   _gen_funcall(fn_arg_names, lvar_names, funcall)
 end
 

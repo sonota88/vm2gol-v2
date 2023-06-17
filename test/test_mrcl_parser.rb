@@ -212,7 +212,7 @@ class ParserTest < Minitest::Test
     EOS
 
     tree_exp = [
-      [:call, "foo"]]
+      [:call, ["foo"]]]
 
     tree_act = parse_stmts(src)
 
@@ -225,7 +225,7 @@ class ParserTest < Minitest::Test
     EOS
 
     tree_exp = [
-      [:call, "foo", "a", 1]]
+      [:call, ["foo", "a", 1]]]
 
     tree_act = parse_stmts(src)
 

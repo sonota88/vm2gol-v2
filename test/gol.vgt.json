@@ -64,9 +64,11 @@
       ],
       [
         "call",
-        "set_vram",
-        "vi",
-        "val"
+        [
+          "set_vram",
+          "vi",
+          "val"
+        ]
       ]
     ]
   ],
@@ -97,9 +99,11 @@
       ],
       [
         "call",
-        "set_vram",
-        "vi",
-        "val"
+        [
+          "set_vram",
+          "vi",
+          "val"
+        ]
       ]
     ]
   ],
@@ -712,11 +716,13 @@
               ],
               [
                 "call",
-                "vram_set_buf",
-                "w",
-                "x",
-                "y",
-                "next_val"
+                [
+                  "vram_set_buf",
+                  "w",
+                  "x",
+                  "y",
+                  "next_val"
+                ]
               ],
               [
                 "_cmt",
@@ -793,9 +799,11 @@
           ],
           [
             "call",
-            "set_vram",
-            "vi",
-            "temp"
+            [
+              "set_vram",
+              "vi",
+              "temp"
+            ]
           ],
           [
             "set",
@@ -829,43 +837,53 @@
       ],
       [
         "call",
-        "vram_set",
-        "w",
-        1,
-        0,
-        1
+        [
+          "vram_set",
+          "w",
+          1,
+          0,
+          1
+        ]
       ],
       [
         "call",
-        "vram_set",
-        "w",
-        2,
-        1,
-        1
+        [
+          "vram_set",
+          "w",
+          2,
+          1,
+          1
+        ]
       ],
       [
         "call",
-        "vram_set",
-        "w",
-        0,
-        2,
-        1
+        [
+          "vram_set",
+          "w",
+          0,
+          2,
+          1
+        ]
       ],
       [
         "call",
-        "vram_set",
-        "w",
-        1,
-        2,
-        1
+        [
+          "vram_set",
+          "w",
+          1,
+          2,
+          1
+        ]
       ],
       [
         "call",
-        "vram_set",
-        "w",
-        2,
-        2,
-        1
+        [
+          "vram_set",
+          "w",
+          2,
+          2,
+          1
+        ]
       ],
       [
         "var",
@@ -887,13 +905,17 @@
         [
           [
             "call",
-            "make_next_gen",
-            "w",
-            "h"
+            [
+              "make_next_gen",
+              "w",
+              "h"
+            ]
           ],
           [
             "call",
-            "replace_with_buf"
+            [
+              "replace_with_buf"
+            ]
           ],
           [
             "set",
