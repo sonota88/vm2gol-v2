@@ -173,10 +173,10 @@ def gen_set(fn_arg_names, lvar_names, stmt)
   _gen_set(fn_arg_names, lvar_names, dest, expr)
 end
 
-def gen_return(lvar_names, stmt)
+def gen_return(fn_arg_names, lvar_names, stmt)
   _, retval = stmt
 
-  gen_expr([], lvar_names, retval)
+  gen_expr(fn_arg_names, lvar_names, retval)
 
   puts ""
   asm_epilogue()
@@ -278,7 +278,7 @@ def gen_stmt(fn_arg_names, lvar_names, stmt)
   when "set"      then gen_set(     fn_arg_names, lvar_names, stmt)
   when "call"     then gen_call(    fn_arg_names, lvar_names, stmt)
   when "call_set" then gen_call_set(fn_arg_names, lvar_names, stmt)
-  when "return"   then gen_return(                lvar_names, stmt)
+  when "return"   then gen_return(  fn_arg_names, lvar_names, stmt)
   when "while"    then gen_while(   fn_arg_names, lvar_names, stmt)
   when "case"     then gen_case(    fn_arg_names, lvar_names, stmt)
   when "_cmt"     then gen_vm_comment(stmt[1])
