@@ -1,4 +1,4 @@
-require_relative "./helper"
+require_relative "helper"
 
 class VgasmGolTest < Minitest::Test
   EXE_FILE = project_path("tmp/test_mrcl_asm_gol.vge.txt")

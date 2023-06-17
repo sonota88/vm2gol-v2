@@ -1,4 +1,4 @@
-require_relative "./helper"
+require_relative "helper"
 
 class VgparserGolTest < Minitest::Test
   TOKENS_FILE = project_path("tmp/test_mrcl_asm_gol.tokens.txt")

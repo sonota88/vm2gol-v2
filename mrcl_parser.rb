@@ -1,6 +1,6 @@
 require "json"
 
-require_relative "./common"
+require_relative "common"
 
 $tokens = nil
 $pos = nil

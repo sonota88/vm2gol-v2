@@ -1,4 +1,4 @@
-require_relative "./helper"
+require_relative "helper"
 require "mrcl_vm"
 
 class Memory
