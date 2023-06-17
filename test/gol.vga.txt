@@ -33,6 +33,10 @@ label to_vi
   pop bp
   ret
 
+  cp bp sp
+  pop bp
+  ret
+
 label vram_set
   push bp
   cp sp bp
@@ -119,6 +123,10 @@ label vram_get
   add_sp 1
   cp reg_a [bp:-2]
   cp [bp:-2] reg_a
+
+  cp bp sp
+  pop bp
+  ret
 
   cp bp sp
   pop bp
@@ -214,6 +222,10 @@ label end_case_1
   # <<-- case_1
 
   cp [bp:-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
 
   cp bp sp
   pop bp
@@ -354,6 +366,10 @@ label end_case_5
   # <<-- case_5
 
   cp [bp:-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
 
   cp bp sp
   pop bp
@@ -599,6 +615,10 @@ label count_alive
   cp reg_a [bp:-1]
   _cmt count_aliveの最後
   cp [bp:-1] reg_a
+
+  cp bp sp
+  pop bp
+  ret
 
   cp bp sp
   pop bp

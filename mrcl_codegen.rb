@@ -175,7 +175,12 @@ end
 
 def gen_return(lvar_names, stmt)
   _, retval = stmt
+
   gen_expr([], lvar_names, retval)
+
+  puts ""
+  asm_epilogue()
+  puts "  ret"
 end
 
 def gen_while(fn_arg_names, lvar_names, stmt)
