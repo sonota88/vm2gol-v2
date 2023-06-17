@@ -32,7 +32,7 @@ def tokenize(src)
       str = $1
       tokens << Token.new(:sym, str)
       pos += str.size
-    when /\A([a-z_][a-z0-9_]*)/
+    when /\A([a-z_][a-z0-9_]*)/ # 単純化のためキーワードと識別子で同じパターンを使っています
       str = $1
       kind = KEYWORDS.include?(str) ? :kw : :ident
       tokens << Token.new(kind, str)
