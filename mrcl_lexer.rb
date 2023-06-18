@@ -2,6 +2,7 @@ require_relative "common"
 
 KEYWORDS = [
   "func", "set", "var", "call_set", "call", "return", "case", "when", "while",
+  "void",
   "_cmt", "_debug"
 ]
 
@@ -28,7 +29,7 @@ def tokenize(src)
       str = $1
       tokens << Token.new(:int, str.to_i)
       pos += str.size
-    when /\A(==|!=|[(){}=;+*,])/
+    when /\A(==|!=|[(){}=:;+*,])/
       str = $1
       tokens << Token.new(:sym, str)
       pos += str.size

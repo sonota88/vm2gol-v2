@@ -3,16 +3,32 @@
   [
     "func",
     "to_vi",
+    "int",
     [
-      "w",
-      "x",
-      "y",
-      "offset"
+      [
+        "w",
+        "int"
+      ],
+      [
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "int"
+      ],
+      [
+        "offset",
+        "int"
+      ]
     ],
     [
       [
         "var",
-        "vi"
+        [
+          "vi",
+          "int"
+        ]
       ],
       [
         "set",
@@ -40,16 +56,32 @@
   [
     "func",
     "vram_set",
+    "void",
     [
-      "w",
-      "x",
-      "y",
-      "val"
+      [
+        "w",
+        "int"
+      ],
+      [
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "int"
+      ],
+      [
+        "val",
+        "int"
+      ]
     ],
     [
       [
         "var",
-        "vi"
+        [
+          "vi",
+          "int"
+        ]
       ],
       [
         "call_set",
@@ -75,16 +107,32 @@
   [
     "func",
     "vram_set_buf",
+    "void",
     [
-      "w",
-      "x",
-      "y",
-      "val"
+      [
+        "w",
+        "int"
+      ],
+      [
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "int"
+      ],
+      [
+        "val",
+        "int"
+      ]
     ],
     [
       [
         "var",
-        "vi"
+        [
+          "vi",
+          "int"
+        ]
       ],
       [
         "call_set",
@@ -110,19 +158,35 @@
   [
     "func",
     "vram_get",
+    "int",
     [
-      "w",
-      "x",
-      "y"
+      [
+        "w",
+        "int"
+      ],
+      [
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "int"
+      ]
     ],
     [
       [
         "var",
-        "vi"
+        [
+          "vi",
+          "int"
+        ]
       ],
       [
         "var",
-        "vram_val"
+        [
+          "vram_val",
+          "int"
+        ]
       ],
       [
         "call_set",
@@ -152,14 +216,24 @@
   [
     "func",
     "adjust_index",
+    "int",
     [
-      "width",
-      "i"
+      [
+        "width",
+        "int"
+      ],
+      [
+        "i",
+        "int"
+      ]
     ],
     [
       [
         "var",
-        "adjusted"
+        [
+          "adjusted",
+          "int"
+        ]
       ],
       [
         "case",
@@ -225,14 +299,24 @@
   [
     "func",
     "calc_next_gen",
+    "int",
     [
-      "current_val",
-      "count"
+      [
+        "current_val",
+        "int"
+      ],
+      [
+        "count",
+        "int"
+      ]
     ],
     [
       [
         "var",
-        "next_val",
+        [
+          "next_val",
+          "int"
+        ],
         0
       ],
       [
@@ -303,21 +387,40 @@
   [
     "func",
     "count_alive",
+    "int",
     [
-      "w",
-      "h",
-      "x",
-      "y"
+      [
+        "w",
+        "int"
+      ],
+      [
+        "h",
+        "int"
+      ],
+      [
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "int"
+      ]
     ],
     [
       [
         "var",
-        "count",
+        [
+          "count",
+          "int"
+        ],
         0
       ],
       [
         "var",
-        "xl",
+        [
+          "xl",
+          "int"
+        ],
         [
           "+",
           "x",
@@ -326,7 +429,10 @@
       ],
       [
         "var",
-        "xr",
+        [
+          "xr",
+          "int"
+        ],
         [
           "+",
           "x",
@@ -335,7 +441,10 @@
       ],
       [
         "var",
-        "yt",
+        [
+          "yt",
+          "int"
+        ],
         [
           "+",
           "y",
@@ -344,7 +453,10 @@
       ],
       [
         "var",
-        "yb",
+        [
+          "yb",
+          "int"
+        ],
         [
           "+",
           "y",
@@ -425,7 +537,10 @@
       ],
       [
         "var",
-        "tmp"
+        [
+          "tmp",
+          "int"
+        ]
       ],
       [
         "_cmt",
@@ -624,32 +739,54 @@
   [
     "func",
     "make_next_gen",
+    "void",
     [
-      "w",
-      "h"
+      [
+        "w",
+        "int"
+      ],
+      [
+        "h",
+        "int"
+      ]
     ],
     [
       [
         "var",
-        "x",
+        [
+          "x",
+          "int"
+        ],
         0
       ],
       [
         "var",
-        "y",
+        [
+          "y",
+          "int"
+        ],
         0
       ],
       [
         "var",
-        "count"
+        [
+          "count",
+          "int"
+        ]
       ],
       [
         "var",
-        "current_val"
+        [
+          "current_val",
+          "int"
+        ]
       ],
       [
         "var",
-        "next_val"
+        [
+          "next_val",
+          "int"
+        ]
       ],
       [
         "while",
@@ -755,22 +892,32 @@
   [
     "func",
     "replace_with_buf",
+    "void",
     [
 
     ],
     [
       [
         "var",
-        "vi",
+        [
+          "vi",
+          "int"
+        ],
         0
       ],
       [
         "var",
-        "vi_buf"
+        [
+          "vi_buf",
+          "int"
+        ]
       ],
       [
         "var",
-        "temp"
+        [
+          "temp",
+          "int"
+        ]
       ],
       [
         "while",
@@ -821,18 +968,25 @@
   [
     "func",
     "main",
+    "void",
     [
 
     ],
     [
       [
         "var",
-        "w",
+        [
+          "w",
+          "int"
+        ],
         5
       ],
       [
         "var",
-        "h",
+        [
+          "h",
+          "int"
+        ],
         5
       ],
       [
@@ -887,12 +1041,18 @@
       ],
       [
         "var",
-        "gen_limit",
+        [
+          "gen_limit",
+          "int"
+        ],
         0
       ],
       [
         "var",
-        "gen",
+        [
+          "gen",
+          "int"
+        ],
         1
       ],
       [

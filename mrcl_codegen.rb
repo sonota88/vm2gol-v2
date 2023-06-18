@@ -299,12 +299,13 @@ def gen_var(fn_arg_names, lvar_names, stmt)
 
   if stmt.size == 3
     _, dest, expr = stmt
-    _gen_set(fn_arg_names, lvar_names, dest, expr)
+    _gen_set(fn_arg_names, lvar_names, dest[0], expr)
   end
 end
 
 def gen_func_def(func_def)
-  _, fn_name, fn_arg_names, stmts = func_def
+  _, fn_name, rettype, fn_args, stmts = func_def
+  fn_arg_names = fn_args.map { |name, _| name }
 
   puts ""
   puts "label #{fn_name}"
@@ -317,7 +318,8 @@ def gen_func_def(func_def)
 
   stmts.each do |stmt|
     if stmt[0] == "var"
-      lvar_names << stmt[1]
+      var = stmt[1]
+      lvar_names << var[0]
       gen_var(fn_arg_names, lvar_names, stmt)
     else
       gen_stmt(fn_arg_names, lvar_names, stmt)

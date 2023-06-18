@@ -1,7 +1,7 @@
 // -*- mode: javascript -*-
 
-func to_vi(w, x, y, offset) {
-  var vi; // vram index
+func to_vi(w: int, x: int, y: int, offset: int): int {
+  var vi: int; // vram index
 
   set vi = 
     ((y * w) + x)
@@ -12,28 +12,28 @@ func to_vi(w, x, y, offset) {
   return vi;
 }
 
-func vram_set(w, x, y, val) {
-  var vi;
+func vram_set(w: int, x: int, y: int, val: int): void {
+  var vi: int;
   call_set vi = to_vi(w, x, y, 0);
   call set_vram(vi, val);
 }
 
-func vram_set_buf(w, x, y, val) {
-  var vi;
+func vram_set_buf(w: int, x: int, y: int, val: int): void {
+  var vi: int;
   call_set  vi = to_vi(w, x, y, 25);
   call set_vram(vi, val);
 }
 
-func vram_get(w, x, y) {
-  var vi;
-  var vram_val;
+func vram_get(w: int, x: int, y: int): int {
+  var vi: int;
+  var vram_val: int;
   call_set vi = to_vi(w, x, y, 0);
   call_set vram_val = get_vram(vi);
   return vram_val;
 }
 
-func adjust_index(width, i) {
-  var adjusted;
+func adjust_index(width: int, i: int): int {
+  var adjusted: int;
 
   case
   when (i == -1) {
@@ -52,9 +52,9 @@ func adjust_index(width, i) {
   return adjusted;
 }
 
-func calc_next_gen(current_val, count) {
+func calc_next_gen(current_val: int, count: int): int {
   // 注目しているセルの次世代の生死
-  var next_val = 0;
+  var next_val: int = 0;
 
   case
   when (current_val == 0) {
@@ -76,13 +76,13 @@ func calc_next_gen(current_val, count) {
   return next_val;
 }
 
-func count_alive(w, h, x, y) {
-  var count = 0;
+func count_alive(w: int, h: int, x: int, y: int): int {
+  var count: int = 0;
 
-  var xl = x + -1;
-  var xr = x +  1;
-  var yt = y + -1;
-  var yb = y +  1;
+  var xl: int = x + -1;
+  var xr: int = x +  1;
+  var yt: int = y + -1;
+  var yb: int = y +  1;
 
   _cmt("xl の補正の直前");
   call_set xl = adjust_index(w, xl);
@@ -102,7 +102,7 @@ func count_alive(w, h, x, y) {
 
   _cmt("座標補正の直後");
 
-  var tmp;
+  var tmp: int;
 
   _cmt("左上");
   call_set tmp = vram_get(w, xl, yt);
@@ -141,15 +141,15 @@ func count_alive(w, h, x, y) {
   return count;
 }
 
-func make_next_gen(w, h) {
-  var x = 0;
-  var y = 0;
+func make_next_gen(w: int, h: int): void {
+  var x: int = 0;
+  var y: int = 0;
 
-  var count;
+  var count: int;
   // 注目しているセルの現世代の生死
-  var current_val;
+  var current_val: int;
   // 注目しているセルの次世代の生死
-  var next_val;
+  var next_val: int;
 
   while (y != h) {
     set x = 0;
@@ -174,11 +174,11 @@ func make_next_gen(w, h) {
   }
 }
 
-func replace_with_buf() {
-  var vi = 0;
+func replace_with_buf(): void {
+  var vi: int = 0;
 
-  var vi_buf;
-  var temp;
+  var vi_buf: int;
+  var temp: int;
 
   while (vi != 25) {
     set vi_buf = vi + 25;
@@ -188,9 +188,9 @@ func replace_with_buf() {
   }
 }
 
-func main() {
-  var w = 5; // 盤面の幅
-  var h = 5; // 盤面の高さ
+func main(): void {
+  var w: int = 5; // 盤面の幅
+  var h: int = 5; // 盤面の高さ
 
   // 初期状態の設定
   call vram_set(w, 1, 0, 1);
@@ -199,8 +199,8 @@ func main() {
   call vram_set(w, 1, 2, 1);
   call vram_set(w, 2, 2, 1);
 
-  var gen_limit = 0;
-  var gen = 1;
+  var gen_limit: int = 0;
+  var gen: int = 1;
   while (gen != gen_limit) {
     call make_next_gen(w, h);
     call replace_with_buf();

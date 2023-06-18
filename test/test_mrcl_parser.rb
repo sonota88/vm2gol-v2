@@ -13,12 +13,12 @@ class ParserTest < Minitest::Test
 
   def test_func_1
     src = <<-EOS
-      func f1(){}
+      func f1(): void {}
     EOS
 
     tree_exp = [
       :top_stmts,
-      [:func, "f1", [], []]]
+      [:func, "f1", "void", [], []]]
 
     tree_act = parse(src)
 
@@ -27,14 +27,14 @@ class ParserTest < Minitest::Test
 
   def test_func_2
     src = <<-EOS
-      func f1(){}
-      func f2(){}
+      func f1(): void {}
+      func f2(): void {}
     EOS
 
     tree_exp = [
       :top_stmts,
-      [:func, "f1", [], []],
-      [:func, "f2", [], []]]
+      [:func, "f1", "void", [], []],
+      [:func, "f2", "void", [], []]]
 
     tree_act = parse(src)
 
@@ -43,12 +43,17 @@ class ParserTest < Minitest::Test
 
   def test_func_3
     src = <<-EOS
-      func f1(a, b, c){}
+      func f1(a: int, b: int, c: int): void {}
     EOS
 
     tree_exp = [
       :top_stmts,
-      [:func, "f1", ["a", "b", "c"], []]]
+      [:func, "f1", "void", [
+         ["a", "int"],
+         ["b", "int"],
+         ["c", "int"]
+       ],
+       []]]
 
     tree_act = parse(src)
 
@@ -139,11 +144,11 @@ class ParserTest < Minitest::Test
 
   def test_var_1
     src = <<-EOS
-      var a;
+      var a: int;
     EOS
 
     tree_exp = [
-      [:var, "a"]]
+      [:var, ["a", "int"]]]
 
     tree_act = parse_stmts(src)
 
@@ -152,11 +157,11 @@ class ParserTest < Minitest::Test
 
   def test_var_init_1
     src = <<-EOS
-      var a = 1;
+      var a: int = 1;
     EOS
 
     tree_exp = [
-      [:var, "a", 1]]
+      [:var, ["a", "int"], 1]]
 
     tree_act = parse_stmts(src)
 
@@ -165,11 +170,11 @@ class ParserTest < Minitest::Test
 
   def test_var_init_2
     src = <<-EOS
-      var b = a;
+      var b: int = a;
     EOS
 
     tree_exp = [
-      [:var, "b", "a"]]
+      [:var, ["b", "int"], "a"]]
 
     tree_act = parse_stmts(src)
 
@@ -279,14 +284,14 @@ class ParserTest < Minitest::Test
 
   def test_while_2
     src = <<-EOS
-      var a;
+      var a: int;
       while (a == 1) {
         set a = 2;
       }
     EOS
 
     tree_exp = [
-      [:var, "a"],
+      [:var, ["a", "int"]],
       [:while, ["==".to_sym, "a", 1], [
          [:set, "a", 2]]]]
 
@@ -314,13 +319,13 @@ class ParserTest < Minitest::Test
 
   def test_case_1
     src = <<-EOS
-      var a;
+      var a: int;
       case
       when (1) { set a = 2; }
     EOS
 
     tree_exp = [
-      [:var, "a"],
+      [:var, ["a", "int"]],
       [:case,
        [1, [:set, "a", 2]]]]
 
@@ -331,14 +336,14 @@ class ParserTest < Minitest::Test
 
   def test_case_2
     src = <<-EOS
-      var a;
+      var a: int;
       case
       when (1) { set a = 3; }
       when (2) { set a = 4; }
     EOS
 
     tree_exp = [
-      [:var, "a"],
+      [:var, ["a", "int"]],
       [:case,
        [1, [:set, "a", 3]],
        [2, [:set, "a", 4]]]]
@@ -350,13 +355,13 @@ class ParserTest < Minitest::Test
 
   def test_case_3
     src = <<-EOS
-      var a;
+      var a: int;
       case
       when (a == 1) { set a = 2; }
     EOS
 
     tree_exp = [
-      [:var, "a"],
+      [:var, ["a", "int"]],
       [:case,
        [["==".to_sym, "a", 1], [:set, "a", 2]]]]
 
@@ -411,7 +416,7 @@ class ParserTest < Minitest::Test
 
   def parse_stmts(src)
     wrapped_src = <<-EOS
-      func test(){
+      func test(): void {
         #{src}
       }
     EOS
@@ -420,8 +425,9 @@ class ParserTest < Minitest::Test
   end
 
   def format_stmts(tree)
+    # (func name rt args body)
     func = tree[1]
-    body = func[3]
+    body = func[4]
     JSON.pretty_generate(body)
   end
 end

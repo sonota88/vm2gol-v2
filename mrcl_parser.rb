@@ -51,6 +51,17 @@ end
 
 # --------------------------------
 
+def parse_name_type()
+  name = peek().get_value()
+  $pos += 1
+
+  consume(":")
+  type = peek().get_value()
+  $pos += 1
+
+  [name, type]
+end
+
 # arg : int | ident
 def _parse_arg
   t = peek()
@@ -75,6 +86,21 @@ def parse_args
   args
 end
 
+def parse_args_with_type
+  args = []
+
+  return args if peek().value == ")"
+
+  args << parse_name_type()
+
+  while peek().value == ","
+    consume ","
+    args << parse_name_type()
+  end
+
+  args
+end
+
 # func_def: "func" func_name "(" args ")" "{" stmts "}"
 def parse_func
   consume "func"
@@ -84,8 +110,12 @@ def parse_func
   func_name = t.value
 
   consume "("
-  args = parse_args()
+  args = parse_args_with_type()
   consume ")"
+
+  consume ":"
+  rettype = peek().value
+  $pos += 1
 
   consume "{"
 
@@ -101,23 +131,19 @@ def parse_func
 
   consume "}"
 
-  [:func, func_name, args, stmts]
+  [:func, func_name, rettype, args, stmts]
 end
 
 def _parse_var_declare
-  t = peek()
-  $pos += 1
-  var_name = t.value
+  var = parse_name_type()
 
   consume ";"
 
-  [:var, var_name]
+  [:var, var]
 end
 
 def _parse_var_init
-  t = peek()
-  $pos += 1
-  var_name = t.value
+  var = parse_name_type()
 
   consume "="
 
@@ -125,7 +151,7 @@ def _parse_var_init
 
   consume ";"
 
-  [:var, var_name, expr]
+  [:var, var, expr]
 end
 
 # var_stmt : "var" var_name ";"
@@ -133,7 +159,7 @@ end
 def parse_var
   consume "var"
 
-  case peek(1).value
+  case peek(3).value
   when ";" then _parse_var_declare()
   when "=" then _parse_var_init()
   else

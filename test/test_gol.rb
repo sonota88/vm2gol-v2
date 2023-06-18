@@ -42,7 +42,7 @@ class GolTest < Minitest::Test
   def replace_gen_limit(num_generations)
     src = File.read(VG_FILE)
     open(VG_FILE_REPLACED, "w") { |f|
-      f.print src.sub("var gen_limit = 0;", "var gen_limit = #{num_generations + 1};")
+      f.print src.sub("var gen_limit: int = 0;", "var gen_limit: int = #{num_generations + 1};")
     }
   end
 
