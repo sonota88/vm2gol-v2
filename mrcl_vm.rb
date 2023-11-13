@@ -162,7 +162,6 @@ class Vm
     when "mov"      then mov()      ; @pc += 1
     when "add"      then add()      ; @pc += 1
     when "mult_ab"  then mult_ab()  ; @pc += 1
-    when "add_sp"   then add_sp()   ; @pc += 1
     when "compare"  then compare()  ; @pc += 1
     when "label"    then              @pc += 1
     when "jump"     then jump()
@@ -261,6 +260,8 @@ class Vm
     case arg_dest
     when "reg_a"
       @reg_a += src_val
+    when "sp"
+      set_sp(@sp + src_val)
     else
       raise panic("unsupported", arg_dest)
     end
@@ -304,10 +305,6 @@ class Vm
     else
       raise panic("copy dest", arg_dest)
     end
-  end
-
-  def add_sp
-    set_sp(@sp + @mem.main[@pc][1])
   end
 
   def compare

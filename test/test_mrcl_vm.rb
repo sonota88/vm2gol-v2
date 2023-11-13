@@ -129,7 +129,7 @@ class VmTest < Minitest::Test
   def test_add_sp
     @vm.sp = 45
 
-    execute(["add_sp", 2])
+    execute(["add", "sp", 2])
 
     assert_equal(45 + 2, @vm.sp)
   end

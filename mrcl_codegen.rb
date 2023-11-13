@@ -138,7 +138,7 @@ def _gen_funcall(fn_arg_names, lvar_names, funcall)
 
   gen_vm_comment("call  #{fn_name}")
   puts "  call #{fn_name}"
-  puts "  add_sp #{fn_args.size}"
+  puts "  add sp #{fn_args.size}"
 end
 
 def gen_call(fn_arg_names, lvar_names, stmt)
@@ -295,7 +295,7 @@ def gen_stmts(fn_arg_names, lvar_names, stmts)
 end
 
 def gen_var(fn_arg_names, lvar_names, stmt)
-  puts "  add_sp -1"
+  puts "  add sp -1"
 
   if stmt.size == 3
     _, dest, expr = stmt
