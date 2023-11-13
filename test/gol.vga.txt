@@ -19,13 +19,13 @@ label to_vi
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   push reg_a
   mov reg_a [bp:5]
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   mov reg_a [bp:-1]
 
@@ -166,7 +166,7 @@ label end_eq_2
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   jump end_case_1
 label end_when_1_0
@@ -390,7 +390,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-2] reg_a
   add_sp -1
   mov reg_a [bp:4]
@@ -399,7 +399,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-3] reg_a
   add_sp -1
   mov reg_a [bp:5]
@@ -408,7 +408,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-4] reg_a
   add_sp -1
   mov reg_a [bp:5]
@@ -417,7 +417,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-5] reg_a
   _cmt xl~の補正の直前
   mov reg_a [bp:-2]
@@ -478,7 +478,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   _cmt 上
   mov reg_a [bp:-4]
@@ -497,7 +497,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   _cmt 右上
   mov reg_a [bp:-4]
@@ -516,7 +516,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   _cmt 左
   mov reg_a [bp:5]
@@ -535,7 +535,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   _cmt 右
   mov reg_a [bp:5]
@@ -554,7 +554,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   _cmt 左下
   mov reg_a [bp:-5]
@@ -573,7 +573,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   _cmt 下
   mov reg_a [bp:-5]
@@ -592,7 +592,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   _cmt 右下
   mov reg_a [bp:-5]
@@ -611,7 +611,7 @@ label count_alive
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   _cmt count_aliveの最後
   mov reg_a [bp:-1]
@@ -731,7 +731,7 @@ label end_neq_16
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   jump while_15
 label end_while_15
@@ -742,7 +742,7 @@ label end_while_15
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-2] reg_a
   jump while_13
 label end_while_13
@@ -788,7 +788,7 @@ label end_neq_18
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-2] reg_a
   mov reg_a [bp:-2]
   push reg_a
@@ -809,7 +809,7 @@ label end_neq_18
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-1] reg_a
   jump while_17
 label end_while_17
@@ -927,7 +927,7 @@ label end_neq_20
   push reg_a
   pop reg_b
   pop reg_a
-  add_ab
+  add
   mov [bp:-4] reg_a
   jump while_19
 label end_while_19

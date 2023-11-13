@@ -160,7 +160,7 @@ class Vm
     case opcode
     when "exit"     then return true
     when "mov"      then mov()      ; @pc += 1
-    when "add_ab"   then add_ab()   ; @pc += 1
+    when "add"      then add()      ; @pc += 1
     when "mult_ab"  then mult_ab()  ; @pc += 1
     when "add_sp"   then add_sp()   ; @pc += 1
     when "compare"  then compare()  ; @pc += 1
@@ -240,7 +240,7 @@ class Vm
     base + disp_str.to_i
   end
 
-  def add_ab
+  def add
     @reg_a = @reg_a + @reg_b
   end
 
