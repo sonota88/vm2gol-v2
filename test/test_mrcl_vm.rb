@@ -126,7 +126,7 @@ class VmTest < Minitest::Test
 
   # --------------------------------
 
-  def test_add_sb
+  def test_add_sp
     @vm.sp = 45
 
     execute(["add_sp", 2])
