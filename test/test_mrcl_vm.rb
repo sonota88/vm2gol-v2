@@ -26,13 +26,13 @@ class VmTest < Minitest::Test
   # --------------------------------
 
   def test_cp_to_reg_a
-    execute(["mov", 42, "reg_a"])
+    execute(["mov", "reg_a", 42])
 
     assert_equal(42, @vm.reg_a)
   end
 
   def test_cp_to_reg_b
-    execute(["mov", 42, "reg_b"])
+    execute(["mov", "reg_b", 42])
 
     assert_equal(42, @vm.reg_b)
   end
@@ -42,7 +42,7 @@ class VmTest < Minitest::Test
   def test_cp_from_reg_a
     @vm.reg_a = 42
 
-    execute(["mov", "reg_a", "reg_b"])
+    execute(["mov", "reg_b", "reg_a"])
 
     assert_equal(42, @vm.reg_b)
   end
@@ -50,7 +50,7 @@ class VmTest < Minitest::Test
   def test_cp_from_sp
     @vm.sp = 42
 
-    execute(["mov", "sp", "reg_a"])
+    execute(["mov", "reg_a", "sp"])
 
     assert_equal(42, @vm.reg_a)
   end
@@ -58,7 +58,7 @@ class VmTest < Minitest::Test
   def test_cp_from_bp
     @vm.bp = 42
 
-    execute(["mov", "bp", "reg_a"])
+    execute(["mov", "reg_a", "bp"])
 
     assert_equal(42, @vm.reg_a)
   end
@@ -67,7 +67,7 @@ class VmTest < Minitest::Test
     @vm.bp = 45
     @vm.mem.stack[@vm.bp + 2] = 42
 
-    execute(["mov", "ind:bp:2", "reg_a"])
+    execute(["mov", "reg_a", "ind:bp:2"])
 
     assert_equal(42, @vm.reg_a)
   end
@@ -75,7 +75,7 @@ class VmTest < Minitest::Test
   def test_cp_from_bp_minus
     @vm.mem.stack[@vm.bp - 2] = 42
 
-    execute(["mov", "ind:bp:-2", "reg_a"])
+    execute(["mov", "reg_a", "ind:bp:-2"])
 
     assert_equal(42, @vm.reg_a)
   end
@@ -83,13 +83,13 @@ class VmTest < Minitest::Test
   # --------------------------------
 
   def test_cp_to_bp
-    execute(["mov", 42, "bp"])
+    execute(["mov", "bp", 42])
 
     assert_equal(42, @vm.bp)
   end
 
   def test_cp_to_sp
-    execute(["mov", 42, "sp"])
+    execute(["mov", "sp", 42])
 
     assert_equal(42, @vm.sp)
   end
@@ -97,7 +97,7 @@ class VmTest < Minitest::Test
   def test_cp_to_bp_minus
     assert_equal(49, @vm.bp)
 
-    execute(["mov", 42, "ind:bp:-2"])
+    execute(["mov", "ind:bp:-2", 42])
 
     assert_equal(42, @vm.mem.stack[49 - 2])
   end

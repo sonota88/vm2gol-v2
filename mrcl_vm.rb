@@ -249,8 +249,8 @@ class Vm
   end
 
   def mov
-    arg_src = @mem.main[@pc][1]
-    arg_dest = @mem.main[@pc][2]
+    arg_dest = @mem.main[@pc][1]
+    arg_src  = @mem.main[@pc][2]
 
     src_val =
       case arg_src
