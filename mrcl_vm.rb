@@ -241,7 +241,29 @@ class Vm
   end
 
   def add
-    @reg_a = @reg_a + @reg_b
+    arg_dest = @mem.main[@pc][1]
+    arg_src  = @mem.main[@pc][2]
+
+    src_val =
+      case arg_src
+      when String
+        if arg_src == "reg_b"
+          @reg_b
+        else
+          raise panic("unsupported", arg_src)
+        end
+      when Integer
+        arg_src
+      else
+        raise panic("unsupported", arg_src)
+      end
+
+    case arg_dest
+    when "reg_a"
+      @reg_a += src_val
+    else
+      raise panic("unsupported", arg_dest)
+    end
   end
 
   def mult_ab

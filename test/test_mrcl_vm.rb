@@ -108,7 +108,7 @@ class VmTest < Minitest::Test
     @vm.reg_a = 2
     @vm.reg_b = 3
 
-    execute(["add"])
+    execute(["add", "reg_a", "reg_b"])
 
     assert_equal(5, @vm.reg_a)
   end
