@@ -6,11 +6,11 @@ $label_id = 0
 
 def asm_prologue
   puts "  push bp"
-  puts "  cp sp bp"
+  puts "  mov sp bp"
 end
 
 def asm_epilogue
-  puts "  cp bp sp"
+  puts "  mov bp sp"
   puts "  pop bp"
 end
 
@@ -54,12 +54,12 @@ def _gen_expr_eq
   puts "  jump_eq #{label_then}"
 
   # else
-  puts "  cp 0 reg_a"
+  puts "  mov 0 reg_a"
   puts "  jump #{label_end}"
 
   # then
   puts "label #{label_then}"
-  puts "  cp 1 reg_a"
+  puts "  mov 1 reg_a"
 
   puts "label #{label_end}"
 end
@@ -78,12 +78,12 @@ def _gen_expr_neq
   puts "  jump_eq #{label_then}"
 
   # else
-  puts "  cp 1 reg_a"
+  puts "  mov 1 reg_a"
   puts "  jump #{label_end}"
 
   # then
   puts "label #{label_then}"
-  puts "  cp 0 reg_a"
+  puts "  mov 0 reg_a"
 
   puts "label #{label_end}"
 end
@@ -109,15 +109,15 @@ end
 def gen_expr(fn_arg_names, lvar_names, expr)
   case expr
   when Integer
-    puts "  cp #{expr} reg_a"
+    puts "  mov #{expr} reg_a"
   when String
     case
     when fn_arg_names.include?(expr)
       disp = to_fn_arg_disp(fn_arg_names, expr)
-      puts "  cp [bp:#{disp}] reg_a"
+      puts "  mov [bp:#{disp}] reg_a"
     when lvar_names.include?(expr)
       disp = to_lvar_disp(lvar_names, expr)
-      puts "  cp [bp:#{disp}] reg_a"
+      puts "  mov [bp:#{disp}] reg_a"
     else
       raise panic("expr", expr)
     end
@@ -152,7 +152,7 @@ def gen_call_set(fn_arg_names, lvar_names, stmt)
   _gen_funcall(fn_arg_names, lvar_names, funcall)
 
   disp = to_lvar_disp(lvar_names, lvar_name)
-  puts "  cp reg_a [bp:#{disp}]"
+  puts "  mov reg_a [bp:#{disp}]"
 end
 
 def _gen_set(fn_arg_names, lvar_names, dest, expr)
@@ -162,7 +162,7 @@ def _gen_set(fn_arg_names, lvar_names, dest, expr)
   case
   when lvar_names.include?(dest)
     disp = to_lvar_disp(lvar_names, dest)
-    puts "  cp #{src_val} [bp:#{disp}]"
+    puts "  mov #{src_val} [bp:#{disp}]"
   else
     raise panic("dest", dest)
   end
@@ -203,7 +203,7 @@ def gen_while(fn_arg_names, lvar_names, stmt)
   puts "  # <<-- eval_expr_#{label_id}"
 
   # 条件の評価結果と比較するための値を reg_b にセットして比較
-  puts "  cp 0 reg_b"
+  puts "  mov 0 reg_b"
   puts "  compare"
 
   # 結果が false の場合ループを抜ける
@@ -245,7 +245,7 @@ def gen_case(fn_arg_names, lvar_names, stmt)
     puts "  # <<-- eval_expr_#{label_id}"
 
     # 条件の評価結果と比較するための値を reg_b にセットして比較
-    puts "  cp 0 reg_b"
+    puts "  mov 0 reg_b"
     puts "  compare"
 
     # 結果が false の場合 when 句の最後にジャンプ

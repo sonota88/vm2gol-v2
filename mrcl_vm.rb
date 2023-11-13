@@ -159,7 +159,7 @@ class Vm
 
     case opcode
     when "exit"     then return true
-    when "cp"       then cp()       ; @pc += 1
+    when "mov"      then mov()      ; @pc += 1
     when "add_ab"   then add_ab()   ; @pc += 1
     when "mult_ab"  then mult_ab()  ; @pc += 1
     when "add_sp"   then add_sp()   ; @pc += 1
@@ -248,7 +248,7 @@ class Vm
     @reg_a = @reg_a * @reg_b
   end
 
-  def cp
+  def mov
     arg_src = @mem.main[@pc][1]
     arg_dest = @mem.main[@pc][2]
 
