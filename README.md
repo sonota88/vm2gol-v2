@@ -1,12 +1,12 @@
 ```
 $ LANG=C wc -l mrcl_*.rb common.rb
    66 mrcl_asm.rb
-  375 mrcl_codegen.rb
+  380 mrcl_codegen.rb
    57 mrcl_lexer.rb
-  368 mrcl_parser.rb
-  442 mrcl_vm.rb
+  399 mrcl_parser.rb
+  470 mrcl_vm.rb
    52 common.rb
- 1360 total
+ 1424 total
 ```
 
 ![image](https://raw.githubusercontent.com/sonota88/vm2gol-v2/images/images/run_gol_step62.gif)
