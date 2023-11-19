@@ -161,7 +161,7 @@ class Vm
     when "exit"     then return true
     when "mov"      then mov()      ; @pc += 1
     when "add"      then add()      ; @pc += 1
-    when "mult_ab"  then mult_ab()  ; @pc += 1
+    when "mul"      then mul()      ; @pc += 1
     when "compare"  then compare()  ; @pc += 1
     when "label"    then              @pc += 1
     when "jump"     then jump()
@@ -267,7 +267,7 @@ class Vm
     end
   end
 
-  def mult_ab
+  def mul
     @reg_a = @reg_a * @reg_b
   end
 

@@ -10,7 +10,7 @@
 ["push","reg_a"]
 ["pop","reg_b"]
 ["pop","reg_a"]
-["mult_ab"]
+["mul"]
 ["push","reg_a"]
 ["mov","reg_a","ind:bp:3"]
 ["push","reg_a"]

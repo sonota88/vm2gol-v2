@@ -115,11 +115,11 @@ class VmTest < Minitest::Test
 
   # --------------------------------
 
-  def test_mult_ab
+  def test_mul
     @vm.reg_a = 2
     @vm.reg_b = 3
 
-    execute(["mult_ab"])
+    execute(["mul", "reg_b"])
 
     assert_equal(6, @vm.reg_a)
   end
