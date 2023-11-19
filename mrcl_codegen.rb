@@ -37,7 +37,7 @@ def _gen_expr_mult
   puts "  pop reg_b"
   puts "  pop reg_a"
 
-  puts "  mul"
+  puts "  mul reg_b"
 end
 
 def _gen_expr_eq

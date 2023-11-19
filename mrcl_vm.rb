@@ -268,7 +268,16 @@ class Vm
   end
 
   def mul
-    @reg_a = @reg_a * @reg_b
+    arg_src  = @mem.main[@pc][1]
+
+    src_val =
+      if arg_src == "reg_b"
+        @reg_b
+      else
+        raise panic("unsupported", arg_src)
+      end
+
+    @reg_a = @reg_a * src_val
   end
 
   def mov

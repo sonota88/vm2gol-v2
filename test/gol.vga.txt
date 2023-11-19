@@ -13,7 +13,7 @@ label to_vi
   push reg_a
   pop reg_b
   pop reg_a
-  mul
+  mul reg_b
   push reg_a
   mov reg_a [bp:3]
   push reg_a
