@@ -50,7 +50,7 @@ def _gen_expr_eq
   puts "  pop reg_b"
   puts "  pop reg_a"
 
-  puts "  compare"
+  puts "  cmp"
   puts "  je #{label_then}"
 
   # else
@@ -74,7 +74,7 @@ def _gen_expr_neq
   puts "  pop reg_b"
   puts "  pop reg_a"
 
-  puts "  compare"
+  puts "  cmp"
   puts "  je #{label_then}"
 
   # else
@@ -204,7 +204,7 @@ def gen_while(fn_arg_names, lvar_names, stmt)
 
   # 条件の評価結果と比較するための値を reg_b にセットして比較
   puts "  mov reg_b 0"
-  puts "  compare"
+  puts "  cmp"
 
   # 結果が false の場合ループを抜ける
   puts "  je #{label_end}"
@@ -246,7 +246,7 @@ def gen_case(fn_arg_names, lvar_names, stmt)
 
     # 条件の評価結果と比較するための値を reg_b にセットして比較
     puts "  mov reg_b 0"
-    puts "  compare"
+    puts "  cmp"
 
     # 結果が false の場合 when 句の最後にジャンプ
     puts "  je #{label_end_when_head}_#{when_idx}"

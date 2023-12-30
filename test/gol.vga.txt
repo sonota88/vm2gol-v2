@@ -148,7 +148,7 @@ label adjust_index
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_2
   mov reg_a 0
   jmp end_eq_2
@@ -157,7 +157,7 @@ label then_2
 label end_eq_2
   # <<-- eval_expr_1
   mov reg_b 0
-  compare
+  cmp
   je end_when_1_0
   _cmt 下限を超えた場合
   mov reg_a [bp:2]
@@ -178,7 +178,7 @@ label end_when_1_0
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_3
   mov reg_a 0
   jmp end_eq_3
@@ -187,7 +187,7 @@ label then_3
 label end_eq_3
   # <<-- eval_expr_1
   mov reg_b 0
-  compare
+  cmp
   je end_when_1_1
   _cmt 上限を超えた場合
   mov reg_a 0
@@ -202,7 +202,7 @@ label end_when_1_1
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_4
   mov reg_a 0
   jmp end_eq_4
@@ -211,7 +211,7 @@ label then_4
 label end_eq_4
   # <<-- eval_expr_1
   mov reg_b 0
-  compare
+  cmp
   je end_when_1_2
   _cmt 補正が不要な場合
   mov reg_a [bp:3]
@@ -249,7 +249,7 @@ label calc_next_gen
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_6
   mov reg_a 0
   jmp end_eq_6
@@ -258,7 +258,7 @@ label then_6
 label end_eq_6
   # <<-- eval_expr_5
   mov reg_b 0
-  compare
+  cmp
   je end_when_5_0
 
   # -->> case_7
@@ -270,7 +270,7 @@ label end_eq_6
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_8
   mov reg_a 0
   jmp end_eq_8
@@ -279,7 +279,7 @@ label then_8
 label end_eq_8
   # <<-- eval_expr_7
   mov reg_b 0
-  compare
+  cmp
   je end_when_7_0
   mov reg_a 1
   mov [bp:-1] reg_a
@@ -298,7 +298,7 @@ label end_when_5_0
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_9
   mov reg_a 0
   jmp end_eq_9
@@ -307,7 +307,7 @@ label then_9
 label end_eq_9
   # <<-- eval_expr_5
   mov reg_b 0
-  compare
+  cmp
   je end_when_5_1
 
   # -->> case_10
@@ -319,7 +319,7 @@ label end_eq_9
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_11
   mov reg_a 0
   jmp end_eq_11
@@ -328,7 +328,7 @@ label then_11
 label end_eq_11
   # <<-- eval_expr_10
   mov reg_b 0
-  compare
+  cmp
   je end_when_10_0
   mov reg_a 1
   mov [bp:-1] reg_a
@@ -342,7 +342,7 @@ label end_when_10_0
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_12
   mov reg_a 0
   jmp end_eq_12
@@ -351,7 +351,7 @@ label then_12
 label end_eq_12
   # <<-- eval_expr_10
   mov reg_b 0
-  compare
+  cmp
   je end_when_10_1
   mov reg_a 1
   mov [bp:-1] reg_a
@@ -647,7 +647,7 @@ label while_13
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_14
   mov reg_a 1
   jmp end_neq_14
@@ -656,7 +656,7 @@ label then_14
 label end_neq_14
   # <<-- eval_expr_13
   mov reg_b 0
-  compare
+  cmp
   je end_while_13
   mov reg_a 0
   mov [bp:-1] reg_a
@@ -669,7 +669,7 @@ label while_15
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_16
   mov reg_a 1
   jmp end_neq_16
@@ -678,7 +678,7 @@ label then_16
 label end_neq_16
   # <<-- eval_expr_15
   mov reg_b 0
-  compare
+  cmp
   je end_while_15
   mov reg_a [bp:-2]
   push reg_a
@@ -771,7 +771,7 @@ label while_17
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_18
   mov reg_a 1
   jmp end_neq_18
@@ -780,7 +780,7 @@ label then_18
 label end_neq_18
   # <<-- eval_expr_17
   mov reg_b 0
-  compare
+  cmp
   je end_while_17
   mov reg_a [bp:-1]
   push reg_a
@@ -900,7 +900,7 @@ label while_19
   push reg_a
   pop reg_b
   pop reg_a
-  compare
+  cmp
   je then_20
   mov reg_a 1
   jmp end_neq_20
@@ -909,7 +909,7 @@ label then_20
 label end_neq_20
   # <<-- eval_expr_19
   mov reg_b 0
-  compare
+  cmp
   je end_while_19
   mov reg_a [bp:-2]
   push reg_a

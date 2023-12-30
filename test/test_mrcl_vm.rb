@@ -136,20 +136,20 @@ class VmTest < Minitest::Test
 
   # --------------------------------
 
-  def test_compare_equal
+  def test_cmp_equal
     @vm.reg_a = 0
     @vm.reg_b = 0
 
-    execute(["compare"])
+    execute(["cmp"])
 
     assert_equal(Vm::FLAG_TRUE, @vm.zf)
   end
 
-  def test_compare_not_equal
+  def test_cmp_not_equal
     @vm.reg_a = 0
     @vm.reg_b = 1
 
-    execute(["compare"])
+    execute(["cmp"])
 
     assert_equal(Vm::FLAG_FALSE, @vm.zf)
   end

@@ -162,7 +162,7 @@ class Vm
     when "mov"      then mov()      ; @pc += 1
     when "add"      then add()      ; @pc += 1
     when "mul"      then mul()      ; @pc += 1
-    when "compare"  then compare()  ; @pc += 1
+    when "cmp"      then cmp()      ; @pc += 1
     when "label"    then              @pc += 1
     when "jmp"      then jmp()
     when "je"       then je()
@@ -316,7 +316,7 @@ class Vm
     end
   end
 
-  def compare
+  def cmp
     @zf = (@reg_a == @reg_b) ? FLAG_TRUE : FLAG_FALSE
   end
 
