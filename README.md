@@ -34,6 +34,8 @@ rake test
 
 These are ports of the compiler part only, with some exceptions.
 
+- [R](https://github.com/sonota88/mini-ruccola-r)
+- [Elixir](https://github.com/sonota88/mini-ruccola-elixir)
 - [C#](https://github.com/sonota88/mini-ruccola-csharp)
 - [V](https://github.com/sonota88/mini-ruccola-v)
 - [Forth (GForth)](https://github.com/sonota88/mini-ruccola-forth)
