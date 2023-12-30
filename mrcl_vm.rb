@@ -294,7 +294,7 @@ class Vm
         @sp
       when "bp"
         @bp
-      when /^ind:/
+      when /^mem:/
         @mem.stack[calc_indirect_addr(arg_src)]
       else
         raise panic("copy src", arg_src)
@@ -309,7 +309,7 @@ class Vm
       @bp = src_val
     when "sp"
       set_sp(src_val)
-    when /^ind:/
+    when /^mem:/
       @mem.stack[calc_indirect_addr(arg_dest)] = src_val
     else
       raise panic("copy dest", arg_dest)
@@ -360,7 +360,7 @@ class Vm
           @reg_a
         when "bp"
           @bp
-        when /^ind:/
+        when /^mem:/
           stack_addr = calc_indirect_addr(arg)
           @mem.stack[stack_addr]
         else
@@ -402,7 +402,7 @@ class Vm
         arg_val
       when "reg_a"
         @reg_a
-      when /^ind:/
+      when /^mem:/
         stack_addr = calc_indirect_addr(arg_val)
         @mem.stack[stack_addr]
       else
@@ -412,7 +412,7 @@ class Vm
     case arg_vram
     when Integer
       @mem.vram[arg_vram] = src_val
-    when /^ind:/
+    when /^mem:/
       stack_addr = calc_indirect_addr(arg_vram)
       vram_addr = @mem.stack[stack_addr]
       @mem.vram[vram_addr] = src_val
@@ -431,7 +431,7 @@ class Vm
         arg_vram
       when String
         case arg_vram
-        when /^ind:/
+        when /^mem:/
           stack_addr = calc_indirect_addr(arg_vram)
           @mem.stack[stack_addr]
         else
