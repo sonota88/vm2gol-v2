@@ -51,7 +51,7 @@ def _gen_expr_eq
   puts "  pop reg_a"
 
   puts "  compare"
-  puts "  jump_eq #{label_then}"
+  puts "  je #{label_then}"
 
   # else
   puts "  mov reg_a 0"
@@ -75,7 +75,7 @@ def _gen_expr_neq
   puts "  pop reg_a"
 
   puts "  compare"
-  puts "  jump_eq #{label_then}"
+  puts "  je #{label_then}"
 
   # else
   puts "  mov reg_a 1"
@@ -207,7 +207,7 @@ def gen_while(fn_arg_names, lvar_names, stmt)
   puts "  compare"
 
   # 結果が false の場合ループを抜ける
-  puts "  jump_eq #{label_end}"
+  puts "  je #{label_end}"
 
   # 結果が true の場合
   gen_stmts(fn_arg_names, lvar_names, stmts)
@@ -249,7 +249,7 @@ def gen_case(fn_arg_names, lvar_names, stmt)
     puts "  compare"
 
     # 結果が false の場合 when 句の最後にジャンプ
-    puts "  jump_eq #{label_end_when_head}_#{when_idx}"
+    puts "  je #{label_end_when_head}_#{when_idx}"
 
     # 結果が true の場合
     gen_stmts(fn_arg_names, lvar_names, stmts)

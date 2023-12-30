@@ -50,7 +50,7 @@ alines.each do |aline|
   case head
   when "label"
     insn << rest[0]
-  when "jmp", "jump_eq", "call"
+  when "jmp", "je", "call"
     label_name = rest[0]
 
     if label_addr_map.key?(label_name)

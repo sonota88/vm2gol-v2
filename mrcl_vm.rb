@@ -45,7 +45,7 @@ class Memory
 
         color =
           case opcode
-          when "exit", "call", "ret", "jmp", "jump_eq"
+          when "exit", "call", "ret", "jmp", "je"
             TermColor::RED
           when "_cmt", "_debug"
             TermColor::BLUE
@@ -165,7 +165,7 @@ class Vm
     when "compare"  then compare()  ; @pc += 1
     when "label"    then              @pc += 1
     when "jmp"      then jmp()
-    when "jump_eq"  then jump_eq()
+    when "je"       then je()
     when "call"     then call()
     when "ret"      then ret()
     when "push"     then push()     ; @pc += 1
@@ -325,7 +325,7 @@ class Vm
     @pc = jump_dest
   end
 
-  def jump_eq
+  def je
     if @zf == FLAG_TRUE
       jump_dest = @mem.main[@pc][1]
       @pc = jump_dest

@@ -164,22 +164,22 @@ class VmTest < Minitest::Test
 
   # --------------------------------
 
-  def test_jump_eq_equal
+  def test_je_equal
     @vm.zf = Vm::FLAG_TRUE
     @vm.reg_b = 1
 
-    execute(["jump_eq", 3])
+    execute(["je", 3])
 
     assert_equal(3, @vm.pc)
   end
 
-  def test_jump_eq_not_equal
+  def test_je_not_equal
     @vm.zf = Vm::FLAG_FALSE
     @vm.reg_b = 1
 
     assert_equal(0, @vm.pc)
 
-    execute(["jump_eq", 3])
+    execute(["je", 3])
 
     assert_equal(1, @vm.pc)
   end
