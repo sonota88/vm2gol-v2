@@ -156,8 +156,8 @@ class VmTest < Minitest::Test
 
   # --------------------------------
 
-  def test_jump
-    execute(["jump", 3])
+  def test_jmp
+    execute(["jmp", 3])
 
     assert_equal(3, @vm.pc)
   end

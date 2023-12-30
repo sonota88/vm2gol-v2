@@ -55,7 +55,7 @@ def _gen_expr_eq
 
   # else
   puts "  mov reg_a 0"
-  puts "  jump #{label_end}"
+  puts "  jmp #{label_end}"
 
   # then
   puts "label #{label_then}"
@@ -79,7 +79,7 @@ def _gen_expr_neq
 
   # else
   puts "  mov reg_a 1"
-  puts "  jump #{label_end}"
+  puts "  jmp #{label_end}"
 
   # then
   puts "label #{label_then}"
@@ -213,7 +213,7 @@ def gen_while(fn_arg_names, lvar_names, stmt)
   gen_stmts(fn_arg_names, lvar_names, stmts)
 
   # ループの先頭に戻る
-  puts "  jump #{label_begin}"
+  puts "  jmp #{label_begin}"
 
   puts "label #{label_end}"
   puts ""
@@ -254,7 +254,7 @@ def gen_case(fn_arg_names, lvar_names, stmt)
     # 結果が true の場合
     gen_stmts(fn_arg_names, lvar_names, stmts)
 
-    puts "  jump #{label_end}"
+    puts "  jmp #{label_end}"
 
     # 結果が false の場合ここにジャンプ
     puts "label #{label_end_when_head}_#{when_idx}"
