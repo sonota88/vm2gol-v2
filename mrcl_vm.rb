@@ -159,21 +159,21 @@ class Vm
 
     case opcode
     when "exit"     then return true
-    when "mov"      then mov()      ; @pc += 1
-    when "add"      then add()      ; @pc += 1
-    when "mul"      then mul()      ; @pc += 1
-    when "cmp"      then cmp()      ; @pc += 1
+    when "mov"      then insn_mov()      ; @pc += 1
+    when "add"      then insn_add()      ; @pc += 1
+    when "mul"      then insn_mul()      ; @pc += 1
+    when "cmp"      then insn_cmp()      ; @pc += 1
     when "label"    then              @pc += 1
-    when "jmp"      then jmp()
-    when "je"       then je()
-    when "call"     then call()
-    when "ret"      then ret()
-    when "push"     then push()     ; @pc += 1
-    when "pop"      then pop()      ; @pc += 1
-    when "set_vram" then set_vram() ; @pc += 1
-    when "get_vram" then get_vram() ; @pc += 1
+    when "jmp"      then insn_jmp()
+    when "je"       then insn_je()
+    when "call"     then insn_call()
+    when "ret"      then insn_ret()
+    when "push"     then insn_push()     ; @pc += 1
+    when "pop"      then insn_pop()      ; @pc += 1
+    when "set_vram" then insn_set_vram() ; @pc += 1
+    when "get_vram" then insn_get_vram() ; @pc += 1
     when "_cmt"     then              @pc += 1
-    when "_debug"   then _debug()   ; @pc += 1
+    when "_debug"   then insn__debug()   ; @pc += 1
     else
       raise "Unknown opcode (#{opcode})"
     end
@@ -239,7 +239,7 @@ class Vm
     base + disp_str.to_i
   end
 
-  def add
+  def insn_add
     arg_dest = @mem.main[@pc][1]
     arg_src  = @mem.main[@pc][2]
 
@@ -267,7 +267,7 @@ class Vm
     end
   end
 
-  def mul
+  def insn_mul
     arg_src  = @mem.main[@pc][1]
 
     src_val =
@@ -280,7 +280,7 @@ class Vm
     @reg_a = @reg_a * src_val
   end
 
-  def mov
+  def insn_mov
     arg_dest = @mem.main[@pc][1]
     arg_src  = @mem.main[@pc][2]
 
@@ -316,16 +316,16 @@ class Vm
     end
   end
 
-  def cmp
+  def insn_cmp
     @zf = (@reg_a == @reg_b) ? FLAG_TRUE : FLAG_FALSE
   end
 
-  def jmp
+  def insn_jmp
     jump_dest = @mem.main[@pc][1]
     @pc = jump_dest
   end
 
-  def je
+  def insn_je
     if @zf == FLAG_TRUE
       jump_dest = @mem.main[@pc][1]
       @pc = jump_dest
@@ -334,20 +334,20 @@ class Vm
     end
   end
 
-  def call
+  def insn_call
     set_sp(@sp - 1) # スタックポインタを1減らす
     @mem.stack[@sp] = @pc + 1 # 戻り先を記憶
     next_addr = @mem.main[@pc][1] # ジャンプ先
     @pc = next_addr
   end
 
-  def ret
+  def insn_ret
     ret_addr = @mem.stack[@sp] # 戻り先アドレスを取得
     @pc = ret_addr # 戻る
     set_sp(@sp + 1) # スタックポインタを戻す
   end
 
-  def push
+  def insn_push
     arg = @mem.main[@pc][1]
 
     val_to_push =
@@ -374,7 +374,7 @@ class Vm
     @mem.stack[@sp] = val_to_push
   end
 
-  def pop
+  def insn_pop
     arg = @mem.main[@pc][1]
     val = @mem.stack[@sp]
 
@@ -392,7 +392,7 @@ class Vm
     set_sp(@sp + 1)
   end
 
-  def set_vram
+  def insn_set_vram
     arg_vram = @mem.main[@pc][1]
     arg_val = @mem.main[@pc][2]
 
@@ -421,7 +421,7 @@ class Vm
     end
   end
 
-  def get_vram
+  def insn_get_vram
     arg_vram = @mem.main[@pc][1]
     arg_dest = @mem.main[@pc][2]
 
@@ -451,7 +451,7 @@ class Vm
     end
   end
 
-  def _debug
+  def insn__debug
     @debug = true
   end
 end
