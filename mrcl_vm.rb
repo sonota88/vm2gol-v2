@@ -163,7 +163,7 @@ class Vm
     when "add"      then insn_add()      ; @pc += 1
     when "mul"      then insn_mul()      ; @pc += 1
     when "cmp"      then insn_cmp()      ; @pc += 1
-    when "label"    then              @pc += 1
+    when "label"    then                   @pc += 1
     when "jmp"      then insn_jmp()
     when "je"       then insn_je()
     when "call"     then insn_call()
@@ -172,7 +172,7 @@ class Vm
     when "pop"      then insn_pop()      ; @pc += 1
     when "set_vram" then insn_set_vram() ; @pc += 1
     when "get_vram" then insn_get_vram() ; @pc += 1
-    when "_cmt"     then              @pc += 1
+    when "_cmt"     then                   @pc += 1
     when "_debug"   then insn__debug()   ; @pc += 1
     else
       raise "Unknown opcode (#{opcode})"
