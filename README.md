@@ -34,6 +34,9 @@ rake test
 
 These are ports of the compiler part only, with some exceptions.
 
+- [Emacs Lisp](https://github.com/sonota88/mini-ruccola-emacs-lisp)
+- [Swift](https://github.com/sonota88/mini-ruccola-swift)
+- [AWK](https://github.com/sonota88/mini-ruccola-awk)
 - [Scala](https://github.com/sonota88/mini-ruccola-scala)
 - [R](https://github.com/sonota88/mini-ruccola-r)
 - [Elixir](https://github.com/sonota88/mini-ruccola-elixir)
